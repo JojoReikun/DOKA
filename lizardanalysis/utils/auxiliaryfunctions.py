@@ -23,7 +23,7 @@ def create_config_template():
     species:
     date:
     \n
-# Experiment definitions (edit):
+# Experiment details (edit):
     location, where species was caught: 
     date, species was caught:
     date, experiments were conducted:

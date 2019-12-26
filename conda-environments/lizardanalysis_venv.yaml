@@ -1,0 +1,18 @@
+# lizardanalysis_venv.yaml
+
+"""
+LizardDLCAnalysis Toolbox
+© Jojo S.
+Licensed under MIT License
+"""
+
+# install: conda env create -f lizardanalysis_venv.yaml
+# update:  conda env update -f lizardanalysis_venv.yaml
+
+name: lizardanalysis_venv
+dependencies:
+  - python=3.6
+  - jupyter
+  - nb_conda
+  - pip:
+    - lizardanalysis

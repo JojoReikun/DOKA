@@ -5,9 +5,7 @@ Licensed under MIT License
 """
 
 import os
-import yaml
 from pathlib import Path
-import cv2
 import shutil
 
 
@@ -89,12 +87,15 @@ def start_new_analysis(project, experimenter, species, files, working_directory=
     # adds the video list to the config.yaml file
     file_sets = {}
     for file in files:
+        i = 1
         print(file)
         try:
             # For windows os.path.realpath does not work and does not link to the real video. [old: rel_video_path = os.path.realpath(video)]
             rel_file_path = str(Path.resolve(Path(file)))
         except:
             rel_file_path = os.readlink(str(file))
+        file_sets[rel_file_path] = {'file_number': ', '.join(map(str, str(i)))}
+        i += 1
 
     # Set values to config file:
     cfg_file, ruamelFile = auxiliaryfunctions.create_config_template()
@@ -106,7 +107,7 @@ def start_new_analysis(project, experimenter, species, files, working_directory=
     cfg_file['project_path'] = str(project_path)
     cfg_file['date'] = d
     cfg_file['dotsize'] = 10  # for plots size of dots
-    cfg_file['alphavalue'] = 1  # for plots transparency of markers
+    cfg_file['alphavalue'] = 1.0  # for plots transparency of markers
     cfg_file['colormap'] = 'jet'  # for plots type of colormap
 
     projconfigfile = os.path.join(str(project_path), 'config.yaml')
@@ -116,7 +117,9 @@ def start_new_analysis(project, experimenter, species, files, working_directory=
 
     print('Generated "{}"'.format(project_path / 'config.yaml'))
     print(
-        "\nA new project with name %s is created at %s and a configurable file (config.yaml) is stored there. Now go and add the parameters in this file to adapt to your project's needs.\n Once you have changed the configuration file, use the function ...\n. " % (
+        "\nA new project with name %s is created at %s and a configurable file (config.yaml) is stored there. "
+        "Now go and add the >>Experiment details<< and >>Camera settings<< in this file to adapt to your project's "
+        "needs.\n Once you have changed the configuration file, use the function read_in_files(config)\n. " % (
             project_name, str(wd)))
     return projconfigfile
 
