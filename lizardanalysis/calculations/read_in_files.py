@@ -20,6 +20,8 @@ def read_csv_files(config, seperate_gravity_file=False):
     import sys
     import numpy as np
     from pathlib import Path
+    from tkinter import Tk
+    from tkinter import filedialog
     from lizardanalysis.utils import auxiliaryfunctions
 
     config_file = Path(config).resolve()
@@ -38,5 +40,8 @@ def read_csv_files(config, seperate_gravity_file=False):
     # TODO: depending on existing labels and requirements of the individual calculations check which calculations are possible
 
     if seperate_gravity_file:
-        # TODO: open file explorer and let user choose a gravity csv file
+        Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
+        gravity_filepath = askopenfilename()  # show an "Open" dialog box and return the path to the selected file
+        # TODO: read in gravity file and store (same as with csv result files)
+
 

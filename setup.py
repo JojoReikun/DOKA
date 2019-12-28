@@ -14,7 +14,8 @@ setuptools.setup(
     author='Jojo Schultz',
     #py_modules=['lizardanalysis'],
     install_requires=[
-        'Click', 'ipython', 'numpy', 'scipy', 'pandas', 'matplotlib', 'os', 'glob', 'ruamel.yaml'
+        'Click', 'ipython', 'numpy', 'scipy', 'pandas', 'matplotlib', 'os', 'glob', 'ruamel.yaml', 'tkinter',
+        'tkFileDialog'
     ],
     packages=setuptools.find_packages(),
     data_files=[('lizardanalysis',['lizardanalysis/config.yaml'])],

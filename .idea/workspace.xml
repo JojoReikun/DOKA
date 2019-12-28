@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="529812765">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.1" value="4" />
+          <entry key="project.opened" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="42" />
+          <entry key="yaml" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="42" />
+          <entry key="YAML" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="3732" />
+          <entry key="txt" value="99" />
+          <entry key="yaml" value="50" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="99" />
+          <entry key="Python" value="3732" />
+          <entry key="YAML" value="50" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/direction_of_climbing.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="68" selection-start-column="68" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/setup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="320">
+              <caret line="16" column="101" selection-start-line="16" selection-start-column="101" selection-end-line="16" selection-end-column="101" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_results/write_result_files.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/utils/auxiliaryfunctions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20">
+              <caret line="29" column="140" selection-start-line="29" selection-start-column="140" selection-end-line="29" selection-end-column="140" />
+              <folding>
+                <element signature="e#72#81#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lizardanalysis/cli.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1000">
+              <caret line="54" selection-start-line="54" selection-end-line="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/lizardanalysis.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/version.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/read_in_files.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/utils/__init.__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/__main__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/utils/__init__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/__init__.py" />
+        <option value="$PROJECT_DIR$/conda-environments/lizardanalysis_venv.yaml" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_results/__init__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/__init__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/speed.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/stride_and_stand_phases.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/stride_length.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/limb_kinematics.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/wrist_angles.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/spine_rom.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/limb_rom.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/center_limb_rom_angle.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/direction_of_climbing.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/utils/auxiliaryfunctions.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/__init__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/calculations_results/write_result_files.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/cli.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="342" />
+    <option name="y" value="208" />
+    <option name="width" value="2052" />
+    <option name="height" value="1248" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="calculations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="calculations" type="462c0819:PsiDirectoryNode" />
+              <item name="calculations_analysis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="calculations" type="462c0819:PsiDirectoryNode" />
+              <item name="calculations_results" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="start_new_analysis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../DeepLabCut" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\calculations" />
+      <recent name="C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\calculations\calculations_analysis" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="" />
+      <created>1577321851900</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1577321851900</updated>
+    </task>
+    <task id="LOCAL-00001" summary="started setting up the analysis script program structure inspired by DLC.">
+      <created>1577329980593</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1577329980593</updated>
+    </task>
+    <task id="LOCAL-00002" summary="working on read_files">
+      <created>1577344626474</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1577344626474</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17620818" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="started setting up the analysis script program structure inspired by DLC." />
+    <MESSAGE value="working on read_files" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on read_files" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/read_in_files.py" />
+    <entry file="file://$USER_HOME$/Miniconda3/Lib/site-packages/click/types.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="489" column="57" lean-forward="true" selection-start-line="489" selection-start-column="57" selection-end-line="489" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/utils/__init.__.py" />
+    <entry file="file://$PROJECT_DIR$/conda-environments/lizardanalysis_venv.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/utils/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="53" lean-forward="true" selection-start-column="53" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/version.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/__main__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="38" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+          <folding>
+            <element signature="e#105#150#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/center_limb_rom_angle.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/limb_rom.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/spine_rom.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/wrist_angles.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/limb_kinematics.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/stride_length.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/stride_and_stand_phases.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/speed.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_results/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="59" selection-start-column="59" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/direction_of_climbing.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="68" selection-start-column="68" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_results/write_result_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/utils/auxiliaryfunctions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/cli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1000">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="29" column="140" selection-start-line="29" selection-start-column="140" selection-end-line="29" selection-end-column="140" />
+          <folding>
+            <element signature="e#72#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" column="101" selection-start-line="16" selection-start-column="101" selection-end-line="16" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
