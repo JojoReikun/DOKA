@@ -4,20 +4,6 @@
     <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lizardanalysis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/center_limb_rom_angle.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/center_limb_rom_angle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/direction_of_climbing.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/direction_of_climbing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/limb_kinematics.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/limb_kinematics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/limb_rom.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/limb_rom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/speed.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/speed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/spine_rom.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/spine_rom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/stride_and_stand_phases.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/stride_and_stand_phases.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/stride_length.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/stride_length.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/wrist_angles.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/wrist_angles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/write_result_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/write_result_files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/cli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,16 +37,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="226" />
-          <entry key="py" value="4770" />
-          <entry key="txt" value="160" />
+          <entry key="Python Console" value="254" />
+          <entry key="py" value="4827" />
+          <entry key="txt" value="367" />
           <entry key="yaml" value="50" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="160" />
-          <entry key="Python" value="4996" />
+          <entry key="PLAIN_TEXT" value="367" />
+          <entry key="Python" value="5081" />
           <entry key="YAML" value="50" />
         </counts>
       </usages-collector>
@@ -107,8 +93,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lizardanalysis/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="12" column="54" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
+            <state relative-caret-position="200">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -147,8 +133,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-60">
-              <caret line="37" column="39" lean-forward="true" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
+            <state relative-caret-position="80">
+              <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
               <folding>
                 <element signature="e#72#81#0" expanded="true" />
               </folding>
@@ -195,10 +181,10 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/cli.py" />
-        <option value="$PROJECT_DIR$/lizardanalysis/__init__.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/calculations/__init__.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis/__init__.py" />
       </list>
     </option>
   </component>
@@ -337,7 +323,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577711815854</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: When executing create_new_project, Project already exists comes back.">
+      <created>1577714685815</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1577714685815</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -356,7 +349,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.5981432" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.3899204" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.58488065" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -388,7 +381,8 @@
     <MESSAGE value="started setting up the analysis script program structure inspired by DLC." />
     <MESSAGE value="working on read_files" />
     <MESSAGE value="added read_in_files to cli.py, updated init files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added read_in_files to cli.py, updated init files" />
+    <MESSAGE value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: When executing create_new_project, Project already exists comes back." />
+    <option name="LAST_COMMIT_MESSAGE" value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: When executing create_new_project, Project already exists comes back." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/read_in_files.py" />
@@ -528,13 +522,6 @@
     <entry file="file://$PROJECT_DIR$/lizardanalysis/calculations/calculations_analysis/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/lizardanalysis/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="54" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -549,10 +536,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-60">
-          <caret line="37" column="39" lean-forward="true" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
+        <state relative-caret-position="80">
+          <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
           <folding>
             <element signature="e#72#81#0" expanded="true" />
           </folding>

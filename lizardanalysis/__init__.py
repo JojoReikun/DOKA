@@ -5,6 +5,9 @@ Licensed under MIT License
 """
 
 # TODO: complete as going along
+import os
+DEBUG = True and 'DEBUG' in os.environ and os.environ['DEBUG']
+from lizardanalysis import DEBUG
 
 from lizardanalysis import start_new_analysis
 from lizardanalysis.start_new_analysis import create_new_project

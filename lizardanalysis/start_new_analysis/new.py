@@ -7,6 +7,7 @@ Licensed under MIT License
 import os
 from pathlib import Path
 import shutil
+from lizardanalysis import DEBUG
 
 
 def create_new_project(project, experimenter, species, files, working_directory=None, filetype='.csv'):
@@ -50,7 +51,7 @@ def create_new_project(project, experimenter, species, files, working_directory=
     project_path = wd / project_name
 
     # Create project and sub-directories
-    if not project_path.exists():
+    if not DEBUG and project_path.exists():
         print('Project "{}" already exists!'.format(project_path))
         return
     file_path = project_path / 'files'
