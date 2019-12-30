@@ -36,7 +36,7 @@ def main(ctx, verbose):
 @click.pass_context
 
 
-def start_new_analysis(_, *args, **kwargs):
+def create_new_project(_, *args, **kwargs):
     """Create a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with default values. Change its parameters to your projects need.\n
     Options \n
     ---------- \n

@@ -31,7 +31,7 @@ def create_new_project(project, experimenter, species, files, working_directory=
 
      Example
     --------
-    >>> lizardanalysis.start_new_analysis('gecko_DLC_analysis','Jojo','GekkoGecko',r'C:\yourusername\Documents\DeepLabCut\geckos\DLC_result_files\')
+    >>> lizardanalysis.create_new_project('gecko_DLC_analysis','Jojo','GekkoGecko',r'C:\yourusername\Documents\DeepLabCut\geckos\DLC_result_files\')
     Users must format paths with either:  r'C:\ OR 'C:\\ <- i.e. a double backslash \ \ )
     """
 
