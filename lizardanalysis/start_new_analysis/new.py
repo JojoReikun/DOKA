@@ -9,7 +9,7 @@ from pathlib import Path
 import shutil
 
 
-def start_new_analysis(project, experimenter, species, files, working_directory=None, filetype='.csv'):
+def create_new_project(project, experimenter, species, files, working_directory=None, filetype='.csv'):
     """Creates a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with the default values. Change its parameters to your projects need.
 
     Parameters

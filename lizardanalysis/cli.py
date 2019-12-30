@@ -12,6 +12,7 @@ import lizardanalysis
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
+
 @click.group(invoke_without_command=True)
 # @click.version_option()
 @click.option('-v', '--verbose', is_flag=True, help='Verbose printing')
@@ -23,6 +24,7 @@ def main(ctx, verbose):
 
 ##################################################################################
 
+
 @main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument('project')
 @click.argument('experimenter')
@@ -32,6 +34,7 @@ def main(ctx, verbose):
               type=click.Path(exists=True, file_okay=False, resolve_path=True), default=Path.cwd(),
               help='Directory to create project in. Default is cwd().')
 @click.pass_context
+
 
 def start_new_analysis(_, *args, **kwargs):
     """Create a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with default values. Change its parameters to your projects need.\n
@@ -51,4 +54,27 @@ def start_new_analysis(_, *args, **kwargs):
     from lizardanalysis.start_new_analysis import new
     new.create_new_project(*args, **kwargs)
 
+
+#####################################################################################
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+@click.argument('config')
+@click.option('--separate_gravity_file', 'separate_gravity_file',
+              is_flag=False,
+              default=False,
+              help='Set True if you want to import a separate gravity csv file as calibration. The default is False')
+@click.pass_context
+
+
+def read_csv_files(_, *args, **kwargs):
+    """Reads in the given list of .csv files.
+    Options \n
+    ---------- \n
+    config : string \n
+    \tString containing the full path to the config file of the project. \n
+    separate_gravity_file : bool, optional \n
+    \tOptionally define a csv file with gravity data for calibration. Default: seperate_gravity_file=False.
+    """
+    from lizardanalysis.calculations import read_in_files
+    read_in_files.read_csv_files(*args, **kwargs)
 

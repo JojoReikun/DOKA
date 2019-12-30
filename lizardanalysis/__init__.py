@@ -8,6 +8,7 @@ Licensed under MIT License
 
 from lizardanalysis import start_new_analysis
 from lizardanalysis.utils import auxiliaryfunctions
+from lizardanalysis import calculations
 
 
 from lizardanalysis.version import __version__, VERSION

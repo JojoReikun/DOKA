@@ -1,1 +1,1 @@
-from lizardanalysis.start_new_analysis.new import start_new_analysis
+from lizardanalysis.start_new_analysis.new import create_new_project

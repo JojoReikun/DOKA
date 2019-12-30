@@ -4,7 +4,7 @@ LizardDLCAnalysis Toolbox
 Licensed under MIT License
 """
 
-import os, pickle, yaml
+import os, pickle
 import pandas as pd
 from pathlib import Path
 import numpy as np

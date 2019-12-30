@@ -5,7 +5,7 @@ Licensed under MIT License
 """
 
 
-def read_csv_files(config, seperate_gravity_file=False):
+def read_csv_files(config, separate_gravity_file=False):
     """
     Reads the DLC result csv files which are listed in the config file.
     config : string
@@ -20,9 +20,9 @@ def read_csv_files(config, seperate_gravity_file=False):
     import sys
     import numpy as np
     from pathlib import Path
-    from tkinter import Tk
-    from tkinter import filedialog
+    from tkinter import Tk, filedialog
     from lizardanalysis.utils import auxiliaryfunctions
+    import pandas as pd
 
     config_file = Path(config).resolve()
     cfg = auxiliaryfunctions.read_config(config_file)
@@ -30,18 +30,18 @@ def read_csv_files(config, seperate_gravity_file=False):
 
     # get the file paths from the config file
     files = cfg['file_sets'].keys()
+    print("files (keys): ,", files)
 
     # check if user entered camera specs in config file
     if cfg['framerate'] == '' and cfg['shutter'] == '':
         print('Please add camera settings in the config file before you continue.')
         return
 
-    # TODO: read in the csv result files, store the pandas data frames somehow and check & store existing labels
-    # TODO: depending on existing labels and requirements of the individual calculations check which calculations are possible
-
-    if seperate_gravity_file:
+    # check if user set separate gravity file to True
+    if separate_gravity_file:
         Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
-        gravity_filepath = askopenfilename()  # show an "Open" dialog box and return the path to the selected file
-        # TODO: read in gravity file and store (same as with csv result files)
+        gravity_filepath = filedialog.askopenfilename(filetype=[('csv files', '*.csv')])  # show an "Open" dialog box and return the path to the selected file
+        df_gravity = pd.read_csv(gravity_filepath)   # read in gravity file
+
 
 
