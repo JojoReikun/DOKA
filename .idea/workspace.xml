@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" afterDir="false" />
-    </list>
+    <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +12,7 @@
     <session id="529812765">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.1" value="5" />
           <entry key="project.opened" value="5" />
         </counts>
@@ -38,15 +34,15 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="254" />
-          <entry key="py" value="4827" />
-          <entry key="txt" value="367" />
+          <entry key="py" value="5119" />
+          <entry key="txt" value="477" />
           <entry key="yaml" value="50" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="367" />
-          <entry key="Python" value="5081" />
+          <entry key="PLAIN_TEXT" value="477" />
+          <entry key="Python" value="5373" />
           <entry key="YAML" value="50" />
         </counts>
       </usages-collector>
@@ -99,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lizardanalysis.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+              <caret line="9" column="30" lean-forward="true" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -130,11 +126,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
+            <state relative-caret-position="1440">
+              <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
               <folding>
                 <element signature="e#72#81#0" expanded="true" />
               </folding>
@@ -157,7 +153,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/lizardanalysis.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/version.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/read_in_files.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/utils/__init.__.py" />
@@ -185,6 +180,7 @@
         <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/__init__.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" />
         <option value="$PROJECT_DIR$/lizardanalysis/__init__.py" />
+        <option value="$PROJECT_DIR$/lizardanalysis.py" />
       </list>
     </option>
   </component>
@@ -214,12 +210,6 @@
               <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
               <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
               <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ClimbingLizardDLCAnalysis" type="462c0819:PsiDirectoryNode" />
-              <item name="lizardanalysis" type="462c0819:PsiDirectoryNode" />
-              <item name="calculations" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ClimbingLizardDLCAnalysis" type="b2602c69:ProjectViewProjectNode" />
@@ -330,13 +320,28 @@
       <option name="project" value="LOCAL" />
       <updated>1577714685815</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: Copying files while creating project.">
+      <created>1577715232489</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1577715232489</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added instructions about how to debug in pycharm into lizardanalysis.py">
+      <created>1577715470568</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1577715470568</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17620818" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17620818" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -349,7 +354,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.5981432" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.58488065" />
+      <window_info anchor="bottom" id="Python Console" order="10" visible="true" weight="0.31697613" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -382,7 +387,9 @@
     <MESSAGE value="working on read_files" />
     <MESSAGE value="added read_in_files to cli.py, updated init files" />
     <MESSAGE value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: When executing create_new_project, Project already exists comes back." />
-    <option name="LAST_COMMIT_MESSAGE" value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: When executing create_new_project, Project already exists comes back." />
+    <MESSAGE value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: Copying files while creating project." />
+    <MESSAGE value="added instructions about how to debug in pycharm into lizardanalysis.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="added instructions about how to debug in pycharm into lizardanalysis.py" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/read_in_files.py" />
@@ -501,13 +508,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lizardanalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lizardanalysis/cli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
@@ -545,11 +545,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
+        <state relative-caret-position="1440">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
           <folding>
             <element signature="e#72#81#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lizardanalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="30" lean-forward="true" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
         </state>
       </provider>
     </entry>
