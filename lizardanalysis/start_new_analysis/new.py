@@ -69,8 +69,6 @@ def create_new_project(project, experimenter, species, file_directory, working_d
                 print("No files found in", path, os.listdir(path))
                 print("Perhaps change the filetype, which is currently set to:", filetype)
             else:
-                #TODO: DEBUG
-                print("files: ", files)
                 print("Directory entered, ", len(files), " files were found.")
 
     # --- copy the csv files to project folder

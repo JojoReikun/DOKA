@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ClimbingLizardDLCAnalysis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ClimbingLizardDLCAnalysis.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +140,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577715470568</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fixed creating project and copying files -&gt; vp.name exchanged by os.path.basename(vp)">
+      <created>1578035384516</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1578035384516</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -154,9 +157,14 @@
     <MESSAGE value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: When executing create_new_project, Project already exists comes back." />
     <MESSAGE value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: Copying files while creating project." />
     <MESSAGE value="added instructions about how to debug in pycharm into lizardanalysis.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="added instructions about how to debug in pycharm into lizardanalysis.py" />
+    <MESSAGE value="fixed creating project and copying files -&gt; vp.name exchanged by os.path.basename(vp)" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed creating project and copying files -&gt; vp.name exchanged by os.path.basename(vp)" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="553" y="114" key="CommitChangelistDialog2" timestamp="1578035383808">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="553" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1578035383808" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1578031450228">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
