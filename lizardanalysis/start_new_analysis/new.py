@@ -10,7 +10,7 @@ import shutil
 from lizardanalysis import DEBUG
 
 
-def create_new_project(project, experimenter, species, files, working_directory=None, filetype='.csv'):
+def create_new_project(project, experimenter, species, file_directory, working_directory=None, filetype='.csv'):
     """Creates a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with the default values. Change its parameters to your projects need.
 
     Parameters
@@ -24,7 +24,7 @@ def create_new_project(project, experimenter, species, files, working_directory=
     species : string
         String containing the name of the species analyzed.
 
-    files : string
+    file_directory : string
         String containing the full path of the folder containing the DLC result files (.csv) to include in the project.
 
     working_directory : string, optional
@@ -61,18 +61,21 @@ def create_new_project(project, experimenter, species, files, working_directory=
         print('Created "{}"'.format(p))
 
     # Import all videos in a folder then make it a list.
-    if isinstance(files, str):
-        if os.path.isdir(files):  # it is a path!
-            path = files
+    if isinstance(file_directory, str):
+        if os.path.isdir(file_directory):  # it is a path!
+            path = file_directory
             files = [os.path.join(path, vp) for vp in os.listdir(path) if filetype in vp]
             if len(files) == 0:
                 print("No files found in", path, os.listdir(path))
                 print("Perhaps change the filetype, which is currently set to:", filetype)
             else:
+                #TODO: DEBUG
+                print("files: ", files)
                 print("Directory entered, ", len(files), " files were found.")
 
     # --- copy the csv files to project folder
-    destinations = [file_path.joinpath(vp.name) for vp in files]
+    # destinations = [file_path.joinpath(vp.name) for vp in files]
+    destinations = [file_path.joinpath(os.path.basename(vp)) for vp in files]
     print("Copying the files")
     for src, dst in zip(files, destinations):
         shutil.copy(os.fspath(src), os.fspath(dst))  # https://www.python.org/dev/peps/pep-0519/

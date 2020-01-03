@@ -15,8 +15,10 @@ IN[2]: lizardanalysis.command(*args, **kwargs)
 
 from lizardanalysis import cli
 
+
 def main():
     cli.main()
+
 
 if __name__ == '__main__':
     main()
