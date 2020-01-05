@@ -56,19 +56,18 @@ def read_csv_files(config, separate_gravity_file=False):
     # check available labels in .csv files and write them to config file
     # TODO: Check if working directory differs from default and set path respectively
     # if working_directory = DEFAULT:
-    current_path = os.getcwd()
-    print('current_path ', current_path)
-    print('project_path ', project_path)
-    project_dir = '\\{pn}-{exp}-{spec}-{date}'.format(pn=cfg['Task'], exp=cfg['scorer'], spec=cfg['species'], date=cfg['date'])
-    label_file_path = project_dir + '\\files\\' + os.path.basename(filelist[0])
+    # use Path lib
+    current_path = Path(os.getcwd())
+    project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['Task'], exp=cfg['scorer'], spec=cfg['species'], date=cfg['date'])
+    label_file_path = project_dir / "files" / os.path.basename(filelist[0])
     print('label_file_path: ', label_file_path)
     rel_label_file_path = os.path.relpath(label_file_path)
     # else:
     # TODO: look for working directory
     rel_label_file_path = os.path.relpath(label_file_path)
-    print('relative label file path: ', rel_label_file_path)
-    data = pd.read_csv(rel_label_file_path)
+    print('relative label file path: ', label_file_path)
+    data = pd.read_csv(label_file_path)
     data.head()
-    #print('labels written to config file.')
+    # print('labels written to config file.')
 
 

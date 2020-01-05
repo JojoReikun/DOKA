@@ -1,0 +1,35 @@
+# Project definitions (do not edit!)
+Task: geckos
+scorer: jojo
+species: hemidactylusFrenatus
+date: Jan4
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model: FASTEC-IL3-F3, model IL3100SM4
+framerate: 250
+shutter: 150
+
+# Project path (change when moving around)
+project_path: C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\geckos-jojo-hemidactylusFrenatus-2020-01-04
+
+# Annotation of data set
+file_sets:
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\geckos-jojo-hemidactylusFrenatus-2020-01-04\files\Gecko11run17DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\geckos-jojo-hemidactylusFrenatus-2020-01-04\files\Gecko11run1DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\geckos-jojo-hemidactylusFrenatus-2020-01-04\files\Gecko16run10DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\geckos-jojo-hemidactylusFrenatus-2020-01-04\files\Gecko18run2DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
