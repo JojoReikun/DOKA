@@ -4,6 +4,61 @@ LizardDLCAnalysis Toolbox
 Licensed under MIT License
 """
 
+def check_calculation_requirements(cfg):
+    """
+    this function checks if the required labels needed for the respective calculations
+    are available in the list of available label extracted from the .csv file before.
+    Depending on the result of the comparison, the calculation bool will be set to True/False.
+    :param cfg: read in config file
+    :return: bolls of the calculations
+    If labels are named similarly but differ from default slightly, variations can be added to another variation list
+    and additionally checked with any() instead of all()
+    """
+    requ_direction_of_climbing = ['nose']
+    direction_of_climbing = all(elem in cfg['labels'] for elem in requ_direction_of_climbing)
+
+    requ_climbing_speed = ['nose', 'framerate']
+    climbing_speed = all(elem in cfg['labels'] for elem in requ_climbing_speed)
+
+    requ_stride_and_stance_phases = ['FL', 'FR', 'HL', 'HR']
+    stride_and_stance_phases = all(elem in cfg['labels'] for elem in requ_stride_and_stance_phases)
+
+    if stride_and_stance_phases:
+        stride_length = True
+
+    requ_limb_kinematics = ['Shoulder', 'Hip', 'FR_knee', 'Shoulder_FR', 'FL_knee', 'Shoulder_FL', 'HR_knee',
+                       'Shoulder_HR', 'HL_knee', 'Shoulder_HL']
+    limb_kinematics = all(elem in cfg['labels'] for elem in requ_limb_kinematics)
+
+    # wrist_angles = FL, FR, HL, HR, ti, to, shoulder, hip
+    requ_wrist_angles = ['Shoulder', 'Hip', 'FR_knee', 'FR_ti', 'FR_to', 'FL_knee', 'FL_ti', 'FL_to', 'Shoulder_FL',
+                         'HR_knee', 'HR_ti', 'HR_to', 'HL_knee', 'HL_ti', 'HL_to']
+    wrist_angles = all(elem in cfg['labels'] for elem in requ_wrist_angles)
+
+    # ROM
+    return direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles
+
+
+def process_file(direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles):
+    """
+    Goes through all calculations and calculates the parameters depending on the state of the booleans.
+    If boolean is True, the required labels for the calculation are available and parameter will be calculated.
+    If boolean is False, one or more of the required labels are missing/weren't found and parameter will be skipped.
+    :param direction_of_climbing: bool
+    :param climbing_speed: bool
+    :param stride_and_stance_phases: bool
+    :param stride_length: bool
+    :param limb_kinematics: bool
+    :param wrist_angles: bool
+    :return: #TODO
+    """
+    # TODO: write and import functions
+    if direction_of_climbing:
+        from lizardanalysis.calculations import calc_direction_of_climbing
+        calc_direction_of_climbing()
+    else:
+        print('At least one label required for the calculation of the direction of climbing is missing. Parameter skipped.')
+
 
 def read_csv_files(config, separate_gravity_file=False):
     """
@@ -69,7 +124,7 @@ def read_csv_files(config, separate_gravity_file=False):
     #print(data.head())
 
     data_columns = list(data.columns)
-    scorer = data_columns[1][0]
+    # scorer = data_columns[1][0]     atm not needed
     label_names = []
     for i in range(1, len(data_columns)):
         label_names.append(data_columns[i][1])
@@ -90,8 +145,11 @@ def read_csv_files(config, separate_gravity_file=False):
     else:
         print('labels already exist in config file.')
 
-    # TODO: run calculations loop
+    # check label requirements for calculations:
+    direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles = check_calculation_requirements(cfg)
 
+    # TODO: run calculations loop
+    process_file(direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles)
 
 
 
