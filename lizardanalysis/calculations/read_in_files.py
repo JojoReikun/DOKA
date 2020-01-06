@@ -7,7 +7,7 @@ Licensed under MIT License
 
 def read_csv_files(config, separate_gravity_file=False):
     """
-    Reads the DLC result csv files which are listed in the config file.
+    Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
     config : string
         Contains the full path to the config file of the project.
         Tipp: Store path as a variable >>config<<
@@ -53,21 +53,45 @@ def read_csv_files(config, separate_gravity_file=False):
         gravity_filepath = filedialog.askopenfilename(filetype=[('csv files', '*.csv')])  # show an "Open" dialog box and return the path to the selected file
         df_gravity = pd.read_csv(gravity_filepath)   # read in gravity file
 
-    # check available labels in .csv files and write them to config file
+    # check available labels in .csv files and write them to config file. Uses the first .csv file in the directory.
     # TODO: Check if working directory differs from default and set path respectively
     # if working_directory = DEFAULT:
     # use Path lib
     current_path = Path(os.getcwd())
     project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['Task'], exp=cfg['scorer'], spec=cfg['species'], date=cfg['date'])
-    label_file_path = project_dir / "files" / os.path.basename(filelist[0])
-    print('label_file_path: ', label_file_path)
-    rel_label_file_path = os.path.relpath(label_file_path)
+    label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
+    label_file_path = os.path.join(current_path, label_file_path_2)
+    #print('label_file_path: ', label_file_path)
     # else:
     # TODO: look for working directory
-    rel_label_file_path = os.path.relpath(label_file_path)
-    print('relative label file path: ', label_file_path)
-    data = pd.read_csv(label_file_path)
-    data.head()
-    # print('labels written to config file.')
+    data = pd.read_csv(label_file_path, delimiter=",", header=[0, 1, 2]) # reads in first csv file in filelist to extract all available labels
+    data.rename(columns=lambda x: x.strip(), inplace=True) # remove whitespaces from column names
+    #print(data.head())
+
+    data_columns = list(data.columns)
+    scorer = data_columns[1][0]
+    label_names = []
+    for i in range(1, len(data_columns)):
+        label_names.append(data_columns[i][1])
+    label_names_no_doubles = []
+    [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]
+
+    if len(label_names_no_doubles) == 0:
+        print('no labels could be found. Maybe check that there are .csv files available in the files folder with the DLC result format.')
+        return
+    else:
+        print("available are the following ", len(label_names_no_doubles), " labels in csv files: ", label_names_no_doubles)
+
+    # write labels to config file:
+    if cfg['labels'] is None:
+        cfg['labels'] = label_names_no_doubles
+        auxiliaryfunctions.write_config(config, cfg)
+        print('\n labels written to config file.')
+    else:
+        print('labels already exist in config file.')
+
+    # TODO: run calculations loop
+
+
 
 

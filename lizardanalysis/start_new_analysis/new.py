@@ -107,7 +107,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     cfg_file['species'] = species
     cfg_file['file_sets'] = file_sets
     cfg_file['project_path'] = str(project_path)
-    cfg_file['date'] = d
+    cfg_file['date'] = date
     cfg_file['dotsize'] = 10  # for plots size of dots
     cfg_file['alphavalue'] = 1.0  # for plots transparency of markers
     cfg_file['colormap'] = 'jet'  # for plots type of colormap

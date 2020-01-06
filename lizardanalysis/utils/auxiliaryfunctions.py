@@ -44,6 +44,8 @@ def create_config_template():
     alphavalue:
     colormap:
     \n
+# Available labels (will be added automatically when running read_csv_files())
+    labels:
     """
     ruamelFile = ruamel.yaml.YAML()
     cfg_file = ruamelFile.load(yaml_str)
