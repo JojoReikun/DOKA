@@ -1,2 +1,7 @@
 from lizardanalysis.calculations.read_in_files import read_csv_files
 from lizardanalysis.calculations.direction_of_climbing import calc_direction_of_climbing
+from lizardanalysis.calculations.speed import calc_climbing_speed
+from lizardanalysis.calculations.stride_and_stand_phases import calc_stride_and_stance_phases
+from lizardanalysis.calculations.stride_length import calc_stride_length
+from lizardanalysis.calculations.limb_kinematics import calc_limb_kinematics
+from lizardanalysis.calculations.wrist_angles import calc_wrist_angles

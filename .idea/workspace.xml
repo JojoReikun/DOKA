@@ -3,10 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geckos-jojo-hemidactylusFrenatus-2020-01-04/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/geckos-jojo-hemidactylusFrenatus-2020-01-04/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/direction_of_climbing.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/direction_of_climbing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/limb_kinematics.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/limb_kinematics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/speed.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/speed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/stride_and_stand_phases.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/stride_and_stand_phases.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/stride_length.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/stride_length.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/wrist_angles.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/wrist_angles.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/utils/auxiliaryfunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/utils/auxiliaryfunctions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578035394183</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="resolved file path issues for opening csv file, checking labels works if working_directory = default, added 'labels:' in config.yaml initialization">
+      <created>1578294927243</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1578294927243</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -169,12 +182,14 @@
     <MESSAGE value="renamed function start_new_analysis to create_new_project to differ from module name.&#10;Current error while debugging: Copying files while creating project." />
     <MESSAGE value="added instructions about how to debug in pycharm into lizardanalysis.py" />
     <MESSAGE value="fixed creating project and copying files -&gt; vp.name exchanged by os.path.basename(vp)" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed creating project and copying files -&gt; vp.name exchanged by os.path.basename(vp)" />
+    <MESSAGE value="resolved file path issues for opening csv file, checking labels works if working_directory = default, added 'labels:' in config.yaml initialization" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolved file path issues for opening csv file, checking labels works if working_directory = default, added 'labels:' in config.yaml initialization" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="553" y="114" key="CommitChangelistDialog2" timestamp="1578035393653">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1367" y="114" key="CommitChangelistDialog2" timestamp="1578294926437">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="-1367" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1578294926437" />
     <state x="553" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1578035393653" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1578293463299">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -184,5 +199,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1578032265657" />
+    <state x="-1151" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578357364067">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1151" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1578357364067" />
   </component>
 </project>

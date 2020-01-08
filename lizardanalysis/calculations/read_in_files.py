@@ -39,7 +39,7 @@ def check_calculation_requirements(cfg):
     return direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles
 
 
-def process_file(direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles):
+def process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles):
     """
     Goes through all calculations and calculates the parameters depending on the state of the booleans.
     If boolean is True, the required labels for the calculation are available and parameter will be calculated.
@@ -55,7 +55,7 @@ def process_file(direction_of_climbing, climbing_speed, stride_and_stance_phases
     # TODO: write and import functions
     if direction_of_climbing:
         from lizardanalysis.calculations import calc_direction_of_climbing
-        calc_direction_of_climbing()
+        calc_direction_of_climbing(data)
     else:
         print('At least one label required for the calculation of the direction of climbing is missing. Parameter skipped.')
 
@@ -149,7 +149,7 @@ def read_csv_files(config, separate_gravity_file=False):
     direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles = check_calculation_requirements(cfg)
 
     # TODO: run calculations loop
-    process_file(direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles)
+    process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles)
 
 
 

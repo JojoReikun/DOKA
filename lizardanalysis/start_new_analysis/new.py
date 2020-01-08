@@ -70,6 +70,9 @@ def create_new_project(project, experimenter, species, file_directory, working_d
                 print("Perhaps change the filetype, which is currently set to:", filetype)
             else:
                 print("Directory entered, ", len(files), " files were found.")
+        else:
+            print("the input for the file directory is not a valid path!")
+            return
 
     # --- copy the csv files to project folder
     # destinations = [file_path.joinpath(vp.name) for vp in files]
