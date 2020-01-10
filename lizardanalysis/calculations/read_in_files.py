@@ -4,87 +4,93 @@ LizardDLCAnalysis Toolbox
 Licensed under MIT License
 """
 import pandas as pd
-calculations = ['direction_of_climbing', 'climbing_speed', 'stride_and_stance_phases', 'stride_length', 'limb_kinematics', 'wrist_angles']
-results_file = pd.DataFrame
+
+from lizardanalysis.calculations import *
+
+# list of all calculations and their requirements of labels as implemented in the program
+calculations = {'direction_of_climbing':(['nose'], calc_direction_of_climbing),
+                'climbing_speed':(['nose'], calc_climbing_speed),
+                'stride_and_stance_phases':(['fl', 'fr', 'hl', 'hr'], calc_stride_and_stance_phases),
+                'stride_length':(['fl', 'fr', 'hl', 'hr'], calc_stride_length),
+                'limb_kinematics':(['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'], calc_limb_kinematics),
+                'wrist_angles':(['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to', 'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'], calc_wrist_angles)
+                }
+# add ROM
+calculations_str = [calculations.keys()]
+results_file = pd.DataFrame(columns=calculations.keys())
 
 
 def check_calculation_requirements(cfg):
     """
     this function checks if the required labels needed for the respective calculations
     are available in the list of available label extracted from the .csv file before.
-    Depending on the result of the comparison, the calculation bool will be set to True/False.
+    Depending on the result of the comparison, the calculation will be added to the calculations_checked list
     :param cfg: read in config file
-    :return: bolls of the calculations
-    If labels are named similarly but differ from default slightly, variations can be added to another variation list
-    and additionally checked with any() instead of all()
+    :return: list of available calculations
     """
-    requ_direction_of_climbing = ['nose']
-    direction_of_climbing = all(elem in cfg['labels'] for elem in requ_direction_of_climbing)
+    #If labels are named similarly but differ from default slightly, variations can be added to another variation list
+    #and additionally checked with any() instead of all()
 
-    requ_climbing_speed = ['nose', 'framerate']
-    climbing_speed = all(elem in cfg['labels'] for elem in requ_climbing_speed)
+    calculations_checked = []
+    for calculation in calculations.keys():
+        calculation = all(elem in cfg['labels'] for elem in calculations.values())
+        # add available calculations to list
+        if calculation:
+            calculations_checked.append(calculation)
+    if len(calculations_checked) == 0:
+        print('there is no calculation available for analysis due to insufficient or non-relevant labels in DLC result files.')
+        return
 
-    requ_stride_and_stance_phases = ['FL', 'FR', 'HL', 'HR']
-    stride_and_stance_phases = all(elem in cfg['labels'] for elem in requ_stride_and_stance_phases)
-
-    if stride_and_stance_phases:
-        stride_length = True
-
-    requ_limb_kinematics = ['Shoulder', 'Hip', 'FR_knee', 'Shoulder_FR', 'FL_knee', 'Shoulder_FL', 'HR_knee',
-                       'Shoulder_HR', 'HL_knee', 'Shoulder_HL']
-    limb_kinematics = all(elem in cfg['labels'] for elem in requ_limb_kinematics)
-
-    # wrist_angles = FL, FR, HL, HR, ti, to, shoulder, hip
-    requ_wrist_angles = ['Shoulder', 'Hip', 'FR_knee', 'FR_ti', 'FR_to', 'FL_knee', 'FL_ti', 'FL_to', 'Shoulder_FL',
-                         'HR_knee', 'HR_ti', 'HR_to', 'HL_knee', 'HL_ti', 'HL_to']
-    wrist_angles = all(elem in cfg['labels'] for elem in requ_wrist_angles)
-
-    # ROM
-    return direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles
+    return calculations_checked
 
 
-def process_file(data, likelihood, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles):
+def process_file(data, likelihood, calculations_checked):
     """
-    Goes through all calculations and calculates the parameters depending on the state of the booleans.
-    If boolean is True, the required labels for the calculation are available and parameter will be calculated.
-    If boolean is False, one or more of the required labels are missing/weren't found and parameter will be skipped.
+    Goes through all available calculations which were determined on their labels and stored in calculations_checked.
+    For all calculations in that list the parameter will be calculated.
+    If calculations not in calculations_checked but in calculations, one or more of the required labels are missing/weren't found and parameter will be skipped.
     :param data: pd.dataframe DLC csv file
-    :param direction_of_climbing: bool
-    :param climbing_speed: bool
-    :param stride_and_stance_phases: bool
-    :param stride_length: bool
-    :param limb_kinematics: bool
-    :param wrist_angles: bool
+    :param likelihood: float value to change accuracy of results
+    :param calculations_checked: list of available calculations (required labels exist)
     :return: #TODO
     """
-    #filter data for values with likelihood >= e.g. 90%
-    data = data['likelihood'] >= likelihood
-    print("data with filtered likelihood: ", data.head())
+
+    #TODO: allow filter for direction of climbing (e.g. only files with direction of climbing = UP will be processed)
+
+    #TODO:filter data for values with likelihood >= e.g. 90%
+    #data = data['likelihood'] >= likelihood
+    #print("data with filtered likelihood: ", data.head())
 
     # TODO: simplify: list with possible calculations, loop through that. This definitely can be done nicer and easierer augmentable
-    if direction_of_climbing:
-        from lizardanalysis.calculations import calc_direction_of_climbing
-        calc_direction_of_climbing(data)
-    else:
-        print('At least one label required for the calculation of the direction of climbing is missing. Parameter skipped.')
+    for calc in calculations:
+        print("calc: ", calc)
+        if calc in calculations.keys() and calc not in calculations_checked:
+            print("Some label requirements are not fulfilles to calculate {} ".format(calc))
+        elif calc in calculations_checked:
+            calc.__getitem__([1])()
 
-    if climbing_speed:
-        from lizardanalysis.calculations import calc_climbing_speed
-        calc_climbing_speed(data)
-    else:
-        print('At least one label required for the calculation of the climbing speed is missing. Parameter skipped.')
-
-    if stride_and_stance_phases:
-        from lizardanalysis.calculations import calc_stride_and_stance_phases
-        calc_stride_and_stance_phases(data)
-    else:
-        print('At least one label required for the calculation of stride and stance phases is missing. Parameter skipped.')
-
-    if stride_length:
-        from lizardanalysis.calculations import calc_stride_length
-        calc_stride_length(data)
-    else:
-        print('At least one label required for the calculation of stride lengths is missing. Parameter skipped.')
+    # that's how it was beforehand:
+    #     calc_direction_of_climbing(data)
+    # else:
+    #     print('At least one label required for the calculation of the direction of climbing is missing. Parameter skipped.')
+    #
+    # if climbing_speed:
+    #
+    #     calc_climbing_speed(data)
+    # else:
+    #     print('At least one label required for the calculation of the climbing speed is missing. Parameter skipped.')
+    #
+    # if stride_and_stance_phases:
+    #
+    #     calc_stride_and_stance_phases(data)
+    # else:
+    #     print('At least one label required for the calculation of stride and stance phases is missing. Parameter skipped.')
+    #
+    # if stride_length:
+    #     from lizardanalysis.calculations import calc_stride_length
+    #     calc_stride_length(data)
+    # else:
+    #     print('At least one label required for the calculation of stride lengths is missing. Parameter skipped.')
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
@@ -142,7 +148,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     # if working_directory = DEFAULT:
     # use Path lib
     current_path = Path(os.getcwd())
-    project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['Task'], exp=cfg['scorer'], spec=cfg['species'], date=cfg['date'])
+    project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['task'], exp=cfg['scorer'], spec=cfg['species'], date=cfg['date'])
     label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
     label_file_path = os.path.join(current_path, label_file_path_2)
     #print('label_file_path: ', label_file_path)
@@ -156,9 +162,9 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     # scorer = data_columns[1][0]     atm not needed
     label_names = []
     for i in range(1, len(data_labels_columns)):
-        label_names.append(data_labels_columns[i][1])
+        label_names.append(str(data_labels_columns[i][1]).lower())  #append all label names and convert to lowercase
     label_names_no_doubles = []
-    [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]
+    [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]  #makes sure labels only appear once
 
     if len(label_names_no_doubles) == 0:
         print('no labels could be found. Maybe check that there are .csv files available in the files folder with the DLC result format.')
@@ -175,16 +181,17 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         print('labels already exist in config file.')
 
     # check label requirements for calculations:
-    direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles = check_calculation_requirements(cfg)
+    calculations_checked = check_calculation_requirements(cfg)
 
     # TODO: run calculations loop for every file
-    for file in filelist:
-        file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[file]))
+    for i in range(len(filelist)):
+        file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[i]))
         file_path = os.path.join(current_path, file_path_2)
-        data = pd.read_csv(file_path, delimiter=",", header=[0, 1, 2]) # reads in first csv file in filelist to extract all available labels
-        data_labels.rename(columns=lambda x: x.strip(), inplace=True) # remove whitespaces from column names
+        data = pd.read_csv(file_path, delimiter=",", header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
+        data_labels.rename(columns=lambda x: x.strip(), inplace=True)   # remove whitespaces from column names
         # perform calculations for the current file
-        process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles)
+        process_file(data, likelihood, calculations_checked)
+        i += 1
 
 
 

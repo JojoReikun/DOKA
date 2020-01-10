@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="853e931e-219c-44bb-9833-0cdc779ab87b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/direction_of_climbing.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/direction_of_climbing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/calculations/read_in_files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lizardanalysis/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/cli.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" beforeDir="false" afterPath="$PROJECT_DIR$/lizardanalysis/start_new_analysis/new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578476300927</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added likelihood input option, wrote process file loop. Still errors reading in csv files (filepath)">
+      <created>1578629911996</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1578629911996</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -185,14 +190,15 @@
     <MESSAGE value="fixed creating project and copying files -&gt; vp.name exchanged by os.path.basename(vp)" />
     <MESSAGE value="resolved file path issues for opening csv file, checking labels works if working_directory = default, added 'labels:' in config.yaml initialization" />
     <MESSAGE value="included check for: file path input is a path in new.py and included all empty calc functions as well as their init call." />
-    <option name="LAST_COMMIT_MESSAGE" value="included check for: file path input is a path in new.py and included all empty calc functions as well as their init call." />
+    <MESSAGE value="added likelihood input option, wrote process file loop. Still errors reading in csv files (filepath)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added likelihood input option, wrote process file loop. Still errors reading in csv files (filepath)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1367" y="114" key="CommitChangelistDialog2" timestamp="1578476299993">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="553" y="114" key="CommitChangelistDialog2" timestamp="1578629911304">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1367" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1578476299993" />
-    <state x="553" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1578035393653" />
+    <state x="553" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1578629911304" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1578293463299">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

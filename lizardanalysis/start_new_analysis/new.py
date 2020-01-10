@@ -105,7 +105,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     # Set values to config file:
     cfg_file, ruamelFile = auxiliaryfunctions.create_config_template()
     cfg_file
-    cfg_file['Task'] = project
+    cfg_file['task'] = project
     cfg_file['scorer'] = experimenter
     cfg_file['species'] = species
     cfg_file['file_sets'] = file_sets
