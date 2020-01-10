@@ -3,6 +3,10 @@ LizardDLCAnalysis Toolbox
 © Jojo S.
 Licensed under MIT License
 """
+import pandas as pd
+calculations = ['direction_of_climbing', 'climbing_speed', 'stride_and_stance_phases', 'stride_length', 'limb_kinematics', 'wrist_angles']
+results_file = pd.DataFrame
+
 
 def check_calculation_requirements(cfg):
     """
@@ -39,11 +43,12 @@ def check_calculation_requirements(cfg):
     return direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles
 
 
-def process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles):
+def process_file(data, likelihood, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles):
     """
     Goes through all calculations and calculates the parameters depending on the state of the booleans.
     If boolean is True, the required labels for the calculation are available and parameter will be calculated.
     If boolean is False, one or more of the required labels are missing/weren't found and parameter will be skipped.
+    :param data: pd.dataframe DLC csv file
     :param direction_of_climbing: bool
     :param climbing_speed: bool
     :param stride_and_stance_phases: bool
@@ -52,15 +57,37 @@ def process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_
     :param wrist_angles: bool
     :return: #TODO
     """
-    # TODO: write and import functions
+    #filter data for values with likelihood >= e.g. 90%
+    data = data['likelihood'] >= likelihood
+    print("data with filtered likelihood: ", data.head())
+
+    # TODO: simplify: list with possible calculations, loop through that. This definitely can be done nicer and easierer augmentable
     if direction_of_climbing:
         from lizardanalysis.calculations import calc_direction_of_climbing
         calc_direction_of_climbing(data)
     else:
         print('At least one label required for the calculation of the direction of climbing is missing. Parameter skipped.')
 
+    if climbing_speed:
+        from lizardanalysis.calculations import calc_climbing_speed
+        calc_climbing_speed(data)
+    else:
+        print('At least one label required for the calculation of the climbing speed is missing. Parameter skipped.')
 
-def read_csv_files(config, separate_gravity_file=False):
+    if stride_and_stance_phases:
+        from lizardanalysis.calculations import calc_stride_and_stance_phases
+        calc_stride_and_stance_phases(data)
+    else:
+        print('At least one label required for the calculation of stride and stance phases is missing. Parameter skipped.')
+
+    if stride_length:
+        from lizardanalysis.calculations import calc_stride_length
+        calc_stride_length(data)
+    else:
+        print('At least one label required for the calculation of stride lengths is missing. Parameter skipped.')
+
+
+def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     """
     Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
     config : string
@@ -70,6 +97,9 @@ def read_csv_files(config, separate_gravity_file=False):
         If this is set to True, user can choose a gravity csv file to use the gravity axis as reference axis for analysis.
         If this is set to False, x-axis of video will be used as reference axis for analysis.
         Default: False
+    likelihood: float [0.0-1.0]
+        defines the level of accuracy used for including label results in the analysis.
+        Default: 0.90
     """
     import os
     import sys
@@ -77,7 +107,6 @@ def read_csv_files(config, separate_gravity_file=False):
     from pathlib import Path
     from tkinter import Tk, filedialog
     from lizardanalysis.utils import auxiliaryfunctions
-    import pandas as pd
 
     config_file = Path(config).resolve()
     cfg = auxiliaryfunctions.read_config(config_file)
@@ -119,15 +148,15 @@ def read_csv_files(config, separate_gravity_file=False):
     #print('label_file_path: ', label_file_path)
     # else:
     # TODO: look for working directory
-    data = pd.read_csv(label_file_path, delimiter=",", header=[0, 1, 2]) # reads in first csv file in filelist to extract all available labels
-    data.rename(columns=lambda x: x.strip(), inplace=True) # remove whitespaces from column names
+    data_labels = pd.read_csv(label_file_path, delimiter=",", header=[0, 1, 2]) # reads in first csv file in filelist to extract all available labels
+    data_labels.rename(columns=lambda x: x.strip(), inplace=True) # remove whitespaces from column names
     #print(data.head())
 
-    data_columns = list(data.columns)
+    data_labels_columns = list(data_labels.columns)
     # scorer = data_columns[1][0]     atm not needed
     label_names = []
-    for i in range(1, len(data_columns)):
-        label_names.append(data_columns[i][1])
+    for i in range(1, len(data_labels_columns)):
+        label_names.append(data_labels_columns[i][1])
     label_names_no_doubles = []
     [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]
 
@@ -148,8 +177,14 @@ def read_csv_files(config, separate_gravity_file=False):
     # check label requirements for calculations:
     direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles = check_calculation_requirements(cfg)
 
-    # TODO: run calculations loop
-    process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles)
+    # TODO: run calculations loop for every file
+    for file in filelist:
+        file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[file]))
+        file_path = os.path.join(current_path, file_path_2)
+        data = pd.read_csv(file_path, delimiter=",", header=[0, 1, 2]) # reads in first csv file in filelist to extract all available labels
+        data_labels.rename(columns=lambda x: x.strip(), inplace=True) # remove whitespaces from column names
+        # perform calculations for the current file
+        process_file(data, direction_of_climbing, climbing_speed, stride_and_stance_phases, stride_length, limb_kinematics, wrist_angles)
 
 
 
