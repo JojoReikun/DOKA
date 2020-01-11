@@ -1,3 +1,7 @@
 numpy
+scipy
 pandas
 ruamel.yaml
+Click
+ipython
+matplotlib

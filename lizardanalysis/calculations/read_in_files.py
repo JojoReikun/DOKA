@@ -5,7 +5,7 @@ Licensed under MIT License
 """
 import pandas as pd
 
-from userfunc import UserFunc
+from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],
