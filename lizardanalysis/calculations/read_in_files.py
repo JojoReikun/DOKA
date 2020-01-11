@@ -4,8 +4,7 @@ LizardDLCAnalysis Toolbox
 Licensed under MIT License
 """
 import pandas as pd
-
-from userfunc import UserFunc
+from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],
@@ -72,29 +71,6 @@ def process_file(data, likelihood, calculations_checked):
             print("Some label requirements are not fulfilles to calculate {} ".format(calc))
         elif calc in calculations_checked:
             calc.__getitem__([1])()
-
-    # that's how it was beforehand:
-    #     calc_direction_of_climbing(data)
-    # else:
-    #     print('At least one label required for the calculation of the direction of climbing is missing. Parameter skipped.')
-    #
-    # if climbing_speed:
-    #
-    #     calc_climbing_speed(data)
-    # else:
-    #     print('At least one label required for the calculation of the climbing speed is missing. Parameter skipped.')
-    #
-    # if stride_and_stance_phases:
-    #
-    #     calc_stride_and_stance_phases(data)
-    # else:
-    #     print('At least one label required for the calculation of stride and stance phases is missing. Parameter skipped.')
-    #
-    # if stride_length:
-    #     from lizardanalysis.calculations import calc_stride_length
-    #     calc_stride_length(data)
-    # else:
-    #     print('At least one label required for the calculation of stride lengths is missing. Parameter skipped.')
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):

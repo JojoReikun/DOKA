@@ -39,6 +39,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     from datetime import datetime as dt
     from lizardanalysis.utils import auxiliaryfunctions
 
+    #TODO: change order: First check if file path is path, then create folders
     date = dt.today()
     month = date.strftime("%B")
     day = date.day
