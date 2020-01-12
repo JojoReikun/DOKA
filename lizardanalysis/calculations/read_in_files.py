@@ -34,6 +34,7 @@ def check_calculation_requirements(cfg):
 
     calculations_checked = []
     for calculation in calculations_str:
+        #TODO: change... compares str of label to list of labels
         calculation_ok = all(elem in cfg['labels'] for elem in calculations.values())   # RETURNS bool
         print('calculation_ok: ', calculation_ok)
         # add available calculations to list
