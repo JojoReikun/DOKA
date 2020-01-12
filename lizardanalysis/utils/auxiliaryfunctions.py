@@ -19,7 +19,7 @@ def create_config_template():
     import ruamel.yaml
     yaml_str = """\
 # Project definitions (do not edit!)
-    Task:
+    task:
     scorer:
     species:
     date:

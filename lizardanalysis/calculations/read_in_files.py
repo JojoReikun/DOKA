@@ -17,8 +17,8 @@ calculations = {'direction_of_climbing': ['nose'],
                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
                 }
 # add ROM
-calculations_str = [calculations.keys()]
-results_file = pd.DataFrame(columns=calculations.keys())
+calculations_str = [calc for calc in calculations.keys()]
+print('list of calculations ', calculations_str)
 
 
 def check_calculation_requirements(cfg):
@@ -33,8 +33,9 @@ def check_calculation_requirements(cfg):
     # and additionally checked with any() instead of all()
 
     calculations_checked = []
-    for calculation in calculations.keys():
-        calculation_ok = all(elem in cfg['labels'] for elem in calculations.values())
+    for calculation in calculations_str:
+        calculation_ok = all(elem in cfg['labels'] for elem in calculations.values())   # RETURNS bool
+        print('calculation_ok: ', calculation_ok)
         # add available calculations to list
         if calculation_ok:
             func = UserFunc(calculation, calculation)   # module name calculation, function name calculation
@@ -43,6 +44,7 @@ def check_calculation_requirements(cfg):
         print(
             'there is no calculation available for analysis due to insufficient or non-relevant labels in DLC result files.')
         return
+    print('calculations_checked: ', calculations_checked)
 
     return calculations_checked
 
@@ -64,13 +66,12 @@ def process_file(data, likelihood, calculations_checked):
     # data = data['likelihood'] >= likelihood
     # print("data with filtered likelihood: ", data.head())
 
-    # TODO: simplify: list with possible calculations, loop through that. This definitely can be done nicer and easierer augmentable
-    for calc in calculations:
-        print("calc: ", calc)
-        if calc in calculations.keys() and calc not in calculations_checked:
+    for calc in calculations_str:
+        print("\n calc: ", calc)
+        if calc not in calculations_checked:
             print("Some label requirements are not fulfilles to calculate {} ".format(calc))
         elif calc in calculations_checked:
-            calc.__getitem__([1])()
+            calc()
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
@@ -164,7 +165,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         auxiliaryfunctions.write_config(config, cfg)
         print('\n labels written to config file.')
     else:
-        print('labels already exist in config file.')
+        print('labels already exist in config file. Proceed...')
 
     # check label requirements for calculations:
     calculations_checked = check_calculation_requirements(cfg)

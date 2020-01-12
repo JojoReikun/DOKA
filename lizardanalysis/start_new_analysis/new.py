@@ -51,16 +51,6 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     project_name = '{pn}-{exp}-{spec}-{date}'.format(pn=project, exp=experimenter, spec=species, date=date)
     project_path = wd / project_name
 
-    # Create project and sub-directories
-    if not DEBUG and project_path.exists():
-        print('Project "{}" already exists!'.format(project_path))
-        return
-    file_path = project_path / 'files'
-    results_path = project_path / 'analysis-results'
-    for p in [file_path, results_path]:
-        p.mkdir(parents=True)
-        print('Created "{}"'.format(p))
-
     # Import all videos in a folder then make it a list.
     if isinstance(file_directory, str):
         if os.path.isdir(file_directory):  # it is a path!
@@ -74,6 +64,16 @@ def create_new_project(project, experimenter, species, file_directory, working_d
         else:
             print("the input for the file directory is not a valid path!")
             return
+
+    # Create project and sub-directories
+    if not DEBUG and project_path.exists():
+        print('Project "{}" already exists!'.format(project_path))
+        return
+    file_path = project_path / 'files'
+    results_path = project_path / 'analysis-results'
+    for p in [file_path, results_path]:
+        p.mkdir(parents=True)
+        print('Created "{}"'.format(p))
 
     # --- copy the csv files to project folder
     # destinations = [file_path.joinpath(vp.name) for vp in files]
