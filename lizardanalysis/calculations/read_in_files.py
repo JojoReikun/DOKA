@@ -19,7 +19,7 @@ calculations = {'direction_of_climbing': ['nose'],
 # add ROM
 calculations_str = [calc for calc in calculations.keys()]
 print('list of calculations ', calculations_str)
-
+MODULE_PREFIX, _ = __name__.rsplit('.', 1)
 
 def check_calculation_requirements(cfg):
     """
@@ -40,7 +40,7 @@ def check_calculation_requirements(cfg):
         print('calculation_ok: ', calculation_ok)
         # add available calculations to list
         if calculation_ok:
-            func = UserFunc(calculation, calculation)   # module name calculation, function name calculation
+            func = UserFunc(MODULE_PREFIX+'.'+calculation, calculation)   # module name calculation, function name calculation
             calculations_checked.append(func)
     if len(calculations_checked) == 0:
         print(
