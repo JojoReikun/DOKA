@@ -21,6 +21,7 @@ calculations_str = [calc for calc in calculations.keys()]
 print('list of calculations ', calculations_str)
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
 
+
 def check_calculation_requirements(cfg):
     """
     this function checks if the required labels needed for the respective calculations
@@ -46,7 +47,6 @@ def check_calculation_requirements(cfg):
         print(
             'there is no calculation available for analysis due to insufficient or non-relevant labels in DLC result files.')
         return
-    print('calculations_checked: ', calculations_checked)
 
     return calculations_checked
 
@@ -64,16 +64,16 @@ def process_file(data, likelihood, calculations_checked):
 
     # TODO: allow filter for direction of climbing (e.g. only files with direction of climbing = UP will be processed)
 
-    # TODO:filter data for values with likelihood >= e.g. 90%
-    # data = data['likelihood'] >= likelihood
-    # print("data with filtered likelihood: ", data.head())
+    # TODO: depending on experimenter of species, UP and DOWN can be x--> up or x--> down. Include option to choose!!
 
-    for calc in calculations_str:
-        print("\n calc: ", calc)
-        if calc not in calculations_checked:
-            print("Some label requirements are not fulfilles to calculate {} ".format(calc))
-        elif calc in calculations_checked:
-            calc()
+    # filter data for values using the given likelihood >= e.g. 90%
+    # data_likelihood = data[data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood]
+    data_likelihood = data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood # returns dataframe with likelihood as True/False values
+    print("data with filtered likelihood: \n", data_likelihood.head(15))
+    # TODO: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
+
+    for calc in calculations_checked:
+        calc(data)
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
