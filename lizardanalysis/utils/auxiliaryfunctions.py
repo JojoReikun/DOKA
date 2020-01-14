@@ -119,4 +119,7 @@ class UserFunc():
             retval = func(func_arg)
         return retval
 
+    def __repr__(self):
+        return f'<function {self.func_name} at {hex(id(self))}>'
+
 
