@@ -35,10 +35,12 @@ def gui_choose_video_config():
 
     # here, image option is used to set image on button
     # TODO: command of buttons executed before clicking on them, nothing happens, while clicking --> FIX!
-    btn_x_up_dir_up = Button(window, image=x_up_dir_up, command=btn_on_clicked(1))
-    btn_x_down_dir_up = Button(window, image=x_down_dir_up, command=btn_on_clicked(2))
+    btn_x_up_dir_up = Button(window, image=x_up_dir_up)   # command=btn_on_clicked(1)
+    btn_x_down_dir_up = Button(window, image=x_down_dir_up)   # command=btn_on_clicked(2)
     btn_x_up_dir_up.grid(column=0, row=1, padx = 10, pady = 10)
     btn_x_down_dir_up.grid(column=1, row=1, padx = 10, pady = 10)
+    btn_x_up_dir_up.bind('<Button-1>', btn_on_clicked(1))
+    btn_x_down_dir_up.bind('<Button-2>', btn_on_clicked(2))
 
     window.mainloop()
 
