@@ -86,9 +86,8 @@ def write_config(configname, cfg):
         ruamelFile.dump(cfg_file, cf)
 
 
-"""Handle a user function which is defined as directory entry"""
-
 class UserFunc():
+    """Handle a user function which is defined as directory entry"""
     """
     Usage:
         # demo 1: os.getcwd()
@@ -100,8 +99,8 @@ class UserFunc():
         print( 'Numpy demo with new arg: ', func(20) )
     """
 
-    def __init__(self, module_name=None, func_name=None, func_arg=None):
-
+    def __init__(self, module_name=None, func_name=None, func_arg=None):    # function within class = method --> requ. self as argument
+        """automatically invoked when a new class instance is created"""
         try:
             self.module = import_module(module_name)
         except ModuleNotFoundError as e:

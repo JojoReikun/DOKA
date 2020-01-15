@@ -38,8 +38,13 @@ def create_new_project(project, experimenter, species, file_directory, working_d
 
     from datetime import datetime as dt
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.start_new_analysis import gui_define_video_orientation
 
-    #TODO: change order: First check if file path is path, then create folders
+    # let the user configure the video direction (define which way is climbing up/climbing down)
+    clicked = gui_define_video_orientation.gui_choose_video_config()
+    print("clicked value: ", clicked)
+
+    # initialize new project
     date = dt.today()
     month = date.strftime("%B")
     day = date.day
@@ -127,6 +132,6 @@ def create_new_project(project, experimenter, species, file_directory, working_d
         "Now go and add the >>Experiment details<< and >>Camera settings<< in this file to adapt to your project's "
         "needs.\n Once you have changed the configuration file, use the function read_in_files(config)\n. " % (
             project_name, str(wd)))
-    return projconfigfile
+    return projconfigfile, clicked
 
 
