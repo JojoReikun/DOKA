@@ -4,6 +4,7 @@ LizardDLCAnalysis Toolbox
 Licensed under MIT License
 """
 import pandas as pd
+import glob
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
@@ -34,6 +35,7 @@ def check_calculation_requirements(cfg):
     # and additionally checked with any() instead of all()
 
     calculations_checked = []
+    calculations_checked_namelist = []
     for calculation in calculations_str:
         # print('cfg labels: ', cfg['labels'])
         # print('calculation values: ', calculations['{}'.format(calculation)])
@@ -41,6 +43,7 @@ def check_calculation_requirements(cfg):
         print('calculation_ok: ', calculation_ok)
         # add available calculations to list
         if calculation_ok:
+            calculations_checked_namelist.append(calculation)
             func = UserFunc(MODULE_PREFIX+'.'+calculation, calculation)   # module name calculation, function name calculation
             calculations_checked.append(func)
     if len(calculations_checked) == 0:
@@ -48,7 +51,7 @@ def check_calculation_requirements(cfg):
             'there is no calculation available for analysis due to insufficient or non-relevant labels in DLC result files.')
         return
 
-    return calculations_checked
+    return calculations_checked, calculations_checked_namelist
 
 
 def process_file(data, likelihood, calculations_checked):
@@ -59,17 +62,16 @@ def process_file(data, likelihood, calculations_checked):
     :param data: pd.dataframe DLC csv file
     :param likelihood: float value to change accuracy of results
     :param calculations_checked: list of available calculations (required labels exist)
+    :param clicked value determines definition of direction UP for the given videos from experiment. Value determined in GUI during execution of create_new_project()
     :return: #TODO
     """
 
     # TODO: allow filter for direction of climbing (e.g. only files with direction of climbing = UP will be processed)
 
-    # TODO: depending on experimenter of species, UP and DOWN can be x--> up or x--> down. Include option to choose!!
-
     # filter data for values using the given likelihood >= e.g. 90%
     # data_likelihood = data[data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood]
     data_likelihood = data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood # returns dataframe with likelihood as True/False values
-    print("data with filtered likelihood: \n", data_likelihood.head(15))
+    # print("data with filtered likelihood: \n", data_likelihood.head(15))
     # TODO: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
     for calc in calculations_checked:
@@ -97,6 +99,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     from tkinter import Tk, filedialog
     from lizardanalysis.utils import auxiliaryfunctions
 
+    current_path = os.getcwd()
     config_file = Path(config).resolve()
     cfg = auxiliaryfunctions.read_config(config_file)
     print("Config file read successfully.")
@@ -170,18 +173,36 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         print('labels already exist in config file. Proceed...')
 
     # check label requirements for calculations:
-    calculations_checked = check_calculation_requirements(cfg)
+    calculations_checked, calculations_checked_namelist = check_calculation_requirements(cfg)
 
     ### ToDo: erst hier solltest du das results dataframe anlegen, wenn du weißt, welche Rechnungen funktionieren und welche columns du bekommen wirst!
     # results_file = pd.DataFrame(columns=calculations.keys())
 
     # TODO: run calculations loop for every file
     for i in range(len(filelist)):
+        print('\n \n ----- FILE: ', filelist[i])
+        filename = filelist[i].rsplit(os.sep, 1)[1]
+        filename = filename.rsplit(".", 1)[0]
+        print(' ----- FILENAME: ', filename)
         file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[i]))
         file_path = os.path.join(current_path, file_path_2)
+
+        # read in the current csv file as dataframe
         data = pd.read_csv(file_path, delimiter=",",
                            header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
         data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+        data_rows_count = data.shape[0]   # number of rows already excluded the 3 headers
+        print('row count for dataframe (excluding headers): ', data_rows_count)
+
+        # generate result file for current file
+        result_file = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))
+        print(result_file.head())
+        result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
+        result_file.to_csv(result_file_path, index=True, header=True)
+
         # perform calculations for the current file
-        process_file(data, likelihood, calculations_checked)
+        # TODO: parse the determined clicked value from create_new_project here --> use config.yaml file
+        process_file(data, likelihood, calculations_checked)   # for now clicked: default =1
+
+        # count up to proceed to next file
         i += 1

@@ -46,9 +46,6 @@ def gui_choose_video_config():
     btn_x_up_dir_up.grid(column=0, row=1, padx = 10, pady = 10)
     btn_x_down_dir_up.grid(column=1, row=1, padx = 10, pady = 10)
 
-
-    #set default clicked value for testing:
-    clicked = 1
     window.mainloop()
 
     return clicked
