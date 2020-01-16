@@ -5,3 +5,4 @@ ruamel.yaml
 Click
 ipython
 matplotlib
+uncertainties

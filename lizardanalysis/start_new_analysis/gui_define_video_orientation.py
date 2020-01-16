@@ -5,6 +5,18 @@ import os
 current_path = os.getcwd()
 print("current path: ", current_path)
 
+# TODO: clicked value not changed accordingly, when button is clicked. Always returns second event...
+def btn_on_clicked_1():
+    global clicked
+    clicked = 'clicked first image'
+    # print('clicked: ', clicked)
+
+
+def btn_on_clicked_2():
+    global clicked
+    clicked = "clicked second image"
+    # print('clicked: ', clicked)
+
 
 def gui_choose_video_config():
     # creating tkinter window
@@ -26,22 +38,17 @@ def gui_choose_video_config():
     style = Style()
     style.configure('TButton', borderwidth='4')
 
-    clicked = 1
-    def btn_on_clicked(value):
-        # TODO: clicked value doesn't change...
-        global clicked
-        clicked = value
-        print('clicked: ', clicked)
-
     # here, image option is used to set image on button
-    # TODO: command of buttons executed before clicking on them, nothing happens, while clicking --> FIX!
-    btn_x_up_dir_up = Button(window, image=x_up_dir_up)   # command=btn_on_clicked(1)
-    btn_x_down_dir_up = Button(window, image=x_down_dir_up)   # command=btn_on_clicked(2)
+    btn_x_up_dir_up = Button(window, image=x_up_dir_up)
+    btn_x_down_dir_up = Button(window, image=x_down_dir_up)
+    btn_x_up_dir_up.bind('<Button-1>', btn_on_clicked_1())
+    btn_x_down_dir_up.bind('<Button-1>', btn_on_clicked_2())
     btn_x_up_dir_up.grid(column=0, row=1, padx = 10, pady = 10)
     btn_x_down_dir_up.grid(column=1, row=1, padx = 10, pady = 10)
-    btn_x_up_dir_up.bind('<Button-1>', btn_on_clicked(1))
-    btn_x_down_dir_up.bind('<Button-2>', btn_on_clicked(2))
 
+
+    #set default clicked value for testing:
+    clicked = 1
     window.mainloop()
 
     return clicked
