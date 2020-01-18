@@ -128,10 +128,12 @@ def create_new_project(project, experimenter, species, file_directory, working_d
 
     print('Generated "{}"'.format(project_path / 'config.yaml'))
     print(
-        "\nA new project with name %s is created at %s and a configurable file (config.yaml) is stored there. "
+        "\n \n A new project with name %s is created at %s and a configurable file (config.yaml) is stored there. "
         "Now go and add the >>Experiment details<< and >>Camera settings<< in this file to adapt to your project's "
-        "needs.\n Once you have changed the configuration file, use the function read_in_files(config)\n. " % (
+        "needs. >>framerate<< and >>shutterspeed<< are required for further calculations."
+        "\n Once you have changed the configuration file, use the function read_in_files(config)\n. " % (
             project_name, str(wd)))
+
     return projconfigfile, clicked
 
 
