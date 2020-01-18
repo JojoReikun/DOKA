@@ -27,7 +27,7 @@ class Window(Frame):
         # Adding widgets to the root window
         # Adding text labels:
         label_intro = Label(self, text='Please check the orientation of the video footage ...\n '
-                                         '...and click on the image wich shows the correct configuration for the current species.',
+                                         '...and click on the image which shows the correct configuration for the current species.',
                             font=('Verdana', 10))
         label_intro.grid(column=0, row=0, columnspan=2)
 
@@ -37,7 +37,7 @@ class Window(Frame):
         label_config = Label(self, textvariable=label_var,
                             font=('Verdana', 10))
         label_config.grid(column=0, row=2, columnspan=2)
-        label_var.set('The default configuration for the analysis is det to 1.')
+        label_var.set('The default configuration for the analysis is set to 1.')
 
         # creating image objects to use on button instead of text
         global x_up_dir_up      # make global to retain a reference, otherwise destroyed while __init__() exists
@@ -48,8 +48,8 @@ class Window(Frame):
             file=os.path.join(current_path, r'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
 
         # creating a button instance
-        btn_x_up_dir_up = Button(self, image=x_up_dir_up, command = lambda: self.btn_on_clicked_1())
-        btn_x_down_dir_up = Button(self, image=x_down_dir_up, command = lambda: self.btn_on_clicked_2())
+        btn_x_up_dir_up = Button(self, image=x_up_dir_up, command=self.btn_on_clicked_1)
+        btn_x_down_dir_up = Button(self, image=x_down_dir_up, command=self.btn_on_clicked_2)
 
         # placing the button on my window
         btn_x_up_dir_up.grid(column=0, row=1, padx=10, pady=10)
@@ -70,6 +70,8 @@ class Window(Frame):
         clicked = "2"
         label_var.set('Configuration ' + clicked + ' is now set for the analysis. Close the GUI to continue.')
         # print('clicked: ', clicked)
+
+# TODO: add OKAY button to proceed and make X abort
 
 
 def gui_choose_video_config():

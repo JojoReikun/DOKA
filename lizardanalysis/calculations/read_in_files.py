@@ -54,7 +54,7 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist
 
 
-def process_file(data, likelihood, calculations_checked):
+def process_file(data, clicked, likelihood, calculations_checked):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -75,7 +75,7 @@ def process_file(data, likelihood, calculations_checked):
     # TODO: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
     for calc in calculations_checked:
-        calc(data)
+        calc(data, clicked)
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
@@ -103,6 +103,9 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     config_file = Path(config).resolve()
     cfg = auxiliaryfunctions.read_config(config_file)
     print("Config file read successfully.")
+
+    # find the clicked value which defines the configuration of directions
+    clicked = cfg['clicked']
 
     # get the file paths from the config file
     project_path = cfg['project_path']
@@ -202,7 +205,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
 
         # perform calculations for the current file
         # TODO: parse the determined clicked value from create_new_project here --> use config.yaml file
-        process_file(data, likelihood, calculations_checked)   # for now clicked: default =1
+        process_file(data, clicked, likelihood, calculations_checked)
 
         # count up to proceed to next file
         i += 1

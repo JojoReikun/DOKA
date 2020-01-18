@@ -47,7 +47,12 @@ def create_config_template():
     \n
 # Available labels (will be added automatically when running read_csv_files())
     labels:
+    \n
+# The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+    clicked:
     """
+
+
     ruamelFile = ruamel.yaml.YAML()
     cfg_file = ruamelFile.load(yaml_str)
     return(cfg_file,ruamelFile)
@@ -99,23 +104,23 @@ class UserFunc():
         print( 'Numpy demo with new arg: ', func(20) )
     """
 
-    def __init__(self, module_name=None, func_name=None, func_arg=None):    # function within class = method --> requ. self as argument
+    def __init__(self, module_name=None, func_name=None, func_arg=None, **kwargs):    # function within class = method --> requ. self as argument
         """automatically invoked when a new class instance is created"""
         try:
-            self.module = import_module(module_name)
+            self.module = import_module(module_name, **kwargs)
         except ModuleNotFoundError as e:
             raise ModuleNotFoundError(f'Module {module_name} not found!')
         self.func_name = func_name
         self.func_arg = func_arg
 
-    def __call__(self, func_arg=None):
+    def __call__(self, func_arg=None, **kwargs):
         func = getattr(self.module, self.func_name)
         if func_arg is None:
             func_arg = self.func_arg
         if func_arg is None:
             retval = func()
         else:
-            retval = func(func_arg)
+            retval = func(func_arg, **kwargs)
         return retval
 
     def __repr__(self):

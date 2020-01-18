@@ -4,7 +4,7 @@ from numpy import array
 import math
 
 
-def direction_of_climbing(data):
+def direction_of_climbing(data, clicked):
     """
         Uses the Nose tracking point to determine the direction of climbing.
         Depending on the clicked value, which determines the configuration of the lizard climbing direction in the videos:
@@ -14,13 +14,14 @@ def direction_of_climbing(data):
         :return direction of climbing as string "UP" or "DOWN"
     """
     # TODO: this is only for testing. __call__() error : takes from 1 to 2 positional arguments, 4 given => parse clicked and likelihood
-    clicked = 1
-    likelihood = 0.90
+
+    print('clicked value in function: ', clicked)
 
     scorer = data.columns[1][0]
     #print('scorer: ', scorer)
 
     #TODO: filter columns of used labels for likelihood BEFORE calculation
+    likelihood = 0.90
     #nose_coords = data[scorer, 'Nose']
     #nose_coords = nose_coords[nose_coords.likelihood >= 0.90]
 

@@ -120,6 +120,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     cfg_file['dotsize'] = 10  # for plots size of dots
     cfg_file['alphavalue'] = 1.0  # for plots transparency of markers
     cfg_file['colormap'] = 'jet'  # for plots type of colormap
+    cfg_file['clicked'] = clicked   # the selected video condoguration for up / down directions
 
     projconfigfile = os.path.join(str(project_path), 'config.yaml')
 
