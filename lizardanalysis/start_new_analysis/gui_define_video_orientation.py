@@ -5,47 +5,85 @@ import os
 current_path = os.getcwd()
 print("current path: ", current_path)
 
-# TODO: clicked value not changed accordingly, when button is clicked. Always returns second event...
-def btn_on_clicked_1():
-    global clicked
-    clicked = 'clicked first image'
-    # print('clicked: ', clicked)
 
+class Window(Frame):
+    def __init__(self, master=None):
+        # Define settings upon initialization. Here you can specify
+        Frame.__init__(self, master)
+        # reference to the master widget, which is the tk window
+        self.master = master
+        # with that, we want to then run init_window, which doesn't yet exist
+        self.init_window()
 
-def btn_on_clicked_2():
+    # Creation of init_window
+    def init_window(self):
+
+        # changing the title of our master widget
+        self.master.title("Define video orientation of lizard runs")
+
+        # allowing the widget to take the full space of the root window
+        self.pack(fill=BOTH, expand=1)
+
+        # Adding widgets to the root window
+        # Adding text labels:
+        label_intro = Label(self, text='Please check the orientation of the video footage ...\n '
+                                         '...and click on the image wich shows the correct configuration for the current species.',
+                            font=('Verdana', 10))
+        label_intro.grid(column=0, row=0, columnspan=2)
+
+        global label_var
+        label_var = StringVar()
+
+        label_config = Label(self, textvariable=label_var,
+                            font=('Verdana', 10))
+        label_config.grid(column=0, row=2, columnspan=2)
+        label_var.set('The default configuration for the analysis is det to 1.')
+
+        # creating image objects to use on button instead of text
+        global x_up_dir_up      # make global to retain a reference, otherwise destroyed while __init__() exists
+        global x_down_dir_up
+        x_up_dir_up = PhotoImage(
+            file=os.path.join(current_path, r'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_up_dir_up.png'))
+        x_down_dir_up = PhotoImage(
+            file=os.path.join(current_path, r'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
+
+        # creating a button instance
+        btn_x_up_dir_up = Button(self, image=x_up_dir_up, command = lambda: self.btn_on_clicked_1())
+        btn_x_down_dir_up = Button(self, image=x_down_dir_up, command = lambda: self.btn_on_clicked_2())
+
+        # placing the button on my window
+        btn_x_up_dir_up.grid(column=0, row=1, padx=10, pady=10)
+        btn_x_down_dir_up.grid(column=1, row=1, padx=10, pady=10)
+
     global clicked
-    clicked = "clicked second image"
-    # print('clicked: ', clicked)
+    clicked = '1'
+
+    def btn_on_clicked_1(self):
+        global clicked
+        clicked = '1'
+        label_var.set('Configuration ' + clicked + ' is now set for the analysis. Close the GUI to continue.')
+        # print('clicked: ', clicked)
+
+    def btn_on_clicked_2(self):
+        global clicked
+        clicked = "2"
+        label_var.set('Configuration ' + clicked + ' is now set for the analysis. Close the GUI to continue.')
+        # print('clicked: ', clicked)
 
 
 def gui_choose_video_config():
     # creating tkinter window
-    window = Tk()
-    window.title("Define video orientation of lizard runs")
-    window.geometry('740x400')
+    root = Tk()
 
-    # Adding widgets to the root window
-    label_intro = Label(window, text='Please check the orientation of the video footage ...\n '
-                                     '...and click on the image wich shows the correct configuration for the current species.',
-      font=('Verdana', 10))
-    label_intro.grid(column=0, row=0, columnspan=2)
+    root.geometry("800x450")
 
-    # Creating a photoimage object to use image
-    x_up_dir_up = PhotoImage(file=current_path+r'\lizardanalysis\start_new_analysis\GUI_video_config_x_up_dir_up.png')
-    x_down_dir_up = PhotoImage(file=current_path+r'\lizardanalysis\start_new_analysis\GUI_video_config_x_down_dir_up.png')
+    # place the GUI window in front of all other windows.
+    root.attributes("-topmost", True)
 
-    # create a style for buttons:
-    style = Style()
-    style.configure('TButton', borderwidth='4')
+    # creation of an instance
+    app = Window(root)
 
-    # here, image option is used to set image on button
-    btn_x_up_dir_up = Button(window, image=x_up_dir_up)
-    btn_x_down_dir_up = Button(window, image=x_down_dir_up)
-    btn_x_up_dir_up.bind('<Button-1>', btn_on_clicked_1())
-    btn_x_down_dir_up.bind('<Button-1>', btn_on_clicked_2())
-    btn_x_up_dir_up.grid(column=0, row=1, padx = 10, pady = 10)
-    btn_x_down_dir_up.grid(column=1, row=1, padx = 10, pady = 10)
-
-    window.mainloop()
+    # mainloop
+    root.mainloop()
 
     return clicked
