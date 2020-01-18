@@ -103,24 +103,27 @@ class UserFunc():
         print( 'Numpy demo: ', func() )
         print( 'Numpy demo with new arg: ', func(20) )
     """
+    def __init__(self, module_name=None, func_name=None, *args, **kwargs):
 
-    def __init__(self, module_name=None, func_name=None, func_arg=None, **kwargs):    # function within class = method --> requ. self as argument
-        """automatically invoked when a new class instance is created"""
         try:
-            self.module = import_module(module_name, **kwargs)
+            self.module = import_module(module_name)
         except ModuleNotFoundError as e:
             raise ModuleNotFoundError(f'Module {module_name} not found!')
         self.func_name = func_name
-        self.func_arg = func_arg
+        self.args = args
+        self.kwargs = kwargs
 
-    def __call__(self, func_arg=None, **kwargs):
+    def __call__(self, *args, **kwargs):
         func = getattr(self.module, self.func_name)
-        if func_arg is None:
-            func_arg = self.func_arg
-        if func_arg is None:
-            retval = func()
-        else:
-            retval = func(func_arg, **kwargs)
+        if len(args) == 0:
+            args = self.args
+        if len(kwargs) == 0:
+            kwargs = self.kwargs
+        print('args=', args, ', kwargs=', kwargs)
+        #        if func_arg is None:
+        #            retval = func()
+        #        else:
+        retval = func(*args, **kwargs)
         return retval
 
     def __repr__(self):
