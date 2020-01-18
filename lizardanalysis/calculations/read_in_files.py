@@ -54,7 +54,7 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist
 
 
-def process_file(data, clicked, likelihood, calculations_checked):
+def process_file(data, clicked, likelihood, calculations_checked, results):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -75,7 +75,9 @@ def process_file(data, clicked, likelihood, calculations_checked):
     # TODO: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
     for calc in calculations_checked:
-        calc(data, clicked)
+        retval = calc(data, clicked)
+        print(retval, 'results.columns=', results.columns)
+        # ToDo: save result in results dataframe  results.loc[N, retvals.keys()]
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
@@ -201,11 +203,12 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         result_file = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))
         print(result_file.head())
         result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
-        result_file.to_csv(result_file_path, index=True, header=True)
 
         # perform calculations for the current file
         # TODO: parse the determined clicked value from create_new_project here --> use config.yaml file
-        process_file(data, clicked, likelihood, calculations_checked)
+        result_file = process_file(data, clicked, likelihood, calculations_checked, result_file)
+
+        result_file.to_csv(result_file_path, index=True, header=True)
 
         # count up to proceed to next file
         i += 1

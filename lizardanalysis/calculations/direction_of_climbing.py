@@ -53,15 +53,15 @@ def direction_of_climbing(data, clicked):
 
     #TODO: open result file, write results to new column (named as calc) in dataframe, close result file
     #TODO: pass file_path from read_in_files.py to here and write direction string to cell (error: could not convert to float)
-    result_file_path = r'C:\Users\deathstar\Documents\Jojo\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\gecko_test-jojo-hemi-2020-01-16\analysis-results' \
-                       r'\Gecko11run17DeepCut_resnet50_gecko_runsSep19shuffle1_77000_results.csv'
-    df_result = pd.read_csv(result_file_path)
+#    result_file_path = r'C:\Users\deathstar\Documents\Jojo\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\gecko_test-jojo-hemi-2020-01-16\analysis-results' \
+#                       r'\Gecko11run17DeepCut_resnet50_gecko_runsSep19shuffle1_77000_results.csv'
+#    df_result = pd.read_csv(result_file_path)
     if direction == 'UP':
         direction_int = 1
     elif direction == 'DOWN':
         direction_int = 2
-    for row in df_result.index:
-        df_result.at[row, 'direction_of_climbing'] = direction_int
-    print(df_result.head(8))
+#    for row in df_result.index:
+#        df_result.at[row, 'direction_of_climbing'] = direction_int
+#    print(df_result.head(8))
 
-    return direction
+    return {__name__.rsplit('.', 1)[1]: direction}
