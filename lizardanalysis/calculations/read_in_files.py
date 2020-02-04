@@ -18,9 +18,56 @@ calculations = {'direction_of_climbing': ['nose'],
                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
                 }
 # add ROM
+# add toe angles
 calculations_str = [calc for calc in calculations.keys()]
 print('list of calculations ', calculations_str)
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
+
+
+def check_labels(cfg, filelist):
+    """
+    checks available labels in .csv files and write them to config file.
+    Uses the first .csv file in the directory.
+    :param cfg: the config file
+    :param filelist: all csv files found in the directory
+    :return: list with available labels
+    """
+    import os
+    from pathlib import Path
+
+    # TODO: Check if working directory differs from default and set path respectively
+    # if working_directory = DEFAULT:
+    # use Path lib
+    current_path = Path(os.getcwd())
+    project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['task'], exp=cfg['scorer'], spec=cfg['species'],
+                                                    date=cfg['date'])
+    label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
+    label_file_path = os.path.join(current_path, label_file_path_2)
+    # print('label_file_path: ', label_file_path)
+    # else:
+    # TODO: look for working directory
+    data_labels = pd.read_csv(label_file_path, delimiter=",",
+                              header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
+    data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+    # print(data.head())
+
+    data_labels_columns = list(data_labels.columns)
+    # scorer = data_columns[1][0]     atm not needed
+    label_names = []
+    for i in range(1, len(data_labels_columns)):
+        label_names.append(str(data_labels_columns[i][1]).lower())  # append all label names and convert to lowercase
+    label_names_no_doubles = []
+    [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]  # makes sure labels only appear once
+
+    if len(label_names_no_doubles) == 0:
+        print(
+            'no labels could be found. Maybe check that there are .csv files available in the files folder with the DLC result format.')
+        return
+    else:
+        print("available are the following ", len(label_names_no_doubles), " labels in csv files: ",
+              label_names_no_doubles)
+
+    return data_labels, label_names_no_doubles, project_dir
 
 
 def check_calculation_requirements(cfg):
@@ -54,7 +101,7 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist
 
 
-def process_file(data, clicked, likelihood, calculations_checked, results):
+def process_file(data, clicked, likelihood, calculations_checked):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -63,7 +110,8 @@ def process_file(data, clicked, likelihood, calculations_checked, results):
     :param likelihood: float value to change accuracy of results
     :param calculations_checked: list of available calculations (required labels exist)
     :param clicked value determines definition of direction UP for the given videos from experiment. Value determined in GUI during execution of create_new_project()
-    :return: #TODO
+    :return: retval: dictionary
+             returns the results from the calculation as dictionary to write to df_results_current
     """
 
     # TODO: allow filter for direction of climbing (e.g. only files with direction of climbing = UP will be processed)
@@ -76,8 +124,9 @@ def process_file(data, clicked, likelihood, calculations_checked, results):
 
     for calc in calculations_checked:
         retval = calc(data, clicked)
-        print(retval, 'results.columns=', results.columns)
-        # ToDo: save result in results dataframe  results.loc[N, retvals.keys()]
+        # write result of calculation to result dataframe in responding column
+
+    #return df_result_current
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
@@ -135,43 +184,11 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
             filetype=[('csv files', '*.csv')])  # show an "Open" dialog box and return the path to the selected file
         df_gravity = pd.read_csv(gravity_filepath)  # read in gravity file
 
-    # check available labels in .csv files and write them to config file. Uses the first .csv file in the directory.
-    # TODO: Check if working directory differs from default and set path respectively
-    # if working_directory = DEFAULT:
-    # use Path lib
-    current_path = Path(os.getcwd())
-    project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['task'], exp=cfg['scorer'], spec=cfg['species'],
-                                                    date=cfg['date'])
-    label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
-    label_file_path = os.path.join(current_path, label_file_path_2)
-    # print('label_file_path: ', label_file_path)
-    # else:
-    # TODO: look for working directory
-    data_labels = pd.read_csv(label_file_path, delimiter=",",
-                              header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
-    data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
-    # print(data.head())
-
-    data_labels_columns = list(data_labels.columns)
-    # scorer = data_columns[1][0]     atm not needed
-    label_names = []
-    for i in range(1, len(data_labels_columns)):
-        label_names.append(str(data_labels_columns[i][1]).lower())  # append all label names and convert to lowercase
-    label_names_no_doubles = []
-    [label_names_no_doubles.append(label) for label in label_names if
-     label not in label_names_no_doubles]  # makes sure labels only appear once
-
-    if len(label_names_no_doubles) == 0:
-        print(
-            'no labels could be found. Maybe check that there are .csv files available in the files folder with the DLC result format.')
-        return
-    else:
-        print("available are the following ", len(label_names_no_doubles), " labels in csv files: ",
-              label_names_no_doubles)
-
+    # check available labels:
+    data_labels, labels_no_doubles, project_dir = check_labels(cfg, filelist)
     # write labels to config file:
     if cfg['labels'] is None:
-        cfg['labels'] = label_names_no_doubles
+        cfg['labels'] = labels_no_doubles
         auxiliaryfunctions.write_config(config, cfg)
         print('\n labels written to config file.')
     else:
@@ -179,11 +196,10 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
 
     # check label requirements for calculations:
     calculations_checked, calculations_checked_namelist = check_calculation_requirements(cfg)
-
-    ### ToDo: erst hier solltest du das results dataframe anlegen, wenn du weißt, welche Rechnungen funktionieren und welche columns du bekommen wirst!
-    # results_file = pd.DataFrame(columns=calculations.keys())
+    print("available calculations are the following: ", *calculations_checked_namelist, sep='\n')  #* vor print list enables nice prints
 
     # TODO: run calculations loop for every file
+    ###################### RUN CALCULATION LOOP #################################################
     for i in range(len(filelist)):
         print('\n \n ----- FILE: ', filelist[i])
         filename = filelist[i].rsplit(os.sep, 1)[1]
@@ -200,15 +216,17 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         print('row count for dataframe (excluding headers): ', data_rows_count)
 
         # generate result file for current file
-        result_file = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))
-        print(result_file.head())
-        result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
+        df_result_current = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))
+        print(df_result_current.head())
+        #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
-        # perform calculations for the current file
-        # TODO: parse the determined clicked value from create_new_project here --> use config.yaml file
-        result_file = process_file(data, clicked, likelihood, calculations_checked, result_file)
+        # perform calculations for the current file and get dictionary with results as return
+        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current)
 
-        result_file.to_csv(result_file_path, index=True, header=True)
+        #result_file.to_csv(result_file_path, index=True, header=True)
 
         # count up to proceed to next file
         i += 1
+
+    # generate TOTAL result dataframe combining the results from all runs:
+    df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
