@@ -49,7 +49,8 @@ def direction_of_climbing(data, clicked):
         print('no such video configuration defined')
         return
 
-    # print('test_print: calculating direction_of_climbing')
-    print('\n direction: ', direction)
+    # __name__.rsplit('.', 1)[1] = 'direction_of_climbing' (same as in checked_calculations)
+    # print('\n direction: ', {__name__.rsplit('.', 1)[1]: direction})
 
+    # TODO: return list with as many 'direction' as rows in file as value in dict (pass row_count)
     return {__name__.rsplit('.', 1)[1]: direction}

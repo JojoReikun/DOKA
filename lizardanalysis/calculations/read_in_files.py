@@ -20,7 +20,7 @@ calculations = {'direction_of_climbing': ['nose'],
 # add ROM
 # add toe angles
 calculations_str = [calc for calc in calculations.keys()]
-print('list of calculations ', calculations_str)
+#print('list of calculations ', calculations_str)
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
 
 
@@ -87,7 +87,7 @@ def check_calculation_requirements(cfg):
         # print('cfg labels: ', cfg['labels'])
         # print('calculation values: ', calculations['{}'.format(calculation)])
         calculation_ok = all(elem in cfg['labels'] for elem in calculations['{}'.format(calculation)])   # RETURNS bool
-        print('calculation_ok: ', calculation_ok)
+        # print('calculation_ok: ', calculation_ok)
         # add available calculations to list
         if calculation_ok:
             calculations_checked_namelist.append(calculation)
@@ -101,7 +101,7 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist
 
 
-def process_file(data, clicked, likelihood, calculations_checked):
+def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -125,6 +125,7 @@ def process_file(data, clicked, likelihood, calculations_checked):
     for calc in calculations_checked:
         retval = calc(data, clicked)
         # write result of calculation to result dataframe in responding column
+        df_result_current[retval[0]] = retval[1]
 
     #return df_result_current
 
@@ -215,13 +216,13 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         data_rows_count = data.shape[0]   # number of rows already excluded the 3 headers
         print('row count for dataframe (excluding headers): ', data_rows_count)
 
-        # generate result file for current file
+        # generate empty result file for current file: columns = available calculations, rows = nb. of rows in csv file
         df_result_current = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))
-        print(df_result_current.head())
+        #print(df_result_current.head())
         #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
         # perform calculations for the current file and get dictionary with results as return
-        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current)
+        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count)
 
         #result_file.to_csv(result_file_path, index=True, header=True)
 
