@@ -8,7 +8,8 @@ import glob
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
-calculations = {'direction_of_climbing': ['nose']}  # use for debugging one by one
+calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
+                'climbing_speed': ['nose']}
 
 # calculations = {'direction_of_climbing': ['nose'],
 #                 'climbing_speed': ['nose'],
@@ -103,7 +104,7 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist
 
 
-def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count):
+def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -125,14 +126,15 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
 
     # TODO: there probably is a nicer way to do this?
     for calc in calculations_checked:
-        retval = calc(data, clicked, data_rows_count)
+        retval = calc(data, clicked, data_rows_count, config)
 
         retwrite = [(key, retval[key]) for key in retval]
         # write result of calculation to result dataframe in responding column
         values_list = retwrite[0][1]
         for row in range(len(retwrite[0][1])):
             df_result_current[retwrite[0][0]] = values_list[row]
-        print(df_result_current.head(5), df_result_current.tail(5))
+        print(df_result_current.head(5), '\n',
+              df_result_current.tail(5))
 
     #return df_result_current
 
@@ -229,7 +231,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
         # perform calculations for the current file and get dictionary with results as return
-        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count)
+        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config)
 
         #result_file.to_csv(result_file_path, index=True, header=True)
 
@@ -237,4 +239,4 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         i += 1
 
     # generate TOTAL result dataframe combining the results from all runs:
-    df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
+    #df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
