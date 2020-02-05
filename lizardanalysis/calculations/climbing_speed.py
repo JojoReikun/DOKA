@@ -3,6 +3,7 @@ def climbing_speed(data, clicked, data_row_count, config):
         Uses the Nose tracking point to determine the climbing speed.
         Takes the absolute value of the distance in pixels covered in a certain range of the frames taken from the middle of the run.
         (data_row_count/2) +/- (framerate/speed_interval)
+        :return: dictionary with function name (key) and list (len=data_row_count) of climbing speed in px/s
     """
     import os
     from pathlib import Path
