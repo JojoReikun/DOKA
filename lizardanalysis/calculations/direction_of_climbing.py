@@ -4,7 +4,7 @@ from numpy import array
 import math
 
 
-def direction_of_climbing(data, clicked):
+def direction_of_climbing(data, clicked, data_row_count):
     """
         Uses the Nose tracking point to determine the direction of climbing.
         Depending on the clicked value, which determines the configuration of the lizard climbing direction in the videos:
@@ -53,4 +53,9 @@ def direction_of_climbing(data, clicked):
     # print('\n direction: ', {__name__.rsplit('.', 1)[1]: direction})
 
     # TODO: return list with as many 'direction' as rows in file as value in dict (pass row_count)
-    return {__name__.rsplit('.', 1)[1]: direction}
+    direction_list = []
+    for i in range(data_row_count):
+        direction_list.append(direction)
+    print('length of direction list: ', len(direction_list), '\n length of data_row_count: ', data_row_count)
+
+    return {__name__.rsplit('.', 1)[1]: direction_list}

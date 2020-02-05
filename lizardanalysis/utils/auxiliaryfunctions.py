@@ -119,7 +119,7 @@ class UserFunc():
             args = self.args
         if len(kwargs) == 0:
             kwargs = self.kwargs
-        print('args=', args, ', kwargs=', kwargs)
+        #print('args=', args, ', kwargs=', kwargs)
         #        if func_arg is None:
         #            retval = func()
         #        else:

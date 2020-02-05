@@ -8,15 +8,17 @@ import glob
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
-calculations = {'direction_of_climbing': ['nose'],
-                'climbing_speed': ['nose'],
-                'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-                'stride_length': ['fl', 'fr', 'hl', 'hr'],
-                'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
-                                    'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
-                                 'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
-                }
+calculations = {'direction_of_climbing': ['nose']}  # use for debugging one by one
+
+# calculations = {'direction_of_climbing': ['nose'],
+#                 'climbing_speed': ['nose'],
+#                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
+#                 'stride_length': ['fl', 'fr', 'hl', 'hr'],
+#                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
+#                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+#                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
+#                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
+#                 }
 # add ROM
 # add toe angles
 calculations_str = [calc for calc in calculations.keys()]
@@ -115,17 +117,22 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     """
 
     # TODO: allow filter for direction of climbing (e.g. only files with direction of climbing = UP will be processed)
-
     # filter data for values using the given likelihood >= e.g. 90%
     # data_likelihood = data[data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood]
-    data_likelihood = data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood # returns dataframe with likelihood as True/False values
+    # data_likelihood = data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood # returns dataframe with likelihood as True/False values
     # print("data with filtered likelihood: \n", data_likelihood.head(15))
-    # TODO: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
+    # idea: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
+    # TODO: there probably is a nicer way to do this?
     for calc in calculations_checked:
-        retval = calc(data, clicked)
+        retval = calc(data, clicked, data_rows_count)
+
+        retwrite = [(key, retval[key]) for key in retval]
         # write result of calculation to result dataframe in responding column
-        df_result_current[retval[0]] = retval[1]
+        values_list = retwrite[0][1]
+        for row in range(len(retwrite[0][1])):
+            df_result_current[retwrite[0][0]] = values_list[row]
+        print(df_result_current.head(5), df_result_current.tail(5))
 
     #return df_result_current
 
