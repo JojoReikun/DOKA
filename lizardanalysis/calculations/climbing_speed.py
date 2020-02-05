@@ -17,8 +17,10 @@ def climbing_speed(data, clicked, data_row_count, config):
     first_speed_start = int((data_row_count/2) - 30)
     second_speed_start = int((data_row_count/2) - 5)
     third_speed_start = int((data_row_count/2) + 20)
-    long_range_speed_start = int((data_row_count/2)) - int((framerate/5))
-    long_range_speed_end = int((data_row_count/2)) + int((framerate/5))
+
+    speed_interval = 5
+    long_range_speed_start = int((data_row_count/2)) - int((framerate/speed_interval))
+    long_range_speed_end = int((data_row_count/2)) + int((framerate/speed_interval))
 
 
     scorer = data.columns[1][0]
@@ -40,7 +42,7 @@ def climbing_speed(data, clicked, data_row_count, config):
 
 
     mean_speed = (np.mean(first_speed+second_speed+third_speed))*10
-    long_range_speed = int(long_range_speed_2and1halftel*2.5)
+    long_range_speed = int(long_range_speed_2and1halftel*(speed_interval/2.))
     print("mean speed (px/sec): ", mean_speed)
     print("long range speed (px/sec): ", long_range_speed)
 
