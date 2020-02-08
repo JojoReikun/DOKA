@@ -1,3 +1,5 @@
+import numpy as np
+
 def climbing_speed(data, clicked, data_row_count, config):
     """
         Uses the Nose tracking point to determine the climbing speed.
@@ -35,7 +37,9 @@ def climbing_speed(data, clicked, data_row_count, config):
     print("long range speed (px/sec): ", long_range_speed)
 
     #TODO: calculate climbing speed and write results to new column in dataframe
-    speed_list = []
-    for i in range(data_row_count):
-        speed_list.append(long_range_speed)
+    # mgs: changed this to use a numpy array
+    # speed_list = []
+    # for i in range(data_row_count):
+    #     speed_list.append(long_range_speed)
+    speed_list = np.zeros((data_row_count, )) + long_range_speed
     return {__name__.rsplit('.', 1)[1]: speed_list}

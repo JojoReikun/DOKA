@@ -132,14 +132,14 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
 
     # TODO: there probably is a nicer way to do this?
     for calc in calculations_checked:
-        retval = calc(data, clicked, data_rows_count, config)
-
-        print('retval = ', retval)
-        retwrite = [(key, retval[key]) for key in retval]
+        retval = calc(data, clicked, data_rows_count, config) # returns a dict with numpy arrays
+        for key in retval:
+            df_result_current[key] = retval[key]
+        # retwrite = [(key, retval[key]) for key in retval]
         # write result of calculation to result dataframe in responding column
-        values_list = retwrite[0][1]
-        for row in range(len(retwrite[0][1])):
-            df_result_current[retwrite[0][0]] = values_list[row]
+        # values_list = retwrite[0][1]
+        # for row in range(len(retwrite[0][1])):
+        #     df_result_current[retwrite[0][0]] = values_list[row]
         print(df_result_current.head(5), '\n',
               df_result_current.tail(5))
 

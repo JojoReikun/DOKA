@@ -53,9 +53,10 @@ def direction_of_climbing(data, clicked, data_row_count, config):
     # print('\n direction: ', {__name__.rsplit('.', 1)[1]: direction})
 
     # TODO: return list with as many 'direction' as rows in file as value in dict (pass row_count)
-    direction_list = []
-    for i in range(data_row_count):
-        direction_list.append(direction)
-    print('length of direction list: ', len(direction_list), '\n length of data_row_count: ', data_row_count)
-
+    # mgs: changed this to use numpy array (much more efficient)
+    # direction_list = []
+    # for i in range(data_row_count):
+    #    direction_list.append(direction)
+    #print('length of direction list: ', len(direction_list), '\n length of data_row_count: ', data_row_count)
+    direction_list = np.array(data_row_count*[direction], dtype=np.string_)
     return {__name__.rsplit('.', 1)[1]: direction_list}
