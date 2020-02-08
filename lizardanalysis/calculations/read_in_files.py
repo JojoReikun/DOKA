@@ -42,8 +42,10 @@ def check_labels(cfg, filelist):
     # if working_directory = DEFAULT:
     # use Path lib
     current_path = Path(os.getcwd())
-    project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['task'], exp=cfg['scorer'], spec=cfg['species'],
-                                                    date=cfg['date'])
+    # mgs: replaced this by f-string. Much more concise and even faster ;-)
+    # project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['task'], exp=cfg['scorer'], spec=cfg['species'],
+    #                                                 date=cfg['date'])
+    project_dir = f"{cfg['task']}-{cfg['scorer']}-{cfg['species']}-{cfg['date']}"
     label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
     label_file_path = os.path.join(current_path, label_file_path_2)
     # print('label_file_path: ', label_file_path)
@@ -56,11 +58,15 @@ def check_labels(cfg, filelist):
 
     data_labels_columns = list(data_labels.columns)
     # scorer = data_columns[1][0]     atm not needed
-    label_names = []
-    for i in range(1, len(data_labels_columns)):
-        label_names.append(str(data_labels_columns[i][1]).lower())  # append all label names and convert to lowercase
-    label_names_no_doubles = []
-    [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]  # makes sure labels only appear once
+    # trick: use list comprehension, then et to find unique values
+    # label_names = []
+    # for i in range(1, len(data_labels_columns)):
+    #    label_names.append(str(data_labels_columns[i][1]).lower())  # append all label names and convert to lowercase
+    # label_names_no_doubles = []
+    # [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]  # makes sure labels only appear once
+    label_names = [str(data_labels_columns[i][1]).lower() for i in range(1, len(data_labels_columns))]
+    label_names = [str(label[1]).lower() for label in data_labels_columns]
+    label_names_no_doubles = list(set(label_names))
 
     if len(label_names_no_doubles) == 0:
         print(
@@ -128,6 +134,7 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     for calc in calculations_checked:
         retval = calc(data, clicked, data_rows_count, config)
 
+        print('retval = ', retval)
         retwrite = [(key, retval[key]) for key in retval]
         # write result of calculation to result dataframe in responding column
         values_list = retwrite[0][1]
