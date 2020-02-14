@@ -9,7 +9,8 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
-                'climbing_speed': ['nose']}
+                'climbing_speed': ['nose'],
+                'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr']}
 
 # calculations = {'direction_of_climbing': ['nose'],
 #                 'climbing_speed': ['nose'],
@@ -119,7 +120,7 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     :param likelihood: float value to change accuracy of results
     :param calculations_checked: list of available calculations (required labels exist)
     :param clicked value determines definition of direction UP for the given videos from experiment. Value determined in GUI during execution of create_new_project()
-    :return: retval: dictionary
+    :return: retval: dataframe
              returns the results from the calculation as dictionary to write to df_results_current
     """
 
@@ -215,8 +216,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     calculations_checked, calculations_checked_namelist = check_calculation_requirements(cfg)
     print("available calculations are the following: ", *calculations_checked_namelist, sep='\n')  #* vor print list enables nice prints
 
-    # TODO: run calculations loop for every file
-    ###################### RUN CALCULATION LOOP #################################################
+    ############################################## RUN CALCULATION LOOP #################################################
     for i in range(len(filelist)):
         print('\n \n ----- FILE: ', filelist[i])
         filename = filelist[i].rsplit(os.sep, 1)[1]
@@ -230,6 +230,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
                            header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
         data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
         data_rows_count = data.shape[0]   # number of rows already excluded the 3 headers
+        print(data.head())
         print('row count for dataframe (excluding headers): ', data_rows_count)
 
         # generate empty result file for current file: columns = available calculations, rows = nb. of rows in csv file
@@ -237,7 +238,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         #print(df_result_current.head())
         #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
-        # perform calculations for the current file and get dictionary with results as return
+        # perform calculations for the current file and get dataframe with results as return
         df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config)
 
         #result_file.to_csv(result_file_path, index=True, header=True)
