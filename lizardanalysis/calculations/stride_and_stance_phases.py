@@ -17,13 +17,11 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
         # print('---------- ROW: ', row)
         for foot in feet:
             # print('FOOT: ', foot)
-            if row == 1:
-                last_row = data.loc[0][scorer, "{}".format(foot), 'x']
-            current_row = data.loc[row][scorer, "{}".format(foot), 'x']
+            xdiff = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row-1][scorer, f"{foot}", 'x']
+            ydiff = data.loc[row][scorer, f"{foot}", 'y'] - data.loc[row-1][scorer, f"{foot}", 'y']
+            distance = np.sqrt(xdiff**2 + ydiff**2)
             #print('last row and curent row x values: ', last_row, current_row)
-            results[foot][row] = calculators[foot].determine_current_phase(last_row, current_row)
-
-        last_row = current_row
+            results[foot][row] = calculators[foot].determine_current_phase(distance)
 
     # copy second row into first row of each array
     for foot in feet:
@@ -35,7 +33,6 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     for foot in results:
         df = pd.DataFrame(results[foot], columns=[foot])
         df['dummy'] = df[foot]
-        print(df)
         print(foot, df.groupby([foot]).count())
 
     # rename dictionary keys of results
@@ -52,9 +49,9 @@ class StridesAndStances:
         #self.stride_phase_start = True
         #self.stance_phase_start = True
 
-    def determine_current_phase(self, last_row, current_row):
+    def determine_current_phase(self, distance):
         # print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
-        if abs(current_row - last_row) >= 3:    # stride
+        if distance >= 3:    # stride
             if self.phase == 'stance' or self.phase == 'UNKNOWN':
                 self.stride_phase_counter += 1
             self.phase = 'stride'
