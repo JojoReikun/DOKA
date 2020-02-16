@@ -6,10 +6,10 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     feet = ["FR", "FL", "HR", "HL"]
 
     # 1 class instance for every foot, because every foot needs own counter
-    calc_FR = strides_and_stances()  # reinitialize class for every new foot to reset counters
-    calc_FL = strides_and_stances()  # reinitialize class for every new foot to reset counters
-    calc_HR = strides_and_stances()  # reinitialize class for every new foot to reset counters
-    calc_HL = strides_and_stances()  # reinitialize class for every new foot to reset counters
+    calc_FR = StridesAndStances()  # reinitialize class for every new foot to reset counters
+    calc_FL = StridesAndStances()  # reinitialize class for every new foot to reset counters
+    calc_HR = StridesAndStances()  # reinitialize class for every new foot to reset counters
+    calc_HL = StridesAndStances()  # reinitialize class for every new foot to reset counters
 
     for row in range(1, data_rows_count):
         for foot in feet:
@@ -19,14 +19,18 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
             print('last row and curent row x values: ', last_row, current_row)
 
             #TODO: add switch case function call depending on foot
+            class_instance = "calc_" + "{}".format(foot)
+            eval_ = eval(class_instance)
+            print('eval_: ', eval_)
+            eval_.determine_current_phase(last_row, current_row)
 
-            last_row = current_row
+        last_row = current_row
 
     stride_and_stance_phases_list = 0
     return {__name__.rsplit('.', 1)[1]: stride_and_stance_phases_list}
 
 
-class strides_and_stances():
+class StridesAndStances:
     def __init__(self):
         self.stride_phase_counter = 0
         self.stance_phase_counter = 0
@@ -60,15 +64,16 @@ class strides_and_stances():
         return retval
 
     #TODO:
-    # def switch_case(foot):
+    # class switchClassInstance():
     #     """
     #     function to switch cases and call respective instance of class for current foot
     #     :return: function call ...
     #     """
-    #     switcher = {
-    #         'FR': calc_FR.determine_current_phase(last_row, current_row),
-    #         'FL': calc_FL.determine_current_phase(last_row, current_row),
-    #         'HR': calc_HR.determine_current_phase(last_row, current_row),
-    #         'HL': calc_HL.determine_current_phase(last_row, current_row)
+    #     def switchInstance(self, foot):
+    #         switcher = {
+    #             'FR': calc_FR.determine_current_phase(last_row, current_row),
+    #             'FL': calc_FL.determine_current_phase(last_row, current_row),
+    #             'HR': calc_HR.determine_current_phase(last_row, current_row),
+    #             'HL': calc_HL.determine_current_phase(last_row, current_row)
     #     }
-    #     return switcher.get(foot)
+    #     return 0
