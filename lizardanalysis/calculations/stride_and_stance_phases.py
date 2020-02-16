@@ -16,11 +16,11 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     for row in range(1, data_rows_count):
         # print('---------- ROW: ', row)
         for foot in feet:
-            # print('FOOT: ', foot)
+            # calculate the euclidean distance between last coord and current coord of foot
             xdiff = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row-1][scorer, f"{foot}", 'x']
             ydiff = data.loc[row][scorer, f"{foot}", 'y'] - data.loc[row-1][scorer, f"{foot}", 'y']
             distance = np.sqrt(xdiff**2 + ydiff**2)
-            #print('last row and curent row x values: ', last_row, current_row)
+            # get the current phase of the step for every foot, calling the respective class instance function
             results[foot][row] = calculators[foot].determine_current_phase(distance)
 
     # copy second row into first row of each array
@@ -30,8 +30,12 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     for foot in feet:
         print(foot, ": ", calculators[foot])
     # ToDo: calculate stride and stance lengths
+    # ToDo: uses np.bytes_ type which is not recocnized by groupby function...
     for foot in results:
+        print('calculating stride lengths')
+        print(type(results[foot][0]))
         df = pd.DataFrame(results[foot], columns=[foot])
+        print(df, df.dtypes)
         df['dummy'] = df[foot]
         print(foot, df.groupby([foot]).count())
 
@@ -46,8 +50,6 @@ class StridesAndStances:
         self.stride_phase_counter = 0
         self.stance_phase_counter = 0
         self.phase = 'UNKNOWN'
-        #self.stride_phase_start = True
-        #self.stance_phase_start = True
 
     def determine_current_phase(self, distance):
         # print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
@@ -56,6 +58,7 @@ class StridesAndStances:
                 self.stride_phase_counter += 1
             self.phase = 'stride'
             retval = f'stride{self.stride_phase_counter:04d}'
+
         else:                                   # stance
             if self.phase == 'stride' or self.phase == 'UNKNOWN':
                 self.stance_phase_counter += 1
@@ -66,17 +69,4 @@ class StridesAndStances:
     def __str__(self):
         return f"strides: {self.stride_phase_counter}, stances: {self.stance_phase_counter}"
 
-    #TODO:
-    # class switchClassInstance():
-    #     """
-    #     function to switch cases and call respective instance of class for current foot
-    #     :return: function call ...
-    #     """
-    #     def switchInstance(self, foot):
-    #         switcher = {
-    #             'FR': calc_FR.determine_current_phase(last_row, current_row),
-    #             'FL': calc_FL.determine_current_phase(last_row, current_row),
-    #             'HR': calc_HR.determine_current_phase(last_row, current_row),
-    #             'HL': calc_HL.determine_current_phase(last_row, current_row)
-    #     }
-    #     return 0
+
