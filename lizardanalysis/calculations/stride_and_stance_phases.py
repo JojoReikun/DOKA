@@ -6,12 +6,12 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
 
-    # 1 class instance for every foot, because every foot needs own counter
-    calc_FR = StridesAndStances()  # reinitialize class for every new foot to reset counters
-    calc_FL = StridesAndStances()  # reinitialize class for every new foot to reset counters
-    calc_HR = StridesAndStances()  # reinitialize class for every new foot to reset counters
-    calc_HL = StridesAndStances()  # reinitialize class for every new foot to reset counters
-
+    # one class instance and one result array for every foot, because every foot needs own counter
+    calculators = {}
+    results = {}
+    for foot in feet:
+        calculators[foot] = StridesAndStances()
+        results[foot] = np.full((data_rows_count,), '', dtype='S10')
     for row in range(1, data_rows_count):
         print('---------- ROW: ', row)
         for foot in feet:
@@ -20,17 +20,15 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
                 last_row = data.loc[0][scorer, "{}".format(foot), 'x']
             current_row = data.loc[row][scorer, "{}".format(foot), 'x']
             #print('last row and curent row x values: ', last_row, current_row)
-
-            #TODO: add switch case function call depending on foot
-            class_instance = "calc_" + "{}".format(foot)
-            eval_ = eval(class_instance)
-            #print('eval_: ', eval_)
-            eval_.determine_current_phase(last_row, current_row)
+            results[foot][row] = calculators[foot].determine_current_phase(last_row, current_row)
 
         last_row = current_row
 
-    stride_and_stance_phases_list = 0
-    return {__name__.rsplit('.', 1)[1]: stride_and_stance_phases_list}
+    # rename dictionary keys of results
+    results = {key:value for (key, value) in results.items()}
+    # ToDo: calculate stride and stance lengths
+
+    return results
 
 
 class StridesAndStances:
