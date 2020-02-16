@@ -2,6 +2,7 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     import math
     import numpy as np
 
+    print("FUNCTION Stride and Stance Phases")
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
 
@@ -12,16 +13,18 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     calc_HL = StridesAndStances()  # reinitialize class for every new foot to reset counters
 
     for row in range(1, data_rows_count):
+        print('---------- ROW: ', row)
         for foot in feet:
+            print('FOOT: ', foot)
             if row == 1:
-                last_row = data[0][scorer, "{}".format(foot), 'x']
-            current_row = data[row][scorer, "{}".format(foot), 'x']
-            print('last row and curent row x values: ', last_row, current_row)
+                last_row = data.loc[0][scorer, "{}".format(foot), 'x']
+            current_row = data.loc[row][scorer, "{}".format(foot), 'x']
+            #print('last row and curent row x values: ', last_row, current_row)
 
             #TODO: add switch case function call depending on foot
             class_instance = "calc_" + "{}".format(foot)
             eval_ = eval(class_instance)
-            print('eval_: ', eval_)
+            #print('eval_: ', eval_)
             eval_.determine_current_phase(last_row, current_row)
 
         last_row = current_row
@@ -61,6 +64,7 @@ class StridesAndStances:
                     self.stance_phase_start = False
                 else:
                     retval = 'stance' + str(self.stance_phase_counter)
+        print('retval: ', retval)
         return retval
 
     #TODO:
