@@ -35,34 +35,22 @@ class StridesAndStances:
     def __init__(self):
         self.stride_phase_counter = 0
         self.stance_phase_counter = 0
-        self.stride_phase_start = True
-        self.stance_phase_start = True
+        self.phase = 'UNKNOWN'
+        #self.stride_phase_start = True
+        #self.stance_phase_start = True
 
     def determine_current_phase(self, last_row, current_row):
+        print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
         if abs(current_row - last_row) >= 3:    # stride
-            self.stance_phase_start = True
-            if self.stride_phase_counter == 0 & self.stance_phase_counter == 0:     # start condition
-                retval = 'stride' + str(self.stride_phase_counter)
-            else:
-                if self.stride_phase_start:
-                    self.stance_phase_counter += 1      # only do 1nce in phase
-                    retval = 'stride' + str(self.stride_phase_counter)
-                    self.stride_phase_start = False
-                else:
-                    retval = 'stride' + str(self.stride_phase_counter)
-
+            if self.phase == 'stance':
+                self.stride_phase_counter += 1
+            self.phase = 'stride'
+            retval = f'stride{self.stride_phase_counter:04d}'
         else:                                   # stance
-            self.stride_phase_start = True
-            if self.stride_phase_counter == 0 & self.stance_phase_counter == 0:     # start condition
-                retval = 'stance' + str(self.stance_phase_counter)
-            else:
-                if self.stance_phase_start:
-                    self.stride_phase_counter += 1      # only do 1nce in phase
-                    retval = 'stance' + str(self.stance_phase_counter)
-                    self.stance_phase_start = False
-                else:
-                    retval = 'stance' + str(self.stance_phase_counter)
-        print('retval: ', retval)
+            if self.phase == 'stride':
+                self.stance_phase_counter += 1
+            self.phase = 'stance'
+            retval = f'stance{self.stride_phase_counter:04d}'
         return retval
 
     #TODO:
