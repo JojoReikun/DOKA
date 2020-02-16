@@ -1,6 +1,7 @@
 def stride_and_stance_phases(data, clicked, data_rows_count, config):
     import math
     import numpy as np
+    import pandas as pd
 
     print("FUNCTION Stride and Stance Phases")
     scorer = data.columns[1][0]
@@ -13,9 +14,9 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
         calculators[foot] = StridesAndStances()
         results[foot] = np.full((data_rows_count,), '', dtype='S10')
     for row in range(1, data_rows_count):
-        print('---------- ROW: ', row)
+        # print('---------- ROW: ', row)
         for foot in feet:
-            print('FOOT: ', foot)
+            # print('FOOT: ', foot)
             if row == 1:
                 last_row = data.loc[0][scorer, "{}".format(foot), 'x']
             current_row = data.loc[row][scorer, "{}".format(foot), 'x']
@@ -24,12 +25,20 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
 
         last_row = current_row
 
+    # copy second row into first row of each array
+    for foot in feet:
+        results[foot][0] = results[foot][1]
     # print final counters
     for foot in feet:
         print(foot, ": ", calculators[foot])
-    # rename dictionary keys of results
-    results = {key:value for (key, value) in results.items()}
     # ToDo: calculate stride and stance lengths
+    for foot in results:
+        df = pd.DataFrame(results[foot], columns=[foot])
+        print(df)
+        print(foot, df.groupby(df[foot]).count())
+
+    # rename dictionary keys of results
+    results = {key: value for (key, value) in results.items()}
 
     return results
 
@@ -43,7 +52,7 @@ class StridesAndStances:
         #self.stance_phase_start = True
 
     def determine_current_phase(self, last_row, current_row):
-        print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
+        # print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
         if abs(current_row - last_row) >= 3:    # stride
             if self.phase == 'stance':
                 self.stride_phase_counter += 1
