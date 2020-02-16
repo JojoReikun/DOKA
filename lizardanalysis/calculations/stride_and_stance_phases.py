@@ -34,11 +34,12 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     # ToDo: calculate stride and stance lengths
     for foot in results:
         df = pd.DataFrame(results[foot], columns=[foot])
+        df['dummy'] = df[foot]
         print(df)
-        print(foot, df.groupby(df[foot]).count())
+        print(foot, df.groupby([foot]).count())
 
     # rename dictionary keys of results
-    results = {key: value for (key, value) in results.items()}
+    results = {'stepphase_'+key: value for (key, value) in results.items()}
 
     return results
 
@@ -54,12 +55,12 @@ class StridesAndStances:
     def determine_current_phase(self, last_row, current_row):
         # print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
         if abs(current_row - last_row) >= 3:    # stride
-            if self.phase == 'stance':
+            if self.phase == 'stance' or self.phase == 'UNKNOWN':
                 self.stride_phase_counter += 1
             self.phase = 'stride'
             retval = f'stride{self.stride_phase_counter:04d}'
         else:                                   # stance
-            if self.phase == 'stride':
+            if self.phase == 'stride' or self.phase == 'UNKNOWN':
                 self.stance_phase_counter += 1
             self.phase = 'stance'
             retval = f'stance{self.stride_phase_counter:04d}'
