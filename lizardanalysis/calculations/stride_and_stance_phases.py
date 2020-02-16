@@ -24,6 +24,9 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
 
         last_row = current_row
 
+    # print final counters
+    for foot in feet:
+        print(foot, ": ", calculators[foot])
     # rename dictionary keys of results
     results = {key:value for (key, value) in results.items()}
     # ToDo: calculate stride and stance lengths
@@ -52,6 +55,9 @@ class StridesAndStances:
             self.phase = 'stance'
             retval = f'stance{self.stride_phase_counter:04d}'
         return retval
+
+    def __str__(self):
+        return f"strides: {self.stride_phase_counter}, stances: {self.stance_phase_counter}"
 
     #TODO:
     # class switchClassInstance():
