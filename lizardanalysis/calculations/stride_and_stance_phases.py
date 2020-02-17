@@ -41,8 +41,7 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     # print final counters
     for foot in feet:
         print(foot, ": ", calculators[foot])
-    # ToDo: calculate stride and stance lengths
-    # ToDo: uses np.bytes_ type which is not recognized by groupby function...
+
     for foot in results:
         print('calculating stride lengths')
         print(type(results[foot][0]))
@@ -91,7 +90,7 @@ def plot_footfall_pattern(results, data_rows_count):
     df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
     print("number of columns: ", len(df_plot.columns))
     print("generate df: ", df_plot)
-    # filter here and only fill strides as numbers
+    # filter here and only fill in strides as numbers
     for i, key in enumerate(results):
         df_plot[key] = [i+1 if s.startswith(b'stride') else np.NaN for s in results[key]]
 
