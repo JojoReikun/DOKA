@@ -2,10 +2,22 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     import math
     import numpy as np
     import pandas as pd
+    from pathlib import Path
+    from lizardanalysis.utils import auxiliaryfunctions
 
-    print("FUNCTION Stride and Stance Phases")
+    # set a distance_limit a foot has to move in px to be viewed as stride (can be changed in config, default is 5.0)
+    config_file = Path(config).resolve()
+    cfg = auxiliaryfunctions.read_config(config_file)
+    distance_limit = cfg['distance_limit']
+    if distance_limit is None:
+        distance_limit = 5.0
+
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
+
+    plotting = True
+
+########################################################################################################################
 
     # one class instance and one result array for every foot, because every foot needs own counter
     calculators = {}
@@ -21,7 +33,7 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
             ydiff = data.loc[row][scorer, f"{foot}", 'y'] - data.loc[row-1][scorer, f"{foot}", 'y']
             distance = np.sqrt(xdiff**2 + ydiff**2)
             # get the current phase of the step for every foot, calling the respective class instance function
-            results[foot][row] = calculators[foot].determine_current_phase(distance)
+            results[foot][row] = calculators[foot].determine_current_phase(distance, distance_limit)
 
     # copy second row into first row of each array
     for foot in feet:
@@ -30,17 +42,19 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config):
     for foot in feet:
         print(foot, ": ", calculators[foot])
     # ToDo: calculate stride and stance lengths
-    # ToDo: uses np.bytes_ type which is not recocnized by groupby function...
+    # ToDo: uses np.bytes_ type which is not recognized by groupby function...
     for foot in results:
         print('calculating stride lengths')
         print(type(results[foot][0]))
         df = pd.DataFrame(results[foot], columns=[foot])
         print(df, df.dtypes)
-        df['dummy'] = df[foot]
+        df['phase-length'] = df[foot]
         print(foot, df.groupby([foot]).count())
 
     # rename dictionary keys of results
     results = {'stepphase_'+key: value for (key, value) in results.items()}
+    if plotting:
+        plot_footfall_pattern(results, data_rows_count)
 
     return results
 
@@ -51,9 +65,9 @@ class StridesAndStances:
         self.stance_phase_counter = 0
         self.phase = 'UNKNOWN'
 
-    def determine_current_phase(self, distance):
-        # print('current row difference: ',abs(current_row - last_row),self.phase,self.stride_phase_counter,self.stance_phase_counter)
-        if distance >= 3:    # stride
+    def determine_current_phase(self, distance, distance_limit):
+        #print('current row difference: ',distance,self.phase,self.stride_phase_counter,self.stance_phase_counter)
+        if distance >= distance_limit:    # stride
             if self.phase == 'stance' or self.phase == 'UNKNOWN':
                 self.stride_phase_counter += 1
             self.phase = 'stride'
@@ -68,5 +82,27 @@ class StridesAndStances:
 
     def __str__(self):
         return f"strides: {self.stride_phase_counter}, stances: {self.stance_phase_counter}"
+
+
+def plot_footfall_pattern(results, data_rows_count):
+    import pandas as pd
+    import numpy as np
+    # rename dictionary keys of results
+    # ToDo: currently values dtype=object, can't look for substring in object type to replace values...
+    results = {'plot_'+key: value.astype(str) for (key, value) in results.items()}
+    df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
+    print("generate df: ", df_plot)
+    for key in results:
+        df_plot[key] = results[key]
+
+    print("filled df: ", df_plot)
+    upcounter_max = len(results.keys())
+
+    for i in range(upcounter_max-1):
+        print("dtype: ", df_plot.iloc[:, i].dtype)
+        df_plot.iloc[:,i] = df_plot.iloc[:,i].where(cond=np.char.find(df_plot.iloc[:,i], 'stride')!=-1, other=np.nan)
+        df_plot.iloc[:,i] = df_plot.iloc[:,i].where(~df_plot.iloc[:,i]==np.nan, other=upcounter_max+1)
+    print(df_plot)
+
 
 

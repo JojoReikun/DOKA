@@ -48,8 +48,11 @@ def create_config_template():
 # Available labels (will be added automatically when running read_csv_files())
     labels:
     \n
-# The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
     clicked:
+    distance_limit: 
     """
 
 

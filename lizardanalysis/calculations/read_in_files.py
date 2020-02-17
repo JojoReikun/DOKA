@@ -41,11 +41,8 @@ def check_labels(cfg, filelist):
 
     # TODO: Check if working directory differs from default and set path respectively
     # if working_directory = DEFAULT:
-    # use Path lib
     current_path = Path(os.getcwd())
     # mgs: replaced this by f-string. Much more concise and even faster ;-)
-    # project_dir = '{pn}-{exp}-{spec}-{date}'.format(pn=cfg['task'], exp=cfg['scorer'], spec=cfg['species'],
-    #                                                 date=cfg['date'])
     project_dir = f"{cfg['task']}-{cfg['scorer']}-{cfg['species']}-{cfg['date']}"
     label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
     label_file_path = os.path.join(current_path, label_file_path_2)
@@ -58,13 +55,8 @@ def check_labels(cfg, filelist):
     # print(data.head())
 
     data_labels_columns = list(data_labels.columns)
-    # scorer = data_columns[1][0]     atm not needed
-    # trick: use list comprehension, then et to find unique values
-    # label_names = []
-    # for i in range(1, len(data_labels_columns)):
-    #    label_names.append(str(data_labels_columns[i][1]).lower())  # append all label names and convert to lowercase
-    # label_names_no_doubles = []
-    # [label_names_no_doubles.append(label) for label in label_names if label not in label_names_no_doubles]  # makes sure labels only appear once
+
+    # find unique labels and make sure they appear only once. Convert them all to lower case
     label_names = [str(data_labels_columns[i][1]).lower() for i in range(1, len(data_labels_columns))]
     label_names = [str(label[1]).lower() for label in data_labels_columns]
     label_names_no_doubles = list(set(label_names))
@@ -136,11 +128,6 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
         retval = calc(data, clicked, data_rows_count, config) # returns a dict with numpy arrays
         for key in retval:
             df_result_current[key] = retval[key]
-        # retwrite = [(key, retval[key]) for key in retval]
-        # write result of calculation to result dataframe in responding column
-        # values_list = retwrite[0][1]
-        # for row in range(len(retwrite[0][1])):
-        #     df_result_current[retwrite[0][0]] = values_list[row]
         print(df_result_current.head(5), '\n',
               df_result_current.tail(5))
 
