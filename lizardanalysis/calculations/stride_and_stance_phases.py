@@ -87,22 +87,17 @@ class StridesAndStances:
 def plot_footfall_pattern(results, data_rows_count):
     import pandas as pd
     import numpy as np
-    # rename dictionary keys of results
-    results = {'plot_'+key: value for (key, value) in results.items()}
 
     df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
     print("number of columns: ", len(df_plot.columns))
     print("generate df: ", df_plot)
-    for key in results:
-        df_plot[key] = results[key]
+    # filter here and only fill strides as numbers
+    for i, key in enumerate(results):
+        df_plot[key] = [i+1 if s.startswith(b'stride') else np.NaN for s in results[key]]
 
-    print("filled df: ", df_plot)
-    df_plot_columnnames = list(column for column in df_plot.columns)
+    df_plot.plot(linewidth=10)
 
-    # TODO: Fix and then replace all stances with NaN and all strides in foot1 = 1, in foot2 = 2, etc., then use plotting
-    for column in df_plot_columnnames:
-        df_plot[column] = np.where(np.core.defchararray.find(df_plot[column],b'stride')!=-1, np.nan, '0')
-    print(df_plot)
+
 
 
 
