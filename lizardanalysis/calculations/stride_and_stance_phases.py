@@ -88,20 +88,25 @@ def plot_footfall_pattern(results, data_rows_count):
     import pandas as pd
     import numpy as np
     # rename dictionary keys of results
-    # ToDo: currently values dtype=object, can't look for substring in object type to replace values...
-    results = {'plot_'+key: value.astype(str) for (key, value) in results.items()}
+    results = {'plot_'+key: value for (key, value) in results.items()}
+
     df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
+    print("number of columns: ", len(df_plot.columns))
     print("generate df: ", df_plot)
     for key in results:
         df_plot[key] = results[key]
 
     print("filled df: ", df_plot)
-    upcounter_max = len(results.keys())
 
-    for i in range(upcounter_max-1):
-        print("dtype: ", df_plot.iloc[:, i].dtype)
-        df_plot.iloc[:,i] = df_plot.iloc[:,i].where(cond=np.char.find(df_plot.iloc[:,i], 'stride')!=-1, other=np.nan)
-        df_plot.iloc[:,i] = df_plot.iloc[:,i].where(~df_plot.iloc[:,i]==np.nan, other=upcounter_max+1)
+    # TODO: Fix and then replace all stances with NaN and all strides in foot1 = 1, in foot2 = 2, etc., then use plotting
+    #df_plot = df_plot.stack().str.decode('utf-8').unstack()
+    print("df_plot after encoding: \n", df_plot.dtypes)
+    df_plot.where(b'stride' in df_plot.values, other=np.nan)
+    # for i in range(len(df_plot.columns)):
+    #     df_plot = df_plot.stack().str.decode('utf-8').unstack()
+    #     print("df_plot at i: ", df_plot.iloc[-1, i])
+    #     df_plot.iloc[:, i] = df_plot.iloc[:, i].where('stride' in df_plot.iloc[:, i], other=np.nan)
+    #     df_plot.iloc[:, i] = df_plot.iloc[:, i].where(df_plot.iloc[:, i] is np.nan, other=i)
     print(df_plot)
 
 
