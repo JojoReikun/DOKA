@@ -123,7 +123,6 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     # print("data with filtered likelihood: \n", data_likelihood.head(15))
     # idea: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
-    # TODO: there probably is a nicer way to do this?
     for calc in calculations_checked:
         retval = calc(data, clicked, data_rows_count, config) # returns a dict with numpy arrays
         for key in retval:
