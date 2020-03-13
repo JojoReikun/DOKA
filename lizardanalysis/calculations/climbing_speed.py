@@ -1,6 +1,6 @@
 import numpy as np
 
-
+# TODO: calculate framewise for stepphases not average over all! Or do both in 2 different functions
 def climbing_speed(data, clicked, data_row_count, config, filename, df_result_current):
     """
         Uses the Nose tracking point to determine the climbing speed.
