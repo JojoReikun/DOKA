@@ -38,6 +38,7 @@ def stride_length(data, clicked, data_rows_count, config, filename, df_result_cu
     results = {'stride-length_' + key: value for (key, value) in results.items()}
     print("\n \n -------------------- results FINAL: \n", results)
 
+    # TODO: last stride phase is not recognized for calculating the distance????
     return results
 
 
