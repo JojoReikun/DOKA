@@ -11,7 +11,10 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
                 'climbing_speed': ['nose'],
                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-                'stride_length': ['fl', 'fr', 'hl', 'hr']}
+                'stride_length': ['fl', 'fr', 'hl', 'hr'],
+                'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
+                                    'shoulder_hr', 'hl_knee', 'shoulder_hl']
+                }
 
 # calculations = {'direction_of_climbing': ['nose'],
 #                 'climbing_speed': ['nose'],

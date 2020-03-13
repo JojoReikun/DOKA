@@ -6,7 +6,9 @@ def stride_length(data, clicked, data_rows_count, config, filename, df_result_cu
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
     max_stride_phase_count = 10
-    active_columns = df_result_current.columns[-4:]
+    active_columns = []
+    for foot in feet:
+        active_columns.append("stepphase_{}".format(foot))
     print("active_columns: ", active_columns)
 
     results = {}

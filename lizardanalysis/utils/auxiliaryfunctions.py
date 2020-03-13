@@ -94,6 +94,15 @@ def write_config(configname, cfg):
         ruamelFile.dump(cfg_file, cf)
 
 
+def py_angle_betw_2vectors(v1, v2):
+    import numpy.linalg as la
+    """Returns the angle in radians between vectors 'v1' and 'v2'"""
+    cosang = np.dot(v1, v2) / (la.norm(v1) * la.norm(v2))
+    # sinang = la.norm(np.cross(v1, v2))
+    # return math.degrees(np.arctan2(sinang, cosang))
+    return np.rad2deg(np.arccos(cosang))
+
+
 class UserFunc():
     """Handle a user function which is defined as directory entry"""
     """
