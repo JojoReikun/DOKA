@@ -1,4 +1,4 @@
-def stride_and_stance_phases(data, clicked, data_rows_count, config, filename):
+def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, df_result_current):
     """
     This calc function determines stance and stride phases by calling the responsible class.
     A list of feet has to be defined to be looped through, this can be any number, but the labels have to appear in the
@@ -50,7 +50,7 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config, filename):
             # get the current phase of the step for every foot, calling the respective class instance function
             results[foot][row] = calculators[foot].determine_current_phase(distance, distance_limit)
 
-    # copy second row into first row of each array
+    # copy second row into first row of each array, because otherwise first row has no value
     for foot in feet:
         results[foot][0] = results[foot][1]
     # print final counters
@@ -126,7 +126,7 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     for i, key in enumerate(results):
         df_plot[key] = [i+1 if s.startswith(b'stride') else np.NaN for s in results[key]]
 
-    df_plot.plot(linewidth=10)
+    #df_plot.plot(linewidth=10)
 
     # saves footfall pattern diagrams as pdf in defined result folder. If folder is not existant yet, it will be created
     try:

@@ -10,7 +10,8 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
                 'climbing_speed': ['nose'],
-                'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr']}
+                'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
+                'stride_length': ['fl', 'fr', 'hl', 'hr']}
 
 # calculations = {'direction_of_climbing': ['nose'],
 #                 'climbing_speed': ['nose'],
@@ -112,25 +113,25 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     :param likelihood: float value to change accuracy of results
     :param calculations_checked: list of available calculations (required labels exist)
     :param clicked value determines definition of direction UP for the given videos from experiment. Value determined in GUI during execution of create_new_project()
+    :param df_result_current: empty result dataframe for current file which will be filled up while looping through these calculations
+    :param data_rows_count: number of rows in current csv file
+    :param config: given filepath to the config file by the user
+    :filename: filename of the current file
     :return: retval: dataframe
              returns the results from the calculation as dictionary to write to df_results_current
     """
 
-    # TODO: allow filter for direction of climbing (e.g. only files with direction of climbing = UP will be processed)
     # filter data for values using the given likelihood >= e.g. 90%
-    # data_likelihood = data[data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood]
-    # data_likelihood = data.xs('likelihood', axis=1, level=2, drop_level=False) >= likelihood # returns dataframe with likelihood as True/False values
-    # print("data with filtered likelihood: \n", data_likelihood.head(15))
-    # idea: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
     for calc in calculations_checked:
-        retval = calc(data, clicked, data_rows_count, config, filename) # returns a dict with numpy arrays
+        # TODO: Can I pass a different number of kwargs for different calculations? E.g. df_result_current is only needed for calcs after stride_and_stance phases?
+        retval = calc(data, clicked, data_rows_count, config, filename, df_result_current) # returns a dict with numpy arrays
         for key in retval:
             df_result_current[key] = retval[key]
         print(df_result_current.head(5), '\n',
               df_result_current.tail(5))
 
-    #return df_result_current
+    return df_result_current
 
 
 def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
@@ -148,8 +149,6 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         Default: 0.90
     """
     import os
-    import sys
-    import numpy as np
     from pathlib import Path
     from tkinter import Tk, filedialog
     from lizardanalysis.utils import auxiliaryfunctions
@@ -224,13 +223,26 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         #print(df_result_current.head())
         #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
+        ##################################### PROCESS FILE #########################################
         # perform calculations for the current file and get dataframe with results as return
         df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config, filename)
 
-        #result_file.to_csv(result_file_path, index=True, header=True)
+        #################################### SAVE RESULT FILE ######################################
+        #create result file for every file and save to result folder
+        result_file = df_result_current.copy()
+        empty_cols = [col for col in result_file.columns if result_file[col].isnull().all()]
+        # Drop these columns from the dataframe
+        result_file.drop(empty_cols,
+                axis=1,
+                inplace=True)
+        result_file_path = os.path.join(str(config_file).rsplit("\\", 1)[0], "analysis-results")
+        result_file.to_csv(os.path.join(result_file_path, "{}.csv".format(filename)), index=True, header=True)
+        # TODO: allow filters for result dataframe e.g. direction of climbing
 
         # count up to proceed to next file
         i += 1
+
+
 
     # generate TOTAL result dataframe combining the results from all runs:
     #df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
