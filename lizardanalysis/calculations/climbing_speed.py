@@ -1,6 +1,7 @@
 import numpy as np
 
-def climbing_speed(data, clicked, data_row_count, config):
+
+def climbing_speed(data, clicked, data_row_count, config, filename):
     """
         Uses the Nose tracking point to determine the climbing speed.
         Takes the absolute value of the distance in pixels covered in a certain range of the frames taken from the middle of the run.

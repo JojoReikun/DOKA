@@ -4,7 +4,7 @@ from numpy import array
 import math
 
 
-def direction_of_climbing(data, clicked, data_row_count, config):
+def direction_of_climbing(data, clicked, data_row_count, config, filename):
     """
         Uses the Nose tracking point to determine the direction of climbing.
         Depending on the clicked value, which determines the configuration of the lizard climbing direction in the videos:

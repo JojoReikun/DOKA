@@ -103,7 +103,7 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist
 
 
-def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config):
+def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config, filename):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -124,7 +124,7 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     # idea: "overlay" dataframes and where likelihood is True, include in filtered_dataframe
 
     for calc in calculations_checked:
-        retval = calc(data, clicked, data_rows_count, config) # returns a dict with numpy arrays
+        retval = calc(data, clicked, data_rows_count, config, filename) # returns a dict with numpy arrays
         for key in retval:
             df_result_current[key] = retval[key]
         print(df_result_current.head(5), '\n',
@@ -225,7 +225,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
         # perform calculations for the current file and get dataframe with results as return
-        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config)
+        df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config, filename)
 
         #result_file.to_csv(result_file_path, index=True, header=True)
 
