@@ -1,5 +1,7 @@
+import numpy as np
+
+
 def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_current):
-    import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
     scorer = data.columns[1][0]
@@ -9,6 +11,7 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
     for foot in feet:
         active_columns.append("stepphase_{}".format(foot))
     print("active_columns: ", active_columns)
+    plotting_dynamics = True
 
     results = {}
     for foot, column in zip(feet, active_columns):
@@ -38,16 +41,23 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
                     angles_stride.append(auxiliaryfunctions.py_angle_betw_2vectors(vector, calc_body_axis(data, i, scorer)))
                 print("lengths: ", len(angles_stride), beg_end_tuple[1] - beg_end_tuple[0])
 
+                # fill angle values into result dataframe in the right columns and matching indices
                 j = 0
-                for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
+                for row in range(beg_end_tuple[0], beg_end_tuple[1]):
                     results[foot][row] = angles_stride[row-(row-j)]
                     print("row : ", row, "row2 : ", row-(row-j))
                     j+=1
                 list_of_angles.append(angles_stride)
 
+    # rename column names in result dataframe
+    results = {'dynamics_' + key: value for (key, value) in results.items()}
     print("results: ", results)
 
-    return
+    if plotting_dynamics:
+        for foot in feet:
+            plot_single_file_with_fitted_curve_and_variance(results, foot, data_rows_count)
+
+    return results
 
 
 def loop_encode(i):
@@ -62,3 +72,22 @@ def calc_body_axis(df, index, scorer):
     body_axis_vector = ((df.loc[index, (scorer, "Shoulder", "x")] - df.loc[index, (scorer, "Hip", "x")]),
                         (df.loc[index, (scorer, "Shoulder", "y")] - df.loc[index, (scorer, "Hip", "y")]))
     return body_axis_vector
+
+
+def plot_single_file_with_fitted_curve_and_variance(df, foot, data_rows_count):
+    # TODO
+    x_values = []
+    y_values = []
+    stride_angles = []
+    for index in data_rows_count:
+        if df.isnull(df.loc[index, 'dynamics_{}'.format(foot)]):
+            pass
+        else:
+            stride_angles.append(df.loc[index, 'dynamics_{}'.format(foot)])
+    print('stride angles: ', stride_angles)
+
+        # normalize stride length
+        #x_values.append(np.array(range(len(stride_angles))) / float(stride_indices[1] - stride_indices[0]))
+        #y_values.append(stride_angles)
+    x_values_list = [item for sublist in x_values for item in sublist]
+    y_values_list = [item for sublist in y_values for item in sublist]
