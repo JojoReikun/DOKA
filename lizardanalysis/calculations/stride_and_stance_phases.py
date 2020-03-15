@@ -122,7 +122,7 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     for i, key in enumerate(results):
         df_plot[key] = [i+1 if s.startswith(b'stride') else np.NaN for s in results[key]]
 
-    #df_plot.plot(linewidth=10)
+    df_plot.plot(linewidth=10)
 
     # saves footfall pattern diagrams as pdf in defined result folder. If folder is not extant yet, it will be created
     try:
@@ -132,6 +132,7 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
             raise
     plt.savefig(os.path.join(plotting_footfall_folder, "{}.pdf".format(filename)))
     plt.clf()
+    plt.close()
 
 
 
