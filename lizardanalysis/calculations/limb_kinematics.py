@@ -6,12 +6,13 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
 
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
-    max_stride_phase_count = 10
+    max_stride_phase_count = 1000
     active_columns = []
     for foot in feet:
         active_columns.append("stepphase_{}".format(foot))
     print("active_columns: ", active_columns)
-    plotting_dynamics = True
+
+    plotting_dynamics = False
 
     results = {}
     for foot, column in zip(feet, active_columns):
@@ -24,6 +25,8 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
         for i in range(1, max_stride_phase_count):
             cell_value = loop_encode(i)
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
+            if len(df_stride_section) == 0:
+                break
             print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
             if len(df_stride_section_indices) > 0:
@@ -31,7 +34,7 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
                 print(beg_end_tuple)
                 angles_stride = []
 
-                for i in range(beg_end_tuple[0], beg_end_tuple[1]):
+                for i in range(beg_end_tuple[0], beg_end_tuple[1]+1):
                     shoulder_coords = (data.loc[i, (scorer, "Shoulder_{}".format(foot), "x")],
                                        data.loc[i, (scorer, "Shoulder_{}".format(foot), "y")])
                     knee_coords = (data.loc[i, (scorer, "{}_knee".format(foot), "x")],
@@ -43,7 +46,7 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
 
                 # fill angle values into result dataframe in the right columns and matching indices
                 j = 0
-                for row in range(beg_end_tuple[0], beg_end_tuple[1]):
+                for row in range(beg_end_tuple[0], beg_end_tuple[1]+1):
                     results[foot][row] = angles_stride[row-(row-j)]
                     print("row : ", row, "row2 : ", row-(row-j))
                     j+=1
@@ -79,7 +82,7 @@ def plot_single_file_with_fitted_curve_and_variance(df, foot, data_rows_count):
     x_values = []
     y_values = []
     stride_angles = []
-    for index in data_rows_count:
+    for index in range(data_rows_count):
         if df.isnull(df.loc[index, 'dynamics_{}'.format(foot)]):
             pass
         else:

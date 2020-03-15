@@ -26,10 +26,11 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, d
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
 
+    # TODO: Function in utils giving back results path folder from config resolve
     plotting_footfall_patterns = True
     # create file path for foot fall pattern diagrams
-    plotting_footfall_folder = os.path.join(str(config_file).rsplit("\\", 1)[0], "analysis-results", "footfall-pattern-diagrams")
-    print("plotting_footfall_folder: ", plotting_footfall_folder)
+    plotting_footfall_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results", "footfall-pattern-diagrams")
+    # print("plotting_footfall_folder: ", plotting_footfall_folder)
 
 ########################################################################################################################
 
@@ -58,10 +59,7 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, d
         print(foot, ": ", calculators[foot])
 
     for foot in results:
-        #print('calculating stride lengths')
-        #print(type(results[foot][0]))
         df = pd.DataFrame(results[foot], columns=[foot])
-        #print(df, df.dtypes)
         df['phase-length'] = df[foot]
         #print(foot, df.groupby([foot]).count())
 
@@ -120,15 +118,13 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     import errno
 
     df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
-    #print("number of columns: ", len(df_plot.columns))
-    #print("generate df: ", df_plot)
     # filter here and only fill in strides as numbers
     for i, key in enumerate(results):
         df_plot[key] = [i+1 if s.startswith(b'stride') else np.NaN for s in results[key]]
 
     #df_plot.plot(linewidth=10)
 
-    # saves footfall pattern diagrams as pdf in defined result folder. If folder is not existant yet, it will be created
+    # saves footfall pattern diagrams as pdf in defined result folder. If folder is not extant yet, it will be created
     try:
         os.makedirs(plotting_footfall_folder)
     except OSError as e:

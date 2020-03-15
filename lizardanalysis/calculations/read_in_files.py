@@ -238,7 +238,8 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         result_file.drop(empty_cols,
                 axis=1,
                 inplace=True)
-        result_file_path = os.path.join(str(config_file).rsplit("\\", 1)[0], "analysis-results")
+        # TODO: same... function in utils to define result path, call here
+        result_file_path = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results")
         result_file.to_csv(os.path.join(result_file_path, "{}.csv".format(filename)), index=True, header=True)
         # TODO: allow filters for result dataframe e.g. direction of climbing
 
