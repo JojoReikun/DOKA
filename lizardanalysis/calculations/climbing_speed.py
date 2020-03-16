@@ -1,7 +1,7 @@
 import numpy as np
 
 # TODO: calculate framewise for stepphases not average over all! Or do both in 2 different functions
-def climbing_speed(data, clicked, data_row_count, config, filename, df_result_current):
+def climbing_speed(**kwargs):
     """
         Uses the Nose tracking point to determine the climbing speed.
         Takes the absolute value of the distance in pixels covered in a certain range of the frames taken from the middle of the run.
@@ -11,6 +11,11 @@ def climbing_speed(data, clicked, data_row_count, config, filename, df_result_cu
     import os
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
+
+    # define necessary **kwargs:
+    data = kwargs.get('data')
+    data_row_count = kwargs.get('data_row_count')
+    config = kwargs.get('config')
 
     current_path = os.getcwd()
     config_file = Path(config).resolve()

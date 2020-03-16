@@ -128,7 +128,8 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
 
     for calc in calculations_checked:
         # TODO: Can I pass a different number of kwargs for different calculations? E.g. df_result_current is only needed for calcs after stride_and_stance phases?
-        retval = calc(data, clicked, data_rows_count, config, filename, df_result_current) # returns a dict with numpy arrays
+        retval = calc(data=data, clicked=clicked, data_rows_count=data_rows_count,
+                      config=config, filename=filename, df_result_current=df_result_current) # returns a dict with numpy arrays
         for key in retval:
             df_result_current[key] = retval[key]
         print(df_result_current.head(5), '\n',

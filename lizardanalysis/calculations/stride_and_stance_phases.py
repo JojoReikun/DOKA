@@ -1,4 +1,4 @@
-def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, df_result_current):
+def stride_and_stance_phases(**kwargs):
     """
     This calc function determines stance and stride phases by calling the responsible class.
     A list of feet has to be defined to be looped through, this can be any number, but the labels have to appear in the
@@ -14,6 +14,12 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, d
     import pandas as pd
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
+
+    # define necessary **kwargs:
+    data = kwargs.get('data')
+    data_row_count = kwargs.get('data_row_count')
+    config = kwargs.get('config')
+    filename = kwargs.get('filename')
 
     # set a distance_limit a foot has to move in px to be viewed as stride (can be changed in config, default is 5.0)
     config_file = Path(config).resolve()
@@ -40,8 +46,8 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, d
     for foot in feet:
         calculators[foot] = StridesAndStances()
         # "S10" = string of 10 characters: stance/stride + counter 000n
-        results[foot] = np.full((data_rows_count,), '', dtype='S10')
-    for row in range(1, data_rows_count):
+        results[foot] = np.full((data_row_count,), '', dtype='S10')
+    for row in range(1, data_row_count):
         # print('---------- ROW: ', row)
         for foot in feet:
             # calculate the euclidean distance between last coord and current coord of foot
@@ -69,7 +75,7 @@ def stride_and_stance_phases(data, clicked, data_rows_count, config, filename, d
 
     if plotting_footfall_patterns:
         """ plots a foot fall pattern diagram for every DLC result csv file/every lizard run """
-        plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder)
+        plot_footfall_pattern(results, data_row_count, filename, plotting_footfall_folder)
 
     return results
 

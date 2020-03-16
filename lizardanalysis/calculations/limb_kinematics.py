@@ -1,8 +1,13 @@
 import numpy as np
 
 
-def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_current):
+def limb_kinematics(**kwargs):
     from lizardanalysis.utils import auxiliaryfunctions
+
+    # define necessary **kwargs:
+    data = kwargs.get('data')
+    data_row_count = kwargs.get('data_row_count')
+    df_result_current = kwargs.get('df_result_current')
 
     scorer = data.columns[1][0]
     feet = ["FR", "FL", "HR", "HL"]
@@ -14,12 +19,14 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
 
     plotting_dynamics = False
 
+
+    ##################################################################################################
     results = {}
     for foot, column in zip(feet, active_columns):
         print("\n----------- FOOT: ", foot)
         column = column.strip('')
         print("column :", column)
-        results[foot] = np.full((data_rows_count,), np.NAN)
+        results[foot] = np.full((data_row_count,), np.NAN)
         list_of_angles = []
 
         for i in range(1, max_stride_phase_count):
@@ -58,7 +65,7 @@ def limb_kinematics(data, clicked, data_rows_count, config, filename, df_result_
 
     if plotting_dynamics:
         for foot in feet:
-            plot_single_file_with_fitted_curve_and_variance(results, foot, data_rows_count)
+            plot_single_file_with_fitted_curve_and_variance(results, foot, data_row_count)
 
     return results
 
