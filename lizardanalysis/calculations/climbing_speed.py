@@ -1,12 +1,12 @@
 import numpy as np
 
-# TODO: calculate framewise for stepphases not average over all! Or do both in 2 different functions
+# TODO: calculate frame wise for step-phases not average over all! Or do both in 2 different functions
 def climbing_speed(**kwargs):
     """
         Uses the Nose tracking point to determine the climbing speed.
         Takes the absolute value of the distance in pixels covered in a certain range of the frames taken from the middle of the run.
-        (data_row_count/2) +/- (framerate/speed_interval)
-        :return: dictionary with function name (key) and list (len=data_row_count) of climbing speed in px/s
+        (data_rows_count/2) +/- (framerate/speed_interval)
+        :return: dictionary with function name (key) and list (len=data_rows_count) of climbing speed in px/s
     """
     import os
     from pathlib import Path
@@ -14,7 +14,7 @@ def climbing_speed(**kwargs):
 
     # define necessary **kwargs:
     data = kwargs.get('data')
-    data_row_count = kwargs.get('data_row_count')
+    data_rows_count = kwargs.get('data_rows_count')
     config = kwargs.get('config')
 
     current_path = os.getcwd()
@@ -23,8 +23,8 @@ def climbing_speed(**kwargs):
     framerate = cfg['framerate']
 
     speed_interval = 5
-    long_range_speed_start = int((data_row_count/2)) - int((framerate/speed_interval))
-    long_range_speed_end = int((data_row_count/2)) + int((framerate/speed_interval))
+    long_range_speed_start = int((data_rows_count/2)) - int((framerate/speed_interval))
+    long_range_speed_end = int((data_rows_count/2)) + int((framerate/speed_interval))
     #TODO: test if +/- int((framerate/speed_interval)) creates start/end out of bounds
 
     scorer = data.columns[1][0]
@@ -45,7 +45,7 @@ def climbing_speed(**kwargs):
     #TODO: calculate climbing speed and write results to new column in dataframe
     # mgs: changed this to use a numpy array
     # speed_list = []
-    # for i in range(data_row_count):
+    # for i in range(data_rows_count):
     #     speed_list.append(long_range_speed)
-    speed_list = np.zeros((data_row_count, )) + long_range_speed
+    speed_list = np.zeros((data_rows_count, )) + long_range_speed
     return {__name__.rsplit('.', 1)[1]: speed_list}

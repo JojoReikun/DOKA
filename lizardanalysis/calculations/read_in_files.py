@@ -13,7 +13,9 @@ calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by o
                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
                 'stride_length': ['fl', 'fr', 'hl', 'hr'],
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
-                                    'shoulder_hr', 'hl_knee', 'shoulder_hl']
+                                    'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+                'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
+                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
                 }
 
 # calculations = {'direction_of_climbing': ['nose'],
@@ -132,8 +134,8 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
                       config=config, filename=filename, df_result_current=df_result_current) # returns a dict with numpy arrays
         for key in retval:
             df_result_current[key] = retval[key]
-        print(df_result_current.head(5), '\n',
-              df_result_current.tail(5))
+        #print(df_result_current.head(5), '\n',
+              #df_result_current.tail(5))
 
     return df_result_current
 

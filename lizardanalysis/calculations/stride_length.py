@@ -5,7 +5,7 @@ def stride_length(**kwargs):
 
     # define necessary **kwargs:
     data = kwargs.get('data')
-    data_row_count = kwargs.get('data_row_count')
+    data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
 
     scorer = data.columns[1][0]
@@ -21,7 +21,7 @@ def stride_length(**kwargs):
         # print("\n----------- FOOT: ", foot)
         column = column.strip('')
         # print("column :", column)
-        results[foot] = np.full((data_row_count,), np.NAN)
+        results[foot] = np.full((data_rows_count,), np.NAN)
         for i in range(1, max_stride_phase_count):
             cell_value = loop_encode(i)
             df_stride_section = df_result_current[df_result_current[column] == cell_value]

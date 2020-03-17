@@ -6,7 +6,7 @@ def limb_kinematics(**kwargs):
 
     # define necessary **kwargs:
     data = kwargs.get('data')
-    data_row_count = kwargs.get('data_row_count')
+    data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
 
     scorer = data.columns[1][0]
@@ -15,7 +15,7 @@ def limb_kinematics(**kwargs):
     active_columns = []
     for foot in feet:
         active_columns.append("stepphase_{}".format(foot))
-    print("active_columns: ", active_columns)
+    # print("active_columns: ", active_columns)
 
     plotting_dynamics = False
 
@@ -23,10 +23,10 @@ def limb_kinematics(**kwargs):
     ##################################################################################################
     results = {}
     for foot, column in zip(feet, active_columns):
-        print("\n----------- FOOT: ", foot)
+        # print("\n----------- FOOT: ", foot)
         column = column.strip('')
-        print("column :", column)
-        results[foot] = np.full((data_row_count,), np.NAN)
+        # print("column :", column)
+        results[foot] = np.full((data_rows_count,), np.NAN)
         list_of_angles = []
 
         for i in range(1, max_stride_phase_count):
@@ -34,11 +34,11 @@ def limb_kinematics(**kwargs):
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
             if len(df_stride_section) == 0:
                 break
-            print(df_stride_section)
+            # print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
             if len(df_stride_section_indices) > 0:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
-                print(beg_end_tuple)
+                # print(beg_end_tuple)
                 angles_stride = []
 
                 for i in range(beg_end_tuple[0], beg_end_tuple[1]+1):
@@ -49,30 +49,30 @@ def limb_kinematics(**kwargs):
                     vector = np.array([(knee_coords[0] - shoulder_coords[0]), (knee_coords[1] - shoulder_coords[1])])
                     # calculates the angle between the vector (Foot_shoulder - knee) and the vector body axis (Shoulder - Hip)
                     angles_stride.append(auxiliaryfunctions.py_angle_betw_2vectors(vector, calc_body_axis(data, i, scorer)))
-                print("lengths: ", len(angles_stride), beg_end_tuple[1] - beg_end_tuple[0])
+                # print("lengths: ", len(angles_stride), beg_end_tuple[1] - beg_end_tuple[0])
 
                 # fill angle values into result dataframe in the right columns and matching indices
                 j = 0
                 for row in range(beg_end_tuple[0], beg_end_tuple[1]+1):
                     results[foot][row] = angles_stride[row-(row-j)]
-                    print("row : ", row, "row2 : ", row-(row-j))
+                    # print("row : ", row, "row2 : ", row-(row-j))
                     j+=1
                 list_of_angles.append(angles_stride)
 
     # rename column names in result dataframe
     results = {'dynamics_' + key: value for (key, value) in results.items()}
-    print("results: ", results)
+    # print("results: ", results)
 
     if plotting_dynamics:
         for foot in feet:
-            plot_single_file_with_fitted_curve_and_variance(results, foot, data_row_count)
+            plot_single_file_with_fitted_curve_and_variance(results, foot, data_rows_count)
 
     return results
 
 
 def loop_encode(i):
     cell_value = 'stride000{}'.format(i).encode()
-    print("cell value :", cell_value)
+    # print("cell value :", cell_value)
     return cell_value
 
 

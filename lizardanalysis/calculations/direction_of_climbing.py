@@ -4,7 +4,7 @@ from numpy import array
 import math
 
 
-def direction_of_climbing(data, clicked, data_row_count, config, filename, df_result_current):
+def direction_of_climbing(**kwargs):
     """
         Uses the Nose tracking point to determine the direction of climbing.
         Depending on the clicked value, which determines the configuration of the lizard climbing direction in the videos:
@@ -14,7 +14,10 @@ def direction_of_climbing(data, clicked, data_row_count, config, filename, df_re
         :param clicked: passed clicked value from gui determining configuration of direction of climbing
         :return direction of climbing as string "UP" or "DOWN"
     """
-    # TODO: this is only for testing. __call__() error : takes from 1 to 2 positional arguments, 4 given => parse clicked and likelihood
+    # define necessary **kwargs:
+    data = kwargs.get('data')
+    clicked = kwargs.get('clicked')
+    data_rows_count = kwargs.get('data_rows_count')
 
     print('clicked value in function: ', clicked)
 
@@ -53,5 +56,5 @@ def direction_of_climbing(data, clicked, data_row_count, config, filename, df_re
     # print('\n direction: ', {__name__.rsplit('.', 1)[1]: direction})
 
     # mgs: changed this to use numpy array (much more efficient)
-    direction_list = np.array(data_row_count*[direction], dtype=np.string_)
+    direction_list = np.array(data_rows_count*[direction], dtype=np.string_)
     return {__name__.rsplit('.', 1)[1]: direction_list}
