@@ -1,4 +1,5 @@
 def stride_length(**kwargs):
+    #TODO: this is step length, stride length = dist of body during one stride
     import numpy as np
     import pandas as pd
     pd.set_option('display.max_columns', None)

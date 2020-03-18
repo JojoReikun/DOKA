@@ -9,7 +9,8 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
-                'climbing_speed': ['nose'],
+                #'climbing_speed': ['nose'],
+                'climbing_speed_framewise': ['nose'],
                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
                 'stride_length': ['fl', 'fr', 'hl', 'hr'],
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
@@ -221,8 +222,8 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
                            header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
         data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
         data_rows_count = data.shape[0]   # number of rows already excluded the 3 headers
-        print(data.head())
-        print('row count for dataframe (excluding headers): ', data_rows_count)
+        #print(data.head())
+        #print('row count for dataframe (excluding headers): ', data_rows_count)
 
         # generate empty result file for current file: columns = available calculations, rows = nb. of rows in csv file
         df_result_current = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))

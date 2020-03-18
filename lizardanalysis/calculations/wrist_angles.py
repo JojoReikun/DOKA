@@ -6,6 +6,7 @@ def wrist_angles(**kwargs):
         2nd) rotates the toe vector by 90 deg so it's perpendicular to 1st --> wrist vector
         3rd) calculate the angle between wrist vector and body axis for all frames, also calculate the mean
         """
+    # TODO: if no stance is > 4 frames, column will not be generated, causes trouble for R script combine --> fix
 
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
