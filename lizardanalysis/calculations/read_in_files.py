@@ -9,10 +9,9 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
-                #'climbing_speed': ['nose'],
                 'climbing_speed_framewise': ['nose'],
                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-                'stride_length': ['fl', 'fr', 'hl', 'hr'],
+                'step_length': ['fl', 'fr', 'hl', 'hr'],
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
@@ -21,8 +20,10 @@ calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by o
 
 # calculations = {'direction_of_climbing': ['nose'],
 #                 'climbing_speed': ['nose'],
+#                 'climbing_speed_framewise': ['nose'],
 #                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-#                 'stride_length': ['fl', 'fr', 'hl', 'hr'],
+#                 'step_length': ['fl', 'fr', 'hl', 'hr'],
+#                 'stride_length': ['hip'],
 #                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
 #                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
 #                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',

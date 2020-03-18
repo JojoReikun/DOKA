@@ -92,10 +92,10 @@ def wrist_angles(**kwargs):
                 wrist_angles = []
                 for wrist_vector, body_axis in zip(wrist_vectors, body_axes):
                     wrist_angle = auxiliaryfunctions.py_angle_betw_2vectors(body_axis, wrist_vector)
-                    if foot == "FL":
-                        wrist_angle = 90.0 - wrist_angle
-                    elif foot == "HL":
-                        wrist_angle = 270.0 - wrist_angle
+                    # if foot == "FL":
+                    #     wrist_angle = 90.0 - wrist_angle
+                    # elif foot == "HL":
+                    #     wrist_angle = 270.0 - wrist_angle
                     wrist_angles.append(wrist_angle)
                 print("length of wrist_angles: ", len(wrist_angles))
 
