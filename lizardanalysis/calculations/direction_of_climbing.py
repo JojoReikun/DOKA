@@ -19,7 +19,7 @@ def direction_of_climbing(**kwargs):
     clicked = kwargs.get('clicked')
     data_rows_count = kwargs.get('data_rows_count')
 
-    print('clicked value in function: ', clicked)
+    #print('clicked value in function: ', clicked)
 
     scorer = data.columns[1][0]
     #print('scorer: ', scorer)

@@ -7,6 +7,8 @@ import pandas as pd
 import glob
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
+drop_empty_cols = True
+
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
                 'climbing_speed_framewise': ['nose'],
@@ -211,7 +213,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
 
     ############################################## RUN CALCULATION LOOP #################################################
     for i in range(len(filelist)):
-        print('\n \n ----- FILE: ', filelist[i])
+        #print('\n \n ----- FILE: ', filelist[i])
         filename = filelist[i].rsplit(os.sep, 1)[1]
         filename = filename.rsplit(".", 1)[0]
         print(' ----- FILENAME: ', filename)
@@ -238,11 +240,12 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         #################################### SAVE RESULT FILE ######################################
         #create result file for every file and save to result folder
         result_file = df_result_current.copy()
-        empty_cols = [col for col in result_file.columns if result_file[col].isnull().all()]
-        # Drop these columns from the dataframe
-        result_file.drop(empty_cols,
-                axis=1,
-                inplace=True)
+        if drop_empty_cols:
+            empty_cols = [col for col in result_file.columns[0:6] if result_file[col].isnull().all()]
+            # Drop these columns from the dataframe
+            result_file.drop(empty_cols,
+                             axis=1,
+                             inplace=True)
         # TODO: same... function in utils to define result path, call here
         result_file_path = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results")
         result_file.to_csv(os.path.join(result_file_path, "{}.csv".format(filename)), index=True, header=True)

@@ -33,7 +33,7 @@ def stride_and_stance_phases(**kwargs):
     feet = ["FR", "FL", "HR", "HL"]
 
     # TODO: Function in utils giving back results path folder from config resolve
-    plotting_footfall_patterns = True
+    plotting_footfall_patterns = False
     # create file path for foot fall pattern diagrams
     plotting_footfall_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results", "footfall-pattern-diagrams")
     # print("plotting_footfall_folder: ", plotting_footfall_folder)
@@ -61,8 +61,8 @@ def stride_and_stance_phases(**kwargs):
     for foot in feet:
         results[foot][0] = results[foot][1]
     # print final counters
-    for foot in feet:
-        print(foot, ": ", calculators[foot])
+    # for foot in feet:
+        # print(foot, ": ", calculators[foot])
 
     for foot in results:
         df = pd.DataFrame(results[foot], columns=[foot])
@@ -120,15 +120,39 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     import pandas as pd
     import numpy as np
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
     import os
     import errno
 
     df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
-    # filter here and only fill in strides as numbers
+    # filter here and only fill in stances as numbers => stances bars, strides white
     for i, key in enumerate(results):
-        df_plot[key] = [i+1 if s.startswith(b'stride') else np.NaN for s in results[key]]
+        df_plot[key] = [i+1 if s.startswith(b'stance') else np.NaN for s in results[key]]
 
-    df_plot.plot(linewidth=10)
+    key_list = [key for key in df_plot.columns]
+
+    colors = False
+
+    if colors:
+        cmap = plt.cm.coolwarm
+        legend_elements = [Line2D([0], [0], color=cmap(0.), lw=4, label=key_list[0]),
+                    Line2D([0], [0], color=cmap(.33), lw=4, label=key_list[1]),
+                    Line2D([0], [0], color=cmap(.66), lw=4, label=key_list[2]),
+                    Line2D([0], [0], color=cmap(1.), lw=4, label=key_list[3]),
+                    Line2D([0], [0], color='black', lw=4, label='stance phases'),
+                    Line2D([0], [0], color='white', lw=4, label='stride phases')]
+        fig, ax = plt.subplots()
+        df_plot.plot(linewidth=10, color=cmap(np.linspace(0, 1, 5)), ax=ax)
+        ax.legend(handles=legend_elements)
+    else:
+        legend_elements = [Line2D([0], [0], color='white', lw=1, label='1 = FR  |  2 = FL  |  3 = HR  |  4 = HL'),
+                           Line2D([0], [0], color='black', lw=4, label='stance phases'),
+                           Line2D([0], [0], color='white', lw=4, label='stride phases')]
+        fig, ax = plt.subplots()
+        df_plot.plot(linewidth=10, color='black', ax=ax)
+        ax.legend(handles=legend_elements)
+
 
     # saves footfall pattern diagrams as pdf in defined result folder. If folder is not extant yet, it will be created
     try:
