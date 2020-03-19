@@ -18,7 +18,7 @@ def wrist_angles(**kwargs):
     filename = kwargs.get('filename')
 
     scorer = data.columns[1][0]
-    feet = ["FR", "FL", "HR", "HL"]
+    feet = ["FL", "FR", "HR", "HL"]
     max_stance_phase_count = 1000
     active_columns = []
     for foot in feet:

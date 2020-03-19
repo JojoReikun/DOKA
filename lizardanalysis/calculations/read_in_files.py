@@ -254,6 +254,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         # count up to proceed to next file
         i += 1
 
+    print("\n", "DONE!")
 
 
     # generate TOTAL result dataframe combining the results from all runs:
