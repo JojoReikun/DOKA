@@ -6,7 +6,6 @@ def wrist_angles(**kwargs):
         2nd) rotates the toe vector by 90 deg so it's perpendicular to 1st --> wrist vector
         3rd) calculate the angle between wrist vector and body axis for all frames, also calculate the mean
         """
-    # TODO: if no stance is > 4 frames, column will not be generated, causes trouble for R script combine --> fix
 
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
@@ -15,7 +14,6 @@ def wrist_angles(**kwargs):
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
-    filename = kwargs.get('filename')
 
     scorer = data.columns[1][0]
     feet = ["FL", "FR", "HR", "HL"]
@@ -77,6 +75,7 @@ def wrist_angles(**kwargs):
 
                 # 2nd) rotate toe_vector to get wrist_vector. Differentiate cases: FR&HL => rotate CW(y, -x), FL&HR => CCW(-y, x)
                 for toe_vector in toe_vectors:
+                    #TODO: this needs to be checked for clicked value = 2
                     # mirror toe_vector along x-axis
                     toe_vector = (toe_vector[0], toe_vector[1] * (-1))
                     if foot == "FR" or foot == "HL":

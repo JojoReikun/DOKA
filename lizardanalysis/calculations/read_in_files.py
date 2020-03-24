@@ -17,7 +17,9 @@ calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by o
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
-                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
+                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
+                'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
+                             'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl']
                 }
 
 # calculations = {'direction_of_climbing': ['nose'],
