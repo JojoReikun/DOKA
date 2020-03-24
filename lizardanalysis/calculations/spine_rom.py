@@ -33,6 +33,7 @@ def spine_rom(**kwargs):
         hip_rom_list = []
 
         for i in range(1, max_stride_phase_count):
+            #print('\nstride phase i: ', i)
             cell_value = loop_encode(i)
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
             if len(df_stride_section) == 0:
@@ -46,6 +47,13 @@ def spine_rom(**kwargs):
                 #print(beg_end_tuple)
                 # calculate the vectors: Spine-Shoulder and Spine-Hip
                 for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
+                    #print('------- stepphase index: ', j)
+                    #debug
+                    # if (data.loc[j, (scorer, "Spine", "y")] > data.loc[j, (scorer, "Shoulder", "y")]):
+                    #     print('left bending ---> spine > shoulder')
+                    # elif ((data.loc[j, (scorer, "Spine", "y")] < data.loc[j, (scorer, "Shoulder", "y")])):
+                    #     print('left bending ---> spine < shoulder')
+
                     spine_shoulder_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
                                       (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
                     spine_hip_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Hip", "x")]),
@@ -54,40 +62,58 @@ def spine_rom(**kwargs):
                     # calculate the angles from both vectors to body-axis
                     shoulder_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_shoulder_vector, calc_body_axis(data, j, scorer))
                     hip_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_hip_vector, calc_body_axis(data, j, scorer))
-
+                    # neccessary to make calculation independent of bending direction
+                    # TODO: correct correction?
                     # if shoulder_rom_i > 90.:
                     #     shoulder_rom_i = 180. - shoulder_rom_i
                     # if hip_rom_i > 90.:
                     #     hip_rom_i = 180. - hip_rom_i
-                    shoulder_rom_list_stride.append(shoulder_rom_i)
-                    hip_rom_list_stride.append(hip_rom_i)
 
-                shoulder_rom = max(shoulder_rom_list_stride) - min(shoulder_rom_list_stride)
-                hip_rom = max(hip_rom_list_stride) - min(hip_rom_list_stride)
-                #debug
-                print('stride: ', i,
-                      '\nshoulder_ROM: ', shoulder_rom,
-                      '\nhip_ROM: ', hip_rom,
-                      '\naverage: ', (shoulder_rom + hip_rom)/2.)
+                    # control value: sum of both usually close to 180. because one takes 'inverse angle' (180.-ROM),
+                    # one takes ROM
+                    sum_roms = shoulder_rom_i + hip_rom_i
+                    if sum_roms >= 175. and sum_roms <= 185.:
+                        shoulder_rom_list_stride.append(shoulder_rom_i)
+                        hip_rom_list_stride.append(hip_rom_i)
+                    #     print('rom taken into account')
+                    # print('shoulder ROM i: ', shoulder_rom_i)
+                    # print('hip ROM i: ', hip_rom_i)
+                    # print('SUM: ', shoulder_rom_i + hip_rom_i)
+                #print('length of rom lists for step: ', len(shoulder_rom_list_stride))
+                # make sure max() and min() can operate, hence length of lists > 0
+                if len(shoulder_rom_list_stride) > 0 and len(hip_rom_list_stride) > 0:
+                    shoulder_rom = max(shoulder_rom_list_stride) - min(shoulder_rom_list_stride)
+                    hip_rom = max(hip_rom_list_stride) - min(hip_rom_list_stride)
+                else:
+                    shoulder_rom = 0
+                    hip_rom = 0
+
+                # write spine ROMs as average(shoulder and hip ROM) to result df only if ROMs > 0
+                # ROMs = 0 if only 1 or less values were calculated for the stride
+                if shoulder_rom > 0 and hip_rom > 0:
+                    for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
+                        results[foot][row] = (shoulder_rom + hip_rom)/2.
+
+                # debug
+                # print('stride: ', i,
+                #       '\nshoulder_ROM: ', shoulder_rom,
+                #       '\nhip_ROM: ', hip_rom,
+                #       '\naverage: ', (shoulder_rom + hip_rom) / 2.)
 
                 # debug
                 shoulder_rom_list.append(shoulder_rom)
                 hip_rom_list.append(hip_rom)
-
-                # write spine ROMs as average(shoulder and hip ROM) to result df
-                for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                    results[foot][row] = (shoulder_rom + hip_rom)/2.
 
         #debug
         mean_shoulder_rom = np.mean(shoulder_rom_list)
         mean_hip_rom = np.mean(hip_rom_list)
         std_shoulder_rom = np.std(shoulder_rom_list)
         std_hip_rom = np.std(hip_rom_list)
-        print('foot: ', foot,
-                'mean_shoulder: ', mean_shoulder_rom,
-                'std_shoulder: ', std_shoulder_rom,
-                'mean_hip: ', mean_hip_rom,
-                'std_hip: ', std_hip_rom)
+        # print('foot: ', foot,
+        #         'mean_shoulder: ', mean_shoulder_rom,
+        #         'std_shoulder: ', std_shoulder_rom,
+        #         'mean_hip: ', mean_hip_rom,
+        #         'std_hip: ', std_hip_rom)
 
     # rename dictionary keys of results
     results = {'spineROM_' + key: value for (key, value) in results.items()}
