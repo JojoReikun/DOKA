@@ -57,15 +57,15 @@ def wrist_angles(**kwargs):
                 #print(beg_end_tuple)
 
                 # -----> Loops through stance phase frame of current stance phase
-                for i in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
+                for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                     # adds respective coord tuples to lists --> [(x,y), (x1,y1), ...]
-                    inner_toe_coordinates.append((data.loc[i, (scorer, "{}_ti".format(foot), "x")],
-                                                  data.loc[i, (scorer, "{}_ti".format(foot), "y")]))
-                    outer_toe_coordinates.append((data.loc[i, (scorer, "{}_to".format(foot), "x")],
-                                                  data.loc[i, (scorer, "{}_to".format(foot), "y")]))
-                    foot_coordinates.append((data.loc[i, (scorer, "{}".format(foot), "x")],
-                                             data.loc[i, (scorer, "{}".format(foot), "y")]))
-                    body_axes.append(calc_body_axis(data, i, scorer))
+                    inner_toe_coordinates.append((data.loc[j, (scorer, "{}_ti".format(foot), "x")],
+                                                  data.loc[j, (scorer, "{}_ti".format(foot), "y")]))
+                    outer_toe_coordinates.append((data.loc[j, (scorer, "{}_to".format(foot), "x")],
+                                                  data.loc[j, (scorer, "{}_to".format(foot), "y")]))
+                    foot_coordinates.append((data.loc[j, (scorer, "{}".format(foot), "x")],
+                                             data.loc[j, (scorer, "{}".format(foot), "y")]))
+                    body_axes.append(calc_body_axis(data, j, scorer))
 
                 # 1st) toe vector (Start - End => vector points towards start (outer toe))
                 for i_item, o_item in zip(inner_toe_coordinates, outer_toe_coordinates):

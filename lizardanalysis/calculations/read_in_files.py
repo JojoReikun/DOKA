@@ -19,7 +19,8 @@ calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by o
                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
                                   'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
                 'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
-                             'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl']
+                             'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+                'spine_ROM': ['shoulder', 'hip', 'spine']
                 }
 
 # calculations = {'direction_of_climbing': ['nose'],
@@ -243,8 +244,8 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         #create result file for every file and save to result folder
         result_file = df_result_current.copy()
         if drop_empty_cols:
-            empty_cols = [col for col in result_file.columns[0:6] if result_file[col].isnull().all()]
-            # Drop these columns from the dataframe
+            empty_cols = [col for col in result_file.columns[0:len(calculations_checked_namelist)] if result_file[col].isnull().all()]
+            # Drop empty columns from the dataframe which are created for every calculation_checked
             result_file.drop(empty_cols,
                              axis=1,
                              inplace=True)
