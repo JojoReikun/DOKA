@@ -66,28 +66,28 @@ def spine_rom(**kwargs):
                 hip_rom = max(hip_rom_list_stride) - min(hip_rom_list_stride)
                 #debug
                 print('stride: ', i,
-                      'shoulder_ROM: ', shoulder_rom,
-                      'hip_ROM: ', hip_rom,
-                      'average: ', np.average(shoulder_rom, hip_rom))
+                      '\nshoulder_ROM: ', shoulder_rom,
+                      '\nhip_ROM: ', hip_rom,
+                      '\naverage: ', (shoulder_rom + hip_rom)/2.)
 
                 # debug
-                shoulder_rom_list_stride.append(shoulder_rom)
-                hip_rom_list_stride.append(hip_rom)
+                shoulder_rom_list.append(shoulder_rom)
+                hip_rom_list.append(hip_rom)
 
                 # write spine ROMs as average(shoulder and hip ROM) to result df
                 for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                    results[foot][row] = np.average(shoulder_rom, hip_rom)
+                    results[foot][row] = (shoulder_rom + hip_rom)/2.
 
         #debug
-        mean_shoulder_rom_stride = np.mean(shoulder_rom_list)
-        mean_hip_rom_stride = np.mean(hip_rom_list)
-        std_shoulder_rom_stride = np.std(shoulder_rom_list)
-        std_hip_rom_stride = np.std(hip_rom_list)
+        mean_shoulder_rom = np.mean(shoulder_rom_list)
+        mean_hip_rom = np.mean(hip_rom_list)
+        std_shoulder_rom = np.std(shoulder_rom_list)
+        std_hip_rom = np.std(hip_rom_list)
         print('foot: ', foot,
-                'mean_shoulder: ', mean_shoulder_rom_stride,
-                'std_shoulder: ', std_shoulder_rom_stride,
-                'mean_hip: ', mean_hip_rom_stride,
-                'std_hip: ', std_hip_rom_stride)
+                'mean_shoulder: ', mean_shoulder_rom,
+                'std_shoulder: ', std_shoulder_rom,
+                'mean_hip: ', mean_hip_rom,
+                'std_hip: ', std_hip_rom)
 
     # rename dictionary keys of results
     results = {'spineROM_' + key: value for (key, value) in results.items()}
