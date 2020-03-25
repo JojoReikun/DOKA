@@ -80,6 +80,7 @@ def spine_rom(**kwargs):
                     # print('hip ROM i: ', hip_rom_i)
                     # print('SUM: ', shoulder_rom_i + hip_rom_i)
                 #print('length of rom lists for step: ', len(shoulder_rom_list_stride))
+
                 # make sure max() and min() can operate, hence length of lists > 0
                 if len(shoulder_rom_list_stride) > 0 and len(hip_rom_list_stride) > 0:
                     shoulder_rom = max(shoulder_rom_list_stride) - min(shoulder_rom_list_stride)
