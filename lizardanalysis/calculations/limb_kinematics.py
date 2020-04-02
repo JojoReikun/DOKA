@@ -50,7 +50,7 @@ def limb_kinematics(**kwargs):
                                    data.loc[j, (scorer, "{}_knee".format(foot), "y")])
                     vector = np.array([(knee_coords[0] - shoulder_coords[0]), (knee_coords[1] - shoulder_coords[1])])
                     # calculates the angle between the vector (Foot_shoulder - knee) and the vector body axis (Shoulder - Hip)
-                    limb_rom_kin = auxiliaryfunctions.py_angle_betw_2vectors(vector, calc_body_axis(data, j, scorer))
+                    limb_rom_kin = auxiliaryfunctions.py_angle_betw_2vectors(vector, auxiliaryfunctions.calc_body_axis(data, j, scorer))
                     angles_stride.append(limb_rom_kin)
                     #print('limb ROM: ', limb_rom_kin)
                 # print("lengths: ", len(angles_stride), beg_end_tuple[1] - beg_end_tuple[0])
@@ -80,14 +80,6 @@ def loop_encode(i):
     cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value
-
-
-def calc_body_axis(df, index, scorer):
-    """calculates the body axis vector of the gecko for the passed index: START = Hip, END = Shoulder
-    returns a vector (x,y)"""
-    body_axis_vector = ((df.loc[index, (scorer, "Shoulder", "x")] - df.loc[index, (scorer, "Hip", "x")]),
-                        (df.loc[index, (scorer, "Shoulder", "y")] - df.loc[index, (scorer, "Hip", "y")]))
-    return body_axis_vector
 
 
 def plot_single_file_with_fitted_curve_and_variance(df, foot, data_rows_count):

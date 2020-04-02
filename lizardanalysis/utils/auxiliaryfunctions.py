@@ -103,6 +103,26 @@ def py_angle_betw_2vectors(v1, v2):
     return np.rad2deg(np.arccos(cosang))
 
 
+def calc_body_axis(df, index, scorer):
+    """calculates the body axis vector of the gecko for the passed index: START = Hip, END = Shoulder
+    returns a vector (x,y)"""
+    likelihood_shoulder = df.loc[index, (scorer, "Shoulder", "likelihood")]
+    likelihood_hip = df.loc[index, (scorer, "Hip", "likelihood")]
+    if likelihood_shoulder >= 0.90 and likelihood_hip >= 0.90:
+        body_axis_vector = ((df.loc[index, (scorer, "Shoulder", "x")] - df.loc[index, (scorer, "Hip", "x")]),
+                            (df.loc[index, (scorer, "Shoulder", "y")] - df.loc[index, (scorer, "Hip", "y")]))
+    else:
+        body_axis_vector = (np.NAN, np.NAN)
+    return body_axis_vector
+
+
+def calculate_gravity_deflection_angle(bodyaxis):
+    # TODO: add option to use  data from separate gravity file here
+    gravity_axis = (100., 0.)
+    angle_deflection = py_angle_betw_2vectors(gravity_axis, bodyaxis)
+    return angle_deflection
+
+
 class UserFunc():
     """Handle a user function which is defined as directory entry"""
     """
@@ -140,5 +160,8 @@ class UserFunc():
 
     def __repr__(self):
         return f'<function {self.func_name} at {hex(id(self))}>'
+
+
+
 
 

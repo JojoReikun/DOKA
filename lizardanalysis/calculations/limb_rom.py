@@ -25,14 +25,14 @@ def limb_rom(**kwargs):
     results = {}
 
     for foot, column in zip(feet, active_columns):
-        print("\n----------- FOOT: ", foot)
+        #print("\n----------- FOOT: ", foot)
         column = column.strip('')
-        print("column :", column)
+        #print("column :", column)
         results[foot] = np.full((data_rows_count,), np.NAN)
         limb_rom_foot = []
 
         for i in range(1, max_stride_phase_count):
-            print('stride phase i: ', i)
+            #print('stride phase i: ', i)
             cell_value = loop_encode(i)
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
             if len(df_stride_section) == 0:
@@ -41,16 +41,16 @@ def limb_rom(**kwargs):
             df_stride_section_indices = list(df_stride_section.index.values)
             if len(df_stride_section_indices) > 0:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
-                print(beg_end_tuple)
+                #print(beg_end_tuple)
                 limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
                                       - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
                                      (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
                                       - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "y")]))
                 likelihood_shoulder_begin = data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "likelihood")]
                 likelihood_knee_begin = data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "likelihood")]
-                print('likelihoods limb vector begin, shoulder - knee: ',
-                      data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "likelihood")],
-                      data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "likelihood")])
+                #print('likelihoods limb vector begin, shoulder - knee: ',
+                #      data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "likelihood")],
+                #      data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "likelihood")])
 
                 limb_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "x")]
                                     - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "x")]),
@@ -58,9 +58,9 @@ def limb_rom(**kwargs):
                                     - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "y")]))
                 likelihood_shoulder_end = data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "likelihood")]
                 likelihood_knee_end = data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "likelihood")]
-                print('likelihoods limb vector end, shoulder - knee: ',
-                      data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "likelihood")],
-                      data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "likelihood")])
+                #print('likelihoods limb vector end, shoulder - knee: ',
+                #      data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "likelihood")],
+                #      data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "likelihood")])
 
                 # only include limb ROM calculations from labels with a likelihood >= 0.95 to reduce std
                 if likelihood_shoulder_begin >= likelihood and likelihood_knee_begin >= likelihood:
@@ -78,8 +78,8 @@ def limb_rom(**kwargs):
                 else:
                     limb_rom_angle_end = 0.0
 
-                print('limb ROM angle begin: ', limb_rom_angle_begin)
-                print('limb ROM angle end: ', limb_rom_angle_end)
+                #print('limb ROM angle begin: ', limb_rom_angle_begin)
+                #print('limb ROM angle end: ', limb_rom_angle_end)
 
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
@@ -87,18 +87,18 @@ def limb_rom(**kwargs):
                 else:
                     limb_rom = 0.0
 
-                print('limbROM: ', limb_rom)
+                #print('limbROM: ', limb_rom)
 
             if limb_rom > 0.0:
                 for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                     results[foot][row] = limb_rom
 
-        print('limb ROM foot: ', limb_rom_foot)
+        #print('limb ROM foot: ', limb_rom_foot)
         mean_rom_foot = np.mean(limb_rom_foot)
         std_rom_foot = np.std(limb_rom_foot)
-        print('foot: ', foot,
-              'mean: ', mean_rom_foot,
-              'std: ', std_rom_foot)
+        #print('foot: ', foot,
+        #      'mean: ', mean_rom_foot,
+        #      'std: ', std_rom_foot)
 
     # rename dictionary keys of results
     results = {'limbROM_' + key: value for (key, value) in results.items()}

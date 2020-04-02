@@ -10,32 +10,22 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 drop_empty_cols = True
 
 # list of all calculations and their requirements of labels as implemented in the program
-calculations = {'direction_of_climbing': ['nose'],  # use for debugging one by one
+calculations = {'direction_of_climbing': ['nose'],
+                'body_axis_deflection_angle': ['shoulder', 'hip'],
                 'climbing_speed_framewise': ['nose'],
                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
                 'step_length': ['fl', 'fr', 'hl', 'hr'],
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
-                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
+                                 'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
                 'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
                              'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'spine_rom': ['shoulder', 'hip', 'spine']
+                'spine_rom': ['shoulder', 'hip', 'spine'],
+                'center_limb_rom_angle': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
+                                          'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl']
                 }
 
-# calculations = {'direction_of_climbing': ['nose'],
-#                 'climbing_speed': ['nose'],
-#                 'climbing_speed_framewise': ['nose'],
-#                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-#                 'step_length': ['fl', 'fr', 'hl', 'hr'],
-#                 'stride_length': ['hip'],
-#                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
-#                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-#                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
-#                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to']
-#                 }
-# add ROM
-# add toe angles
 calculations_str = [calc for calc in calculations.keys()]
 #print('list of calculations ', calculations_str)
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
