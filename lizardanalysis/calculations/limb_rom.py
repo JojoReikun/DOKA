@@ -46,44 +46,24 @@ def limb_rom(**kwargs):
                                       - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
                                      (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
                                       - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "y")]))
-                likelihood_shoulder_begin = data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "likelihood")]
-                likelihood_knee_begin = data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "likelihood")]
-                #print('likelihoods limb vector begin, shoulder - knee: ',
-                #      data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "likelihood")],
-                #      data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "likelihood")])
 
                 limb_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "x")]
                                     - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "x")]),
                                    (data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "y")]
                                     - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "y")]))
-                likelihood_shoulder_end = data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "likelihood")]
-                likelihood_knee_end = data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "likelihood")]
-                #print('likelihoods limb vector end, shoulder - knee: ',
-                #      data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "likelihood")],
-                #      data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "likelihood")])
 
-                # only include limb ROM calculations from labels with a likelihood >= 0.95 to reduce std
-                if likelihood_shoulder_begin >= likelihood and likelihood_knee_begin >= likelihood:
-                    limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
-                                                                                     calc_body_axis(data,
-                                                                                                    beg_end_tuple[0],
-                                                                                                    scorer))
-                else:
-                    limb_rom_angle_begin = 0.0
-                if likelihood_shoulder_end >= likelihood and likelihood_knee_end >= likelihood:
-                    limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
-                                                                                   calc_body_axis(data,
-                                                                                                  beg_end_tuple[1],
-                                                                                                  scorer))
-                else:
-                    limb_rom_angle_end = 0.0
-
-                #print('limb ROM angle begin: ', limb_rom_angle_begin)
-                #print('limb ROM angle end: ', limb_rom_angle_end)
-
+                limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                 auxiliaryfunctions.calc_body_axis(data,
+                                                                                                                   beg_end_tuple[
+                                                                                                                       0],
+                                                                                                                   scorer))
+                limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                               auxiliaryfunctions.calc_body_axis(data,
+                                                                                                                 beg_end_tuple[
+                                                                                                                     1],
+                                                                                                                 scorer))
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
-                    limb_rom_foot.append(limb_rom)  # debug
                 else:
                     limb_rom = 0.0
 
@@ -104,14 +84,6 @@ def limb_rom(**kwargs):
     results = {'limbROM_' + key: value for (key, value) in results.items()}
 
     return results
-
-
-def calc_body_axis(df, index, scorer):
-    """calculates the body axis vector of the gecko for the passed index: START = Hip, END = Shoulder
-    returns a vector (x,y)"""
-    body_axis_vector = ((df.loc[index, (scorer, "Shoulder", "x")] - df.loc[index, (scorer, "Hip", "x")]),
-                        (df.loc[index, (scorer, "Shoulder", "y")] - df.loc[index, (scorer, "Hip", "y")]))
-    return body_axis_vector
 
 
 def loop_encode(i):

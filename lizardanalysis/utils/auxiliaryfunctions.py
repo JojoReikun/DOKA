@@ -106,6 +106,7 @@ def py_angle_betw_2vectors(v1, v2):
 def calc_body_axis(df, index, scorer):
     """calculates the body axis vector of the gecko for the passed index: START = Hip, END = Shoulder
     returns a vector (x,y)"""
+    #TODO: use likelihood value from config file
     likelihood_shoulder = df.loc[index, (scorer, "Shoulder", "likelihood")]
     likelihood_hip = df.loc[index, (scorer, "Hip", "likelihood")]
     if likelihood_shoulder >= 0.90 and likelihood_hip >= 0.90:
