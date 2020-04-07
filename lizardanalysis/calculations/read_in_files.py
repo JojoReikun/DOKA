@@ -23,7 +23,12 @@ calculations = {'direction_of_climbing': ['nose'],
                              'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
                 'spine_rom': ['shoulder', 'hip', 'spine'],
                 'center_limb_rom_angle': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
-                                          'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl']
+                                          'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+                'hip_and_shoulder_angles': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
+                                            'hr_knee',
+                                            'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+                'knee_and_elbow_angles': ['fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
+                                          'shoulder_hr', 'hl_knee', 'shoulder_hl', 'fl', 'fr', 'hl', 'hr']
                 }
 
 calculations_str = [calc for calc in calculations.keys()]

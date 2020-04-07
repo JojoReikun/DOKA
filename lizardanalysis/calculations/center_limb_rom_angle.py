@@ -26,12 +26,12 @@ def center_limb_rom_angle(**kwargs):
 
     # debug:
     direction = df_result_current.loc[1]["direction_of_climbing"]
-    print("filename: ", filename,
-          "\ndirection: ", direction)
+    # print("filename: ", filename,
+    #       "\ndirection: ", direction)
 
     results = {}
     for foot, column in zip(feet, active_columns):
-        print("----- foot, column: ", foot, column)
+        #print("----- foot, column: ", foot, column)
         column = column.strip('')
         results[foot] = np.full((data_rows_count,), np.NAN)
 
@@ -46,6 +46,7 @@ def center_limb_rom_angle(**kwargs):
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
                 stride_length_in_frames = beg_end_tuple[1] - beg_end_tuple[0]
 
+                # calculate the limb ROM angles to then get CROM
                 limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
                                       - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
                                      (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
@@ -69,7 +70,6 @@ def center_limb_rom_angle(**kwargs):
                 else:
                     limb_rom = 0.0
 
-
                 # CROM @ 1/2 ROM:
                 if stride_length_in_frames <= 3:
                     CROM_midrom = 0.0
@@ -82,23 +82,28 @@ def center_limb_rom_angle(**kwargs):
                         CROM_midrom = 90.0 - (limb_rom_angle_end - (limb_rom/2.0))
                     else:
                         CROM_midrom = np.nan
+                #print("CROM: ", CROM_midrom)
+
+
+                # Maximum pro- or retraction:
+                # 90 - limb_rom_angle_end
 
             # debug:
-            print("ROM start: ", limb_rom_angle_begin,
-                  "\nCROM_mid ROM: ", CROM_midrom,
-                  "\nROM end: ", limb_rom_angle_end,
-                  "\nROM: ", limb_rom,
-                  "\n---------------------------------")
+            # print("ROM start: ", limb_rom_angle_begin,
+            #       "\nCROM_mid ROM: ", CROM_midrom,
+            #       "\nROM end: ", limb_rom_angle_end,
+            #       "\nROM: ", limb_rom,
+            #       "\n---------------------------------")
 
             for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                 results[foot][row] = CROM_midrom
 
     # rename dictionary keys of results
     results = {'CROM_' + key: value for (key, value) in results.items()}
-    print("mean and std FL: ", np.nanmean(results["CROM_FL"]), np.nanstd(results["CROM_FL"]))
-    print("mean and std FR: ", np.nanmean(results["CROM_FR"]), np.nanstd(results["CROM_FR"]))
-    print("mean and std HR: ", np.nanmean(results["CROM_HR"]), np.nanstd(results["CROM_HR"]))
-    print("mean and std HL: ", np.nanmean(results["CROM_HL"]), np.nanstd(results["CROM_HL"]))
+    # print("mean and std FL: ", np.nanmean(results["CROM_FL"]), np.nanstd(results["CROM_FL"]))
+    # print("mean and std FR: ", np.nanmean(results["CROM_FR"]), np.nanstd(results["CROM_FR"]))
+    # print("mean and std HR: ", np.nanmean(results["CROM_HR"]), np.nanstd(results["CROM_HR"]))
+    # print("mean and std HL: ", np.nanmean(results["CROM_HL"]), np.nanstd(results["CROM_HL"]))
 
     return results
 
@@ -114,13 +119,11 @@ def calc_CROM_angle(data, mid_stride_index, scorer, foot):
     limb_vector = (shoulder_midstride[0] - knee_midstride[0],
                    shoulder_midstride[1] - knee_midstride[1])
     CROM_midstride = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector, perpendicular)
-    # if CROM_midstride >= 90.:
-    #     CROM_midstride = 180. - CROM_midstride
-    #print("CROM: ", CROM_midstride)
     return CROM_midstride
 
 
 def calc_CROM_angle_bodyaxis(data, mid_stride_index, scorer, foot):
+    # used
     from lizardanalysis.utils import auxiliaryfunctions
     body_axis = auxiliaryfunctions.calc_body_axis(data, mid_stride_index, scorer)
     shoulder_midstride = (data.loc[mid_stride_index, (scorer, "Shoulder_{}".format(foot), "x")],
@@ -130,13 +133,11 @@ def calc_CROM_angle_bodyaxis(data, mid_stride_index, scorer, foot):
     limb_vector = (shoulder_midstride[0] - knee_midstride[0],
                    shoulder_midstride[1] - knee_midstride[1])
     CROM_midstride = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector, body_axis)
-    # if CROM_midstride >= 90.:
-    #     CROM_midstride = 180. - CROM_midstride
-    #print("CROM: ", CROM_midstride)
     return CROM_midstride
 
 
 def loop_encode(i):
+    # get utf-8 encoded version of the string
     cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value

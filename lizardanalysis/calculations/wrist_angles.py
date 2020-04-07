@@ -130,6 +130,7 @@ def wrist_angles(**kwargs):
 
 
 def loop_encode(i):
+    # get utf-8 encoded version of the string
     cell_value = 'stance000{}'.format(i).encode()
     #print("-----> stance phase cell value :", cell_value)
     return cell_value
