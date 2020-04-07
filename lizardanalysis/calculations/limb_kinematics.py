@@ -1,7 +1,8 @@
 import numpy as np
-
+# TODO: output RMSE values for every Gecko (mean for all feet, check std) in seperate result files
 
 def limb_kinematics(**kwargs):
+    #TODO: filter for likelihood
     from lizardanalysis.utils import auxiliaryfunctions
     from pathlib import Path
 
@@ -11,11 +12,12 @@ def limb_kinematics(**kwargs):
     df_result_current = kwargs.get('df_result_current')
     filename = kwargs.get('filename')
     config = kwargs.get('config')
+    likelihood = kwargs.get('likelihood')
 
     config_file = Path(config).resolve()
 
     scorer = data.columns[1][0]
-    feet = ["FR", "FL", "HR", "HL"]
+    feet = ["FL", "FR", "HR", "HL"]
     max_stride_phase_count = 1000
     active_columns = []
     for foot in feet:
