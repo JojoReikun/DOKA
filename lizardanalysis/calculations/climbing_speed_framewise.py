@@ -69,8 +69,8 @@ def climbing_speed_framewise(**kwargs):
             bad_likelihood_counter_hip.append(1)
             hip_speeds.append(np.nan)
 
-    print('nose_speeds: ', nose_speeds,
-          '\nhip_speeds: ', hip_speeds,)
+    #print('nose_speeds: ', nose_speeds,
+    #      '\nhip_speeds: ', hip_speeds,)
 
     # results
     average_speeds = []
@@ -84,10 +84,10 @@ def climbing_speed_framewise(**kwargs):
 
         results['speed'][i] = average_speed
 
-    print('average_speeds: ', average_speeds)
+    #print('average_speeds: ', average_speeds)
 
-    print('exluded frames for bad likelihood: ',
-          '\nNose: ', len(bad_likelihood_counter_nose), 'Hip: ', len(bad_likelihood_counter_hip))
+    #print('exluded frames for bad likelihood: ',
+    #      '\nNose: ', len(bad_likelihood_counter_nose), 'Hip: ', len(bad_likelihood_counter_hip))
 
     # copy second row into first row and second last into last row of each array
     results['speed'][0] = results['speed'][1]

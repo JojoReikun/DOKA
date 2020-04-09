@@ -121,6 +121,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     cfg_file['alphavalue'] = 1.0  # for plots transparency of markers
     cfg_file['colormap'] = 'jet'  # for plots type of colormap
     cfg_file['clicked'] = clicked   # the selected video condoguration for up / down directions
+    cfg_file['save_rmse_values'] = True
 
     projconfigfile = os.path.join(str(project_path), 'config.yaml')
 

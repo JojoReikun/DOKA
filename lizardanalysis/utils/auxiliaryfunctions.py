@@ -51,8 +51,10 @@ def create_config_template():
 # Analysis configurations:
 # clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
 # distance_limit: The distance a foot has to move (px) to be viewed as in stride
+# save_rmse_values: Defines if RMSE values for curve fitting of kinematics are saved to results. Default is True.
     clicked:
     distance_limit: 
+    save_rmse_values:
     """
 
 
@@ -122,6 +124,16 @@ def calculate_gravity_deflection_angle(bodyaxis):
     gravity_axis = (100., 0.)
     angle_deflection = py_angle_betw_2vectors(gravity_axis, bodyaxis)
     return angle_deflection
+
+
+def append_list_as_row_to_csv(file_name, list_of_elem):
+    from csv import writer
+    # Open file in append mode
+    with open(file_name, 'a+', newline='') as write_obj:
+        # Create a writer object from csv module
+        csv_writer = writer(write_obj)
+        # Add contents of list as last row in the csv file
+        csv_writer.writerow(list_of_elem)
 
 
 class UserFunc():

@@ -160,6 +160,7 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     from pathlib import Path
     from tkinter import Tk, filedialog
     from lizardanalysis.utils import auxiliaryfunctions
+    import errno
 
     current_path = os.getcwd()
     config_file = Path(config).resolve()
@@ -176,7 +177,6 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
     filelist = []  # store filepaths as list
     for file in files:
         filelist.append(file)
-    # print("files (keys): ,", filelist)  # TEST
 
     # check if user entered camera specs in config file
     if cfg['framerate'] is None and cfg['shutter'] is None:
@@ -207,9 +207,32 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
 
     # check label requirements for calculations:
     calculations_checked, calculations_checked_namelist = check_calculation_requirements(cfg)
-    print("available calculations are the following: ", *calculations_checked_namelist, sep='\n')  #* vor print list enables nice prints
+    print("available calculations are the following: ", *calculations_checked_namelist, sep='\n - ')  #* vor print list enables nice prints
 
     ############################################## RUN CALCULATION LOOP #################################################
+    print("\nSTART analysis off all {} csv files in project ...".format(len(filelist)))
+
+    if cfg['save_rmse_values']:
+        dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
+                                       "limb_dynamics_curve_fitting")
+        try:
+            os.makedirs(dynamics_folder)
+            print("folder for curve_fitting plots created")
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        columns_list = ['filename', 'rmse_sig', 'std_sig', 'rmse_lin', 'std_lin', 'rmse_exp', 'std_exp', 'rmse_log',
+                        'std_log']
+        df_rmse = pd.DataFrame(columns=columns_list)
+        df_rmse.to_csv(os.path.join(dynamics_folder, "rmse.csv"), header=True, index=False)
+
+        # try:
+        #     os.path.isfile(os.path.join(dynamics_folder, "rmse.csv"))
+        #     print("folder for curve_fitting plots created")
+        # except OSError as e:
+        #     if e.errno != errno.EEXIST:
+        #         raise
+
     for i in range(len(filelist)):
         #print('\n \n ----- FILE: ', filelist[i])
         filename = filelist[i].rsplit(os.sep, 1)[1]
@@ -229,14 +252,13 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         # generate empty result file for current file: columns = available calculations, rows = nb. of rows in csv file
         df_result_current = pd.DataFrame(columns=calculations_checked_namelist, index=range(data_rows_count))
         #print(df_result_current.head())
-        #result_file_path = os.path.join(current_path, '{}'.format(project_dir), 'analysis-results', '{}_results.csv'.format(filename))
 
         ##################################### PROCESS FILE #########################################
         # perform calculations for the current file and get dataframe with results as return
         df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config, filename)
 
-        #################################### SAVE RESULT FILE ######################################
-        #create result file for every file and save to result folder
+        #################################### SAVE RESULT FILES ######################################
+        #create result file for every file and save to analysis-results folder
         result_file = df_result_current.copy()
         if drop_empty_cols:
             empty_cols = [col for col in result_file.columns[0:len(calculations_checked_namelist)] if result_file[col].isnull().all()]
@@ -248,7 +270,6 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
         result_file_path = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results")
         result_file.to_csv(os.path.join(result_file_path, "{}.csv".format(filename)), index=True, header=True)
         # TODO: allow filters for result dataframe e.g. direction of climbing
-
         # count up to proceed to next file
         i += 1
 
