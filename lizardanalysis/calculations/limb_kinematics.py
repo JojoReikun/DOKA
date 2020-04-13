@@ -121,15 +121,15 @@ def limb_kinematics(**kwargs):
         # TODO: Das geht sicher auch eleganter
         if plot_dynamics:
             rmse = plot_single_file_with_fitted_curve_and_variance(filename, plot_dict_gecko_foot, foot, config_file, save_curve_fitting_plots)
-            print("rmse: ", rmse)
+            #print("rmse: ", rmse)
             if len(rmse) > 0:
-                print("rmse_sig: ", float(rmse['sigmoidal']))
+                #print("rmse_sig: ", float(rmse['sigmoidal']))
                 rmse_sig.append(float(rmse['sigmoidal']))
                 rmse_lin.append(float(rmse['linear']))
                 rmse_log.append(float(rmse['logarithmic']))
                 rmse_exp.append(float(rmse['exponential']))
 
-    print(rmse_sig, rmse_lin, rmse_exp, rmse_log)
+    #print(rmse_sig, rmse_lin, rmse_exp, rmse_log)
 
     if plot_dynamics & save_rmse:
         dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
@@ -188,7 +188,7 @@ def plot_single_file_with_fitted_curve_and_variance(filename, plot_dict, foot, c
     x_values_list = [item for sublist in x_values for item in sublist]
     y_values_list = [item for sublist in y_values for item in sublist]
     #debug:
-    print("x, y lengths: ", len(x_values_list), len(y_values_list))
+    #print("x, y lengths: ", len(x_values_list), len(y_values_list))
     if len(x_values_list) != len(y_values_list):
         print("x and y are not of equal length!")
     # print("x_values_list: ", x_values_list,
