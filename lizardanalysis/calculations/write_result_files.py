@@ -81,6 +81,22 @@ class species_summary:
     def mean_deflection(self):
         return
 
+    def sformat(self, label, value, stdvalue=None, numformat=None):
+        if stdvalue is not None:
+            numformat = numformat if numformat else 'f'
+            stdstring = ("({:" + numformat + "})").format(stdvalue)
+        else:
+            stdstring = ""
+        if numformat is None:
+            return f"{label}: {value} {stdstring}"
+        else:
+            return ("{}: {:" + numformat + "} {}").format(label, value, stdstring)
+
+    def sprint(self, label1, value1, stdvalue1, label2, value2, stdvalue2, slen=64, format=None):
+        s1 = ("{:<" + str(slen) + "}").format(self.sformat(label1, value1, stdvalue1, format))
+        s2 = ("{:<" + str(slen) + "}").format(self.sformat(label2, value2, stdvalue2, format))
+        return s1 + " | " + s2
+
     def summarize_species(self):
         import pandas as pd
         import os
@@ -269,10 +285,12 @@ class species_summary:
 
 
         # >>>>> TEST PRINTS:
-        print("UP: {}                                                   | DOWN: {} ".format(direction_up_counter, direction_down_counter))
-        print("deflection mean UP: {0:.2f} ".format(deflection_species_mean_UP), "deflection std UP: {0:.2f}".format(deflection_species_std_UP), "       | ",
-              "deflection mean DOWN: {0:.2f} ".format(deflection_species_mean_DOWN), "deflection std DOWN: {0:.2f}".format(deflection_species_std_DOWN),
-              "\nspeed mean UP: {0:.2f} ".format(speed_species_mean_UP), "speed std UP: {0:.2f}".format(speed_species_std_UP), "           | ",
+        slen = 64
+        print(self.sprint('UP', direction_up_counter, None, 'DOWN', direction_down_counter, None, slen=slen, format=None))
+        print(self.sprint("deflection mean UP", deflection_species_mean_UP, deflection_species_std_UP,
+              "deflection mean DOWN", deflection_species_mean_DOWN, deflection_species_std_DOWN, format='.2f'))
+
+        print("\nspeed mean UP: {0:.2f} ".format(speed_species_mean_UP), "speed std UP: {0:.2f}".format(speed_species_std_UP), "           | ",
               "speed mean DOWN: {0:.2f} ".format(speed_species_mean_DOWN), "speed std DOWN: {0:.2f}".format(speed_species_std_DOWN),
               "\nwrist fore mean UP: {0:.2f} ".format(wrist_angles_fore_mean_UP), "wrist fore std UP: {0:.2f}".format(wrist_angles_fore_std_UP), "     | ",
               "wrist fore mean DOWN: {0:.2f} ".format(wrist_angles_fore_mean_DOWN), "wrist fore std DOWN: {0:.2f}".format(wrist_angles_fore_std_DOWN),
