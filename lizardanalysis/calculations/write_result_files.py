@@ -259,13 +259,14 @@ class species_summary:
         CROM_fore_std_DOWN = np.nanstd(CROM_fore_flattened_DOWN)
         CROM_hind_mean_DOWN = np.nanmean(CROM_hind_flattened_DOWN)
         CROM_hind_std_DOWN = np.nanstd(CROM_hind_flattened_DOWN)
-        # toe angle sum ------------------------------------------------------- :
-        toe_angle_sum_UP = [element for sublist in toe_angle_sum_UP for element in sublist]
-        toe_angle_sum_DOWN = [element for sublist in toe_angle_sum_DOWN for element in sublist]
-        toe_angle_sum_mean_UP = np.nanmean(toe_angle_sum_UP)
-        toe_angle_sum_std_UP = np.nanstd(toe_angle_sum_UP)
-        toe_angle_sum_mean_DOWN = np.nanmean(toe_angle_sum_DOWN)
-        toe_angle_sum_std_DOWN = np.nanstd(toe_angle_sum_DOWN)
+        if toe_angles:
+            # toe angle sum ------------------------------------------------------- :
+            toe_angle_sum_UP = [element for sublist in toe_angle_sum_UP for element in sublist]
+            toe_angle_sum_DOWN = [element for sublist in toe_angle_sum_DOWN for element in sublist]
+            toe_angle_sum_mean_UP = np.nanmean(toe_angle_sum_UP)
+            toe_angle_sum_std_UP = np.nanstd(toe_angle_sum_UP)
+            toe_angle_sum_mean_DOWN = np.nanmean(toe_angle_sum_DOWN)
+            toe_angle_sum_std_DOWN = np.nanstd(toe_angle_sum_DOWN)
 
 
         # >>>>> TEST PRINTS:
@@ -287,10 +288,11 @@ class species_summary:
               "\nCROM fore mean UP: {0:.2f} ".format(CROM_fore_mean_UP), "CROM fore std UP: {0:.2f}".format(CROM_fore_std_UP), "        | ",
               "CROM fore mean DOWN: {0:.2f} ".format(CROM_fore_mean_DOWN), "CROM fore std DOWN: {0:.2f}".format(CROM_fore_std_DOWN),
               "\nCROM hind mean UP: {0:.2f} ".format(CROM_hind_mean_UP), "CROM hind std UP: {0:.2f}".format(CROM_hind_std_UP), "       | ",
-              "CROM hind mean DOWN: {0:.2f} ".format(CROM_hind_mean_DOWN), "CROM hind std DOWN: {0:.2f}".format(CROM_hind_std_DOWN),
-              "\ntoe_angle_sum mean UP: {0:.2f} ".format(toe_angle_sum_mean_UP), "toe_angle_sum std UP: {0:.2f}".format(toe_angle_sum_std_UP), " | ",
-              "toe_angle_sum mean DOWN: {0:.2f} ".format(toe_angle_sum_mean_DOWN), "toe_angle_sum std DOWN: {0:.2f}".format(toe_angle_sum_std_DOWN)
+              "CROM hind mean DOWN: {0:.2f} ".format(CROM_hind_mean_DOWN), "CROM hind std DOWN: {0:.2f}".format(CROM_hind_std_DOWN)
               )
+        if toe_angles:
+            print("\ntoe_angle_sum mean UP: {0:.2f} ".format(toe_angle_sum_mean_UP), "toe_angle_sum std UP: {0:.2f}".format(toe_angle_sum_std_UP), " | ",
+                  "toe_angle_sum mean DOWN: {0:.2f} ".format(toe_angle_sum_mean_DOWN), "toe_angle_sum std DOWN: {0:.2f}".format(toe_angle_sum_std_DOWN))
 
         return
 
