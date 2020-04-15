@@ -107,9 +107,9 @@ class ToeAngleCalculation:
 
         # print("TOE PAIR ANGLES: ",
         #       "{" + "\n".join("{!r}: {!r}".format(k, v) for k, v in self.toe_angles.items()) + "}")
-        print("SUMMARY: \n",
-              "{" + "\n".join(
-                  "{!r}: {!r}, {!r}".format(k, np.nanmean(v), np.nanstd(v)) for k, v in self.toe_angles.items()) + "}")
+        # print("SUMMARY: \n",
+        #       "{" + "\n".join(
+        #           "{!r}: {!r}, {!r}".format(k, np.nanmean(v), np.nanstd(v)) for k, v in self.toe_angles.items()) + "}")
 
         #print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in self.toe_vectors.items()) + "}")
 

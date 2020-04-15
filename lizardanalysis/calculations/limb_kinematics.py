@@ -30,9 +30,9 @@ def limb_kinematics(**kwargs):
         active_columns.append("stepphase_{}".format(foot))
     #print("active_columns: ", active_columns)
 
-    plot_dynamics = True
-    save_curve_fitting_plots = True
-    print('LIMB KINEMATICS, Plot Dynamics = {}, Save Plots = {}, Save RMSE as csv = {}'.format(str(plot_dynamics),
+    plot_dynamics_footwise = False
+    save_curve_fitting_plots = False
+    print('LIMB KINEMATICS, Plot Dynamics = {}, Save Plots = {}, Save RMSE as csv = {}'.format(str(plot_dynamics_footwise),
                                                                                         str(save_curve_fitting_plots),
                                                                                         str(save_rmse)))
     ##################################################################################################
@@ -111,15 +111,15 @@ def limb_kinematics(**kwargs):
                 list_of_angles.append(angles_stride)
         #print('list of angles: ', list_of_angles)
 
-        # fill plot_dict:
+        # fill plot_dict
+        # {'phases': ["stride0001", ....], 'stride_ind': [(5,16),(27,44),...], 'dyn_angles': [[a1, a2, ...], [...]]}:
         plot_dict_gecko_foot["stride_phases"] = stride_phases
         plot_dict_gecko_foot["stride_indices"] = stride_indices
         plot_dict_gecko_foot["dynamics_angles"] = dyn_angles
         #print("plot dict: ", plot_dict_gecko_foot)
 
         # -------------------------------------------------------- PLOTTING:
-        # TODO: Das geht sicher auch eleganter
-        if plot_dynamics:
+        if plot_dynamics_footwise:
             rmse = plot_single_file_with_fitted_curve_and_variance(filename, plot_dict_gecko_foot, foot, config_file, save_curve_fitting_plots)
             #print("rmse: ", rmse)
             if len(rmse) > 0:
@@ -131,7 +131,7 @@ def limb_kinematics(**kwargs):
 
     #print(rmse_sig, rmse_lin, rmse_exp, rmse_log)
 
-    if plot_dynamics & save_rmse:
+    if plot_dynamics_footwise & save_rmse:
         dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
                                        "limb_dynamics_curve_fitting")
         rmse_file = os.path.join(dynamics_folder, "rmse.csv")
@@ -161,11 +161,8 @@ def loop_encode(i):
 
 
 def plot_single_file_with_fitted_curve_and_variance(filename, plot_dict, foot, config_file, save_curve_fitting_plots):
-    import matplotlib.pyplot as plt
     from scipy.optimize import curve_fit
     from uncertainties import ufloat
-    import os
-    import errno
 
     x_values = []
     y_values = []
@@ -226,10 +223,11 @@ def plot_single_file_with_fitted_curve_and_variance(filename, plot_dict, foot, c
             sigma_ab = np.sqrt(np.diagonal(covar))
             a = ufloat(best_fit_ab[0], sigma_ab[0])
             b = ufloat(best_fit_ab[1], sigma_ab[1])
-            # if func_name == 'logarithmic':
-            #    c = ufloat(best_fit_ab[2], sigma_ab[2])
+            if func_name == 'logarithmic':
+                c = ufloat(best_fit_ab[2], sigma_ab[2])
             text_res = "Best fit parameters:\na = {}\nb = {}".format(a, b)
             #print(text_res)
+
             # calculate fitted values at the locations of the data points
             y_fit_list = func(np.array(x_values_list), *best_fit_ab)
             # calculate residuals and RMSE to determine best fitting function
@@ -238,42 +236,51 @@ def plot_single_file_with_fitted_curve_and_variance(filename, plot_dict, foot, c
             labels.append("{}: {:.2f}".format(func_name, rmse))
             rmse_dict[func_name] = "{:.2f}".format(rmse)
 
-            # sets the plot style
-            plt.style.use('seaborn-whitegrid')
-            # plots the dynamic angles as scatter points
-            plt.scatter(x_values_list, y_values_list, facecolor='silver',
-                        edgecolor='black', s=12, alpha=1)
-            plt.rcParams.update({'font.size': 12, 'axes.titlesize': 12, 'axes.labelsize': 12})
-            plt.ylabel("{} dynamics angle in degree".format(foot))
-            plt.xlabel("normalized stride length")
-            plt.title(filename, fontsize=12, fontweight=0, color='grey', loc='left')
-
-            # plotting the model ...
-            hires_x = np.linspace(min(x_values_list), max(x_values_list), len(x_values_list))
-            hires_y = func(hires_x, *best_fit_ab)
-            plt.plot(hires_x, hires_y, '{}'.format(color), alpha=0.6)
-            # ... and the variance band
-            bound_upper = func(hires_x, *(best_fit_ab + sigma_ab))
-            bound_lower = func(hires_x, *(best_fit_ab - sigma_ab))
-            plt.fill_between(hires_x, bound_lower, bound_upper,
-                             color='{}'.format(color), alpha=0.15)
-            # plt.text(140, 800, text_res)
-        plt.legend(labels, title="RMSE", fontsize=12)
-
-        # export plot as pdf
-        dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
-                                                "limb_dynamics_curve_fitting")
-        #print("dynamics folder: ", dynamics_folder)
-        try:
-            os.makedirs(dynamics_folder)
-            #print("folder for curve_fitting plots created")
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        if save_curve_fitting_plots:
-            plt.savefig(os.path.join(dynamics_folder, "dynamics{}{}.pdf".format(foot, filename)))
-        plt.clf()
-        plt.close()
-
     return rmse_dict
+
+
+def plot_curve_fitting():
+    import os
+    import errno
+    import matplotlib.pyplot as plt
+
+    # sets the plot style
+    plt.style.use('seaborn-whitegrid')
+    # plots the dynamic angles as scatter points
+    plt.scatter(x_values_list, y_values_list, facecolor='silver',
+                edgecolor='black', s=12, alpha=1)
+    plt.rcParams.update({'font.size': 12, 'axes.titlesize': 12, 'axes.labelsize': 12})
+    plt.ylabel("{} dynamics angle in degree".format(foot))
+    plt.xlabel("normalized stride length")
+    plt.title(filename, fontsize=12, fontweight=0, color='grey', loc='left')
+
+    # plotting the model ...
+    hires_x = np.linspace(min(x_values_list), max(x_values_list), len(x_values_list))
+    hires_y = func(hires_x, *best_fit_ab)
+    plt.plot(hires_x, hires_y, '{}'.format(color), alpha=0.6)
+    # ... and the variance band
+    bound_upper = func(hires_x, *(best_fit_ab + sigma_ab))
+    bound_lower = func(hires_x, *(best_fit_ab - sigma_ab))
+    plt.fill_between(hires_x, bound_lower, bound_upper,
+                     color='{}'.format(color), alpha=0.15)
+    # plt.text(140, 800, text_res)
+
+
+    plt.legend(labels, title="RMSE", fontsize=12)
+
+    # export plot as pdf
+    dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
+                               "limb_dynamics_curve_fitting")
+    # print("dynamics folder: ", dynamics_folder)
+    try:
+        os.makedirs(dynamics_folder)
+        # print("folder for curve_fitting plots created")
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+    if save_curve_fitting_plots:
+        plt.savefig(os.path.join(dynamics_folder, "dynamics{}{}.pdf".format(foot, filename)))
+    plt.clf()
+    plt.close()
+    return

@@ -148,7 +148,7 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
         df_plot.plot(linewidth=10, color=cmap(np.linspace(0, 1, 5)), ax=ax)
         ax.legend(handles=legend_elements)
     else:
-        legend_elements = [Line2D([0], [0], color='white', lw=1, label='1 = FR  |  2 = FL  |  3 = HR  |  4 = HL'),
+        legend_elements = [Line2D([0], [0], color='white', lw=1, label='1 = FL  |  2 = FR  |  3 = HR  |  4 = HL'),
                            Line2D([0], [0], color='black', lw=4, label='stance phases'),
                            Line2D([0], [0], color='white', lw=4, label='stride phases')]
         fig, ax = plt.subplots()

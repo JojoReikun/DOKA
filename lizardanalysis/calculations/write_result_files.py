@@ -52,7 +52,10 @@ def write_summary_result_files(config):
         class_dict[species] = species_summary(filter, species, filelist_split, result_file_path, filelist)
         print(str(class_dict[species]))
 
-        # store results species wise
+        # store plot lists species wise:
+        class_dict[species].store_species_plot_lists()
+
+        # print overview results species wise:
         #test:
         class_dict[species].summarize_species()
         # results[species][row] = class_dict[species].summarize_species()
@@ -60,8 +63,6 @@ def write_summary_result_files(config):
     # create overview plots and show in grid at the end
 
     print('\n \nDONE!!!')
-
-
 
 
 class species_summary:
@@ -78,7 +79,43 @@ class species_summary:
         return "\n\nClass: {}\n" \
                "The filtered split filelist is: \n{}".format(self.name, self.filelist_split_filtered)
 
-    def mean_deflection(self):
+    def store_species_plot_lists(self):
+        import pandas as pd
+        import os
+
+        species_plot = {}
+
+        # reads in first result csv file to get all column names
+        data = pd.read_csv(os.path.join(self.result_path, self.filelist_filtered[1]), sep=',')
+        data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+        column_name_list = [col for col in data.columns]
+
+        # defines categories to be extracted from results and requirements of string bits to appear in columnnames
+        # values: first string in list is a must exist + either the second or the third must be included
+        category = {'wrist_fore': ['wrist', 'FL', 'FR'],
+                    'wrist_hind': ['wrist', 'HR', 'HL']}
+        category_columnnames = {}
+
+        # gets the real column names for categories, so respective data can be pulled from data frame
+        for key in list(category.keys()):
+            # looks for the matching column names in the data which contain the string bits defined in category dict
+            names = [column for column in column_name_list if category[key][0] in column
+                     and (category[key][1] in column or category[key][2] in column)]
+            category_columnnames[key] = names
+        print(category_columnnames)
+
+        for file in self.filelist_filtered:
+            data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
+            data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+            for key in list(category_columnnames.keys()):
+                tmp = []
+                for name in category_columnnames[key]:
+                    tmp.append(list(data[category_columnnames[name]]))
+                print(tmp)
+                tmp = [element for sublist in list for element in sublist]
+                print(tmp)
+                species_plot[key] = tmp
+
         return
 
     def sformat(self, label, value, stdvalue=None, numformat=None):
@@ -289,25 +326,24 @@ class species_summary:
         slen = 64
         print(self.sprint('UP', direction_up_counter, None, 'DOWN', direction_down_counter, None, slen=slen, format=None))
         print(self.sprint("deflection mean UP", deflection_species_mean_UP, deflection_species_std_UP,
-              "deflection mean DOWN", deflection_species_mean_DOWN, deflection_species_std_DOWN, format='.2f'))
+                          "deflection mean DOWN", deflection_species_mean_DOWN, deflection_species_std_DOWN, format='.2f'))
+        print(self.sprint("speed mean UP", speed_species_mean_UP, speed_species_std_UP,
+                          "speed mean DOWN", speed_species_mean_DOWN, speed_species_std_DOWN, format='.2f'))
+        print(self.sprint("wrist fore mean UP", wrist_angles_fore_mean_UP, wrist_angles_fore_std_UP,
+                          "wrist fore mean DOWN", wrist_angles_fore_mean_DOWN, wrist_angles_fore_std_DOWN, format='.2f'))
+        print(self.sprint("wrist hind mean UP", wrist_angles_hind_mean_UP, wrist_angles_hind_std_UP,
+                          "wrist hind mean DOWN", wrist_angles_hind_mean_DOWN, wrist_angles_hind_std_DOWN, format='.2f'))
+        print(self.sprint("limb ROM fore mean UP", limb_ROM_fore_mean_UP, limb_ROM_fore_std_UP,
+                          "limb ROM fore mean DOWN", limb_ROM_fore_mean_DOWN, limb_ROM_fore_std_DOWN, format='.2f'))
+        print(self.sprint("limb ROM hind mean UP", limb_ROM_hind_mean_UP, limb_ROM_hind_std_UP,
+                          "limb ROM hind mean DOWN", limb_ROM_hind_mean_DOWN, limb_ROM_hind_std_DOWN, format='.2f'))
+        print(self.sprint("spine ROM mean UP", spine_ROM_mean_UP, spine_ROM_std_UP,
+                          "spine ROM mean DOWN", spine_ROM_mean_DOWN, spine_ROM_std_DOWN, format='.2f'))
+        print(self.sprint("CROM fore mean UP", CROM_fore_mean_UP, CROM_fore_std_UP,
+                          "CROM fore mean DOWN", CROM_fore_mean_DOWN, CROM_fore_std_DOWN, format='.2f'))
+        print(self.sprint("CROM hind mean UP", CROM_hind_mean_UP, CROM_hind_std_UP,
+                          "CROM hind mean DOWN", CROM_hind_mean_DOWN, CROM_hind_std_DOWN, format='.2f'))
 
-        print("\nspeed mean UP: {0:.2f} ".format(speed_species_mean_UP), "speed std UP: {0:.2f}".format(speed_species_std_UP), "           | ",
-              "speed mean DOWN: {0:.2f} ".format(speed_species_mean_DOWN), "speed std DOWN: {0:.2f}".format(speed_species_std_DOWN),
-              "\nwrist fore mean UP: {0:.2f} ".format(wrist_angles_fore_mean_UP), "wrist fore std UP: {0:.2f}".format(wrist_angles_fore_std_UP), "     | ",
-              "wrist fore mean DOWN: {0:.2f} ".format(wrist_angles_fore_mean_DOWN), "wrist fore std DOWN: {0:.2f}".format(wrist_angles_fore_std_DOWN),
-              "\nwrist hind mean UP: {0:.2f} ".format(wrist_angles_hind_mean_UP), "wrist hind std UP: {0:.2f}".format(wrist_angles_hind_std_UP), "     | ",
-              "wrist hind mean DOWN: {0:.2f} ".format(wrist_angles_hind_mean_DOWN), "wrist hind std DOWN: {0:.2f}".format(wrist_angles_hind_std_DOWN),
-              "\nlimb ROM fore mean UP: {0:.2f} ".format(limb_ROM_fore_mean_UP), "limb ROM fore std UP: {0:.2f}".format(limb_ROM_fore_std_UP), " | ",
-              "limb ROM fore mean DOWN: {0:.2f} ".format(limb_ROM_fore_mean_DOWN), "limb ROM fore std DOWN: {0:.2f}".format(limb_ROM_fore_std_DOWN),
-              "\nlimb ROM hind mean UP: {0:.2f} ".format(limb_ROM_hind_mean_UP), "limb ROM hind std UP: {0:.2f}".format(limb_ROM_hind_std_UP), " | ",
-              "limb ROM hind mean DOWN: {0:.2f} ".format(limb_ROM_hind_mean_DOWN), "limb ROM hind std DOWN: {0:.2f}".format(limb_ROM_hind_std_DOWN),
-              "\nspine ROM mean UP: {0:.2f} ".format(spine_ROM_mean_UP), "spine ROM std UP: {0:.2f}".format(spine_ROM_std_UP), "       | ",
-              "spine ROM mean DOWN: {0:.2f} ".format(spine_ROM_mean_DOWN), "spine ROM std DOWN: {0:.2f}".format(spine_ROM_std_DOWN),
-              "\nCROM fore mean UP: {0:.2f} ".format(CROM_fore_mean_UP), "CROM fore std UP: {0:.2f}".format(CROM_fore_std_UP), "        | ",
-              "CROM fore mean DOWN: {0:.2f} ".format(CROM_fore_mean_DOWN), "CROM fore std DOWN: {0:.2f}".format(CROM_fore_std_DOWN),
-              "\nCROM hind mean UP: {0:.2f} ".format(CROM_hind_mean_UP), "CROM hind std UP: {0:.2f}".format(CROM_hind_std_UP), "       | ",
-              "CROM hind mean DOWN: {0:.2f} ".format(CROM_hind_mean_DOWN), "CROM hind std DOWN: {0:.2f}".format(CROM_hind_std_DOWN)
-              )
         if toe_angles:
             print("\ntoe_angle_sum mean UP: {0:.2f} ".format(toe_angle_sum_mean_UP), "toe_angle_sum std UP: {0:.2f}".format(toe_angle_sum_std_UP), " | ",
                   "toe_angle_sum mean DOWN: {0:.2f} ".format(toe_angle_sum_mean_DOWN), "toe_angle_sum std DOWN: {0:.2f}".format(toe_angle_sum_std_DOWN))
