@@ -47,13 +47,16 @@ def write_summary_result_files(config):
     # create one class instance for every species to calculate individual summaries
     class_dict = {}
     results = {}
+    dict_list = []
     for species in speciescount.keys():
         #one class instance for very species
         class_dict[species] = species_summary(filter, species, filelist_split, result_file_path, filelist)
         print(str(class_dict[species]))
 
         # store plot lists species wise:
-        class_dict[species].store_species_plot_lists()
+        species_dict = class_dict[species].store_species_plot_lists()
+        dict_list.append(species_dict)
+        print(species_dict)
 
         # print overview results species wise:
         #test:
@@ -61,6 +64,9 @@ def write_summary_result_files(config):
         # results[species][row] = class_dict[species].summarize_species()
 
     # create overview plots and show in grid at the end
+    # merge the dict_list od species dicts into one dict
+    res = merge_dicts(dict_list)
+    print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in res.items()) + "}")
 
     print('\n \nDONE!!!')
 
@@ -83,6 +89,7 @@ class species_summary:
         import pandas as pd
         import os
 
+        species_dict = {}   # {'species': {'wrist_fore':[a, b, c], 'wrist_hind':[d,e,f], ... }}
         species_plot = {}
 
         # reads in first result csv file to get all column names
@@ -102,21 +109,24 @@ class species_summary:
             names = [column for column in column_name_list if category[key][0] in column
                      and (category[key][1] in column or category[key][2] in column)]
             category_columnnames[key] = names
-        print(category_columnnames)
+        #print(category_columnnames)
 
         for file in self.filelist_filtered:
+            tmp_species = []
             data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
             data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
             for key in list(category_columnnames.keys()):
                 tmp = []
                 for name in category_columnnames[key]:
-                    tmp.append(list(data[category_columnnames[name]]))
-                print(tmp)
-                tmp = [element for sublist in list for element in sublist]
-                print(tmp)
+                    tmp.append(list(data[name]))
+                tmp = [element for sublist in tmp for element in sublist] # flatten list so all values for key are in 1
+                #print(tmp)
                 species_plot[key] = tmp
 
-        return
+        #print(species_plot)
+        species_dict[self.name] = species_plot
+
+        return species_dict
 
     def sformat(self, label, value, stdvalue=None, numformat=None):
         if stdvalue is not None:
@@ -368,3 +378,11 @@ def direction_encode_and_strip(bytestring):
         print("no known direction found")
         direction = "UNKNOWN"
     return direction
+
+
+def merge_dicts(list_of_dictionaries):
+    res = {}
+    for dict in list_of_dictionaries:
+        for key in dict.keys():
+            res[key] = dict[key]
+    return res

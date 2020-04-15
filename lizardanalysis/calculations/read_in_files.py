@@ -10,7 +10,7 @@ from lizardanalysis.calculations.write_result_files import write_summary_result_
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 drop_empty_cols = True
-write_only_result_files = False
+write_only_result_files = True
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],
