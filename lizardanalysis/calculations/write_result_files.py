@@ -63,7 +63,7 @@ def summarize_results(config, plotting=False, direction_filter=True):
 
         # print overview results species wise:
         #test:
-        class_dict[species].summarize_species()
+        #class_dict[species].summarize_species()
         # results[species][row] = class_dict[species].summarize_species()
 
     # >>>>>>>>>>>>>>>>>>>>> create overview plots and show in grid at the end
