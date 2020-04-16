@@ -62,7 +62,7 @@ def summarize_results(config, plotting=False, direction_filter=True):
         # >>>>>>>>>> store plot lists species wise:
         species_dict = class_dict[species].store_species_plot_lists()
         dict_list.append(species_dict)
-        print("\n\n species_dict: \n", species_dict)
+        print("species_dict: \n", species_dict)
 
         # >>>>>>>>>> print overview results species wise:
         #test:
@@ -71,6 +71,7 @@ def summarize_results(config, plotting=False, direction_filter=True):
 
     # >>>>>>>>>>>>>>>>>>>>> create overview plots and show in grid at the end
     # ----- merge the dict_list od species dicts into one dict
+    print("\n\nmerged species dict:")
     res = merge_dicts(dict_list)
     print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in res.items()) + "}")
 
@@ -170,43 +171,49 @@ class species_summary:
             category_columnnames[key] = names
         #print(category_columnnames)
 
-        for file in self.filelist_filtered:
-            if self.filter['direction'] == True:
-                # group by species and seperate direction of climbing => tuple ([UP], [DOWN])
+        species_dict = {}       # dict with species name and info dict
+        species_plot = {}       # info dict
+        if self.filter['direction'] == True:
+            # group by species and by direction
+            tmp_keys_UP = {}
+            tmp_keys_DOWN = {}
+            for file in self.filelist_filtered:
+                data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
+                data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+
+                for key in list(category_columnnames.keys()):   # loops through categories
+                    tmp_merge_data_of_key = []
+                    for name in category_columnnames[key]:     # loops through columns with name belonging to key in current file
+                        tmp_merge_data_of_key.append(list(data[name]))
+
+                    if data['direction_of_climbing'][1] == 'UP':
+                        tmp_keys_UP[key] = [element for sublist in tmp_merge_data_of_key for element in sublist]
+                    elif data['direction_of_climbing'][1] == 'DOWN':
+                        tmp_keys_DOWN[key] = [element for sublist in tmp_merge_data_of_key for element in sublist]
+            for k1, v1, k2, v2 in zip(tmp_keys_UP.items(), tmp_keys_DOWN.items()):
+                v1 = [element for sublist in v1 for element in sublist]
+                v2 = [element for sublist in v2 for element in sublist]
+                species_plot[k1] = (v1, v2)         # k1 = k2
+                #print(species_plot)
+
+        else:
+            tmp_keys = {}
+            # only group species and don't seperate direction of climbing
+            for file in self.filelist_filtered:
                 data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
                 data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
                 for key in list(category_columnnames.keys()):
-                    tmp_UP = []
-                    tmp_DOWN =[]
+                    tmp_merge_data_of_key = []
                     for name in category_columnnames[key]:
-                        if data['direction_of_climbing'][1] == 'UP':
-                            tmp_UP.append(list(data[name]))
-                        elif data['direction_of_climbing'][1] == 'DOWN':
-                            tmp_DOWN.append(list(data[name]))
-                    tmp_UP = [element for sublist in tmp_UP for element in sublist]  # flatten list
-                    tmp_DOWN = [element for sublist in tmp_DOWN for element in sublist]  # flatten list
-                    # print(tmp_UP)
-                    # print(tmp_DOWN)
+                        tmp_merge_data_of_key.append(list(data[name]))
 
-                    species_plot[key] = (tmp_UP, tmp_DOWN)
-                #print(species_plot)
-                species_dict[self.name] = species_plot
+                    tmp_keys[key] = [element for sublist in tmp_merge_data_of_key for element in sublist] # flatten list
+            for k, v in tmp_keys.items():
+                species_plot[k] = v
 
-            else:
-                # only group species and don't seperate direction of climbing
-                data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
-                data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
-                for key in list(category_columnnames.keys()):
-                    tmp = []
-                    for name in category_columnnames[key]:
-                        tmp.append(list(data[name]))
-                    tmp = [element for sublist in tmp for element in sublist] # flatten list so all values for key are in 1
-                    #print(tmp)
-                    species_plot[key] = tmp
-                #print(species_plot)
-                species_dict[self.name] = species_plot
-
+        species_dict[self.name] = species_plot
         return species_dict
+
 
     def sformat(self, label, value, stdvalue=None, numformat=None):
         if stdvalue is not None:
