@@ -21,13 +21,16 @@ def summarize_results(config, plotting=False, direction_filter=True):
 
     result_file_path = os.path.join(current_path, project_path, "analysis-results")
     print('result filepath: ', result_file_path)
+    summary_folder = os.path.join(result_file_path, "analysis-summary")
 
     try:
-        os.makedirs(os.path.join(result_file_path, "analysis-summary"))
+        os.makedirs(summary_folder)
         print("folder for summary result files created")
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
+
+
 
     filelist = glob.glob(os.path.join(result_file_path, "*.csv"))
     filelist_split = [x.rsplit(os.sep, 1)[1] for x in filelist]
@@ -52,16 +55,16 @@ def summarize_results(config, plotting=False, direction_filter=True):
     results = {}
     dict_list = []
     for species in speciescount.keys():
-        #one class instance for very species
+        # >>>>>>>>>> one class instance for very species
         class_dict[species] = species_summary(filter, species, filelist_split, result_file_path, filelist)
         print(str(class_dict[species]))
 
-        # store plot lists species wise:
+        # >>>>>>>>>> store plot lists species wise:
         species_dict = class_dict[species].store_species_plot_lists()
         dict_list.append(species_dict)
-        print(species_dict)
+        print("\n\n species_dict: \n", species_dict)
 
-        # print overview results species wise:
+        # >>>>>>>>>> print overview results species wise:
         #test:
         #class_dict[species].summarize_species()
         # results[species][row] = class_dict[species].summarize_species()
@@ -70,16 +73,59 @@ def summarize_results(config, plotting=False, direction_filter=True):
     # ----- merge the dict_list od species dicts into one dict
     res = merge_dicts(dict_list)
     print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in res.items()) + "}")
-    # ----- bring res in correct format for plotting by category:
+
     first_key = list(res.keys())[0]
-    # builds an empty data frame with keys of species dict 1 in res as column names --> wrist_fore, wrist_hind ...
-    df_plot = pd.DataFrame(columns=[name for name in list(res[first_key].keys())] + ['species'])
-    # TODO: fill data frame!!!!!!!!
-    for species, info in res.items():
-        for k, v in info.items():       # e.g. k = 'wrist_fore', v = [a,b,c,s,....]
-            for row in range(len(v)):
-                df_plot[k] = v[row]
-    print(df_plot.head())
+
+
+    print("\n\nreordering dicts")
+    # ----- bring res in correct format for plotting by category TODO: make this own function:
+    if filter['direction'] == True:
+        # builds an empty data frame with keys of species dict 1 in res as column names --> wrist_fore, wrist_hind ...
+        df_plot = pd.DataFrame(columns=[name for name in list(res[first_key].keys())] + ['species'] + ['direction'])
+        print(df_plot.head())
+        # TODO: FIX!! direction DOWN does not appear yet, number of values not correct yet
+        for species, info in res.items():
+            column_value_tuple_list = list(info.items())
+            print("info.items()", column_value_tuple_list)
+            # one element in column_value_tuple_list: e.g. ( 'wrist_fore', ([up1, up2, up3], [down1, down2, down3]) )
+            for row in range(len(column_value_tuple_list[0][1][0])):        # v[0] = list of values for direction = UP
+                new_row = {column_value_tuple_list[0][0]: column_value_tuple_list[0][1][0][row],
+                           column_value_tuple_list[1][0]: column_value_tuple_list[1][1][0][row],
+                           'species': species, 'direction': 'UP'}
+                df_plot = df_plot.append(new_row, ignore_index=True)
+
+            # fill all values for direction UP into dataframe
+            for row in range(len(column_value_tuple_list[0][1][1])):        # v[0] = list of values for direction = DOWN
+                new_row = {column_value_tuple_list[0][1]: column_value_tuple_list[0][1][1][row],
+                           column_value_tuple_list[1][1]: column_value_tuple_list[1][1][1][row],
+                           'species': species, 'direction': 'DOWN'}
+                df_plot = df_plot.append(new_row, ignore_index=True)
+        print(df_plot.head())
+        df_plot_uniques = df_plot.drop_duplicates()
+        print(df_plot_uniques.head())
+
+        # save df_plot_uniques to csv:
+        try:
+            os.makedirs(summary_folder)
+            print("folder for summary files created")
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        df_plot_uniques.to_csv(os.path.join(summary_folder, "project_summary_uniques.csv"), index=True, header=True)
+        df_plot.to_csv(os.path.join(summary_folder, "project_summary_all.csv"), index=True, header=True)
+
+    else:
+        df_plot = pd.DataFrame(columns=[name for name in list(res[first_key].keys())] + ['species'])
+        first_key = list(res.keys())[0]
+        # builds an empty data frame with keys of species dict 1 in res as column names --> wrist_fore, wrist_hind ...
+        df_plot = pd.DataFrame(columns=[name for name in list(res[first_key].keys())] + ['species'])
+        for species, info in res.items():
+            # TODO: remove k, v loop and do as above
+            for k, v in info.items():       # e.g. k = 'wrist_fore', v = [a,b,c,s,....]
+                for row in range(len(v)):
+                    df_plot[k] = v[row]
+        print(df_plot.head())
+
 
     print('\n \nDONE!!!')
 
@@ -98,6 +144,7 @@ class species_summary:
                "The filtered split filelist is: \n{}".format(self.name, self.filelist_split_filtered)
 
     def store_species_plot_lists(self):
+        # TODO: make functional for more than just wrists
         import pandas as pd
         import os
 
@@ -138,7 +185,9 @@ class species_summary:
                             tmp_DOWN.append(list(data[name]))
                     tmp_UP = [element for sublist in tmp_UP for element in sublist]  # flatten list
                     tmp_DOWN = [element for sublist in tmp_DOWN for element in sublist]  # flatten list
-                    # print(tmp)
+                    # print(tmp_UP)
+                    # print(tmp_DOWN)
+
                     species_plot[key] = (tmp_UP, tmp_DOWN)
                 #print(species_plot)
                 species_dict[self.name] = species_plot
@@ -417,3 +466,17 @@ def merge_dicts(list_of_dictionaries):
         for key in dict.keys():
             res[key] = dict[key]
     return res
+
+
+
+
+# fill all values for direction UP into dataframe
+            # print("column_value_tuple_list[0][0] --> wrist fore?: ", column_value_tuple_list[0][0])
+            # print("UP values list for wrist fore: ", column_value_tuple_list[0][1][0])
+            # print("len(column_value_tuple_list[0][1][0]) --> len of UP values list for wrist fore: ", len(column_value_tuple_list[0][1][0]))
+            # print("column_value_tuple_list[0][0] --> wrist hind?: ", column_value_tuple_list[1][0])
+            # print("UP values list for wrist hind: ", column_value_tuple_list[1][1][0])
+            # print("len(column_value_tuple_list[0][1][0]) --> len of UP values list for wrist hind: ", len(column_value_tuple_list[1][1][0]))
+            # print("column_value_tuple_list[0][0] --> wrist fore?: ", column_value_tuple_list[0][1])
+            # print("DOWN values list for wrist fore: ", column_value_tuple_list[1][1][0])
+            # print("len(column_value_tuple_list[0][1][0]) --> len of DOWN values list for wrist fore: ", len(column_value_tuple_list[1][1][0]))
