@@ -8,7 +8,7 @@ def limb_rom(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('LIMB ROM CALCULATION')
+    #print('LIMB ROM CALCULATION')
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
@@ -74,8 +74,8 @@ def limb_rom(**kwargs):
                     results[foot][row] = limb_rom
 
         #print('limb ROM foot: ', limb_rom_foot)
-        mean_rom_foot = np.mean(limb_rom_foot)
-        std_rom_foot = np.std(limb_rom_foot)
+        # mean_rom_foot = np.mean(limb_rom_foot)
+        # std_rom_foot = np.std(limb_rom_foot)
         #print('foot: ', foot,
         #      'mean: ', mean_rom_foot,
         #      'std: ', std_rom_foot)

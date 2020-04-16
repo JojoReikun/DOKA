@@ -3,7 +3,7 @@ def toe_angles(**kwargs):
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print("TOE ANGLE CALCULATION")
+    #print("TOE ANGLE CALCULATION")
 
     data = kwargs.get("data")
     config = kwargs.get("config")

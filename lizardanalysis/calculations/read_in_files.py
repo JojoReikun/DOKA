@@ -4,13 +4,10 @@ LizardDLCAnalysis Toolbox
 Licensed under MIT License
 """
 import pandas as pd
-import glob
-
-from lizardanalysis.calculations.write_result_files import write_summary_result_files
+from tqdm import tqdm
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 drop_empty_cols = True
-write_only_result_files = True
 
 # list of all calculations and their requirements of labels as implemented in the program
 calculations = {'direction_of_climbing': ['nose'],
@@ -136,21 +133,21 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     """
 
     # filter data for values using the given likelihood >= e.g. 90%
-
+    prog2 = tqdm(total=len(calculations_checked), desc='FILE PROGRESS', position=0, leave=True)
     for calc in calculations_checked:
         # TODO: Can I pass a different number of kwargs for different calculations? E.g. df_result_current is only needed for calcs after stride_and_stance phases?
         retval = calc(data=data, clicked=clicked, data_rows_count=data_rows_count, likelihood=likelihood,
                       config=config, filename=filename, df_result_current=df_result_current) # returns a dict with numpy arrays
+        prog2.update(1)
         for key in retval:
             df_result_current[key] = retval[key]
         #print(df_result_current.head(5), '\n',
               #df_result_current.tail(5))
-
+    prog2.close()
     return df_result_current
 
 
-def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
-    if write_only_result_files == False:
+def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         """
         Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
         config : string
@@ -241,17 +238,22 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
             #     if e.errno != errno.EEXIST:
             #         raise
 
+
+        prog = tqdm(total=len(filelist), desc="TOTAL PROGRESS", position=0, leave=True)
         for i in range(len(filelist)):
             #print('\n \n ----- FILE: ', filelist[i])
             filename = filelist[i].rsplit(os.sep, 1)[1]
             filename = filename.rsplit(".", 1)[0]
-            print(' ----- FILENAME: ', filename)
+            #print(' ----- FILENAME: ', filename)
             file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[i]))
             file_path = os.path.join(current_path, file_path_2)
 
+            # update the description of the progrss bar
+            prog.set_description(desc="TOTAL PROGRESS {}".format(filename))
+
             # read in the current csv file as dataframe
             data = pd.read_csv(file_path, delimiter=",",
-                               header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
+                                   header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
             data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
             data_rows_count = data.shape[0]   # number of rows already excluded the 3 headers
             #print(data.head())
@@ -272,19 +274,20 @@ def read_csv_files(config, separate_gravity_file=False, likelihood=0.90):
                 empty_cols = [col for col in result_file.columns[0:len(calculations_checked_namelist)] if result_file[col].isnull().all()]
                 # Drop empty columns from the dataframe which are created for every calculation_checked
                 result_file.drop(empty_cols,
-                                 axis=1,
-                                 inplace=True)
+                                     axis=1,
+                                     inplace=True)
             # TODO: same... function in utils to define result path, call here
             result_file_path = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results")
             result_file.to_csv(os.path.join(result_file_path, "{}.csv".format(filename)), index=True, header=True)
             # TODO: allow filters for result dataframe e.g. direction of climbing
             # count up to proceed to next file
             i += 1
+            prog.update(1)
+        prog.close()
 
         print("\n", "DONE!")
 
 
     # generate TOTAL result dataframe combining the results from all runs:
     #df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
-    else:
-        write_summary_result_files(config)
+

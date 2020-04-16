@@ -9,7 +9,7 @@ def spine_rom(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('SPINE ROM CALCULATION')
+    #print('SPINE ROM CALCULATION')
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')

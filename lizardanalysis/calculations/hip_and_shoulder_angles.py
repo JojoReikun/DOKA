@@ -9,7 +9,7 @@ def hip_and_shoulder_angles(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('HIP AND SHOULDER ANGLE CALCULATION')
+    #print('HIP AND SHOULDER ANGLE CALCULATION')
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')

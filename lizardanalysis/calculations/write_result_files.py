@@ -4,9 +4,11 @@
 #           - SUMMARY
 #               - species-wise, nb of videos, up count, down count, means of all calculations
 
-def write_summary_result_files(config):
-    print('\nCREATING AND WRITING SUMMARY RESULT FILES...\n...')
 
+def summarize_results(config, plotting=False, direction_filter=True):
+    # TODO: if no result files are available print: analyze first!
+    print('\nCREATING AND WRITING SUMMARY RESULT FILES...\n...')
+    import pandas as pd
     from pathlib import Path
     import os
     import errno
@@ -32,8 +34,9 @@ def write_summary_result_files(config):
     #print(" + ", len(filelist_split), *filelist_split, sep='\n + ')
 
     # ----------------------------------------------------------------------------------------------------------
-    # options: sort by species, and optional by direction
-    filter = {'species': True, 'direction': True}
+    # options: sort by species, and optional by direction (passed in click command by user, default: True)
+    # option plotting: creates species-wise overview plots if True (passed in click command by user, default: False)
+    filter = {'species': True, 'direction': direction_filter, 'plotting': plotting}
 
     # loop through all individual result files to generate summary
     speciesnames = []
@@ -63,10 +66,20 @@ def write_summary_result_files(config):
         class_dict[species].summarize_species()
         # results[species][row] = class_dict[species].summarize_species()
 
-    # create overview plots and show in grid at the end
-    # merge the dict_list od species dicts into one dict
+    # >>>>>>>>>>>>>>>>>>>>> create overview plots and show in grid at the end
+    # ----- merge the dict_list od species dicts into one dict
     res = merge_dicts(dict_list)
     print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in res.items()) + "}")
+    # ----- bring res in correct format for plotting by category:
+    first_key = list(res.keys())[0]
+    # builds an empty data frame with keys of species dict 1 in res as column names --> wrist_fore, wrist_hind ...
+    df_plot = pd.DataFrame(columns=[name for name in list(res[first_key].keys())] + ['species'])
+    # TODO: fill data frame!!!!!!!!
+    for species, info in res.items():
+        for k, v in info.items():       # e.g. k = 'wrist_fore', v = [a,b,c,s,....]
+            for row in range(len(v)):
+                df_plot[k] = v[row]
+    print(df_plot.head())
 
     print('\n \nDONE!!!')
 
@@ -74,8 +87,7 @@ def write_summary_result_files(config):
 class species_summary:
 
     def __init__(self, filter, speciesname, filelist_split, result_file_path, filelist):
-        self.species_filter = filter['species']
-        self.direction_filter = filter['direction']
+        self.filter = filter
         self.result_path = result_file_path
         self.name = speciesname
         self.filelist_split_filtered = [file for file in filelist_split if speciesname in file] # contains file names
@@ -112,19 +124,38 @@ class species_summary:
         #print(category_columnnames)
 
         for file in self.filelist_filtered:
-            tmp_species = []
-            data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
-            data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
-            for key in list(category_columnnames.keys()):
-                tmp = []
-                for name in category_columnnames[key]:
-                    tmp.append(list(data[name]))
-                tmp = [element for sublist in tmp for element in sublist] # flatten list so all values for key are in 1
-                #print(tmp)
-                species_plot[key] = tmp
+            if self.filter['direction'] == True:
+                # group by species and seperate direction of climbing => tuple ([UP], [DOWN])
+                data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
+                data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+                for key in list(category_columnnames.keys()):
+                    tmp_UP = []
+                    tmp_DOWN =[]
+                    for name in category_columnnames[key]:
+                        if data['direction_of_climbing'][1] == 'UP':
+                            tmp_UP.append(list(data[name]))
+                        elif data['direction_of_climbing'][1] == 'DOWN':
+                            tmp_DOWN.append(list(data[name]))
+                    tmp_UP = [element for sublist in tmp_UP for element in sublist]  # flatten list
+                    tmp_DOWN = [element for sublist in tmp_DOWN for element in sublist]  # flatten list
+                    # print(tmp)
+                    species_plot[key] = (tmp_UP, tmp_DOWN)
+                #print(species_plot)
+                species_dict[self.name] = species_plot
 
-        #print(species_plot)
-        species_dict[self.name] = species_plot
+            else:
+                # only group species and don't seperate direction of climbing
+                data = pd.read_csv(os.path.join(self.result_path, file), sep=',')
+                data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
+                for key in list(category_columnnames.keys()):
+                    tmp = []
+                    for name in category_columnnames[key]:
+                        tmp.append(list(data[name]))
+                    tmp = [element for sublist in tmp for element in sublist] # flatten list so all values for key are in 1
+                    #print(tmp)
+                    species_plot[key] = tmp
+                #print(species_plot)
+                species_dict[self.name] = species_plot
 
         return species_dict
 

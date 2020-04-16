@@ -9,7 +9,7 @@ def center_limb_rom_angle(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('CROM CALCULATION')
+    #print('CROM CALCULATION')
 
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')

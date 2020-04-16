@@ -14,6 +14,7 @@ def direction_of_climbing(**kwargs):
         :param clicked: passed clicked value from gui determining configuration of direction of climbing
         :return direction of climbing as string "UP" or "DOWN"
     """
+    #print("DIRECTION OF CLIMBING")
     # define necessary **kwargs:
     data = kwargs.get('data')
     clicked = kwargs.get('clicked')
@@ -57,4 +58,18 @@ def direction_of_climbing(**kwargs):
 
     # mgs: changed this to use numpy array (much more efficient)
     direction_list = np.array(data_rows_count*[direction], dtype=np.string_)
+    direction_list = [direction_encode_and_strip(direction) for direction in direction_list]
+    #print(direction_list)
     return {__name__.rsplit('.', 1)[1]: direction_list}
+
+
+def direction_encode_and_strip(bytestring):
+    # get rid of b"..." for direction
+    if bytestring == b'UP':
+        direction = "UP"
+    elif bytestring == b'DOWN':
+        direction = "DOWN"
+    else:
+        print("no known direction found")
+        direction = "UNKNOWN"
+    return direction

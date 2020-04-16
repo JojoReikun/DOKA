@@ -13,7 +13,8 @@ from lizardanalysis import start_new_analysis
 from lizardanalysis.start_new_analysis import create_new_project
 from lizardanalysis.utils import auxiliaryfunctions
 from lizardanalysis import calculations
-from lizardanalysis.calculations.read_in_files import read_csv_files
+from lizardanalysis.calculations.read_in_files import analyze_files
+from lizardanalysis.calculations.write_result_files import summarize_results
 
 
 from lizardanalysis.version import __version__, VERSION

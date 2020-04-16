@@ -8,7 +8,7 @@ def knee_and_elbow_angles(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('KNEE AND ELBOW ANGLE CALCULATION')
+    #print('KNEE AND ELBOW ANGLE CALCULATION')
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
