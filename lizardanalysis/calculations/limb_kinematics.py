@@ -418,10 +418,10 @@ def save_rmse_values(filename, config_file, rmse_sig, rmse_lin, rmse_log, rmse_e
 
     if lvl == "gecko":
         rmse_values = [filename,
-                       rmse_sig, 0.0,
-                       rmse_lin, 0.0,
-                       rmse_log, 0.0,
-                       rmse_exp, 0.0]
+                       np.nanmean(rmse_sig), 0.0,
+                       np.nanmean(rmse_lin), 0.0,
+                       np.nanmean(rmse_log), 0.0,
+                       np.nanmean(rmse_exp), 0.0]
     else:
         rmse_values = [filename,
                                 np.nanmean(rmse_sig), np.nanstd(rmse_sig),

@@ -231,7 +231,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
                             'std_log']
             columns_list_easy_plotting = ['filename', 'rmse', 'function']
             df_rmse = pd.DataFrame(columns=columns_list)
-            df_rmse_easy_plotting = pd.DataFrame(columns=columns_list)
+            df_rmse_easy_plotting = pd.DataFrame(columns=columns_list_easy_plotting)
             df_rmse.to_csv(os.path.join(dynamics_folder, "rmse_gecko.csv"), header=True, index=False)
             df_rmse.to_csv(os.path.join(dynamics_folder, "rmse_footwise.csv"), header=True, index=False)
             df_rmse_easy_plotting.to_csv(os.path.join(dynamics_folder, "rmse_gecko_easy_plotting.csv"), header=True, index=False)
