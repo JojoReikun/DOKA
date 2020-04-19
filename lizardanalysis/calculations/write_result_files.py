@@ -7,6 +7,8 @@
 
 def summarize_results(config, plotting=False, direction_filter=True):
     # TODO: if no result files are available print: analyze first!
+    # TODO: fix summary to foot pairs
+    # TODO: read in rmse files if existent and replace nan values with max rmse value of respective function
     print('\nCREATING AND WRITING SUMMARY RESULT FILES...\n...')
     import pandas as pd
     from pathlib import Path

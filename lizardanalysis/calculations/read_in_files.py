@@ -217,6 +217,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         ############################################## RUN CALCULATION LOOP #################################################
         print("\nSTART analysis off all {} csv files in project ...".format(len(filelist)))
 
+        # creates result file for rmse:
         if cfg['save_rmse_values']:
             dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
                                            "limb_dynamics_curve_fitting")
@@ -228,8 +229,12 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
                     raise
             columns_list = ['filename', 'rmse_sig', 'std_sig', 'rmse_lin', 'std_lin', 'rmse_exp', 'std_exp', 'rmse_log',
                             'std_log']
+            columns_list_easy_plotting = ['filename', 'rmse', 'function']
             df_rmse = pd.DataFrame(columns=columns_list)
-            df_rmse.to_csv(os.path.join(dynamics_folder, "rmse.csv"), header=True, index=False)
+            df_rmse_easy_plotting = pd.DataFrame(columns=columns_list)
+            df_rmse.to_csv(os.path.join(dynamics_folder, "rmse_gecko.csv"), header=True, index=False)
+            df_rmse.to_csv(os.path.join(dynamics_folder, "rmse_footwise.csv"), header=True, index=False)
+            df_rmse_easy_plotting.to_csv(os.path.join(dynamics_folder, "rmse_gecko_easy_plotting.csv"), header=True, index=False)
 
             # try:
             #     os.path.isfile(os.path.join(dynamics_folder, "rmse.csv"))
