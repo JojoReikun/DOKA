@@ -39,39 +39,53 @@ def limb_rom(**kwargs):
                 break
             #print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
-            if len(df_stride_section_indices) > 0:
+            # only include steps longer than 5 frames
+            if len(df_stride_section_indices) > 5:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
                 #print(beg_end_tuple)
-                limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
-                                      - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
-                                     (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
-                                      - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "y")]))
+                shoulder_foot_likelihood_begin = data.loc[beg_end_tuple[0]][scorer, "Shoulder_{}".format(foot), "likelihood"]
+                knee_foot_likelihood_begin = data.loc[beg_end_tuple[0]][scorer, "{}_knee".format(foot), "likelihood"]
+                shoulder_foot_likelihood_end = data.loc[beg_end_tuple[1]][scorer, "Shoulder_{}".format(foot), "likelihood"]
+                knee_foot_likelihood_end = data.loc[beg_end_tuple[1]][scorer, "{}_knee".format(foot), "likelihood"]
+                # print("likelihoods: ", shoulder_foot_likelihood, knee_foot_likelihood)
 
-                limb_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "x")]
-                                    - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "x")]),
-                                   (data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "y")]
-                                    - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "y")]))
+                # filters data points of labels for likelihood
+                if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
+                    limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
+                                          - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
+                                         (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
+                                          - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "y")]))
 
-                limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
-                                                                                 auxiliaryfunctions.calc_body_axis(data,
-                                                                                                                   beg_end_tuple[
-                                                                                                                       0],
-                                                                                                                   scorer))
-                limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
-                                                                               auxiliaryfunctions.calc_body_axis(data,
-                                                                                                                 beg_end_tuple[
-                                                                                                                     1],
-                                                                                                                 scorer))
+                    limb_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "x")]
+                                        - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "x")]),
+                                       (data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "y")]
+                                        - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "y")]))
+
+                    limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                     auxiliaryfunctions.calc_body_axis(data,
+                                                                                                                       beg_end_tuple[
+                                                                                                                           0],
+                                                                                                                       scorer))
+                    limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                                   auxiliaryfunctions.calc_body_axis(data,
+                                                                                                                     beg_end_tuple[
+                                                                                                                         1],
+                                                                                                                     scorer))
+                else:
+                    limb_rom_angle_begin = 0.0
+                    limb_rom_angle_end = 0.0
+
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
                 else:
                     limb_rom = 0.0
 
+
                 #print('limbROM: ', limb_rom)
 
-            if limb_rom > 0.0:
-                for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                    results[foot][row] = limb_rom
+                if limb_rom > 0.0:
+                    for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
+                        results[foot][row] = limb_rom
 
         #print('limb ROM foot: ', limb_rom_foot)
         # mean_rom_foot = np.mean(limb_rom_foot)
