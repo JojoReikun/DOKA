@@ -50,7 +50,8 @@ def limb_rom(**kwargs):
                 # print("likelihoods: ", shoulder_foot_likelihood, knee_foot_likelihood)
 
                 # filters data points of labels for likelihood
-                if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
+                if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and \
+                        shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
                     limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
                                           - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
                                          (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]

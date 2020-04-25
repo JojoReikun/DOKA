@@ -49,7 +49,6 @@ def spine_rom(**kwargs):
                 #print(beg_end_tuple)
                 # calculate the vectors: Spine-Shoulder and Spine-Hip
                 for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                    #TODO: filter for likelihood
                     shoulder_foot_likelihood_begin = data.loc[j, (scorer, "Shoulder_{}".format(foot), "likelihood")]
                     knee_foot_likelihood_begin = data.loc[j, (scorer, "{}_knee".format(foot), "likelihood")]
                     shoulder_foot_likelihood_end = data.loc[j, (scorer, "Shoulder_{}".format(foot), "likelihood")]
@@ -57,7 +56,8 @@ def spine_rom(**kwargs):
                     #print("likelihoods: ", shoulder_foot_likelihood_begin, knee_foot_likelihood_begin, shoulder_foot_likelihood_end, knee_foot_likelihood_end)
 
                     # filters data points of labels for likelihood
-                    if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
+                    if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and\
+                            shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
                         spine_shoulder_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
                                           (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
                         spine_hip_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Hip", "x")]),
