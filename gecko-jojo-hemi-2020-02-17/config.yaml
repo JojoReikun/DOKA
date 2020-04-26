@@ -1,0 +1,80 @@
+# Project definitions (do not edit!)
+task: gecko
+scorer: jojo
+species: hemi
+date: '2020-02-17'
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model:
+framerate: 250
+shutter: 150
+
+# Project path (change when moving around)
+project_path: D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\gecko-jojo-hemi-2020-02-17
+
+# Annotation of data set
+file_sets:
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\gecko-jojo-hemi-2020-02-17\files\Gecko11run17DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\gecko-jojo-hemi-2020-02-17\files\Gecko11run1DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\gecko-jojo-hemi-2020-02-17\files\Gecko16run10DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\gecko-jojo-hemi-2020-02-17\files\Gecko18run2DeepCut_resnet50_gecko_runsSep19shuffle1_77000.csv
+  : file_number: '1'
+
+# Plotting configuration
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
+# Available labels (will be added automatically when running read_csv_files())
+labels:
+- shoulder
+- tail_middle
+- hr_to
+- fr
+- shoulder_fr
+- bodyparts
+- hl_ti
+- tail_tip
+- fr_to
+- hr_ti1
+- hl_to1
+- hl_ti1
+- fr_knee
+- hl
+- hip
+- fl_knee
+- fl
+- fl_to1
+- fr_ti
+- hr_knee
+- nose
+- fl_ti1
+- fl_ti
+- hr
+- fr_to1
+- hr_to1
+- hl_knee
+- fr_ti1
+- shoulder_fl
+- spine
+- hl_to
+- shoulder_hr
+- fl_to
+- hr_ti
+- shoulder_hl
+
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
+clicked: 1
+distance_limit: 5.0

@@ -1,7 +1,7 @@
 def wrist_angles(**kwargs):
     """
         Loops through all feet/stepphase columns and in each column through all stance phases and for every stance phase
-        through all stance phase frames. For every frame:
+        through all stance phase frames. For every stance phase the wrist angle at mid stance is extracted.
         1st) determines vector between inner and outer toe --> toe vector
         2nd) rotates the toe vector by 90 deg so it's perpendicular to 1st --> wrist vector
         3rd) calculate the angle between wrist vector and body axis for all frames, also calculate the mean
@@ -79,11 +79,11 @@ def wrist_angles(**kwargs):
                     # mirror toe_vector along x-axis
                     toe_vector = (toe_vector[0], toe_vector[1] * (-1))
                     if foot == "FR" or foot == "HL":
-                        toe_vector = (toe_vector[1], toe_vector[0] * (-1))
+                        toe_vector = (toe_vector[1], toe_vector[0] * (-1))  # CW rotation
                         # print("CW rotated toe_vector: ", toe_vector)
                         wrist_vectors.append(toe_vector)
                     elif foot == "FL" or foot == "HR":
-                        toe_vector = (toe_vector[1] * (-1), toe_vector[0])
+                        toe_vector = (toe_vector[1] * (-1), toe_vector[0])  # CCW rotation
                         # print("CCW rotated toe_vector: ", toe_vector)
                         wrist_vectors.append(toe_vector)
                 #print("wirst vectors {}: ".format(foot), wrist_vectors)

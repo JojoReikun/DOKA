@@ -1,0 +1,204 @@
+# Project definitions (do not edit!)
+task: Dragon02
+scorer: Tasmin
+species: Dragon
+date: '2020-04-16'
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model:
+framerate: 200
+shutter: 800
+
+# Project path (change when moving around)
+project_path: D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16
+
+# Annotation of data set
+file_sets:
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cinf1_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cinf1_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cinf1_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cinf1_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cinf1_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cinf1_up_06DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_06DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_07DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_08DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_09DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_10DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_11DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_12DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch2_up_13DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch3_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch3_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch4_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch4_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch4_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch4_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\cnuch4_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit1_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit1_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit2_down_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit2_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit2_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit2_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit2_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit3_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\pvit3_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_06DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_07DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_08DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_09DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem1_up_10DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_06DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_07DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_08DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\rdiem2_up_09DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_01DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_02DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_03DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_04DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_05DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_06DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_07DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_08DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Dragon02-Tasmin-Dragon-2020-04-16\files\ttet1_up_09DLC_resnet50_Dragon02Apr6shuffle1_550000.csv
+  : file_number: '1'
+
+# Plotting configuration
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
+# Available labels (will be added automatically when running read_csv_files())
+labels:
+- fr
+- hl_ti1
+- spine
+- nose
+- fl_ti1
+- hr
+- fr_ti
+- hip
+- shoulder_fl
+- fl_to
+- hl_to
+- fr_to1
+- fl_knee
+- tail_middle
+- fl_tm
+- hl_tm
+- hr_to1
+- hl
+- fr_tm
+- hl_to1
+- hr_ti1
+- fl_to1
+- shoulder_fr
+- fr_knee
+- hl_ti
+- hl_knee
+- fr_ti1
+- shoulder
+- tail_tip
+- shoulder_hr
+- hr_ti
+- bodyparts
+- fr_to
+- hr_knee
+- fl
+- hr_tm
+- hr_to
+- shoulder_hl
+- fl_ti
+
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
+# save_rmse_values: Defines if RMSE values for curve fitting of kinematics are saved to results. Default is True.
+clicked: 1
+distance_limit: 1
+save_rmse_values: true
