@@ -436,5 +436,3 @@ def save_rmse_values(filename, config_file, rmse_sig, rmse_lin, rmse_log, rmse_e
             auxiliaryfunctions.append_list_as_row_to_csv(rmse_file_easy_plotting, rmse_values_easy_plotting)
 
     auxiliaryfunctions.append_list_as_row_to_csv(rmse_file, rmse_values)
-
-

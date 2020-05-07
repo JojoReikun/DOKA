@@ -6,3 +6,4 @@ Click
 ipython
 matplotlib
 uncertainties
+tqdm

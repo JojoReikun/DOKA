@@ -295,4 +295,3 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
 
     # generate TOTAL result dataframe combining the results from all runs:
     #df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
-
