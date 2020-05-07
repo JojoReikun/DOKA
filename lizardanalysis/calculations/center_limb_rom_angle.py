@@ -9,7 +9,7 @@ def center_limb_rom_angle(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('CROM CALCULATION')
+    #print('CROM CALCULATION')
 
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
@@ -68,11 +68,11 @@ def center_limb_rom_angle(**kwargs):
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
                 else:
-                    limb_rom = 0.0
+                    limb_rom = np.nan
 
                 # CROM @ 1/2 ROM:
                 if stride_length_in_frames <= 3:
-                    CROM_midrom = 0.0
+                    CROM_midrom = np.nan
                 else:
                     """
                     CROM calculated to bodyaxis ("lower angle"), 90 - CROM to get angle in relation to perpendicular

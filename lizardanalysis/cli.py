@@ -69,8 +69,8 @@ def create_new_project(_, *args, **kwargs):
 @click.pass_context
 
 
-def read_csv_files(_, *args, **kwargs):
-    """Reads in the given list of .csv files.
+def analyze_files(_, *args, **kwargs):
+    """Reads in the given list of .csv files and performs calculations on all of them.
     Options \n
     ---------- \n
     config : string \n
@@ -81,5 +81,34 @@ def read_csv_files(_, *args, **kwargs):
     \tFloat betw. 0.0 and 1.0, which defines the accuracy used to include labels into the analysis. Default: 0.9
     """
     from lizardanalysis.calculations import read_in_files
-    read_in_files.read_csv_files(*args, **kwargs)
+    read_in_files.analyze_files(*args, **kwargs)
 
+
+#####################################################################################
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+@click.argument('config')
+@click.option('--plotting', 'plotting',
+              is_flag=False,
+              default=False,
+              help='Set True if you want to generate overview plots grouped by species. The default is False')
+@click.option('--direction_filter', 'direction_filter',
+              is_flag=True,
+              default=True,
+              help='Set True if you want to filter the results by direction. The default is True')
+@click.pass_context
+
+
+def summarize_results(_, *args, **kwargs):
+    """Creates species-wise result files and result overview. Also includes plotting as an option.
+    Options \n
+    ---------- \n
+    config : string \n
+    \tString containing the full path to the config file of the project. \n
+    plotting : bool, optional \n
+    \tOptionally define a csv file with gravity data for calibration. Default: seperate_gravity_file=False.
+    likelihood: float \n
+    \tFloat betw. 0.0 and 1.0, which defines the accuracy used to include labels into the analysis. Default: 0.9
+    """
+    from lizardanalysis.calculations import write_result_files
+    write_result_files.summarize_results(*args, **kwargs)

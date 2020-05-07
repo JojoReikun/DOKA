@@ -9,11 +9,12 @@ def spine_rom(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('SPINE ROM CALCULATION')
+    #print('SPINE ROM CALCULATION')
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
+    likelihood = kwargs.get('likelihood')
 
     scorer = data.columns[1][0]
     feet = ["FL", "FR", "HR", "HL"]
@@ -40,46 +41,43 @@ def spine_rom(**kwargs):
                 break
             #print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
-            if len(df_stride_section_indices) > 0:
+            # only include strides longer than 5 frames:
+            if len(df_stride_section_indices) > 5:
                 shoulder_rom_list_stride = []
                 hip_rom_list_stride = []
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
                 #print(beg_end_tuple)
                 # calculate the vectors: Spine-Shoulder and Spine-Hip
                 for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                    #print('------- stepphase index: ', j)
-                    #debug
-                    # if (data.loc[j, (scorer, "Spine", "y")] > data.loc[j, (scorer, "Shoulder", "y")]):
-                    #     print('left bending ---> spine > shoulder')
-                    # elif ((data.loc[j, (scorer, "Spine", "y")] < data.loc[j, (scorer, "Shoulder", "y")])):
-                    #     print('left bending ---> spine < shoulder')
+                    shoulder_foot_likelihood_begin = data.loc[j, (scorer, "Shoulder_{}".format(foot), "likelihood")]
+                    knee_foot_likelihood_begin = data.loc[j, (scorer, "{}_knee".format(foot), "likelihood")]
+                    shoulder_foot_likelihood_end = data.loc[j, (scorer, "Shoulder_{}".format(foot), "likelihood")]
+                    knee_foot_likelihood_end = data.loc[j, (scorer, "{}_knee".format(foot), "likelihood")]
+                    #print("likelihoods: ", shoulder_foot_likelihood_begin, knee_foot_likelihood_begin, shoulder_foot_likelihood_end, knee_foot_likelihood_end)
 
-                    spine_shoulder_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
-                                      (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
-                    spine_hip_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Hip", "x")]),
-                                (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Hip", "y")]))
+                    # filters data points of labels for likelihood
+                    if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and\
+                            shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
+                        spine_shoulder_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
+                                          (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
+                        spine_hip_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Hip", "x")]),
+                                    (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Hip", "y")]))
 
-                    # calculate the angles from both vectors to body-axis
-                    shoulder_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_shoulder_vector, calc_body_axis(data, j, scorer))
-                    hip_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_hip_vector, calc_body_axis(data, j, scorer))
-                    # neccessary to make calculation independent of bending direction
-                    # TODO: correct correction?
-                    # if shoulder_rom_i > 90.:
-                    #     shoulder_rom_i = 180. - shoulder_rom_i
-                    # if hip_rom_i > 90.:
-                    #     hip_rom_i = 180. - hip_rom_i
+                        # calculate the angles from both vectors to body-axis
+                        shoulder_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_shoulder_vector, calc_body_axis(data, j, scorer))
+                        hip_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_hip_vector, calc_body_axis(data, j, scorer))
 
-                    # control value: sum of both usually close to 180. because one takes 'inverse angle' (180.-ROM),
-                    # one takes ROM
-                    sum_roms = shoulder_rom_i + hip_rom_i
-                    if sum_roms >= 175. and sum_roms <= 185.:
-                        shoulder_rom_list_stride.append(shoulder_rom_i)
-                        hip_rom_list_stride.append(hip_rom_i)
-                    #     print('rom taken into account')
-                    # print('shoulder ROM i: ', shoulder_rom_i)
-                    # print('hip ROM i: ', hip_rom_i)
-                    # print('SUM: ', shoulder_rom_i + hip_rom_i)
-                #print('length of rom lists for step: ', len(shoulder_rom_list_stride))
+                        # control value: sum of both usually close to 180. because one takes 'inverse angle' (180.-ROM),
+                        # one takes ROM
+                        sum_roms = shoulder_rom_i + hip_rom_i
+                        if sum_roms >= 175. and sum_roms <= 185.:
+                            shoulder_rom_list_stride.append(shoulder_rom_i)
+                            hip_rom_list_stride.append(hip_rom_i)
+
+                    else:
+                        # appends nan if likelihood is too bad to include
+                        shoulder_rom_list_stride.append(np.nan)
+                        hip_rom_list_stride.append(np.nan)
 
                 # make sure max() and min() can operate, hence length of lists > 0
                 if len(shoulder_rom_list_stride) > 0 and len(hip_rom_list_stride) > 0:
@@ -106,10 +104,10 @@ def spine_rom(**kwargs):
                 hip_rom_list.append(hip_rom)
 
         #debug
-        mean_shoulder_rom = np.mean(shoulder_rom_list)
-        mean_hip_rom = np.mean(hip_rom_list)
-        std_shoulder_rom = np.std(shoulder_rom_list)
-        std_hip_rom = np.std(hip_rom_list)
+        # mean_shoulder_rom = np.mean(shoulder_rom_list)
+        # mean_hip_rom = np.mean(hip_rom_list)
+        # std_shoulder_rom = np.std(shoulder_rom_list)
+        # std_hip_rom = np.std(hip_rom_list)
         # print('foot: ', foot,
         #         'mean_shoulder: ', mean_shoulder_rom,
         #         'std_shoulder: ', std_shoulder_rom,
