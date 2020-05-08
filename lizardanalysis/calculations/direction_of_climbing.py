@@ -14,31 +14,32 @@ def direction_of_climbing(**kwargs):
         :param clicked: passed clicked value from gui determining configuration of direction of climbing
         :return direction of climbing as string "UP" or "DOWN"
     """
+    # print("DIRECTION OF CLIMBING")
     # define necessary **kwargs:
     data = kwargs.get('data')
     clicked = kwargs.get('clicked')
     data_rows_count = kwargs.get('data_rows_count')
 
-    #print('clicked value in function: ', clicked)
+    # print('clicked value in function: ', clicked)
 
     scorer = data.columns[1][0]
-    #print('scorer: ', scorer)
+    # print('scorer: ', scorer)
 
-    #TODO: filter columns of used labels for likelihood BEFORE calculation
+    # TODO: filter columns of used labels for likelihood BEFORE calculation
     likelihood = 0.90
-    #nose_coords = data[scorer, 'Nose']
-    #nose_coords = nose_coords[nose_coords.likelihood >= 0.90]
+    # nose_coords = data[scorer, 'Nose']
+    # nose_coords = nose_coords[nose_coords.likelihood >= 0.90]
 
     nose_coords = data[scorer, 'Nose', 'x']
-    #print(nose_coords.head())
+    # print(nose_coords.head())
 
     if clicked == 1:
         if nose_coords.iloc[-1] > nose_coords.iloc[0]:
-            direction = "DOWN"  #waterdragon cheat to avoid clicked = 2
-            #direction = "UP"
+            direction = "UP"
+            # direction = "DOWN"  # for waterdragons
         elif nose_coords.iloc[-1] < nose_coords.iloc[0]:
-            direction = "UP"  # waterdragon cheat to avoid clicked = 2
-            #direction = "DOWN"
+            direction = "DOWN"
+            # direction = "UP"    # for waterdragons
         else:
             direction = "Direction can't be determined"
 
@@ -58,5 +59,19 @@ def direction_of_climbing(**kwargs):
     # print('\n direction: ', {__name__.rsplit('.', 1)[1]: direction})
 
     # mgs: changed this to use numpy array (much more efficient)
-    direction_list = np.array(data_rows_count*[direction], dtype=np.string_)
+    direction_list = np.array(data_rows_count * [direction], dtype=np.string_)
+    direction_list = [direction_encode_and_strip(direction) for direction in direction_list]
+    # print(direction_list)
     return {__name__.rsplit('.', 1)[1]: direction_list}
+
+
+def direction_encode_and_strip(bytestring):
+    # get rid of b"..." for direction
+    if bytestring == b'UP':
+        direction = "UP"
+    elif bytestring == b'DOWN':
+        direction = "DOWN"
+    else:
+        print("no known direction found")
+        direction = "UNKNOWN"
+    return direction
