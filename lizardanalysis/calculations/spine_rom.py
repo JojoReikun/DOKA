@@ -64,21 +64,25 @@ def spine_rom(**kwargs):
                                     (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Hip", "y")]))
 
                         # calculate the angles from both vectors to body-axis
-                        shoulder_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_shoulder_vector, calc_body_axis(data, j, scorer))
-                        hip_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_hip_vector, calc_body_axis(data, j, scorer))
+                        body_axis = calc_body_axis(data, j, scorer)
+                        # rotate body axis by 90 degree CW so a crossing via body axis doesn't occur:
+                        body_axis_rotated = (body_axis[1], body_axis[0] * (-1))
+                        shoulder_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_shoulder_vector, body_axis_rotated)
+                        hip_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_hip_vector, body_axis_rotated)
 
                         # control value: sum of both usually close to 180. because one takes 'inverse angle' (180.-ROM),
                         # one takes ROM
-                        sum_roms = shoulder_rom_i + hip_rom_i
-                        if sum_roms >= 175. and sum_roms <= 185.:
-                            shoulder_rom_list_stride.append(shoulder_rom_i)
-                            hip_rom_list_stride.append(hip_rom_i)
+                        # TODO: what happens if angle "passes body axis" and goes from left to right bending withing a stride?
+                        shoulder_rom_list_stride.append(shoulder_rom_i)
+                        hip_rom_list_stride.append(hip_rom_i)
 
                     else:
                         # appends nan if likelihood is too bad to include
                         shoulder_rom_list_stride.append(np.nan)
                         hip_rom_list_stride.append(np.nan)
-
+                print('max: ', max(shoulder_rom_list_stride), '\n',
+                      'min: ', min(shoulder_rom_list_stride), '\n',
+                      'res: ', max(shoulder_rom_list_stride)-min(shoulder_rom_list_stride))
                 # make sure max() and min() can operate, hence length of lists > 0
                 if len(shoulder_rom_list_stride) > 0 and len(hip_rom_list_stride) > 0:
                     shoulder_rom = max(shoulder_rom_list_stride) - min(shoulder_rom_list_stride)
@@ -104,15 +108,15 @@ def spine_rom(**kwargs):
                 hip_rom_list.append(hip_rom)
 
         #debug
-        # mean_shoulder_rom = np.mean(shoulder_rom_list)
-        # mean_hip_rom = np.mean(hip_rom_list)
-        # std_shoulder_rom = np.std(shoulder_rom_list)
-        # std_hip_rom = np.std(hip_rom_list)
-        # print('foot: ', foot,
-        #         'mean_shoulder: ', mean_shoulder_rom,
-        #         'std_shoulder: ', std_shoulder_rom,
-        #         'mean_hip: ', mean_hip_rom,
-        #         'std_hip: ', std_hip_rom)
+        mean_shoulder_rom = np.nanmean(shoulder_rom_list)
+        mean_hip_rom = np.nanmean(hip_rom_list)
+        std_shoulder_rom = np.nanstd(shoulder_rom_list)
+        std_hip_rom = np.nanstd(hip_rom_list)
+        print('foot: ', foot,
+                'mean_shoulder: ', mean_shoulder_rom,
+                'std_shoulder: ', std_shoulder_rom,
+                'mean_hip: ', mean_hip_rom,
+                'std_hip: ', std_hip_rom)
 
     # rename dictionary keys of results
     results = {'spineROM_' + key: value for (key, value) in results.items()}

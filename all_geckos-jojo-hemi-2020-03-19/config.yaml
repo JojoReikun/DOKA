@@ -316,3 +316,4 @@ labels:
 # distance_limit: The distance a foot has to move (px) to be viewed as in stride
 clicked: 1
 distance_limit:
+save_rmse_values: False
