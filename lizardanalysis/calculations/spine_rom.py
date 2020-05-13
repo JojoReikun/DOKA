@@ -80,9 +80,9 @@ def spine_rom(**kwargs):
                         # appends nan if likelihood is too bad to include
                         shoulder_rom_list_stride.append(np.nan)
                         hip_rom_list_stride.append(np.nan)
-                print('max: ', max(shoulder_rom_list_stride), '\n',
-                      'min: ', min(shoulder_rom_list_stride), '\n',
-                      'res: ', max(shoulder_rom_list_stride)-min(shoulder_rom_list_stride))
+                # print('max: ', max(shoulder_rom_list_stride), '\n',
+                #       'min: ', min(shoulder_rom_list_stride), '\n',
+                #       'res: ', max(shoulder_rom_list_stride)-min(shoulder_rom_list_stride))
                 # make sure max() and min() can operate, hence length of lists > 0
                 if len(shoulder_rom_list_stride) > 0 and len(hip_rom_list_stride) > 0:
                     shoulder_rom = max(shoulder_rom_list_stride) - min(shoulder_rom_list_stride)
@@ -112,11 +112,11 @@ def spine_rom(**kwargs):
         mean_hip_rom = np.nanmean(hip_rom_list)
         std_shoulder_rom = np.nanstd(shoulder_rom_list)
         std_hip_rom = np.nanstd(hip_rom_list)
-        print('foot: ', foot,
-                'mean_shoulder: ', mean_shoulder_rom,
-                'std_shoulder: ', std_shoulder_rom,
-                'mean_hip: ', mean_hip_rom,
-                'std_hip: ', std_hip_rom)
+        # print('foot: ', foot,
+        #         'mean_shoulder: ', mean_shoulder_rom,
+        #         'std_shoulder: ', std_shoulder_rom,
+        #         'mean_hip: ', mean_hip_rom,
+        #         'std_hip: ', std_hip_rom)
 
     # rename dictionary keys of results
     results = {'spineROM_' + key: value for (key, value) in results.items()}

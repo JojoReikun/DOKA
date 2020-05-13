@@ -36,10 +36,10 @@ def direction_of_climbing(**kwargs):
     if clicked == 1:
         if nose_coords.iloc[-1] > nose_coords.iloc[0]:
             direction = "UP"
-            # direction = "DOWN"  # for waterdragons
+            #direction = "DOWN"  # for waterdragons
         elif nose_coords.iloc[-1] < nose_coords.iloc[0]:
             direction = "DOWN"
-            # direction = "UP"    # for waterdragons
+            #direction = "UP"    # for waterdragons
         else:
             direction = "Direction can't be determined"
 

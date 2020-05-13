@@ -7,6 +7,10 @@ def limb_rom(**kwargs):
     """
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
+    from pathlib import Path
+    import os.path
+
+    calc_rel_to_body_axis = False
 
     #print('LIMB ROM CALCULATION')
     # define necessary **kwargs:
@@ -14,6 +18,17 @@ def limb_rom(**kwargs):
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
     likelihood = kwargs.get('likelihood')
+    config = kwargs.get('config')
+    filename = kwargs.get('filename')
+
+    config_file = Path(config).resolve()
+    # print("config path resolved: ", config_file)
+    cfg = auxiliaryfunctions.read_config(config_file)
+
+    # TODO: Function in utils giving back results path folder from config resolve
+    # create file path for foot fall pattern diagrams
+    plotting_limb_ROM_vectors = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
+                                            "limb_rom_vectors")
 
     scorer = data.columns[1][0]
     feet = ["FL", "FR", "HR", "HL"]
@@ -52,6 +67,7 @@ def limb_rom(**kwargs):
                 # filters data points of labels for likelihood
                 if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and \
                         shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
+
                     limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
                                           - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
                                          (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
@@ -62,22 +78,71 @@ def limb_rom(**kwargs):
                                        (data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "y")]
                                         - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "y")]))
 
-                    limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
-                                                                                     auxiliaryfunctions.calc_body_axis(data,
-                                                                                                                       beg_end_tuple[
-                                                                                                                           0],
-                                                                                                                       scorer))
-                    limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
-                                                                                   auxiliaryfunctions.calc_body_axis(data,
-                                                                                                                     beg_end_tuple[
-                                                                                                                         1],
-                                                                                                                     scorer))
+                    if calc_rel_to_body_axis:
+                        limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                         auxiliaryfunctions.calc_body_axis(data,
+                                                                                                                           beg_end_tuple[
+                                                                                                                               0],
+                                                                                                                           scorer))
+                        limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                                       auxiliaryfunctions.calc_body_axis(data,
+                                                                                                                         beg_end_tuple[
+                                                                                                                             1],
+                                                                                                                    scorer))
+                    else:
+                        #print("foot: ", foot, "\n")
+                        # calculate relative to Shoulder-Spine (fore feet) or Hip-Spine (hind feet)
+                        spine_shoulder_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Spine", "x")] - data.loc[
+                            beg_end_tuple[0], (scorer, "Shoulder", "x")]),
+                                                       (data.loc[beg_end_tuple[0], (scorer, "Spine", "y")] - data.loc[
+                                                           beg_end_tuple[0], (scorer, "Shoulder", "y")]))
+                        spine_shoulder_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Spine", "x")] - data.loc[
+                            beg_end_tuple[1], (scorer, "Shoulder", "x")]),
+                                                     (data.loc[beg_end_tuple[1], (scorer, "Spine", "y")] - data.loc[
+                                                         beg_end_tuple[1], (scorer, "Shoulder", "y")]))
+                        spine_hip_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Spine", "x")] - data.loc[
+                            beg_end_tuple[0], (scorer, "Hip", "x")]),
+                                                  (data.loc[beg_end_tuple[0], (scorer, "Spine", "y")] - data.loc[
+                                                      beg_end_tuple[0], (scorer, "Hip", "y")]))
+                        spine_hip_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Spine", "x")] - data.loc[
+                            beg_end_tuple[1], (scorer, "Hip", "x")]),
+                                                (data.loc[beg_end_tuple[1], (scorer, "Spine", "y")] - data.loc[
+                                                    beg_end_tuple[1], (scorer, "Hip", "y")]))
+                        if foot == "FL" or foot == "FR":
+
+                            #print(spine_shoulder_vector_begin, spine_shoulder_vector_end)
+                            limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                             spine_shoulder_vector_begin)
+                            limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                                             spine_shoulder_vector_end)
+                            #print("a begin: ", limb_rom_angle_begin, "a end: ", limb_rom_angle_end)
+
+                        elif foot == "HR" or foot == "HL":
+
+                            #print(spine_hip_vector_begin, spine_hip_vector_end)
+                            limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                             spine_hip_vector_begin)
+                            limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                                           spine_hip_vector_end)
+                            #print("a begin: ", limb_rom_angle_begin, "a end: ", limb_rom_angle_end)
+                        else:
+                            print("foot does not equal FL, FR, HL, or HR!")
+
+                            # plot vectors
+
+                        plot_limb_vectors(spine_shoulder_vector_begin, spine_shoulder_vector_end,
+                                              spine_hip_vector_begin,
+                                              spine_hip_vector_end, limb_vector_begin, limb_vector_end,
+                                              plotting_limb_ROM_vectors, filename, foot)
+
                 else:
                     limb_rom_angle_begin = 0.0
                     limb_rom_angle_end = 0.0
 
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
+                    #limb_rom2 = abs(limb_rom_angle_begin - limb_rom_angle_end)     #it's the same
+                    #print("LIMB ROM: ", limb_rom)
                 else:
                     limb_rom = 0.0
 
@@ -87,13 +152,6 @@ def limb_rom(**kwargs):
                 if limb_rom > 0.0:
                     for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                         results[foot][row] = limb_rom
-
-        #print('limb ROM foot: ', limb_rom_foot)
-        # mean_rom_foot = np.mean(limb_rom_foot)
-        # std_rom_foot = np.std(limb_rom_foot)
-        #print('foot: ', foot,
-        #      'mean: ', mean_rom_foot,
-        #      'std: ', std_rom_foot)
 
     # rename dictionary keys of results
     results = {'limbROM_' + key: value for (key, value) in results.items()}
@@ -106,3 +164,32 @@ def loop_encode(i):
     cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value
+
+def plot_limb_vectors(shoulder_vector_begin, shoulder_vector_end, hip_vector_begin, hip_vector_end, limb_angle_begin, limb_angle_end, plotting_limb_ROM_vectors, filename, foot):
+    import matplotlib.pyplot as plt
+    import os.path
+    import errno
+    import numpy as np
+    V = np.array([[shoulder_vector_begin[0], shoulder_vector_begin[1]],
+                  [shoulder_vector_end[0], shoulder_vector_end[1]],
+                  [hip_vector_begin[0], hip_vector_begin[1]],
+                  [hip_vector_end[0], hip_vector_end[1]],
+                  [limb_angle_begin[0], limb_angle_begin[1]],
+                  [limb_angle_end[0], limb_angle_end[1]]])
+    labels=["shoulder_beg", "shoulder_end", "hip_beg", "hip_end", "limb_beg", "limb_end"]
+    #print("vectors: \n", V)
+    origin = [0], [0]  # origin point
+
+    #print("PLOT")
+    plt.quiver(*origin, V[:,0], V[:,1], color=['b', 'g', 'r', 'c', 'm', 'y'], scale=0.1,
+               label=labels)
+    plt.legend(["shoulder_beg", "shoulder_end", "hip_beg", "hip_end", "limb_beg", "limb_end"])
+
+    try:
+        os.makedirs(plotting_limb_ROM_vectors)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+    plt.savefig(os.path.join(plotting_limb_ROM_vectors, "{}_{}_firstStride.png".format(filename, foot)))
+    plt.clf()
+    plt.close()
