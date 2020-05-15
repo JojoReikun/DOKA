@@ -11,6 +11,7 @@ def limb_rom(**kwargs):
     import os.path
 
     calc_rel_to_body_axis = False
+    plotting_vectors = False
 
     #print('LIMB ROM CALCULATION')
     # define necessary **kwargs:
@@ -128,12 +129,12 @@ def limb_rom(**kwargs):
                         else:
                             print("foot does not equal FL, FR, HL, or HR!")
 
+                        if plotting_vectors:
                             # plot vectors
-
-                        plot_limb_vectors(spine_shoulder_vector_begin, spine_shoulder_vector_end,
-                                              spine_hip_vector_begin,
-                                              spine_hip_vector_end, limb_vector_begin, limb_vector_end,
-                                              plotting_limb_ROM_vectors, filename, foot)
+                            plot_limb_vectors(spine_shoulder_vector_begin, spine_shoulder_vector_end,
+                                                  spine_hip_vector_begin,
+                                                  spine_hip_vector_end, limb_vector_begin, limb_vector_end,
+                                                  plotting_limb_ROM_vectors, filename, foot)
 
                 else:
                     limb_rom_angle_begin = 0.0
@@ -164,6 +165,7 @@ def loop_encode(i):
     cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value
+
 
 def plot_limb_vectors(shoulder_vector_begin, shoulder_vector_end, hip_vector_begin, hip_vector_end, limb_angle_begin, limb_angle_end, plotting_limb_ROM_vectors, filename, foot):
     import matplotlib.pyplot as plt

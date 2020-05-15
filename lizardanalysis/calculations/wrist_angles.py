@@ -142,8 +142,8 @@ def wrist_angles(**kwargs):
                         wrist_angles_not_nan.append(wrist_angle)
                 #print("length of wrist_angles/stance length: {}/{}".format(len(wrist_angles_not_nan), len(df_stance_section)))
 
-                if len(wrist_angles) > threshold_stride_len:  # only include strides equal or longer than x frames
-                    # calculate the mid stance wrist angle (only of stance phases which are at least 4 frames long
+                if len(wrist_angles) > threshold_stride_len:  # only include strides longer than x frames
+                    # calculate the mid stance wrist angle
                     if len(wrist_angles) <= threshold_stride_len:
                         #print("NAN \n")
                         mean_value, std_value = np.NAN, np.NAN
