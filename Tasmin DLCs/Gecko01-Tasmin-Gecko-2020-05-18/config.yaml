@@ -1,0 +1,231 @@
+# Project definitions (do not edit!)
+task: Gecko01
+scorer: Tasmin
+species: Gecko
+date: '2020-05-18'
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model:
+framerate: 200
+shutter: 800
+
+# Project path (change when moving around)
+project_path: D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18
+
+# Annotation of data set
+file_sets:
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_down_23DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_down_25DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_down_26DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_up_19DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_up_20DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_up_22DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub2_up_24DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_23DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_26DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_27DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_29DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_30DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_31DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_down_32DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_up_22DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_up_24DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_up_25DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub3_up_28DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_down_16DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_down_18DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_down_20DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_down_22DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_down_24DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_down_25DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_up_15DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_up_17DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_up_19DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_up_21DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\gdub5_up_23DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_down_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_down_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_down_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_down_07DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_up_03DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_up_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_up_08DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys11_up_09DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_down_03DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_down_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_down_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_down_07DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_down_08DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_up_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys1_up_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_down_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_down_03DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_down_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_up_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_up_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys2_up_07DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys3_down_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys3_down_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys3_down_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys3_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys3_up_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys3_up_03DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_down_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_down_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_down_07DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_down_10DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_up_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_up_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_up_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_up_08DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys4_up_09DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_03DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_08DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_12DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_14DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_16DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_18DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_down_19DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_07DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_10DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_11DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_13DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_15DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\skrys9_up_17DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\Swil1_up_08DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\Swil1_up_09DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil2_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_down_03DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_down_05DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_down_07DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_up_01DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_up_02DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_up_04DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_up_06DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\Gecko01-Tasmin-Gecko-2020-05-18\files\swil9_up_08DLC_resnet50_Gecko01Apr8shuffle1_580000.csv
+  : file_number: '1'
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
+# Available labels (will be added automatically when running read_csv_files())
+labels:
+
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
+# save_rmse_values: Defines if RMSE values for curve fitting of kinematics are saved to results. Default is True.
+clicked: 1
+distance_limit: 1
+save_rmse_values: true
