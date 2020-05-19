@@ -35,8 +35,7 @@ def stride_and_stance_phases(**kwargs):
     feet = ["FL", "FR", "HR", "HL"]
 
     # TODO: Function in utils giving back results path folder from config resolve
-    # TODO: make footfall pattern diagram plotting a value in config file
-    plotting_footfall_patterns = True
+    plotting_footfall_patterns = False
     # create file path for foot fall pattern diagrams
     plotting_footfall_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results", "footfall-pattern-diagrams")
     # print("plotting_footfall_folder: ", plotting_footfall_folder)
@@ -166,3 +165,8 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     plt.savefig(os.path.join(plotting_footfall_folder, "{}.pdf".format(filename)))
     plt.clf()
     plt.close()
+
+
+
+
+

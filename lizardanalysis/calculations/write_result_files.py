@@ -511,4 +511,3 @@ def reorder_dict_for_plotting(res, direction_filter):
 def plot_summaries(df_plot):
     import matplotlib.pyplot as plt
     return
-

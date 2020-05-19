@@ -130,3 +130,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Untrack lizard results:
+Dragon01-Tasmin-Dragon-2020-05-12
+Dragon02-Tasmin-Dragon-2020-04-16
+Dragon03-Tasmin-Dragon-2020-04-20
+dragon04-tasmin-dragons-2020-05-07
+Gecko01-Tasmin-Gecko-2020-04-16
+Gecko02-Tasmin-Geckos-2020-04-14
+Gecko03-Tasmin-Gecko-2020-04-15
+Gecko04-Tasmin-Gecko-2020-04-15
+Skink01-Tasmin-Skink-2020-04-24
+Skink02-Tasmin-Skink-2020-04-16
+Skink03-Tasmin-Skink-2020-04-23
+Tasmin_DLCs
+Varanid01-Tasmin-Varanid-2020-04-15
+Varanid02-Tasmin-Varanid-2020-04-16
+Gecko_DLC_combine_files_v2.R
+waterdragons-jojo-IntellagamaLesueurii-2020-04-29

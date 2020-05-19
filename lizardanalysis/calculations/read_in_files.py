@@ -246,7 +246,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
 
         prog = tqdm(total=len(filelist), desc="TOTAL PROGRESS", position=0, leave=True)
         for i in range(len(filelist)):
-            #print('\n \n ----- FILE: ', filelist[i])
+            print('\n \n ----- FILE: ', filelist[i])
             filename = filelist[i].rsplit(os.sep, 1)[1]
             filename = filename.rsplit(".", 1)[0]
             #print(' ----- FILENAME: ', filename)

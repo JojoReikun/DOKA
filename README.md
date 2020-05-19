@@ -10,6 +10,8 @@ sudo apt-get update
 sudo apt-get install python3-tk python3-pil python3-pil.imagetk
 ```
 ## Run OVERVIEW
+Works in the Pycharm (JetBrains) console. 'Lizardanalysis' is supposed to be a click program executable via anaconda 
+console, but it hasn't been tested yet.
 ```
 >> import lizardanalysis
 >> path_to_csv = r'path to input csv files'
@@ -92,6 +94,8 @@ and not included in calculations. If you want to pass this, the function looks l
 
 ---
 **5th)** call function to summarize all results species-wise.
+
+**-- This is still "work in progress", please wait for updates! --**
 * plotting (bool): If True this generates speecies-wise overview plots
 * direction_filter (bool): If True the species-wise results will also be seperated by direction
 ```

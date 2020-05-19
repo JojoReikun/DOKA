@@ -1,0 +1,319 @@
+# Project definitions (do not edit!)
+task: all_geckos
+scorer: jojo
+species: hemi
+date: '2020-03-19'
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model:
+framerate: 250
+shutter: 150
+
+# Project path (change when moving around)
+project_path: D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19
+
+# Annotation of data set
+file_sets:
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run10DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run11DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run12DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run13DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run14DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run15DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run16DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run17DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run18DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run19DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run1DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run20DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run2DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run3DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run4DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run5DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run6DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run7DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run8DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko11run9DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run10DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run11DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run12DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run13DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run14DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run15DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run16DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run17DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run18DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run19DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run1DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run20DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run21DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run22DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run2DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run3DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run4DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run5DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run6DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run7DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run8DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko13run9DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run10DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run11DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run12DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run13DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run14DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run15DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run16DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run17DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run18DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run19DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run1DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run20DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run21DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run22DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run23DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run24DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run2DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run3DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run4DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run5DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run6DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run7DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run8DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko14run9DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run10DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run11DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run12DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run13DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run14DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run15DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run16DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run17DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run18DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run1DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run2DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run3DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run4DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run5DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run8DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko16run9DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run10DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run11DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run12DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run13DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run14DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run15DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run16DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run17DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run18DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run19DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run1DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run20DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run2DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run3DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run4DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run5DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run6DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run7DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko17run8DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run10DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run11DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run12DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run13DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run14DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run15DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run16DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run17DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run18DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run19DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run1DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run20DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run21DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run22DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run2DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run3DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run4DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run5DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run6DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run7DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run8DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+  ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run9DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
+  : file_number: '1'
+
+# Plotting configuration
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
+# Available labels (will be added automatically when running read_csv_files())
+labels:
+- hl_to
+- fl_to1
+- hl_to1
+- hr_knee
+- nose
+- fr_to
+- hip
+- fr_ti1
+- hl_knee
+- shoulder_fr
+- hr_to
+- fr_to1
+- fl
+- fr_ti
+- fl_ti
+- shoulder_fl
+- hl_ti
+- hl_ti1
+- fl_to
+- hr_to1
+- fr
+- shoulder
+- tail_middle
+- fl_knee
+- shoulder_hl
+- fl_ti1
+- spine
+- shoulder_hr
+- hr
+- hr_ti
+- bodyparts
+- hr_ti1
+- hl
+- fr_knee
+- tail_tip
+
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
+clicked: 1
+distance_limit:
+save_rmse_values: False

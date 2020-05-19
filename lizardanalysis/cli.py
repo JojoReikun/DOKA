@@ -112,4 +112,3 @@ def summarize_results(_, *args, **kwargs):
     """
     from lizardanalysis.calculations import write_result_files
     write_result_files.summarize_results(*args, **kwargs)
-

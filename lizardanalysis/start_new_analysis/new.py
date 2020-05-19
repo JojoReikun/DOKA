@@ -12,24 +12,18 @@ from lizardanalysis import DEBUG
 
 def create_new_project(project, experimenter, species, file_directory, working_directory=None, filetype='.csv'):
     """Creates a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with the default values. Change its parameters to your projects need.
-
     Parameters
     ----------
     project : string
         String containing the name of the project.
-
     experimenter : string
         String containing the name of the experimenter.
-
     species : string
         String containing the name of the species analyzed.
-
     file_directory : string
         String containing the full path of the folder containing the DLC result files (.csv) to include in the project.
-
     working_directory : string, optional
         The directory where the project will be created. The default is the ``current working directory``; if provided, it must be a string.
-
      Example
     --------
     >>> lizardanalysis.create_new_project('gecko_DLC_analysis','Jojo','GekkoGecko',r'C:\yourusername\Documents\DeepLabCut\geckos\DLC_result_files\')
@@ -137,5 +131,3 @@ def create_new_project(project, experimenter, species, file_directory, working_d
             project_name, str(wd)))
 
     return projconfigfile, clicked
-
-

@@ -4,6 +4,7 @@ def toe_angles(**kwargs):
     from lizardanalysis.utils import auxiliaryfunctions
 
     #print("TOE ANGLE CALCULATION")
+    stance_length_threshold = 4
 
     data = kwargs.get("data")
     config = kwargs.get("config")
@@ -20,9 +21,9 @@ def toe_angles(**kwargs):
 
     calc_toe_angles = ToeAngleCalculation()
     calc_toe_angles.detect_toe_angle_labels(cfg, feet)
-    toe_angles = calc_toe_angles.calculate_toe_angles(data, scorer, likelihood, feet, data_rows_count, df_result_current)
+    results = calc_toe_angles.calculate_toe_angles(data, scorer, likelihood, feet, data_rows_count, df_result_current, stance_length_threshold)
 
-    return toe_angles
+    return results
 
 
 class ToeAngleCalculation:
@@ -37,7 +38,7 @@ class ToeAngleCalculation:
     def detect_toe_angle_labels(self, cfg, feet):
         """
         determines for very foot how many and which toe labels are available that follow the pattern: foot_toe
-        Stores the toe labels available in a dictionary with the feet as keys and the respective toe labels as values
+        :return: dictionary with the feet as keys and the respective toe labels as values
         """
         for foot in feet:
             toe_labels = [label for label in cfg['labels'] if "{}_t".format(foot.lower()) in label]
@@ -51,10 +52,12 @@ class ToeAngleCalculation:
                 toe_labels_sorted = [label for x in sorting_order_5 for label in toe_labels if label == "{}_{}".format(foot.lower(), x)]
             else:
                 print("less or more than 4 or 5 toes available... not a lizard? Or is it Peter Pettigrew?")
+            #print('toe labels sorted: ', toe_labels_sorted)
             self.toe_labels_available['{}'.format(foot).lower()] = toe_labels_sorted
+        #print(self.toe_labels_available)
         return
 
-    def calculate_toe_angles(self, data, scorer, likelihood, feet, data_rows_count, df_result_current):
+    def calculate_toe_angles(self, data, scorer, likelihood, feet, data_rows_count, df_result_current, stance_length_threshold):
         """
         calculated the toe angles foot wise and toe pair wise by using the dict key to build vectors from there
         to every label/toe
@@ -72,18 +75,29 @@ class ToeAngleCalculation:
         max_stance_phase_count = 1000
         active_columns = []
         for foot in feet:
-            active_columns.append("stepphase_{}".format(foot))
+            active_columns.append("stepphase_{}".format(foot.upper()))
+
+        results = {}
 
         # find the needed coordinates for toes and feet in the data and stores the toe vectors (foot <-> toe) in dict
         for foot, column in zip(feet, active_columns):
             column = column.strip('')
-            #print("foot   ---   ", foot)
-            foot_toe_vectors = {}
+
+            number_of_toes = len(self.toe_labels_available)     # 3 (4 toes) or 4 (5 toes)
+            print("number of toes: ", number_of_toes)
+            toe_angles_label = {}
+
+            # print("foot   ---   ", foot)
+            toe_vectors_label = {}
+            # -----> loops through the available toes:
             for label in self.toe_labels_available['{}'.format(foot.lower())]:
-                #print("label  --  ", label)
-                toe_vectors_tmp = []
-                # -----> Loops through stance phases of foot
+                # print("label  --  ", label)
+
+                # -----> Loops through stance phases of current foot
+                toe_vectors_stance = {}
                 for i in range(1, max_stance_phase_count):
+
+                    toe_vectors_tmp = []
                     cell_value = loop_encode(i)
                     df_stance_section = df_result_current[df_result_current[column] == cell_value]
                     # print("LENGTH OF STANCE PHASE SECTION DF: ", len(df_stance_section))
@@ -91,51 +105,118 @@ class ToeAngleCalculation:
                         break
                     # print(df_stance_section)
                     df_stance_section_indices = list(df_stance_section.index.values)
-                    if len(df_stance_section_indices) > 0:
+                    # only includes strides longer than the threshold
+                    if len(df_stance_section_indices) > stance_length_threshold:
                         beg_end_tuple = (df_stance_section_indices[0], df_stance_section_indices[-1])
 
                         # TODO: filter for likelihood:
                         for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                             foot_coordinates = ((data.loc[j, (scorer, "{}".format(foot), "x")],
-                                                data.loc[j, (scorer, "{}".format(foot), "y")]))
+                                                 data.loc[j, (scorer, "{}".format(foot), "y")]))
                             toe_coordinates = ((data.loc[j, (scorer, label, "x")],
                                                 data.loc[j, (scorer, label, "y")]))
+                            # builds the vectors for the toes:
                             toe_vectors_tmp.append((foot_coordinates[0] - toe_coordinates[0],
-                                                   foot_coordinates[1] - toe_coordinates[1]))
+                                                    foot_coordinates[1] - toe_coordinates[1]))
 
-                # TODO: continue here:
-                self.toe_vectors[label] = toe_vectors_tmp       # stores all toe vectors for all feet
-                # foot_toe_vectors (e.g. FL): {'fl_ti':[(x,y),(x,y),....], 'fl_ti1':[(x,y),(x,y),....],...}:
-                foot_toe_vectors[label] = toe_vectors_tmp       # stores toe vectors for one foot
+                        # TODO: continue here:
+                        # stores all the beg_end_tuple and a list of all toe vectors for current label for every index of current stance phase
+                        toe_vectors_stance[i] = (beg_end_tuple, toe_vectors_tmp)
 
-            # calculate toe angles
-            foot_toe_vector_keys = [key for key in foot_toe_vectors.keys()]
-            #print("keys: ", foot_toe_vector_keys)
-            for j in range(1, len(foot_toe_vector_keys)):
-                toe_pair_angles = []
-                #print("test key: ", foot_toe_vector_keys[j])
-                # print({k: len(v) for k, v in foot_toe_vectors.items()})
-                for k in range(len(foot_toe_vectors[foot_toe_vector_keys[j]])):
-                    #print("j-1: ", foot_toe_vector_keys[j-1], foot_toe_vectors[foot_toe_vector_keys[j-1]][k])
-                    vector1 = foot_toe_vectors[foot_toe_vector_keys[j-1]][k]
-                    #print("j: ", foot_toe_vector_keys[j], foot_toe_vectors[foot_toe_vector_keys[j]][k])
-                    vector2 = np.transpose(foot_toe_vectors[foot_toe_vector_keys[j]][k])
-                    toe_angle = auxiliaryfunctions.py_angle_betw_2vectors(vector1, vector2)
-                    if toe_angle >= 90.0:
-                        toe_pair_angles.append(180.0 - toe_angle)
+                toe_vectors_label[label] = toe_vectors_stance
+
+            # calculate angles between neighbour toes:
+            toepair_angles = {}  # filled with toe-pair name, and the dict for all stances with the angles for all pairs
+            for toe_nr in range(1, number_of_toes):
+                # toe_vectors_label_items = tuple of ('toe_label', dict --> toe_vectors_stance)
+                toe_vectors_label_items = [item for item in toe_vectors_label.items()]
+                for item in toe_vectors_label_items:
+                    print("items of toe_vectors_label: ", item)
+                toe_one = toe_vectors_label_items[toe_nr-1]     # tuple
+                name_toe_one = toe_vectors_label_items[toe_nr-1][0]
+                toe_two = toe_vectors_label_items[toe_nr]       # tuple
+                name_toe_two = toe_vectors_label_items[toe_nr][0]
+                print("toe_one: ", toe_one)
+                toepair_angles_stance = {}  # filled with phase nr and respective angles for phase of current toe-pair
+                # -----> loop through stance phases (key of toe_vectors_label_items[1]:
+                toe_one_phases = [key for key in toe_one[1].keys()]     # should be equal for all toes
+                for phase in toe_one_phases:
+                    beg_end_tuple_toe_one = toe_one[1][phase][0]
+                    beg_end_tuple_toe_two = toe_two[1][phase][0]
+                    print("begendtuple: ", beg_end_tuple_toe_one)
+                    beg_end_tuple_current_phase_toe_one = beg_end_tuple_toe_one
+                    beg_end_tuple_current_phase_toe_two = beg_end_tuple_toe_two
+                    if beg_end_tuple_current_phase_toe_one != beg_end_tuple_current_phase_toe_two:
+                        print("ERROR! beg_end_tuple of both toes should be the same!!!")
+                    vlist1 = toe_one[1][phase][1]
+                    vlist2 = toe_two[1][phase][1]
+                    print("vlist1: ", vlist1)
+                    tmp_angles = []     # angles for phase
+                    for v1, v2 in zip(vlist1, vlist2):
+                        tmp_angles.append(auxiliaryfunctions.py_angle_betw_2vectors(v1, v2))
+                    toepair_angles_stance[phase] = (beg_end_tuple_current_phase_toe_one, tmp_angles)
+
+                toepair_angles["{}-{}".format(name_toe_one, name_toe_two)] = toepair_angles_stance
+            print("toepair_angles: ", toepair_angles)
+
+            # now we have all angles for all stance phases for all toe_pairs and we have to calculate the midstance mean
+            # -----> loops through the toe pairs:
+            for toe_pair, all_angles_stance_wise_dict in toepair_angles.items():
+                print("\ntoe_pair: ", toe_pair)
+                results[toe_pair] = np.full((data_rows_count,), np.nan)
+                # -----> loops through the stance phases of the current toe pair:
+                for stancephase in all_angles_stance_wise_dict.keys():
+                    beg_end_tuple_res = all_angles_stance_wise_dict[stancephase][0]
+                    toe_angles_res = all_angles_stance_wise_dict[stancephase][1]
+                    length_of_stancephase = beg_end_tuple_res[1] - beg_end_tuple_res[0]
+                    print("length of stancephase: ", length_of_stancephase)
+                    # find the three mean indices of the stancephase:
+                    # always set the stance_length_threshold to 3 which is necessary to calc the mid stance mean
+                    if stance_length_threshold < 4:
+                        stance_length_threshold = 4
                     else:
-                        toe_pair_angles.append(toe_angle)
-                self.toe_angles["{}-{}".format(foot_toe_vector_keys[j-1], foot_toe_vector_keys[j])] = toe_pair_angles
+                        if length_of_stancephase > stance_length_threshold:  # only include strides longer than at least 5 frames
+                            # calculate the mid stance toe angle
+                            if length_of_stancephase % 2 == 0:
+                                mid_stance_index = int(length_of_stancephase / 2.0)
+                                print("mid stance index %2 == 0: ", mid_stance_index)
+                                mean_value = calc_mean_midstance_toe_angles(toe_angles_res, mid_stance_index)
+                            else:
+                                mid_stance_index = int((length_of_stancephase / 2) + 0.5)
+                                print("mid stance index %2 != 0: ", mid_stance_index)
+                                mean_value = calc_mean_midstance_toe_angles(toe_angles_res, mid_stance_index)
+                        else:
+                            mean_value = np.nan
 
-        # print("TOE PAIR ANGLES: ",
-        #       "{" + "\n".join("{!r}: {!r}".format(k, v) for k, v in self.toe_angles.items()) + "}")
-        # print("SUMMARY: \n",
-        #       "{" + "\n".join(
-        #           "{!r}: {!r}, {!r}".format(k, np.nanmean(v), np.nanstd(v)) for k, v in self.toe_angles.items()) + "}")
+                        print("mean value: ", mean_value)
 
-        #print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in self.toe_vectors.items()) + "}")
+                        # fill mean toe angle into results for respective rows of current stancephase for current toe_pair
+                        for row in range(beg_end_tuple_res[0], beg_end_tuple_res[1] + 1):
+                            if isinstance(mean_value, np.ndarray):
+                                # in some cases toe_angle returned as [nan nan], if that occurs, return value is changed to nan
+                                mean_value = np.nan
+                            results[toe_pair][row] = mean_value
 
-        return self.toe_angles
+        results = {'mid_stance_toe_angles_mean_' + key: value for (key, value) in results.items()}
+        print("results: ", results)
+        return results
+
+
+
+def calc_mean_midstance_toe_angles(toe_angles, mid_stance_index):
+    """ calculated the mean of the three tow angles at midstance"""
+    import numpy as np
+    print("\nlength of toe_angles: ", len(toe_angles))
+    if len(toe_angles) > 2:
+        mean_value = np.mean([toe_angles[mid_stance_index - 1],
+                              toe_angles[mid_stance_index],
+                              toe_angles[mid_stance_index + 1]])
+    else:
+        mean_value = np.nan
+
+    if  mean_value > 90.:
+        mean_value = 180. - mean_value
+    return mean_value
 
 
 def loop_encode(i):
