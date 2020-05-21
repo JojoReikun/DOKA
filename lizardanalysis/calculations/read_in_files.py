@@ -218,6 +218,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         print("\nSTART analysis off all {} csv files in project ...".format(len(filelist)))
 
         # creates result file for rmse:
+        # TODO: make speices independent and nicer...
         if cfg['save_rmse_values']:
             dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
                                            "limb_dynamics_curve_fitting")

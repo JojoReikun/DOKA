@@ -88,6 +88,30 @@ def analyze_files(_, *args, **kwargs):
 
 @main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument('config')
+@click.option('save_as_csv',
+              is_flag=True,
+              default=True,
+              help='Set True if you want to save the morph data for every file. The default is True')
+@click.pass_context
+
+
+def calc_morphometrics(_, *args, **kwargs):
+    """Calculated the morphometrics of the skeleton as defined in the DLC config file.
+    Requires to paste the skeleton into the config file used for lizardanalysis.
+    Options \n
+    ---------- \n
+    config : string \n
+    \tString containing the full path to the config file of the project. \n
+    save_as_csv : bool, optional \n
+    \tOptionally Save the morph data for every file as csv. Default: save_as_csv=True.
+    """
+    from lizardanalysis.calculations import lizard_morphometrics
+    lizard_morphometrics.calc_morphometrics(*args, **kwargs)
+
+#####################################################################################
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+@click.argument('config')
 @click.option('--plotting', 'plotting',
               is_flag=False,
               default=False,

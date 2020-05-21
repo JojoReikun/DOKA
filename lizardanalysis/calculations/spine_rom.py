@@ -70,9 +70,6 @@ def spine_rom(**kwargs):
                         shoulder_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_shoulder_vector, body_axis_rotated)
                         hip_rom_i = auxiliaryfunctions.py_angle_betw_2vectors(spine_hip_vector, body_axis_rotated)
 
-                        # control value: sum of both usually close to 180. because one takes 'inverse angle' (180.-ROM),
-                        # one takes ROM
-                        # TODO: what happens if angle "passes body axis" and goes from left to right bending withing a stride?
                         shoulder_rom_list_stride.append(shoulder_rom_i)
                         hip_rom_list_stride.append(hip_rom_i)
 
