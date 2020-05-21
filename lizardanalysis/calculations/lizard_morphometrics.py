@@ -251,21 +251,28 @@ def calc_morphometrics(config, save_as_csv=True, **kwargs):
 
     # save means of individuals in summary file:
     morph_csv_columns = ['individual']
-    for individual in mean_of_individuals.keys():
-        for bone_tuple in mean_of_individuals[individual]:
-            morph_csv_columns.append(bone_tuple[0])
-    #print(morph_csv_columns)
+    individual = individuals[0]
+    for bone_tuple in mean_of_individuals[individual]:
+        morph_csv_columns.append(bone_tuple[0])
+    print("morph_columns: ", morph_csv_columns)
+    print("length of columns: ", len(morph_csv_columns))
 
     df_morph_means = pd.DataFrame(columns=morph_csv_columns)
-    df_morph_means = df_morph_means.drop(df_morph_means.columns[[0]], axis=1)
-    for individual in mean_of_individuals.keys():
-        new_row = []
-        new_row.append(individual)
+    df_morph_means = df_morph_means.loc[:, ~df_morph_means.columns.duplicated()]  # remove duplicate columns
+    #df_morph_means = df_morph_means.drop(df_morph_means.columns[[0]], axis=1)
+    print(df_morph_means.shape)
+
+    for j, individual in zip(range(len(individuals)+1), mean_of_individuals.keys()):
+        new_row = {}
+        print(j, individual)
+        new_row["individual"] = individual
         for bone_tuple in mean_of_individuals[individual]:
-            new_row.append(bone_tuple[1])
-            #TODO: pandas.core.indexes.base.InvalidIndexError: Reindexing only valid with uniquely valued Index objects ERROR...
-    df_morph_means.append(new_row, ignore_index=True)
+            new_row[bone_tuple[0]] = bone_tuple[1]
+        new_row = pd.Series(data=new_row, name=j)
+        print("--- new row ---: \n",new_row, len(new_row))
+        df_morph_means = df_morph_means.append(new_row, ignore_index=False)
     print(df_morph_means.head())
+
 
     # save morph summary to csv:
     df_morph_means.to_csv(os.path.join(destfolder, 'morph_data_summary.csv'))
