@@ -6,6 +6,7 @@ from math import factorial, atan2, degrees, acos, sqrt, pi
 
 from lizardanalysis.utils import auxiliaryfunctions
 
+analyze_again = False
 
 # utility functions
 def calc_distance_between_points_two_vectors_2d(v1, v2):
@@ -162,6 +163,17 @@ def calc_morphometrics(config, save_as_csv=True, **kwargs):
     cfg = auxiliaryfunctions.read_config(config_file)
     project_dir = f"{cfg['task']}-{cfg['scorer']}-{cfg['species']}-{cfg['date']}"
 
+    # try to make folder for storing results
+    if destfolder is None:
+        destfolder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
+                                  "lizard_morphometrics")
+        try:
+            os.makedirs(destfolder)
+            # print("folder for curve_fitting plots created")
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
     # create filelist of all files:
     files = cfg['file_sets'].keys()  # object type ('CommentedMapKeysView' object), does not support indexing
     filelist = []  # store filepaths as list
@@ -184,37 +196,27 @@ def calc_morphometrics(config, save_as_csv=True, **kwargs):
         file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[i-1]))
         file_path = os.path.join(current_path, file_path_2)
 
-        data = pd.read_csv(file_path, delimiter=",",
-                           header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
-        data_rows_count = data.shape[0]  # number of rows already excluded the 3 headers
+        if analyze_again:
+            data = pd.read_csv(file_path, delimiter=",",
+                               header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
+            data_rows_count = data.shape[0]  # number of rows already excluded the 3 headers
 
-        scorer = data.columns[1][0]
+            scorer = data.columns[1][0]
 
-        # try to make folder for storing results
-        if destfolder is None:
-            destfolder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
-                                           "lizard_morphometrics")
-            try:
-                os.makedirs(destfolder)
-                # print("folder for curve_fitting plots created")
-            except OSError as e:
-                if e.errno != errno.EEXIST:
-                    raise
+            # Process skeleton
+            if cfg['skeleton'] is None:
+                print('no skeleton defined in config. Copy skeleton from DLC config file to lizardanalysis config file.')
+                break
+            bones = {}
+            for bp1, bp2 in cfg['skeleton']:
+                name = "{}_{}".format(bp1, bp2)
+                bones[name] = analyzebone(data[scorer][bp1], data[scorer][bp2])
 
-        # Process skeleton
-        if cfg['skeleton'] is None:
-            print('no skeleton defined in config. Copy skeleton from DLC config file to lizardanalysis config file.')
-            break
-        bones = {}
-        for bp1, bp2 in cfg['skeleton']:
-            name = "{}_{}".format(bp1, bp2)
-            bones[name] = analyzebone(data[scorer][bp1], data[scorer][bp2])
+            skeleton = pd.concat(bones, axis=1)
 
-        skeleton = pd.concat(bones, axis=1)
-
-        # save
-        if save_as_csv:
-            skeleton.to_csv(os.path.join(destfolder, '{}_morph.csv'.format(filename)))
+            # save
+            if save_as_csv:
+                skeleton.to_csv(os.path.join(destfolder, '{}_morph.csv'.format(filename)))
 
     # calculate the means for each individual:
     individual_filelists = {}
@@ -229,8 +231,11 @@ def calc_morphometrics(config, save_as_csv=True, **kwargs):
         means_of_run = {}
         i = 0
         for run in list_of_runs:
+            print("progress: {}/{}".format(i, len(list_of_runs)))
             data_morph = pd.read_csv(run, delimiter=",", header=[0, 1])  # first two rows as header
-            data_morph_rows_count = data.shape[0]  # number of rows already excluded the 2 headers
+            data_morph = data_morph.drop(data_morph.columns[[0]], axis=1)
+            data_morph_rows_count = data_morph.shape[0]  # number of rows already excluded the 2 headers
+            #print("number of rows: ", data_morph_rows_count)
             data_morph.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
             scorer = data_morph.columns[1][0]
             if i == 0:
@@ -238,21 +243,38 @@ def calc_morphometrics(config, save_as_csv=True, **kwargs):
             i += 1
             for bone in bones:
                 list_for_mean_bone = []
-                for row in range(data_morph_rows_count):
-                    # TODO: FIX!!!
-                    list_for_mean_bone.append(data_morph.loc[row][bone, 'length'])
+                for row in range(data_morph_rows_count-1):
+                    list_for_mean_bone.append(data_morph.loc[row, (bone, 'length')])
                 means_of_run[bone] = np.mean(list_for_mean_bone)
-        mean_of_individuals[individual] = [np.mean(v) for k,v in means_of_run.items()]
-    print("mean_of_individuals: ", mean_of_individuals)
+        mean_of_individuals[individual] = [(k, np.mean(v)) for k,v in means_of_run.items()]
+    #print("mean_of_individuals: ", mean_of_individuals)
 
+    # save means of individuals in summary file:
+    morph_csv_columns = ['individual']
+    for individual in mean_of_individuals.keys():
+        for bone_tuple in mean_of_individuals[individual]:
+            morph_csv_columns.append(bone_tuple[0])
+    #print(morph_csv_columns)
+
+    df_morph_means = pd.DataFrame(columns=morph_csv_columns)
+    df_morph_means = df_morph_means.drop(df_morph_means.columns[[0]], axis=1)
+    for individual in mean_of_individuals.keys():
+        new_row = []
+        new_row.append(individual)
+        for bone_tuple in mean_of_individuals[individual]:
+            new_row.append(bone_tuple[1])
+            #TODO: pandas.core.indexes.base.InvalidIndexError: Reindexing only valid with uniquely valued Index objects ERROR...
+    df_morph_means.append(new_row, ignore_index=True)
+    print(df_morph_means.head())
+
+    # save morph summary to csv:
+    df_morph_means.to_csv(os.path.join(destfolder, 'morph_data_summary.csv'))
 
     print("DONE calculating and saving the morph data")
 
 
-
 def get_bone_names(data_morph):
     all_bones = [item for item in list(data_morph)]
-    all_bones.pop(0)  # removes first item from list
     #print("all bones: ", all_bones)
     bones = []
     bones = [bone[0] for bone in all_bones if bone not in bones]
