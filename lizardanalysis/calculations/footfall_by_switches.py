@@ -13,6 +13,8 @@ def switches(**kwargs):
 
     config_file = Path(config).resolve()
 
+    # TODO: instead of hard-coding the feet and the three points for body_motion,
+    # TODO: let the user choose based on labels available in DLC result file: Choose feet & choose body motion
     scorer = data.columns[1][0]
     feet = ["FL", "FR", "HR", "HL"]
 
