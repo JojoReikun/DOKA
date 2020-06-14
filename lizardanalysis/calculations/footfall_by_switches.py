@@ -57,7 +57,7 @@ def footfall_by_switches(**kwargs):
         df = pd.DataFrame.from_dict(dict_df)
         # print("df: ", df)
 
-        # plot relative velocity of foot to body
+        # initiate plot
         plt.figure()
 
         # plot p_cutoff_line:
@@ -68,6 +68,7 @@ def footfall_by_switches(**kwargs):
         # OR use foot_motion vs body_motion
 
         # add low pass filter to cut off spikes in data:
+        # Butterworth filter
         x = np.linspace(0, data_rows_count - 1, data_rows_count - 1)
         b, a = signal.butter(3, 0.1, btype='lowpass', analog=False)
 
@@ -85,6 +86,7 @@ def footfall_by_switches(**kwargs):
             plt.plot(x, rel_foot_motion_low_passed, color='green', label='rel_foot_motion low pass (lp) filter')
 
             # smooth curves:
+            # Savitzky-Golay filter
             y_foot_rel = df.loc[x_cutoff_value:, 'rel_foot_motion']
             y_foot_rel_lp = rel_foot_motion_low_passed[x_cutoff_value:]
             # smooth original foot motion without low pass filter
@@ -93,6 +95,12 @@ def footfall_by_switches(**kwargs):
             # smooth low-pass-filtered rel foot motion
             y_foot_rel_lp_smoothed = signal.savgol_filter(y_foot_rel_lp, 17, 3)
             plt.plot(x_cutoff, y_foot_rel_lp_smoothed, color='lightgreen', label='rel_foot_motion_lp_smoothed')
+
+            # compute and plot intersection points:
+            x_axis_f = np.zeros(data_rows_count-1-x_cutoff_value)
+            idx = np.argwhere(np.diff(np.sign(x_axis_f - y_foot_rel_lp_smoothed))).flatten()
+            print("x intersections: ", idx)
+            plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')
 
         else:
             # plot foot motion and body motion
@@ -124,6 +132,13 @@ def footfall_by_switches(**kwargs):
             # smooth low-pass-filtered rel foot motion
             y_foot_lp_smoothed = signal.savgol_filter(y_foot_lp, 17, 3)
             plt.plot(x_cutoff, y_foot_lp_smoothed, color='lightgreen', label='foot_motion_lp_smoothed')
+
+            # compute and plot intersection points:
+            idx = np.argwhere(np.diff(np.sign(y_body_lp_smoothed - y_foot_lp_smoothed))).flatten()
+            print("x intersections: ", idx)
+            plt.plot(x_cutoff[idx], y_body_lp_smoothed[idx], 'ko')
+            for i in range(len(idx)):
+                plt.annotate(idx[i], (x_cutoff[idx[i]]-5, y_body_lp_smoothed[idx[i]]+3))
 
         # set y-limits, add legend and display plots
         plt.axhline(0, color='black')
