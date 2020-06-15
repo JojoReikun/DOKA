@@ -1,10 +1,7 @@
 def footfall_by_switches(**kwargs):
     import os.path
-    import numpy as np
-    import matplotlib.pyplot as plt
     import pandas as pd
     from pathlib import Path
-    from scipy import signal
     from lizardanalysis.utils import auxiliaryfunctions
 
     print("footfall_by_switches")
@@ -16,13 +13,16 @@ def footfall_by_switches(**kwargs):
     filename = kwargs.get('filename')
 
     config_file = Path(config).resolve()
+    # result folder for footfall plots
+    step_detection_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
+                                   "step_detection")
 
     # TODO: instead of hard-coding the feet and the three points for body_motion,
     # TODO: let the user choose based on labels available in DLC result file: Choose feet & choose body motion
     scorer = data.columns[1][0]
     feet = ["FL", "FR", "HR", "HL"]
 
-    relative = False
+    relative = True
 
     # define cut-off value -> crops 10% of frames on each side of video:
     p_cut_off = 0.05
@@ -49,7 +49,7 @@ def footfall_by_switches(**kwargs):
             foot_motions[f"{foot}"].append(foot_motion)
             # foot motion - body motion
             rel_foot_motions[f"rel_{foot}"].append(foot_motion - body_motion['mean_motion_x'][row-1])
-        print('foot_motions: ', foot_motions)
+        #print('foot_motions: ', foot_motions)
         # create dataframe with >> frame | body_motion | rel_foot_motion << for current foot
         dict_df = {'body_motion':body_motion['mean_motion_x'],
                    'foot_motion':foot_motions[f"{foot}"],
@@ -58,25 +58,28 @@ def footfall_by_switches(**kwargs):
         # print("df: ", df)
 
         # gets the x-values for switch in swing and stance phases (after smoothing data)
-        idx = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename)
+        idx = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder)
+        print(f"intersections for foot {foot}: ", idx)
 
         # check for change in sign: positive to body = swing, negative to body = stance
 
 
-def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, plotting=True):
+def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, plotting=True):
     """
-    Smooths the raw input data from foot motion and body motion, and computed the intersection points
-    between foot and body curves.
-    If relative is True, body motion is already subtracted from the foot motion, hence it is relative to the x-axis.
+    Smooths the raw input data from foot motion and body motion, using a Butterworth low-pass filter and a
+    Savintzky-Golay smoothing algorithm. Then computes the intersection points betw. the smoothed body and foot curves.
+    If relative is True, body motion is already subtracted from the foot motion, hence foot is relative to the x-axis.
     If relative is False, intersection between foot motion and body motion is determined.
     If plotting is True: plots the footfall and body motion curves, and the intersection points between the
     smoothed curve and the x-axis (switch betw. swing and stance phase)
 
-    return: list with x-values (frames) of intersection points
+    return: dictionary which contains a list with x-values (frames) of intersection points and responding signs +1 or -1
     """
     import numpy as np
     import matplotlib.pyplot as plt
     from scipy import signal
+    import os
+    import errno
 
     # determine p_cutoff position:
     x_cutoff_value = int(round(data_rows_count * p_cut_off, 0))
@@ -109,7 +112,12 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, pl
         # compute and plot intersection points:
         x_axis_f = np.zeros(data_rows_count - 1 - x_cutoff_value)
         idx = np.argwhere(np.diff(np.sign(x_axis_f - y_foot_rel_lp_smoothed))).flatten()
-        print("x intersections: ", idx)
+        intersections_dict = {"idx":[], "sign":[]}
+        for i in idx:
+            intersections_dict["idx"].append(i)
+            intersections_dict["sign"].append(np.sign(x_axis_f[i] - y_foot_rel_lp_smoothed[i]))
+        intersections_dict['idx'] = [b+x_cutoff_value for b in intersections_dict['idx']]
+        print("x intersections: ", intersections_dict)
 
         if plotting == True:
             df['rel_foot_motion'].plot(color='#f5c242')  # plot rel_foot
@@ -117,8 +125,9 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, pl
             plt.plot(x_cutoff, y_foot_rel_smoothed, color='red', label='rel_foot_motion_smoothed')
             plt.plot(x_cutoff, y_foot_rel_lp_smoothed, color='lightgreen', label='rel_foot_motion_lp_smoothed')
             plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')    # plot intersection points
-            for i in range(len(idx)):
-                plt.annotate(idx[i], (x_cutoff[idx[i]] - 5, x_axis_f[idx[i]] + 3))
+            for i in range(len(intersections_dict['idx'])):
+                plt.annotate(intersections_dict['idx'][i],
+                             (x_cutoff[intersections_dict['idx'][i]-x_cutoff_value] - 5, x_axis_f[intersections_dict['idx'][i]-x_cutoff_value] + 3))
 
     else:
         # lowpass filter for body motion
@@ -142,7 +151,7 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, pl
 
         # compute and plot intersection points:
         idx = np.argwhere(np.diff(np.sign(y_body_lp_smoothed - y_foot_lp_smoothed))).flatten()
-        print("x intersections: ", idx)
+        #print("x intersections: ", idx)
 
         if plotting == True:
             df['body_motion'].plot(color='#3089db')  # plot body motion
@@ -167,4 +176,15 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, pl
         plt.title(f"{filename_title}-{foot}")
         plt.show()
 
-    return idx
+        try:
+            os.makedirs(step_detection_folder)
+            # print("folder for curve_fitting plots created")
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        if relative == True:
+            plt.savefig(os.path.join(step_detection_folder, f"steps_{filename_title}_{foot}_rel.pdf"))
+        plt.savefig(os.path.join(step_detection_folder, f"steps_{filename_title}_{foot}.pdf"))
+
+    return intersections_dict
