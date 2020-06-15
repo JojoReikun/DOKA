@@ -119,6 +119,9 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         intersections_dict['idx'] = [b+x_cutoff_value for b in intersections_dict['idx']]
         print("x intersections: ", intersections_dict)
 
+        # remove intersection points when lizard has stopped walking:
+        remove_standing_intersections(intersections_dict, x_axis_f, y_foot_rel_lp_smoothed)
+
         if plotting == True:
             df['rel_foot_motion'].plot(color='#f5c242')  # plot rel_foot
             plt.plot(x, rel_foot_motion_low_passed, color='green', label='rel_foot_motion low pass (lp) filter')
@@ -151,7 +154,15 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
 
         # compute and plot intersection points:
         idx = np.argwhere(np.diff(np.sign(y_body_lp_smoothed - y_foot_lp_smoothed))).flatten()
-        #print("x intersections: ", idx)
+        intersections_dict = {"idx": [], "sign": []}
+        for i in idx:
+            intersections_dict["idx"].append(i)
+            intersections_dict["sign"].append(np.sign(y_body_lp_smoothed[i] - y_foot_lp_smoothed[i]))
+        intersections_dict['idx'] = [b + x_cutoff_value for b in intersections_dict['idx']]
+        print("x intersections: ", intersections_dict)
+
+        # remove intersection points when lizard has stopped walking (usually in the end):
+        remove_standing_intersections(intersections_dict, y_body_lp_smoothed, y_foot_lp_smoothed)
 
         if plotting == True:
             df['body_motion'].plot(color='#3089db')  # plot body motion
@@ -163,8 +174,10 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             plt.plot(x_cutoff, y_body_lp_smoothed, color='#9934b3', label='body_motion_lp_smoothed')
             plt.plot(x_cutoff, y_foot_lp_smoothed, color='lightgreen', label='foot_motion_lp_smoothed')
             plt.plot(x_cutoff[idx], y_body_lp_smoothed[idx], 'ko')  # plot intersection points
-            for i in range(len(idx)):
-                plt.annotate(idx[i], (x_cutoff[idx[i]] - 5, y_body_lp_smoothed[idx[i]] + 3))
+            for i in range(len(intersections_dict['idx'])):
+                plt.annotate(intersections_dict['idx'][i],
+                             (x_cutoff[intersections_dict['idx'][i] - x_cutoff_value] - 5,
+                              y_body_lp_smoothed[intersections_dict['idx'][i] - x_cutoff_value] + 3))
 
     if plotting == True:
         # set y-limits, add legend and display plots
@@ -188,3 +201,13 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         plt.savefig(os.path.join(step_detection_folder, f"steps_{filename_title}_{foot}.pdf"))
 
     return intersections_dict
+
+
+def remove_standing_intersections(intersection_dict, f1, f2):
+    from scipy.integrate import quad
+    # TODO:
+    # use area underneath curve between intersection points.
+    # If area smaller than 5% of the area before, remove index after that
+    return intersection_dict
+
+
