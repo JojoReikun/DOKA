@@ -305,6 +305,7 @@ class StridesAndStances:
 
         # create empty list with length of data rows count:
         results = np.full((data_rows_count,), '', dtype='S10')
+        index = 0
         for row in range(data_rows_count):
             # switch swing or stance depending on sign of intersection point
             if row in intersection_dict['idx']:
@@ -314,6 +315,9 @@ class StridesAndStances:
                 self.current_phase = self.assign_swing_or_stance(sign)
             # fill all rows until next idx with that swing or stance number
             results[row] = self.current_phase
+        # fill all rows after last idx with np.nan
+        if index != 0:
+            results[intersection_dict['idx'][index]:] = np.nan
         # print("results: ", results)
         return results
 
