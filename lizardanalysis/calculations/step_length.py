@@ -52,5 +52,5 @@ def step_length(**kwargs):
 
 
 def loop_encode(i):
-    cell_value = 'stride000{}'.format(i).encode()
+    cell_value = 'swing000{}'.format(i).encode()
     return cell_value

@@ -130,6 +130,6 @@ def calc_body_axis(df, index, scorer):
 
 
 def loop_encode(i):
-    cell_value = 'stride000{}'.format(i).encode()
+    cell_value = 'swing000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value
