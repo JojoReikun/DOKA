@@ -123,6 +123,10 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         plt.axvline(x_cutoff_value, color='black', label='cutoff 0.05%')
 
     if relative == True:
+        """
+        Uses the footmotion from which body motion has been substracted, hence body-motion is the x-axis.
+        Note: intersection points for the lizard standing won't be excluded with this method. Use relative==False.
+        """
         # lowpass filter for foot motion
         rel_foot_motion_low_passed = signal.filtfilt(b, a, df['rel_foot_motion'])
 
@@ -159,6 +163,11 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
                              (x_cutoff[intersections_dict['idx'][i]-x_cutoff_value] - 5, x_axis_f[intersections_dict['idx'][i]-x_cutoff_value] + 3))
 
     else:
+        """
+        Uses the foot motion and the body motion and computes the intersection points for the smoothed curves.
+        Intersection points for the lizard standing (bodymotion -> 0) will get excluded by using a body-motion threshold
+        of 10% of max(body_motion_lp_smoothed).
+        """
         # lowpass filter for body motion
         body_motion_low_passed = signal.filtfilt(b, a, df['body_motion'])
         # lowpass filter for foot motion
@@ -181,9 +190,14 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         # compute and plot intersection points:
         idx = np.argwhere(np.diff(np.sign(y_body_lp_smoothed - y_foot_lp_smoothed))).flatten()
         intersections_dict = {"idx": [], "sign": []}
+        max_body_motion = max([abs(max(y_body_lp_smoothed)), abs(min(y_body_lp_smoothed))])
+        body_motion_stand = round(max_body_motion*0.1, 2)
+        print(f"max body motion: {max_body_motion}, 10%: {body_motion_stand}")
         for i in idx:
-            intersections_dict["idx"].append(i)
-            intersections_dict["sign"].append(np.sign(y_body_lp_smoothed[i] - y_foot_lp_smoothed[i]))
+            # exclude all intersections which are within 0+-1% of max body motion (~standing)
+            if abs(y_body_lp_smoothed[i]) >= body_motion_stand:
+                intersections_dict["idx"].append(i)
+                intersections_dict["sign"].append(np.sign(y_body_lp_smoothed[i] - y_foot_lp_smoothed[i]))
         intersections_dict['idx'] = [b + x_cutoff_value for b in intersections_dict['idx']]
         #print("x intersections: ", intersections_dict)
 
@@ -210,6 +224,8 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         plt.axhline(0, color='black')
         plt.ylim(-30, 30)
         plt.legend()
+        plt.xlabel('frames')
+        plt.ylabel('dx/frame')
         filename_title = filename.split("_", 2)[:2]
         filename_title = filename_title[0]+filename_title[1]
         plt.title(f"{filename_title}-{foot}")
@@ -232,6 +248,9 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
 
 
 def remove_standing_intersections(intersection_dict, foot_function, body_function):
+    """
+    NOT USED ATM
+    """
     from scipy.integrate import quad
     # TODO: find functions for foot and body curves
     # use area underneath curve between intersection points.
@@ -259,7 +278,11 @@ def remove_standing_intersections(intersection_dict, foot_function, body_functio
 
 class StridesAndStances:
     """
-    class to detect stride and stance phases for any number of feet.
+    class to detect stride and stance phases for current feet => initialize class instance for every foot.
+    This method iterates through all frames, if the current frame is one of the intersection points, the sign of the
+    point will be checked. If the sign is positive the phase will be set to swing and the swing_phase_counter increased
+    by 1. All frames until the next intersection will be assigned that phase name and number.
+    Rows before and after first and last index respectively will be filled with np.nan.
     """
     def __init__(self):
         import numpy as np
@@ -269,6 +292,10 @@ class StridesAndStances:
         self.current_phase = np.nan
 
     def determine_stride_phases(self, intersection_dict, data_rows_count):
+        """
+        Function to detect the swing or stance phases using the intersection points and their signs.
+        Return: list with one entry for every row.
+        """
         import numpy as np
 
         # create empty list with length of data rows count:
@@ -282,10 +309,7 @@ class StridesAndStances:
                 self.current_phase = self.assign_swing_or_stance(sign)
             # fill all rows until next idx with that swing or stance number
             results[row] = self.current_phase
-        # fill all rows after last idx with np.nan
-        # fill all rows until first idx with np.nan
-        #print("results: ", results)
-
+        # print("results: ", results)
         return results
 
         # Todo: Go through intersection_dict and assign correct swing or stance phase for every row
