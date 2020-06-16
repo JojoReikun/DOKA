@@ -1,7 +1,5 @@
 def footfall_by_switches(**kwargs):
     #TODO: make low-pass filter optional, if don't use, use footfall smooth directly
-    #TODO: implement footfall pattern plotting
-    #TODO: implement likelihood filter to get rid of jumpy data
     import os.path
     import pandas as pd
     from pathlib import Path
@@ -20,6 +18,8 @@ def footfall_by_switches(**kwargs):
     # result folder for footfall plots
     step_detection_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
                                    "step_detection")
+    # create file path for foot fall pattern diagrams
+    plotting_footfall_folder = os.path.join(step_detection_folder, "footfall-pattern-diagrams")
 
     # TODO: instead of hard-coding the feet and the three points for body_motion,
     # TODO: let the user choose based on labels available in DLC result file: Choose feet & choose body motion
@@ -27,6 +27,7 @@ def footfall_by_switches(**kwargs):
     feet = ["FL", "FR", "HR", "HL"]
 
     relative = False
+    plotting_footfall_patterns = True
 
     # define cut-off value -> crops 10% of frames on each side of video:
     p_cut_off = 0.05
@@ -86,6 +87,10 @@ def footfall_by_switches(**kwargs):
     # rename dictionary keys of results
     results = {'stepphase_' + key: value for (key, value) in results.items()}
     #print("results: ", results)
+
+    if plotting_footfall_patterns:
+        """ plots a foot fall pattern diagram for every DLC result csv file/every lizard run """
+        plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder)
 
     return results
 
@@ -329,5 +334,60 @@ class StridesAndStances:
 
     def __str__(self):
         return f"swings: {self.stride_phase_counter}, stances: {self.stance_phase_counter}"
+
+
+def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder):
+    """
+    takes the result dataframe and creates a new dataframe for plotting. Every foot gets assigned an individual number.
+    The dataframe is then filtered for strings containing "stride", the strides get replaced by the respective number,
+    while all stances will be NaN.
+    In the plot strides are therefore displayed as bars and stances are empty.
+    """
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
+    import os
+    import errno
+
+    df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
+    # filter here and only fill in stances as numbers => stances bars, strides white
+    for i, key in enumerate(results):
+        df_plot[key] = [i+1 if s.startswith(b'stance') else np.NaN for s in results[key]]
+
+    key_list = [key for key in df_plot.columns]
+
+    colors = False
+
+    if colors:
+        cmap = plt.cm.coolwarm
+        legend_elements = [Line2D([0], [0], color=cmap(0.), lw=4, label=key_list[0]),
+                    Line2D([0], [0], color=cmap(.33), lw=4, label=key_list[1]),
+                    Line2D([0], [0], color=cmap(.66), lw=4, label=key_list[2]),
+                    Line2D([0], [0], color=cmap(1.), lw=4, label=key_list[3]),
+                    Line2D([0], [0], color='black', lw=4, label='stance phases'),
+                    Line2D([0], [0], color='white', lw=4, label='stride phases')]
+        fig, ax = plt.subplots()
+        df_plot.plot(linewidth=10, color=cmap(np.linspace(0, 1, 5)), ax=ax)
+        ax.legend(handles=legend_elements)
+    else:
+        legend_elements = [Line2D([0], [0], color='white', lw=1, label='1 = FL  |  2 = FR  |  3 = HR  |  4 = HL'),
+                           Line2D([0], [0], color='black', lw=4, label='stance phases'),
+                           Line2D([0], [0], color='white', lw=4, label='stride phases')]
+        fig, ax = plt.subplots()
+        df_plot.plot(linewidth=10, color='black', ax=ax)
+        ax.legend(handles=legend_elements)
+
+
+    # saves footfall pattern diagrams as pdf in defined result folder. If folder is not extant yet, it will be created
+    try:
+        os.makedirs(plotting_footfall_folder)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+    plt.savefig(os.path.join(plotting_footfall_folder, "{}.pdf".format(filename)))
+    plt.clf()
+    plt.close()
 
 
