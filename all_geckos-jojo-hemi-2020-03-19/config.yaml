@@ -266,7 +266,106 @@ file_sets:
   ? D:\Jojo\PhD\ClimbingRobot\ClimbingLizardDLCAnalysis\all_geckos-jojo-hemi-2020-03-19\files\Gecko18run9DeepCut_resnet50_gecko_runsSep19shuffle1_66000.csv
   : file_number: '1'
 
-# Plotting configuration
+# Skeleton
+skeleton:
+- - Nose
+  - Shoulder
+
+- - Shoulder
+  - Shoulder_FL
+
+- - Shoulder_FL
+  - FL_knee
+
+- - FL_knee
+  - FL
+
+- - FL
+  - FL_ti
+
+- - FL
+  - FL_ti1
+
+- - FL
+  - FL_to1
+
+- - FL
+  - FL_to
+
+- - Shoulder
+  - Shoulder_FR
+
+- - Shoulder_FR
+  - FR_knee
+
+- - FR_knee
+  - FR
+
+- - FR
+  - FR_ti
+
+- - FR
+  - FR_ti1
+
+- - FR
+  - FR_to1
+
+- - FR
+  - FR_to
+
+- - Shoulder
+  - Spine
+
+- - Spine
+  - Hip
+
+- - Hip
+  - Shoulder_HL
+
+- - Shoulder_HL
+  - HL_knee
+
+- - HL_knee
+  - HL
+
+- - HL
+  - HL_ti
+
+- - HL
+  - HL_ti1
+
+- - HL
+  - HL_to1
+
+- - HL
+  - HL_to
+
+- - Hip
+  - Shoulder_HR
+
+- - Shoulder_HR
+  - HR_knee
+
+- - HR_knee
+  - HR
+
+- - HR
+  - HR_ti
+
+- - HR
+  - HR_ti1
+
+- - HR
+  - HR_to1
+
+- - HR
+  - HR_to
+
+- - Hip
+  - Tail_middle
+
+- - Tail_middle
+  - Tail_tip
 
 # Plotting configuration
 dotsize: 10

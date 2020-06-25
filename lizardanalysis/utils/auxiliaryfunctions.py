@@ -96,6 +96,23 @@ def write_config(configname, cfg):
         ruamelFile.dump(cfg_file, cf)
 
 
+def attempttomakefolder(foldername,recursive=False):
+    ''' Attempts to create a folder with specified name. Does nothing if it already exists. '''
+
+    try:
+        os.path.isdir(foldername)
+    except TypeError: #https://www.python.org/dev/peps/pep-0519/
+        foldername=os.fspath(foldername) #https://github.com/AlexEMG/DeepLabCut/issues/105 (windows)
+
+    if os.path.isdir(foldername):
+        print(foldername, " already exists!")
+    else:
+        if recursive:
+            os.makedirs(foldername)
+        else:
+            os.mkdir(foldername)
+
+
 def py_angle_betw_2vectors(v1, v2):
     import numpy.linalg as la
     """Returns the angle in degrees between vectors 'v1' and 'v2'"""

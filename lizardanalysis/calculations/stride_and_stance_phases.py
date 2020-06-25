@@ -94,8 +94,8 @@ class StridesAndStances:
         self.phase = 'UNKNOWN'
 
     def determine_current_phase(self, distance, distance_limit):
-        #print('current row difference: ',distance,self.phase,self.stride_phase_counter,self.stance_phase_counter)
-        if distance >= distance_limit:    # stride
+        # print('current row difference: ',distance,self.phase,self.stride_phase_counter,self.stance_phase_counter)
+        if distance >= distance_limit:          # stride
             if self.phase == 'stance' or self.phase == 'UNKNOWN':
                 self.stride_phase_counter += 1
             self.phase = 'stride'

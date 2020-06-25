@@ -7,3 +7,4 @@ ipython
 matplotlib
 uncertainties
 tqdm
+seaborn

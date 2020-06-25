@@ -13,7 +13,8 @@ drop_empty_cols = True
 calculations = {'direction_of_climbing': ['nose'],
                 'body_axis_deflection_angle': ['shoulder', 'hip'],
                 'climbing_speed_framewise': ['nose'],
-                'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
+                # 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
+                'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
                 'step_length': ['fl', 'fr', 'hl', 'hr'],
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
@@ -27,8 +28,8 @@ calculations = {'direction_of_climbing': ['nose'],
                 'hip_and_shoulder_angles': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
                                             'hr_knee',
                                             'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'knee_and_elbow_angles': ['fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
-                                          'shoulder_hr', 'hl_knee', 'shoulder_hl', 'fl', 'fr', 'hl', 'hr'],
+                # 'knee_and_elbow_angles': ['fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
+                #                           'shoulder_hr', 'hl_knee', 'shoulder_hl', 'fl', 'fr', 'hl', 'hr'],
                 'toe_angles': ['fl', 'fr', 'hr', 'hl', 'fl_ti', 'fl_ti1', 'fl_to1', 'fl_to',
                                'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
                                'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
@@ -218,6 +219,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         print("\nSTART analysis off all {} csv files in project ...".format(len(filelist)))
 
         # creates result file for rmse:
+        # TODO: make speices independent and nicer...
         if cfg['save_rmse_values']:
             dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
                                            "limb_dynamics_curve_fitting")

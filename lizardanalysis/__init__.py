@@ -15,6 +15,7 @@ from lizardanalysis.utils import auxiliaryfunctions
 from lizardanalysis import calculations
 from lizardanalysis.calculations.read_in_files import analyze_files
 from lizardanalysis.calculations.write_result_files import summarize_results
+from lizardanalysis.calculations.lizard_morphometrics import calc_morphometrics
 
 
 from lizardanalysis.version import __version__, VERSION
