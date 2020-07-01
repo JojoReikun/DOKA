@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1444</width>
+    <width>1395</width>
     <height>809</height>
    </rect>
   </property>
@@ -46,7 +46,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>24</pointsize>
+       <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
@@ -251,7 +251,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>18</pointsize>
+       <pointsize>17</pointsize>
       </font>
      </property>
      <property name="text">
@@ -269,7 +269,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>18</pointsize>
+       <pointsize>17</pointsize>
       </font>
      </property>
      <property name="text">
@@ -303,7 +303,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>14</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -331,7 +331,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -349,7 +349,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -400,7 +400,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -418,7 +418,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -436,7 +436,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -446,15 +446,15 @@
     <widget class="QPushButton" name="Project_confirmNew_pushButton">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>550</x>
        <y>80</y>
-       <width>171</width>
+       <width>131</width>
        <height>31</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -469,13 +469,13 @@
       <rect>
        <x>370</x>
        <y>50</y>
-       <width>151</width>
+       <width>191</width>
        <height>21</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -485,9 +485,9 @@
     <widget class="QLineEdit" name="Project_openDLCFiles_lineEdit">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>550</x>
        <y>50</y>
-       <width>171</width>
+       <width>131</width>
        <height>20</height>
       </rect>
      </property>
@@ -495,7 +495,7 @@
     <widget class="QPushButton" name="Project_openDLCFiles_pushButton">
      <property name="geometry">
       <rect>
-       <x>710</x>
+       <x>690</x>
        <y>50</y>
        <width>71</width>
        <height>21</height>
@@ -503,7 +503,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -555,7 +555,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>18</pointsize>
+       <pointsize>17</pointsize>
       </font>
      </property>
      <property name="text">
@@ -586,14 +586,14 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>16</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="text">
       <string>Progress :</string>
      </property>
     </widget>
-    <widget class="QListWidget" name="listWidget">
+    <widget class="QListWidget" name="Log_listWidget">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -607,14 +607,14 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>390</y>
+       <y>380</y>
        <width>91</width>
-       <height>21</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
       </font>
      </property>
      <property name="text">
@@ -632,7 +632,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -859,7 +859,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>18</pointsize>
+       <pointsize>14</pointsize>
       </font>
      </property>
      <property name="text">

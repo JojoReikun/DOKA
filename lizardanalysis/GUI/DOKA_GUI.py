@@ -16,6 +16,7 @@ imports
 
 import sys
 import traceback
+import datetime
 from PyQt5 import QtWidgets, QtGui, QtCore
 from DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
 
@@ -100,6 +101,66 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.threadpool = QtCore.QThreadPool()
+
+        ###
+        # variables
+        ###
+        self.project_name = "default"
+        self.project_experimenter = "Jojo"
+        self.project_species = "Atta_fabiweideri"
+
+        self.updateProgress(0)
+
+        ###
+        # assign button / lineEdit functions
+        ###
+
+        self.ui.Project_name_lineEdit.textChanged.connect(self.set_project_name)
+        self.ui.Project_experimenter_lineEdit.textChanged.connect(self.set_project_experimenter)
+        self.ui.Project_species_lineEdit.textChanged.connect(self.set_project_species)
+
+        self.ui.Project_openDLCFiles_pushButton.pressed.connect(self.choose_DLC_folder)
+
+    ###
+    # (load / create) project functions
+
+    def set_project_name(self):
+        self.project_name = self.ui.Project_name_lineEdit.text()
+        self.setWindowTitle("DLC Output Kinematic Analysis" + " - " + self.project_name)
+
+    def set_project_experimenter(self):
+        self.project_experimenter = self.ui.Project_experimenter_lineEdit.text()
+
+    def set_project_species(self):
+        self.project_species = self.ui.Project_species_lineEdit.text()
+
+    def choose_DLC_folder_threaded(self, progress_callback):
+        # TODO Add folder select function
+        self.log_info("THIS DOES NOT WORK YET!!")
+
+        """
+        dialog = QtWidgets.QFileDialog(self)
+        dialog.setFileMode(QtWidgets.QFileDialog.DirectoryOnly)
+        dialog.setViewMode(QtWidgets.QFileDialog.Detail)
+
+        if dialog.exec_():
+            print("dis is okay")
+        """
+
+    def choose_DLC_folder(self):
+        worker = Worker(self.choose_DLC_folder_threaded)
+        self.threadpool.start(worker)
+
+    ###
+
+    def log_info(self, info):
+        now = datetime.datetime.now()
+        self.ui.Log_listWidget.addItem("[INFO] " + now.strftime("%H:%M:%S") + "  " + info)
+        self.ui.Log_listWidget.sortItems(QtCore.Qt.DescendingOrder)
+
+    def updateProgress(self, progress):
+        self.progress = progress
+        self.ui.Info_progressBar.setValue(int(self.progress))
 
 
 app = QtWidgets.QApplication([])
