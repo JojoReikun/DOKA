@@ -17,7 +17,8 @@ imports
 import sys
 import traceback
 import datetime
-from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtWidgets import QFileDialog
 from DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
 
 
@@ -108,6 +109,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_name = "default"
         self.project_experimenter = "Jojo"
         self.project_species = "Atta_fabiweideri"
+        self.DLC_path = ""
 
         self.updateProgress(0)
 
@@ -135,17 +137,31 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_species = self.ui.Project_species_lineEdit.text()
 
     def choose_DLC_folder_threaded(self, progress_callback):
-        # TODO Add folder select function
+        # TODO for pyqt5 version: get string of QDir and crashes when pressing cancel button
         self.log_info("THIS DOES NOT WORK YET!!")
+        from tkinter import filedialog, Tk
+        import os
+        root = Tk()
+        root.withdraw()  # use to hide tkinter window
 
-        """
-        dialog = QtWidgets.QFileDialog(self)
-        dialog.setFileMode(QtWidgets.QFileDialog.DirectoryOnly)
-        dialog.setViewMode(QtWidgets.QFileDialog.Detail)
+        current_path = os.getcwd()
 
-        if dialog.exec_():
-            print("dis is okay")
-        """
+        self.DLC_path = filedialog.askdirectory(parent=root, initialdir=current_path,
+                                          title='Please select a directory containing all DLC output files (.csv) for this project')
+        if len(self.DLC_path) > 0:
+            print("You chose %s" % self.DLC_path)
+            self.log_info(self.DLC_path)
+
+        # dialog = QFileDialog(self)
+        # dialog.setFileMode(QFileDialog.Directory)
+        # dialog.setViewMode(QFileDialog.Detail)
+        #
+        # if dialog.exec_():
+        #     print("dis is okay")
+        #     self.DLC_path = dialog.directory() #returns: <PyQt5.QtCore.QDir object at 0x000002814CCBB438>
+        #     #self.log_info(self.DLC_path)   #needs str not QDir
+        #     print(self.DLC_path)
+
 
     def choose_DLC_folder(self):
         worker = Worker(self.choose_DLC_folder_threaded)
