@@ -16,6 +16,8 @@ calculations = {'direction_of_climbing': ['nose'],
                 # 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
                 'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
                 'step_length': ['fl', 'fr', 'hl', 'hr'],
+                #'froude_numbers': ['fl', 'fr', 'hl', 'hr', 'nose', 'hip', 'shoulder_fl', 'fl_knee'],
+                #'stride_length': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
@@ -294,6 +296,5 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
 
         print("\n", "DONE!")
 
-
     # generate TOTAL result dataframe combining the results from all runs:
-    #df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
+    # df_results_total = pd.DataFrame(columns=calculations_checked_namelist())
