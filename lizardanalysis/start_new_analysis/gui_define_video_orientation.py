@@ -17,7 +17,6 @@ class Window(Frame):
 
     # Creation of init_window
     def init_window(self):
-
         # changing the title of our master widget
         self.master.title("Define video orientation of lizard runs")
 
@@ -27,7 +26,7 @@ class Window(Frame):
         # Adding widgets to the root window
         # Adding text labels:
         label_intro = Label(self, text='Please check the orientation of the video footage ...\n '
-                                         '...and click on the image which shows the correct configuration for the current species.',
+                                       '...and click on the image which shows the correct configuration for the current species.',
                             font=('Verdana', 10))
         label_intro.grid(column=0, row=0, columnspan=2)
 
@@ -35,17 +34,23 @@ class Window(Frame):
         label_var = StringVar()
 
         label_config = Label(self, textvariable=label_var,
-                            font=('Verdana', 10))
+                             font=('Verdana', 10))
         label_config.grid(column=0, row=2, columnspan=2)
         label_var.set('The default configuration for the analysis is set to 1.')
 
         # creating image objects to use on button instead of text
-        global x_up_dir_up      # make global to retain a reference, otherwise destroyed while __init__() exists
+        global x_up_dir_up  # make global to retain a reference, otherwise destroyed while __init__() exists
         global x_down_dir_up
+        """
         x_up_dir_up = PhotoImage(
             file=os.path.join(current_path, r'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_up_dir_up.png'))
         x_down_dir_up = PhotoImage(
             file=os.path.join(current_path, r'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
+        """
+        x_up_dir_up = PhotoImage(
+            file=os.path.join(current_path, r'start_new_analysis', 'GUI_video_config_x_up_dir_up.png'))
+        x_down_dir_up = PhotoImage(
+            file=os.path.join(current_path, r'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
 
         # creating a button instance
         btn_x_up_dir_up = Button(self, image=x_up_dir_up, command=self.btn_on_clicked_1)
@@ -71,12 +76,18 @@ class Window(Frame):
         label_var.set('Configuration ' + clicked + ' is now set for the analysis. Close the GUI to continue.')
         # print('clicked: ', clicked)
 
+
 # TODO: add OKAY button to proceed and make X abort
 
 
 def gui_choose_video_config():
     # creating tkinter window
     root = Tk()
+
+    def on_closing():
+        # destroy window when it has fulfilled its purpose
+        print("Window destroyed!")
+        root.destroy()
 
     root.geometry("800x450")
 
@@ -86,6 +97,7 @@ def gui_choose_video_config():
     # creation of an instance
     app = Window(root)
 
+    root.protocol("WM_DELETE_WINDOW", on_closing)
     # mainloop
     root.mainloop()
 

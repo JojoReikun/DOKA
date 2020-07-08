@@ -18,8 +18,10 @@ import sys
 import traceback
 import datetime
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QFileDialog
-from DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
+from GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
+from tkinter import filedialog, Tk
+import os
+from start_new_analysis import new
 
 
 class WorkerSignals(QtCore.QObject):
@@ -106,9 +108,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         ###
         # variables
         ###
-        self.project_name = "default"
-        self.project_experimenter = "Jojo"
-        self.project_species = "Atta_fabiweideri"
+        self.project_name = ""
+        self.project_experimenter = ""
+        self.project_species = ""
         self.DLC_path = ""
 
         self.updateProgress(0)
@@ -122,6 +124,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Project_species_lineEdit.textChanged.connect(self.set_project_species)
 
         self.ui.Project_openDLCFiles_pushButton.pressed.connect(self.choose_DLC_folder)
+        self.ui.Project_confirmNew_pushButton.pressed.connect(self.confirmNew)
 
     ###
     # (load / create) project functions
@@ -137,20 +140,23 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_species = self.ui.Project_species_lineEdit.text()
 
     def choose_DLC_folder_threaded(self, progress_callback):
-        # TODO for pyqt5 version: get string of QDir and crashes when pressing cancel button
-        self.log_info("THIS DOES NOT WORK YET!!")
-        from tkinter import filedialog, Tk
-        import os
         root = Tk()
         root.withdraw()  # use to hide tkinter window
 
         current_path = os.getcwd()
 
-        self.DLC_path = filedialog.askdirectory(parent=root, initialdir=current_path,
-                                          title='Please select a directory containing all DLC output files (.csv) for this project')
-        if len(self.DLC_path) > 0:
-            print("You chose %s" % self.DLC_path)
+        if self.ui.Project_openDLCFiles_lineEdit.text is not None:
+            current_path = self.DLC_path
+
+        selected_path = filedialog.askdirectory(parent=root, initialdir=current_path,
+                                                title='Please select a directory containing all DLC output files (.csv) for this project')
+        if len(selected_path) > 0:
+            self.DLC_path = selected_path
             self.log_info(self.DLC_path)
+
+        self.ui.Project_openDLCFiles_lineEdit.setText(self.DLC_path)
+
+        root.destroy()
 
         # dialog = QFileDialog(self)
         # dialog.setFileMode(QFileDialog.Directory)
@@ -162,16 +168,44 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         #     #self.log_info(self.DLC_path)   #needs str not QDir
         #     print(self.DLC_path)
 
-
     def choose_DLC_folder(self):
         worker = Worker(self.choose_DLC_folder_threaded)
         self.threadpool.start(worker)
+
+    def confirmNew(self):
+        self.project_set_up = False
+        if len(self.DLC_path) > 0 and len(self.project_name) > 0 and len(self.project_experimenter) > 0 and len(
+                self.project_species) > 0:
+            if os.path.exists(self.DLC_path):
+                worker = Worker(self.createProject_threaded)
+                self.threadpool.start(worker)
+            else:
+                self.log_warning("Invalid path to DLC Files!")
+        else:
+            self.log_warning("Missing information to set up new project!")
+
+    def createProject_threaded(self, progress_callback):
+        date = datetime.datetime.today().strftime('%Y-%m-%d')
+
+        new.create_new_project(project=self.project_name, experimenter=self.project_experimenter,
+                               species=self.project_species, file_directory=self.DLC_path)
+
+        generated_project_path = self.project_name + "-" + self.project_experimenter + "-" \
+                                 + self.project_species + "-" + date
+        self.log_info("New project created: " + os.path.join(os.getcwd(), generated_project_path))
+        self.log_info("Define framerate & shutter in created config.yaml")
 
     ###
 
     def log_info(self, info):
         now = datetime.datetime.now()
-        self.ui.Log_listWidget.addItem("[INFO] " + now.strftime("%H:%M:%S") + "  " + info)
+        # TODO add item colour (red for warnings)
+        self.ui.Log_listWidget.addItem(now.strftime("%H:%M:%S") + " [INFO]  " + info)
+        self.ui.Log_listWidget.sortItems(QtCore.Qt.DescendingOrder)
+
+    def log_warning(self, info):
+        now = datetime.datetime.now()
+        self.ui.Log_listWidget.addItem(now.strftime("%H:%M:%S") + " [WARNING]  " + info)
         self.ui.Log_listWidget.sortItems(QtCore.Qt.DescendingOrder)
 
     def updateProgress(self, progress):
