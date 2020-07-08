@@ -112,6 +112,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_experimenter = ""
         self.project_species = ""
         self.DLC_path = ""
+        self.project_config_file = ""
 
         self.updateProgress(0)
 
@@ -125,6 +126,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.ui.Project_openDLCFiles_pushButton.pressed.connect(self.choose_DLC_folder)
         self.ui.Project_confirmNew_pushButton.pressed.connect(self.confirmNew)
+
+        self.ui.Project_openConfig_pushButton.pressed.connect(self.choose_Existing_Project)
 
     ###
     # (load / create) project functions
@@ -171,6 +174,28 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def choose_DLC_folder(self):
         worker = Worker(self.choose_DLC_folder_threaded)
         self.threadpool.start(worker)
+
+    def choose_Existing_Project(self):
+        worker = Worker(self.choose_Existing_Project_threaded)
+        self.threadpool.start(worker)
+
+    def choose_Existing_Project_threaded(self, progress_callback):
+        root = Tk()
+        root.withdraw()  # use to hide tkinter window
+
+        current_path = os.getcwd()
+
+        if self.ui.Project_openConfig_lineEdit.text is not None:
+            current_path = self.ui.Project_openConfig_lineEdit.text
+
+        config_file_path = filedialog.askopenfilename(parent=root, initialdir=current_path,
+                                                      title='Please select a the config file of project to open')
+        if len(config_file_path) > 0:
+            self.log_info("Selected project at: " + config_file_path)
+            self.ui.Project_openConfig_lineEdit.setText(config_file_path)
+            self.project_config_file = config_file_path
+
+        root.destroy()
 
     def confirmNew(self):
         self.project_set_up = False
