@@ -188,6 +188,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.Info_text_label.setFont(font)
         self.Info_text_label.setObjectName("Info_text_label")
+        self.Info_text_label.setWordWrap(True)
         self.Info_label = QtWidgets.QLabel(self.Info_Frame)
         self.Info_label.setGeometry(QtCore.QRect(10, 10, 281, 31))
         font = QtGui.QFont()
@@ -221,6 +222,10 @@ class Ui_MainWindow(object):
         self.Info_numFiles_text_label.setObjectName("Info_numFiles_text_label")
         self.Info_numFiles_lcdNumber = QtWidgets.QLCDNumber(self.Info_Frame)
         self.Info_numFiles_lcdNumber.setGeometry(QtCore.QRect(120, 40, 64, 31))
+        self.Info_numFiles_lcdNumber.setStyleSheet("""QLCDNumber { 
+                                                    color: rgb(117, 189, 28);    
+                                                    background-color: rgb(30, 33, 30);
+                                                   }""")
         self.Info_numFiles_lcdNumber.setObjectName("Info_numFiles_lcdNumber")
         self.line_2 = QtWidgets.QFrame(self.Info_Frame)
         self.line_2.setGeometry(QtCore.QRect(0, 70, 351, 16))

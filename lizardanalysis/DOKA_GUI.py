@@ -21,8 +21,9 @@ from PyQt5 import QtWidgets, QtCore
 from GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
 from tkinter import filedialog, Tk
 import os
+from pathlib import Path
 from start_new_analysis import new
-
+from lizardanalysis.utils import auxiliaryfunctions
 
 class WorkerSignals(QtCore.QObject):
     '''
@@ -128,6 +129,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Project_confirmNew_pushButton.pressed.connect(self.confirmNew)
 
         self.ui.Project_openConfig_pushButton.pressed.connect(self.choose_Existing_Project)
+        self.ui.Project_confirm_pushButton.pressed.connect(self.confirmExistingProject)
 
     ###
     # (load / create) project functions
@@ -209,6 +211,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         else:
             self.log_warning("Missing information to set up new project!")
 
+
     def createProject_threaded(self, progress_callback):
         date = datetime.datetime.today().strftime('%Y-%m-%d')
 
@@ -219,6 +222,33 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
                                  + self.project_species + "-" + date
         self.log_info("New project created: " + os.path.join(os.getcwd(), generated_project_path))
         self.log_info("Define framerate & shutter in created config.yaml")
+
+
+    def confirmExistingProject(self):
+        # read in the config file: get labels and number of files
+        if len(self.project_config_file) > 0 :
+            current_path = os.getcwd()
+            worker = Worker(self.confirmExistingProject_threaded)
+            self.threadpool.start(worker)
+        else:
+            self.log_warning("select a config file to open an existing project first!")
+
+    def confirmExistingProject_threaded(self, progress_callback):
+        config_file = Path(self.project_config_file).resolve()
+        cfg = auxiliaryfunctions.read_config(config_file)
+
+        # get labels
+        labels = cfg['labels']
+        labels = ";   ".join(labels)   # bring list in gui printable format
+        self.ui.Info_text_label.setText(labels)
+
+        # get number of files
+        files = cfg['file_sets'].keys()  # object type ('CommentedMapKeysView' object), does not support indexing
+        filelist = []  # store filepaths as list
+        for file in files:
+            filelist.append(file)
+        number_of_files = len(filelist)
+        self.ui.Info_numFiles_lcdNumber.display(number_of_files)
 
     ###
 
