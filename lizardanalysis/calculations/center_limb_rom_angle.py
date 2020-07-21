@@ -42,9 +42,10 @@ def center_limb_rom_angle(**kwargs):
             if len(df_stride_section) == 0:
                 break
             df_stride_section_indices = list(df_stride_section.index.values)
-            if len(df_stride_section_indices) > 0:
+            if len(df_stride_section_indices) > 5:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
                 stride_length_in_frames = beg_end_tuple[1] - beg_end_tuple[0]
+                #print("beg_end_tuple: ", beg_end_tuple)
 
                 # calculate the limb ROM angles to then get CROM
                 limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
@@ -65,6 +66,7 @@ def center_limb_rom_angle(**kwargs):
                                                                                    auxiliaryfunctions.calc_body_axis(data,
                                                                                                   beg_end_tuple[1],
                                                                                                   scorer))
+                #print("limb angles: ", limb_rom_angle_begin, limb_rom_angle_end)
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
                 else:
@@ -100,6 +102,7 @@ def center_limb_rom_angle(**kwargs):
 
     # rename dictionary keys of results
     results = {'CROM_' + key: value for (key, value) in results.items()}
+    # print("CROM: \n", results)
     # print("mean and std FL: ", np.nanmean(results["CROM_FL"]), np.nanstd(results["CROM_FL"]))
     # print("mean and std FR: ", np.nanmean(results["CROM_FR"]), np.nanstd(results["CROM_FR"]))
     # print("mean and std HR: ", np.nanmean(results["CROM_HR"]), np.nanstd(results["CROM_HR"]))
@@ -138,6 +141,6 @@ def calc_CROM_angle_bodyaxis(data, mid_stride_index, scorer, foot):
 
 def loop_encode(i):
     # get utf-8 encoded version of the string
-    cell_value = 'stride000{}'.format(i).encode()
+    cell_value = 'swing000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value
