@@ -42,7 +42,7 @@ def center_limb_rom_angle(**kwargs):
             if len(df_stride_section) == 0:
                 break
             df_stride_section_indices = list(df_stride_section.index.values)
-            if len(df_stride_section_indices) > 5:
+            if len(df_stride_section_indices) > 0:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
                 stride_length_in_frames = beg_end_tuple[1] - beg_end_tuple[0]
                 #print("beg_end_tuple: ", beg_end_tuple)

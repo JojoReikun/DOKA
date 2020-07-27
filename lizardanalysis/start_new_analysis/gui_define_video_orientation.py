@@ -48,9 +48,9 @@ class Window(Frame):
             file=os.path.join(current_path, r'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
         """
         x_up_dir_up = PhotoImage(
-            file=os.path.join(current_path, r'start_new_analysis', 'GUI_video_config_x_up_dir_up.png'))
+            file=os.path.join(current_path, 'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_up_dir_up.png'))
         x_down_dir_up = PhotoImage(
-            file=os.path.join(current_path, r'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
+            file=os.path.join(current_path, 'lizardanalysis', 'start_new_analysis', 'GUI_video_config_x_down_dir_up.png'))
 
         # creating a button instance
         btn_x_up_dir_up = Button(self, image=x_up_dir_up, command=self.btn_on_clicked_1)
