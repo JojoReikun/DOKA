@@ -208,6 +208,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         # write labels to config file:
         if cfg['labels'] is None:
             cfg['labels'] = labels_no_doubles
+            #print("labels: ", labels_no_doubles)
             auxiliaryfunctions.write_config(config, cfg)
             print('\n labels written to config file.')
         else:
