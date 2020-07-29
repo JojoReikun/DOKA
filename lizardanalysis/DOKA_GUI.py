@@ -18,7 +18,7 @@ import sys
 import traceback
 import datetime
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtWidgets import *
 from GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
 from tkinter import filedialog, Tk
@@ -119,6 +119,11 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_config_file = ""
 
         self.updateProgress(0)
+        self.project_loaded = False
+        self.label_buttons = []
+        self.label_coords = []
+        self.labels = []
+        self.button_diameter = 20
 
         ###
         # assign button / lineEdit functions
@@ -237,20 +242,34 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         else:
             self.log_warning("select a config file to open an existing project first!")
 
+    def update_labels(self):
+        # clear list before loading elements from config file
+        self.ui.Labels_listWidget.clear()
+
+        style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid green"
+
+        label_count = 0
+        for label in self.labels:
+            if label != "bodyparts":
+                self.add_labels(label)
+                for elem in range(len(self.label_coords)):
+                    if label == self.label_coords[elem][0]:
+                        if self.label_buttons[elem].styleSheet() != style_sheet:
+                            self.label_buttons[elem].setStyleSheet(style_sheet)
+                label_count += 1
+                
+        self.ui.Labels_listWidget.sortItems(QtCore.Qt.AscendingOrder)
+        self.ui.Info_numLabels_lcdNumber.display(label_count)
+
     def confirmExistingProject_threaded(self, progress_callback):
         config_file = Path(self.project_config_file).resolve()
         cfg = auxiliaryfunctions.read_config(config_file)
 
         # get labels
-        labels = cfg['labels']
-        label_count = 0
-        for label in labels:
-            if label != "bodyparts":
-                self.add_labels(label)
-                label_count += 1
+        self.labels = cfg['labels']
 
-        self.ui.Labels_listWidget.sortItems(QtCore.Qt.AscendingOrder)
-        self.ui.Info_numLabels_lcdNumber.display(label_count)
+        self.update_labels()
+
         # labels = ";   ".join(labels)  # bring list in gui printable format
         # self.ui.Info_text_label.setText(labels)
 
@@ -261,6 +280,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             filelist.append(file)
         number_of_files = len(filelist)
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
+        self.project_loaded = True
 
     ### INFO SECTION ###
 
@@ -285,36 +305,118 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
     ### ANALYSIS SECTION ###
 
+    def delete_label_buttons(self):
+        for button in self.label_buttons:
+            button.deleteLater()
+            self.label_buttons = []
+
+    def draw_label_buttons(self):
+        created_buttons = 0
+        for label in self.label_coords:
+            # create button for each label
+            self.label_buttons.append(QPushButton(label[0], self))
+            self.label_buttons[-1].setGeometry(label[1] - self.button_diameter / 2, label[2] - self.button_diameter / 2,
+                                               self.button_diameter, self.button_diameter)
+
+            # setting radius and border
+            style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid grey"
+            self.label_buttons[-1].setStyleSheet(style_sheet)
+            self.label_buttons[-1].setFont(QFont('Times', 5))
+            self.label_buttons[-1].show()
+            created_buttons += 1
+
     def select_Lizard(self):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
         self.ui.animal_QLabel.setPixmap(lizard_img)
 
-        label_coords = [
+        self.label_coords = [
             ["fl", 802, 353],
             ["fl_knee", 826, 331],
-
-            # TODO add remaining possible labels
+            ["fl_ti", 815, 386],
+            ["fl_ti1", 777, 397],
+            ["fl_tm", 758, 372],
+            ["fl_to", 790, 335],
+            ["fl_to1", 767, 345],
+            ["fr", 790, 205],
+            ["fr_knee", 828, 207],
+            ["fr_ti", 789, 170],
+            ["fr_ti1", 751, 173],
+            ["fr_tm", 742, 202],
+            ["fr_to", 781, 227],
+            ["fr_to1", 757, 220],
+            ["hip", 1027, 279],
+            ["hl", 1022, 365],
+            ["hl_knee", 992, 331],
+            ["hl_ti", 997, 374],
+            ["hl_ti1", 991, 396],
+            ["hl_tm", 1001, 416],
+            ["hl_to", 1050, 385],
+            ["hl_to1", 1039, 434],
+            ["hr", 1092, 245],
+            ["hr_knee", 1054, 218],
+            ["hr_ti", 1095, 215],
+            ["hr_ti1", 1113, 207],
+            ["hr_tm", 1134, 203],
+            ["hr_to", 1122, 266],
+            ["hr_to1", 1163, 232],
+            ["nose", 652, 262],
+            ["shoulder", 814, 271],
+            ["shoulder_fl", 820, 303],
+            ["shoulder_fr", 813, 243],
+            ["shoulder_hl", 1017, 301],
+            ["shoulder_hr", 1037, 258],
+            ["spine", 915, 268],
+            ["tail_middle", 1205, 366],
+            ["tail_tip", 1205, 559]
         ]
 
-        button_diameter = 20
+        self.delete_label_buttons()
 
-        label_buttons = []
-        created_buttons = 0
-        for label in label_coords:
-            # create button for each label
-            label_buttons.append(QPushButton(label[0], self))
-            label_buttons[-1].setGeometry(label[1] - button_diameter / 2, label[2] - button_diameter / 2,
-                                          button_diameter, button_diameter)
+        self.draw_label_buttons()
 
-            # setting radius and border
-            style_sheet = "border-radius :" + str(button_diameter / 2) + ";border: 2px solid black"
-            label_buttons[-1].setStyleSheet(style_sheet)
-            label_buttons[-1].show()
-            created_buttons += 1
+        if self.project_loaded:
+            self.update_labels()
 
     def select_Spider(self):
         spider_img = QPixmap('GUI\\spider_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+
+        self.label_coords = [
+            ["l1", 744, 172],
+            ["lm1", 848, 308],
+            ["lb1", 936, 334],
+            ["l2", 627, 334],
+            ["lm2", 828, 377],
+            ["lb2", 932, 351],
+            ["l3", 761, 443],
+            ["lm3", 880, 424],
+            ["lb3", 931, 367],
+            ["l4", 823, 558],
+            ["lm4", 906, 448],
+            ["lb4", 934, 381],
+            ["r1", 1177, 173],
+            ["rm1", 1072, 308],
+            ["rb1", 984, 334],
+            ["r2", 1299, 334],
+            ["rm2", 1093, 376],
+            ["rb2", 990, 351],
+            ["r3", 1164, 444],
+            ["rm3", 1042, 423],
+            ["rb3", 991, 367],
+            ["r4", 1100, 559],
+            ["rm4", 1017, 450],
+            ["rb4", 989, 382],
+            ["head", 962, 318],
+            ["body", 962, 390],
+            ["tail", 961, 473]
+        ]
+
+        self.delete_label_buttons()
+
+        self.draw_label_buttons()
+
+        if self.project_loaded:
+            self.update_labels()
 
 
 app = QtWidgets.QApplication([])
