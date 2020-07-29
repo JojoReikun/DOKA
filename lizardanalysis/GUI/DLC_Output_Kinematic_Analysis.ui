@@ -747,13 +747,13 @@
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
-    <widget class="QLabel" name="Info_text_label_3">
+    <widget class="QLabel" name="animal_QLabel">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>10</y>
-       <width>821</width>
-       <height>421</height>
+       <width>841</width>
+       <height>411</height>
       </rect>
      </property>
      <property name="font">
@@ -761,8 +761,14 @@
        <pointsize>10</pointsize>
       </font>
      </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="text">
-      <string>Hier könnten Ihre Austauschbaren Sub-Windows platziert werden!</string>
+      <string>Select an animal from the right column to begin your analysis!</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>

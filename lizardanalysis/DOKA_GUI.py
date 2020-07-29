@@ -18,6 +18,7 @@ import sys
 import traceback
 import datetime
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtGui import QIcon, QPixmap
 from GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
 from tkinter import filedialog, Tk
 import os
@@ -131,6 +132,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.ui.Project_openConfig_pushButton.pressed.connect(self.choose_Existing_Project)
         self.ui.Project_confirm_pushButton.pressed.connect(self.confirmExistingProject)
+
+        self.ui.Animal_lizard_pushButton.pressed.connect(self.select_Lizard)
+        self.ui.Animal_spider_pushButton.pressed.connect(self.select_Spider)
 
     ###
     # (load / create) project functions
@@ -254,7 +258,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         number_of_files = len(filelist)
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
 
-    ###
+    ### INFO SECTION ###
 
     def log_info(self, info):
         now = datetime.datetime.now()
@@ -274,6 +278,16 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def updateProgress(self, progress):
         self.progress = progress
         self.ui.Info_progressBar.setValue(int(self.progress))
+
+    ### ANALYSIS SECTION ###
+
+    def select_Lizard(self):
+        lizard_img = QPixmap('GUI\\lizard_shape.svg')
+        self.ui.animal_QLabel.setPixmap(lizard_img)
+
+    def select_Spider(self):
+        spider_img = QPixmap('GUI\\spider_shape.svg')
+        self.ui.animal_QLabel.setPixmap(spider_img)
 
 
 app = QtWidgets.QApplication([])
