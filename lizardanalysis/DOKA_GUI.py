@@ -19,6 +19,7 @@ import traceback
 import datetime
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import *
 from GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
 from tkinter import filedialog, Tk
 import os
@@ -242,11 +243,14 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         # get labels
         labels = cfg['labels']
+        label_count = 0
         for label in labels:
-            print(label)
-            self.add_labels(label)
+            if label != "bodyparts":
+                self.add_labels(label)
+                label_count += 1
 
-        self.ui.Info_numLabels_lcdNumber.display(len(labels))
+        self.ui.Labels_listWidget.sortItems(QtCore.Qt.AscendingOrder)
+        self.ui.Info_numLabels_lcdNumber.display(label_count)
         # labels = ";   ".join(labels)  # bring list in gui printable format
         # self.ui.Info_text_label.setText(labels)
 
@@ -284,6 +288,29 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Lizard(self):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
         self.ui.animal_QLabel.setPixmap(lizard_img)
+
+        label_coords = [
+            ["fl", 802, 353],
+            ["fl_knee", 826, 331],
+
+            # TODO add remaining possible labels
+        ]
+
+        button_diameter = 20
+
+        label_buttons = []
+        created_buttons = 0
+        for label in label_coords:
+            # create button for each label
+            label_buttons.append(QPushButton(label[0], self))
+            label_buttons[-1].setGeometry(label[1] - button_diameter / 2, label[2] - button_diameter / 2,
+                                          button_diameter, button_diameter)
+
+            # setting radius and border
+            style_sheet = "border-radius :" + str(button_diameter / 2) + ";border: 2px solid black"
+            label_buttons[-1].setStyleSheet(style_sheet)
+            label_buttons[-1].show()
+            created_buttons += 1
 
     def select_Spider(self):
         spider_img = QPixmap('GUI\\spider_shape.svg')
