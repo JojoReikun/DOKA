@@ -8,7 +8,7 @@ Locations of required executables and how to use them:
 # C:\Users\PlumStation\Anaconda3\envs\tf-gpu\Scripts\pyuic5.exe
 # to convert the UI into the required .py file run:
 # -x = input     -o = output
-# pyuic5.exe -x "I:\ClimbingLizardDLCAnalysis\GUI\DLC_Output_Kinematic_Analysis.ui" -o "I:\ClimbingLizardDLCAnalysis\GUI\DLC_Output_Kinematic_Analysis.py"
+# pyuic5.exe -x "I:\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.ui" -o "I:\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.py"
 
 """
 imports
@@ -24,6 +24,7 @@ import os
 from pathlib import Path
 from start_new_analysis import new
 from lizardanalysis.utils import auxiliaryfunctions
+
 
 class WorkerSignals(QtCore.QObject):
     '''
@@ -211,7 +212,6 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         else:
             self.log_warning("Missing information to set up new project!")
 
-
     def createProject_threaded(self, progress_callback):
         date = datetime.datetime.today().strftime('%Y-%m-%d')
 
@@ -223,10 +223,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.log_info("New project created: " + os.path.join(os.getcwd(), generated_project_path))
         self.log_info("Define framerate & shutter in created config.yaml")
 
-
     def confirmExistingProject(self):
         # read in the config file: get labels and number of files
-        if len(self.project_config_file) > 0 :
+        if len(self.project_config_file) > 0:
             current_path = os.getcwd()
             worker = Worker(self.confirmExistingProject_threaded)
             self.threadpool.start(worker)
@@ -239,8 +238,13 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         # get labels
         labels = cfg['labels']
-        labels = ";   ".join(labels)   # bring list in gui printable format
-        self.ui.Info_text_label.setText(labels)
+        for label in labels:
+            print(label)
+            self.add_labels(label)
+
+        self.ui.Info_numLabels_lcdNumber.display(len(labels))
+        # labels = ";   ".join(labels)  # bring list in gui printable format
+        # self.ui.Info_text_label.setText(labels)
 
         # get number of files
         files = cfg['file_sets'].keys()  # object type ('CommentedMapKeysView' object), does not support indexing
@@ -262,6 +266,10 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         now = datetime.datetime.now()
         self.ui.Log_listWidget.addItem(now.strftime("%H:%M:%S") + " [WARNING]  " + info)
         self.ui.Log_listWidget.sortItems(QtCore.Qt.DescendingOrder)
+
+    def add_labels(self, label_text):
+        self.ui.Labels_listWidget.addItem(label_text)
+        self.ui.Labels_listWidget.sortItems(QtCore.Qt.DescendingOrder)
 
     def updateProgress(self, progress):
         self.progress = progress
