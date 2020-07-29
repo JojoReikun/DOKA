@@ -758,7 +758,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>10</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="layoutDirection">
@@ -791,7 +791,7 @@
      <property name="geometry">
       <rect>
        <x>720</x>
-       <y>130</y>
+       <y>140</y>
        <width>131</width>
        <height>41</height>
       </rect>
@@ -922,13 +922,13 @@
       <string>Available Calculations:</string>
      </property>
     </widget>
-    <widget class="QTableView" name="calculations_tableView">
+    <widget class="QTableWidget" name="calculations_tableWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>40</y>
-       <width>681</width>
-       <height>131</height>
+       <width>701</width>
+       <height>141</height>
       </rect>
      </property>
     </widget>

@@ -18,13 +18,14 @@ import sys
 import traceback
 import datetime
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtGui import QIcon, QPixmap, QFont
+from PyQt5.QtGui import QColor, QPixmap, QFont
 from PyQt5.QtWidgets import *
-from GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
+from lizardanalysis.GUI.DLC_Output_Kinematic_Analysis import Ui_MainWindow  # importing our generated file
+from lizardanalysis.calculations import read_in_files
 from tkinter import filedialog, Tk
 import os
 from pathlib import Path
-from start_new_analysis import new
+from lizardanalysis.start_new_analysis import new
 from lizardanalysis.utils import auxiliaryfunctions
 
 
@@ -257,7 +258,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
                         if self.label_buttons[elem].styleSheet() != style_sheet:
                             self.label_buttons[elem].setStyleSheet(style_sheet)
                 label_count += 1
-                
+
         self.ui.Labels_listWidget.sortItems(QtCore.Qt.AscendingOrder)
         self.ui.Info_numLabels_lcdNumber.display(label_count)
 
@@ -280,6 +281,27 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             filelist.append(file)
         number_of_files = len(filelist)
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
+
+        calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
+            cfg)
+
+        self.ui.calculations_tableWidget.setColumnCount(2)
+
+        for calc in calculations_all_list:
+            row_position = self.ui.calculations_tableWidget.rowCount()
+            self.ui.calculations_tableWidget.insertRow(row_position)
+            self.ui.calculations_tableWidget.setItem(row_position, 0, QTableWidgetItem(str(calc)))
+
+            if calc in calculations_checked_namelist:
+                self.ui.calculations_tableWidget.item(row_position, 0).setBackground(QColor(100, 255, 100))
+
+        self.ui.calculations_tableWidget.setColumnWidth(0, 200)
+        self.ui.calculations_tableWidget.setColumnWidth(1, 50)
+        self.ui.calculations_tableWidget.setHorizontalHeaderItem(0, QTableWidgetItem("Calculation"))
+        self.ui.calculations_tableWidget.setHorizontalHeaderItem(1, QTableWidgetItem("Run"))
+
+        # TODO Insert checkbox for desired calculations
+
         self.project_loaded = True
 
     ### INFO SECTION ###
