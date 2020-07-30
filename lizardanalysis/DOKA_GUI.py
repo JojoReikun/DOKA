@@ -142,6 +142,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.ui.Animal_lizard_pushButton.pressed.connect(self.select_Lizard)
         self.ui.Animal_spider_pushButton.pressed.connect(self.select_Spider)
+        self.ui.Animal_ant_pushButton.pressed.connect(self.select_Ant)
+        self.ui.Animal_stick_pushButton.pressed.connect(self.select_Stick)
 
     ###
     # (load / create) project functions
@@ -285,11 +287,15 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
             cfg)
 
+        # clear and reload all elements of the calculations table each time a project is loaded to avoid repeated
+        # display of the same entries
         self.ui.calculations_tableWidget.clear()
+        self.ui.calculations_tableWidget.setRowCount(0)
         self.ui.calculations_tableWidget.setColumnCount(2)
 
         for calc in calculations_all_list:
             row_position = self.ui.calculations_tableWidget.rowCount()
+            print(row_position)
             self.ui.calculations_tableWidget.insertRow(row_position)
             self.ui.calculations_tableWidget.setItem(row_position, 0, QTableWidgetItem(str(calc)))
 
@@ -432,6 +438,84 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             ["head", 962, 318],
             ["body", 962, 390],
             ["tail", 961, 473]
+        ]
+
+        self.delete_label_buttons()
+
+        self.draw_label_buttons()
+
+        if self.project_loaded:
+            self.update_labels()
+
+    def select_Ant(self):
+        spider_img = QPixmap('GUI\\ant_shape.svg')
+        self.ui.animal_QLabel.setPixmap(spider_img)
+
+        self.label_coords = [
+            ["l1", 810, 200],
+            ["lm1", 850, 275],
+            ["lb1", 928, 298],
+            ["l2", 774, 450],
+            ["lm2", 854, 346],
+            ["lb2", 933, 326],
+            ["l3", 781, 554],
+            ["lm3", 844, 423],
+            ["lb3", 940, 346],
+            ["r1", 1111, 200],
+            ["rm1", 1069, 275],
+            ["rb1", 992, 298],
+            ["r2", 1145, 450],
+            ["rm2", 1066, 346],
+            ["rb2", 988, 326],
+            ["r3", 1136, 554],
+            ["rm3", 1074, 423],
+            ["rb3", 980, 346],
+            ["rmandible", 941, 168],
+            ["lmandible", 979, 168],
+            ["head", 959, 209],
+            ["t1", 959, 296],
+            ["t2", 959, 324],
+            ["t3", 959, 340],
+            ["abdomen", 959, 430]
+        ]
+
+        self.delete_label_buttons()
+
+        self.draw_label_buttons()
+
+        if self.project_loaded:
+            self.update_labels()
+
+    def select_Stick(self):
+        spider_img = QPixmap('GUI\\stick_shape.svg')
+        self.ui.animal_QLabel.setPixmap(spider_img)
+
+        self.label_coords = [
+            ["l1", 715, 464],
+            ["lm1", 796, 451],
+            ["lb1", 862, 383],
+            ["l2", 886, 505],
+            ["lm2", 929, 470],
+            ["lb2", 956, 395],
+            ["l3", 1206, 522],
+            ["lm3", 1073, 466],
+            ["lb3", 1026, 369],
+            ["r1", 715, 269],
+            ["rm1", 795, 280],
+            ["rb1", 862, 348],
+            ["r2", 886, 227],
+            ["rm2", 929, 263],
+            ["rb2", 956, 339],
+            ["r3", 1206, 211],
+            ["rm3", 1072, 267],
+            ["rb3", 1026, 337],
+            ["rantenna", 621, 275],
+            ["lantenna", 621, 455],
+            ["head", 816, 366],
+            ["t1", 873, 366],
+            ["t2", 962, 366],
+            ["t3", 1024, 366],
+            ["abdomen", 1304, 366]
         ]
 
         self.delete_label_buttons()
