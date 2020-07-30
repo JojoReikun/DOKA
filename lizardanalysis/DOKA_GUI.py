@@ -289,13 +289,12 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         # clear and reload all elements of the calculations table each time a project is loaded to avoid repeated
         # display of the same entries
-        self.ui.calculations_tableWidget.clear()
-        self.ui.calculations_tableWidget.setRowCount(0)
+        if self.project_loaded:
+            self.ui.calculations_tableWidget.setRowCount(0)
         self.ui.calculations_tableWidget.setColumnCount(2)
 
         for calc in calculations_all_list:
             row_position = self.ui.calculations_tableWidget.rowCount()
-            print(row_position)
             self.ui.calculations_tableWidget.insertRow(row_position)
             self.ui.calculations_tableWidget.setItem(row_position, 0, QTableWidgetItem(str(calc)))
 
@@ -470,8 +469,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             ["r3", 1136, 554],
             ["rm3", 1074, 423],
             ["rb3", 980, 346],
-            ["rmandible", 941, 168],
-            ["lmandible", 979, 168],
+            ["lmandible", 941, 168],
+            ["rmandible", 979, 168],
             ["head", 959, 209],
             ["t1", 959, 296],
             ["t2", 959, 324],
@@ -499,7 +498,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             ["lb2", 956, 395],
             ["l3", 1206, 522],
             ["lm3", 1073, 466],
-            ["lb3", 1026, 369],
+            ["lb3", 1026, 396],
             ["r1", 715, 269],
             ["rm1", 795, 280],
             ["rb1", 862, 348],
@@ -509,8 +508,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             ["r3", 1206, 211],
             ["rm3", 1072, 267],
             ["rb3", 1026, 337],
-            ["rantenna", 621, 275],
             ["lantenna", 621, 455],
+            ["rantenna", 621, 275],
             ["head", 816, 366],
             ["t1", 873, 366],
             ["t2", 962, 366],
