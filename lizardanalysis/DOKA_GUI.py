@@ -285,6 +285,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
             cfg)
 
+        self.ui.calculations_tableWidget.clear()
         self.ui.calculations_tableWidget.setColumnCount(2)
 
         for calc in calculations_all_list:
