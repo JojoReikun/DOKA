@@ -76,7 +76,7 @@ def check_labels(cfg, filelist):
     label_names = [str(label[1]).lower() for label in data_labels_columns]
     label_names_no_doubles = list(set(label_names))
 
-    if len(label_names_no_doubles) == 0:
+    if not label_names_no_doubles:
         print(
             'no labels could be found. Maybe check that there are .csv files available in the files folder with the DLC result format.')
         return

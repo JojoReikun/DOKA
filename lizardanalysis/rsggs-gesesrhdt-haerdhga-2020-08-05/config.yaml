@@ -1,0 +1,57 @@
+# Project definitions (do not edit!)
+task: rsggs
+scorer: gesesrhdt
+species: haerdhga
+date: '2020-08-05'
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model:
+framerate: 120
+shutter: 240
+
+# Project path (change when moving around)
+project_path: I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05
+
+# Annotation of data set
+file_sets:
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L62_R1_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L62_R2_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L62_R3_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L63_R1_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L63_R2_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L63_R3_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L64_R1_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L64_R2_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L64_R3_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+  ? I:\ClimbingLizardDLCAnalysis\lizardanalysis\rsggs-gesesrhdt-haerdhga-2020-08-05\files\L65_R1_2018-09-11_000000DLC_resnet50_SpiderDLC_62-111Jan20shuffle1_550000.csv
+  : file_number: '1'
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
+# Available labels (will be added automatically when running read_csv_files())
+labels:
+
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
+# save_rmse_values: Defines if RMSE values for curve fitting of kinematics are saved to results. Default is True.
+clicked: 1
+distance_limit:
+save_rmse_values: true

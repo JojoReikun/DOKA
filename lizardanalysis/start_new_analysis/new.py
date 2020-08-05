@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import shutil
 from lizardanalysis import DEBUG
+from lizardanalysis.calculations.read_in_files import check_labels
 
 
 def create_new_project(project, experimenter, species, file_directory, working_directory=None, filetype='.csv'):
@@ -80,7 +81,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     print("Copying the files")
     for src, dst in zip(files, destinations):
         shutil.copy(os.fspath(src), os.fspath(dst))  # https://www.python.org/dev/peps/pep-0519/
-        #(for windows)
+        # (for windows)
         # try:
         #    #shutil.copy(src,dst)
         # except OSError or TypeError: #https://github.com/AlexEMG/DeepLabCut/issues/105 (for windows)
@@ -114,13 +115,29 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     cfg_file['dotsize'] = 10  # for plots size of dots
     cfg_file['alphavalue'] = 1.0  # for plots transparency of markers
     cfg_file['colormap'] = 'jet'  # for plots type of colormap
-    cfg_file['clicked'] = clicked   # the selected video condoguration for up / down directions
+    cfg_file['clicked'] = clicked  # the selected video condoguration for up / down directions
     cfg_file['save_rmse_values'] = True
 
     projconfigfile = os.path.join(str(project_path), 'config.yaml')
 
     # Write dictionary to yaml config file
     auxiliaryfunctions.write_config(projconfigfile, cfg_file)
+
+    cfg = auxiliaryfunctions.read_config(projconfigfile)
+
+    files = cfg['file_sets'].keys()  # object type ('CommentedMapKeysView' object), does not support indexing
+    filelist = []  # store filepaths as list
+    for file in files:
+        filelist.append(file)
+
+    # check available labels:
+    data_labels, labels_no_doubles, project_dir = check_labels(cfg, filelist)
+    # write labels to config file:
+    if cfg['labels'] is None:
+        cfg['labels'] = labels_no_doubles
+        # print("labels: ", labels_no_doubles)
+        auxiliaryfunctions.write_config(projconfigfile, cfg)
+        print('\n labels written to config file.')
 
     print('Generated "{}"'.format(project_path / 'config.yaml'))
     print(

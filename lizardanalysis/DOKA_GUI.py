@@ -17,6 +17,7 @@ imports
 import sys
 import traceback
 import datetime
+from time import sleep
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtGui import QColor, QPixmap, QFont
 from PyQt5.QtWidgets import *
@@ -228,13 +229,18 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def createProject_threaded(self, progress_callback):
         date = datetime.datetime.today().strftime('%Y-%m-%d')
 
-        new.create_new_project(project=self.project_name, experimenter=self.project_experimenter,
-                               species=self.project_species, file_directory=self.DLC_path)
+        self.project_config_file, click = new.create_new_project(project=self.project_name,
+                                                                 experimenter=self.project_experimenter,
+                                                                 species=self.project_species,
+                                                                 file_directory=self.DLC_path)
 
-        generated_project_path = self.project_name + "-" + self.project_experimenter + "-" \
-                                 + self.project_species + "-" + date
-        self.log_info("New project created: " + os.path.join(os.getcwd(), generated_project_path))
-        self.log_info("Define framerate & shutter in created config.yaml")
+        self.ui.Project_openConfig_lineEdit.setText(self.project_config_file)
+
+        self.log_info("New project created: " + os.path.join(os.getcwd(), self.project_config_file))
+        sleep(0.02)  # wait briefly to log info in correct order. I know, beautifully written code.
+        self.log_warning("Define framerate & shutter in created config.yaml")
+        sleep(0.02)  # wait briefly to log info in correct order. I know, beautifully written code.
+        self.log_info("Click CONFIRM existing project to load generated config file!")
 
     def confirmExistingProject(self):
         # read in the config file: get labels and number of files
@@ -284,27 +290,31 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         number_of_files = len(filelist)
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
 
-        calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
-            cfg)
+        try:
+            calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
+                cfg)
 
-        # clear and reload all elements of the calculations table each time a project is loaded to avoid repeated
-        # display of the same entries
-        if self.project_loaded:
-            self.ui.calculations_tableWidget.setRowCount(0)
-        self.ui.calculations_tableWidget.setColumnCount(2)
+            # clear and reload all elements of the calculations table each time a project is loaded to avoid repeated
+            # display of the same entries
+            if self.project_loaded:
+                self.ui.calculations_tableWidget.setRowCount(0)
+            self.ui.calculations_tableWidget.setColumnCount(2)
 
-        for calc in calculations_all_list:
-            row_position = self.ui.calculations_tableWidget.rowCount()
-            self.ui.calculations_tableWidget.insertRow(row_position)
-            self.ui.calculations_tableWidget.setItem(row_position, 0, QTableWidgetItem(str(calc)))
+            for calc in calculations_all_list:
+                row_position = self.ui.calculations_tableWidget.rowCount()
+                self.ui.calculations_tableWidget.insertRow(row_position)
+                self.ui.calculations_tableWidget.setItem(row_position, 0, QTableWidgetItem(str(calc)))
 
-            if calc in calculations_checked_namelist:
-                self.ui.calculations_tableWidget.item(row_position, 0).setBackground(QColor(100, 255, 100))
+                if calc in calculations_checked_namelist:
+                    self.ui.calculations_tableWidget.item(row_position, 0).setBackground(QColor(100, 255, 100))
 
-        self.ui.calculations_tableWidget.setColumnWidth(0, 200)
-        self.ui.calculations_tableWidget.setColumnWidth(1, 50)
-        self.ui.calculations_tableWidget.setHorizontalHeaderItem(0, QTableWidgetItem("Calculation"))
-        self.ui.calculations_tableWidget.setHorizontalHeaderItem(1, QTableWidgetItem("Run"))
+            self.ui.calculations_tableWidget.setColumnWidth(0, 200)
+            self.ui.calculations_tableWidget.setColumnWidth(1, 50)
+            self.ui.calculations_tableWidget.setHorizontalHeaderItem(0, QTableWidgetItem("Calculation"))
+            self.ui.calculations_tableWidget.setHorizontalHeaderItem(1, QTableWidgetItem("Run"))
+            
+        except TypeError:
+            self.log_warning("No executable calculations found!")
 
         # TODO Insert checkbox for desired calculations
 
