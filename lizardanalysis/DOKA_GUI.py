@@ -28,6 +28,7 @@ import os
 from pathlib import Path
 from lizardanalysis.start_new_analysis import new
 from lizardanalysis.utils import auxiliaryfunctions
+from lizardanalysis import analyze_files
 
 
 class WorkerSignals(QtCore.QObject):
@@ -120,7 +121,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.DLC_path = ""
         self.project_config_file = ""
 
-        self.updateProgress(0)
+        self.progress = 0
+        self.updateProgress(self.progress)
         self.project_loaded = False
         self.label_buttons = []
         self.label_coords = []
@@ -145,6 +147,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Animal_spider_pushButton.pressed.connect(self.select_Spider)
         self.ui.Animal_ant_pushButton.pressed.connect(self.select_Ant)
         self.ui.Animal_stick_pushButton.pressed.connect(self.select_Stick)
+
+        self.ui.letsGo_pushButton.pressed.connect(self.start_analysis)
 
     ###
     # (load / create) project functions
@@ -312,7 +316,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.ui.calculations_tableWidget.setColumnWidth(1, 50)
             self.ui.calculations_tableWidget.setHorizontalHeaderItem(0, QTableWidgetItem("Calculation"))
             self.ui.calculations_tableWidget.setHorizontalHeaderItem(1, QTableWidgetItem("Run"))
-            
+
         except TypeError:
             self.log_warning("No executable calculations found!")
 
@@ -340,6 +344,19 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def updateProgress(self, progress):
         self.progress = progress
         self.ui.Info_progressBar.setValue(int(self.progress))
+
+    def start_analysis(self):
+        if self.project_loaded:
+            worker = Worker(self.start_analysis_threaded)
+            worker.signals.progress.connect(self.updateProgress)
+            self.threadpool.start(worker)
+        else:
+            self.log_warning("A config file needs to be selected first!")
+
+    def start_analysis_threaded(self, progress_callback):
+        self.log_info("Analyzing project at " + self.project_config_file)
+        analyze_files(self.project_config_file, callback=progress_callback)
+        progress_callback.emit(100)
 
     ### ANALYSIS SECTION ###
 

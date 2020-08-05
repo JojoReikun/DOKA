@@ -1,11 +1,11 @@
 def footfall_by_switches(**kwargs):
-    #TODO: make low-pass filter optional, if don't use, use footfall smooth directly
+    # TODO: make low-pass filter optional, if don't use, use footfall smooth directly
     import os.path
     import pandas as pd
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
 
-    #print("footfall_by_switches")
+    # print("footfall_by_switches")
 
     # define necessary **kwargs:
     data = kwargs.get('data')
@@ -17,7 +17,7 @@ def footfall_by_switches(**kwargs):
     config_file = Path(config).resolve()
     # result folder for footfall plots
     step_detection_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
-                                   "step_detection")
+                                         "step_detection")
     # create file path for foot fall pattern diagrams
     plotting_footfall_folder = os.path.join(step_detection_folder, "footfall-pattern-diagrams")
 
@@ -33,18 +33,20 @@ def footfall_by_switches(**kwargs):
     p_cut_off = 0.05
 
     # read in all the frames for hip, spine and shoulder (x) to get mean body motion
-    body_motion = {"frame":[], "mean_motion_x":[]}
+    body_motion = {"frame": [], "mean_motion_x": []}
     hip_diff = 0
     shoulder_diff = 0
     for row in range(1, data_rows_count):
         # go through frames and extract the x-diff for body-axis labels; take the mean and store in dict
         # filter for likelihood, add new shoulder_diff if likelihood is good, else use last value:
-        if data.loc[row][scorer, "Hip", 'likelihood'] >= likelihood and data.loc[row-1][scorer, "Hip", 'likelihood'] >= 0:
-            hip_diff = data.loc[row][scorer, "Hip", 'x'] - data.loc[row-1][scorer, "Hip", 'x']
-        if data.loc[row][scorer, "Shoulder", 'likelihood'] >= likelihood and data.loc[row-1][scorer, "Shoulder", 'likelihood'] >= likelihood:
-            shoulder_diff = data.loc[row][scorer, "Shoulder", 'x'] - data.loc[row-1][scorer, "Shoulder", 'x']
-        body_motion['frame'].append(row-1)
-        body_motion['mean_motion_x'].append((hip_diff + shoulder_diff)/2.0)
+        if data.loc[row][scorer, "Hip", 'likelihood'] >= likelihood and data.loc[row - 1][
+            scorer, "Hip", 'likelihood'] >= 0:
+            hip_diff = data.loc[row][scorer, "Hip", 'x'] - data.loc[row - 1][scorer, "Hip", 'x']
+        if data.loc[row][scorer, "Shoulder", 'likelihood'] >= likelihood and data.loc[row - 1][
+            scorer, "Shoulder", 'likelihood'] >= likelihood:
+            shoulder_diff = data.loc[row][scorer, "Shoulder", 'x'] - data.loc[row - 1][scorer, "Shoulder", 'x']
+        body_motion['frame'].append(row - 1)
+        body_motion['mean_motion_x'].append((hip_diff + shoulder_diff) / 2.0)
 
     # one class instance and one result array for every foot, because every foot needs own counter
     calculators = {}
@@ -60,24 +62,25 @@ def footfall_by_switches(**kwargs):
         foot_motion = 0
         for row in range(1, data_rows_count):
             # if likelihood is worse than set value, last foot_motion will be used
-            if data.loc[row][scorer, f"{foot}", 'likelihood'] >= likelihood and data.loc[row-1][scorer, f"{foot}", 'x'] >= likelihood:
-                foot_motion = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row-1][scorer, f"{foot}", 'x']
+            if data.loc[row][scorer, f"{foot}", 'likelihood'] >= likelihood and data.loc[row - 1][
+                scorer, f"{foot}", 'x'] >= likelihood:
+                foot_motion = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row - 1][scorer, f"{foot}", 'x']
             # foot motion
             foot_motions[f"{foot}"].append(foot_motion)
             # foot motion - body motion
-            rel_foot_motions[f"rel_{foot}"].append(foot_motion - body_motion['mean_motion_x'][row-1])
-        #print('foot_motions: ', foot_motions)
+            rel_foot_motions[f"rel_{foot}"].append(foot_motion - body_motion['mean_motion_x'][row - 1])
+        # print('foot_motions: ', foot_motions)
         # create dataframe with >> frame | body_motion | rel_foot_motion << for current foot
-        dict_df = {'body_motion':body_motion['mean_motion_x'],
-                   'foot_motion':foot_motions[f"{foot}"],
-                   'rel_foot_motion':rel_foot_motions[f"rel_{foot}"]}
+        dict_df = {'body_motion': body_motion['mean_motion_x'],
+                   'foot_motion': foot_motions[f"{foot}"],
+                   'rel_foot_motion': rel_foot_motions[f"rel_{foot}"]}
         df = pd.DataFrame.from_dict(dict_df)
         # print("df: ", df)
 
         # gets a dict with x-values and the sign for switch in swing and stance phases (after smoothing data)
         # change in sign: positive to body = swing, negative to body = stance
         intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder)
-        #print(f"intersections for foot {foot}: ", intersections)
+        # print(f"intersections for foot {foot}: ", intersections)
 
         # initializes class instance for every foot and empty result dict to be filled with the swing and stance phases:
         calculators[foot] = StridesAndStances()
@@ -86,7 +89,7 @@ def footfall_by_switches(**kwargs):
 
     # rename dictionary keys of results
     results = {'stepphase_' + key: value for (key, value) in results.items()}
-    #print("results: ", results)
+    # print("results: ", results)
 
     if plotting_footfall_patterns:
         """ plots a foot fall pattern diagram for every DLC result csv file/every lizard run """
@@ -147,25 +150,26 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         # compute and plot intersection points:
         x_axis_f = np.zeros(data_rows_count - 1 - x_cutoff_value)
         idx = np.argwhere(np.diff(np.sign(x_axis_f - y_foot_rel_lp_smoothed))).flatten()
-        intersections_dict = {"idx":[], "sign":[]}
+        intersections_dict = {"idx": [], "sign": []}
         for i in idx:
             intersections_dict["idx"].append(i)
             intersections_dict["sign"].append(np.sign(x_axis_f[i] - y_foot_rel_lp_smoothed[i]))
-        intersections_dict['idx'] = [b+x_cutoff_value for b in intersections_dict['idx']]
-        #print("x intersections: ", intersections_dict)
+        intersections_dict['idx'] = [b + x_cutoff_value for b in intersections_dict['idx']]
+        # print("x intersections: ", intersections_dict)
 
         # remove intersection points when lizard has stopped walking:
-        #intersections_dict = remove_standing_intersections(intersections_dict, x_axis_f, y_foot_rel_lp_smoothed)
+        # intersections_dict = remove_standing_intersections(intersections_dict, x_axis_f, y_foot_rel_lp_smoothed)
 
         if plotting == True:
             df['rel_foot_motion'].plot(color='#f5c242')  # plot rel_foot
             plt.plot(x, rel_foot_motion_low_passed, color='green', label='rel_foot_motion low pass (lp) filter')
             plt.plot(x_cutoff, y_foot_rel_smoothed, color='red', label='rel_foot_motion_smoothed')
             plt.plot(x_cutoff, y_foot_rel_lp_smoothed, color='lightgreen', label='rel_foot_motion_lp_smoothed')
-            plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')    # plot intersection points
+            plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')  # plot intersection points
             for i in range(len(intersections_dict['idx'])):
                 plt.annotate(intersections_dict['idx'][i],
-                             (x_cutoff[intersections_dict['idx'][i]-x_cutoff_value] - 5, x_axis_f[intersections_dict['idx'][i]-x_cutoff_value] + 3))
+                             (x_cutoff[intersections_dict['idx'][i] - x_cutoff_value] - 5,
+                              x_axis_f[intersections_dict['idx'][i] - x_cutoff_value] + 3))
 
     else:
         """
@@ -196,18 +200,18 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         idx = np.argwhere(np.diff(np.sign(y_body_lp_smoothed - y_foot_lp_smoothed))).flatten()
         intersections_dict = {"idx": [], "sign": []}
         max_body_motion = max([abs(max(y_body_lp_smoothed)), abs(min(y_body_lp_smoothed))])
-        body_motion_stand = round(max_body_motion*0.1, 2)
-        #print(f"max body motion: {max_body_motion}, 10%: {body_motion_stand}")
+        body_motion_stand = round(max_body_motion * 0.1, 2)
+        # print(f"max body motion: {max_body_motion}, 10%: {body_motion_stand}")
         for i in idx:
             # exclude all intersections which are within 0+-1% of max body motion (~standing)
             if abs(y_body_lp_smoothed[i]) >= body_motion_stand:
                 intersections_dict["idx"].append(i)
                 intersections_dict["sign"].append(np.sign(y_body_lp_smoothed[i] - y_foot_lp_smoothed[i]))
         intersections_dict['idx'] = [b + x_cutoff_value for b in intersections_dict['idx']]
-        #print("x intersections: ", intersections_dict)
+        # print("x intersections: ", intersections_dict)
 
         # remove intersection points when lizard has stopped walking (usually in the end):
-        #intersections_dict = remove_standing_intersections(intersections_dict, y_body_lp_smoothed, y_foot_lp_smoothed)
+        # intersections_dict = remove_standing_intersections(intersections_dict, y_body_lp_smoothed, y_foot_lp_smoothed)
 
         if plotting == True:
             df['body_motion'].plot(color='#3089db')  # plot body motion
@@ -232,9 +236,9 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         plt.xlabel('frames')
         plt.ylabel('dx/frame')
         filename_title = filename.split("_", 2)[:2]
-        filename_title = filename_title[0]+filename_title[1]
+        filename_title = filename_title[0] + filename_title[1]
         plt.title(f"{filename_title}-{foot}")
-        #plt.show()
+        # plt.show()
 
         try:
             os.makedirs(step_detection_folder)
@@ -248,7 +252,8 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         else:
             plt.savefig(os.path.join(step_detection_folder, f"steps_{filename_title}_{foot}.pdf"))
 
-        plt.show()
+        # plt.show()
+        plt.close()
     return intersections_dict
 
 
@@ -263,14 +268,14 @@ def remove_standing_intersections(intersection_dict, foot_function, body_functio
     idxs = intersection_dict['idx']
     signs = intersection_dict['sign']
     areas = []
-    for i in range(1,len(idxs)-1):
+    for i in range(1, len(idxs) - 1):
         # set integral limits
-        a = idxs[i-1]
+        a = idxs[i - 1]
         b = idxs[i]
-        if signs[i] > 0:    # if sign is positive, foot curve will be greater than body curve, hence integral(foot-body)
+        if signs[i] > 0:  # if sign is positive, foot curve will be greater than body curve, hence integral(foot-body)
             f = foot_function
             g = body_function
-        else:               # if sign is negative, body curve will be greater, hence integral(body-foot)
+        else:  # if sign is negative, body curve will be greater, hence integral(body-foot)
             f = body_function
             g = foot_function
         # calculate the area between the two curves: Intergal((f(x)-g(x))dx)
@@ -289,6 +294,7 @@ class StridesAndStances:
     by 1. All frames until the next intersection will be assigned that phase name and number.
     Rows before and after first and last index respectively will be filled with np.nan.
     """
+
     def __init__(self):
         import numpy as np
         self.stride_phase_counter = 0
@@ -309,8 +315,8 @@ class StridesAndStances:
         for row in range(data_rows_count):
             # switch swing or stance depending on sign of intersection point
             if row in intersection_dict['idx']:
-                index = intersection_dict['idx'].index(row)     # find the index in list of current idx
-                sign = intersection_dict['sign'][index]         # find the respective sign
+                index = intersection_dict['idx'].index(row)  # find the index in list of current idx
+                sign = intersection_dict['sign'][index]  # find the respective sign
                 # if sign is positive, the phase till next idx will be swing
                 self.current_phase = self.assign_swing_or_stance(sign)
             # fill all rows until next idx with that swing or stance number
@@ -322,6 +328,7 @@ class StridesAndStances:
         return results
 
         # Todo: Go through intersection_dict and assign correct swing or stance phase for every row
+
     def assign_swing_or_stance(self, sign):
         if sign > 0:  # swing
             if self.phase == 'stance' or self.phase == 'UNKNOWN':
@@ -355,10 +362,10 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     import os
     import errno
 
-    df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
+    df_plot = pd.DataFrame(columns=results.keys(), index=range(data_rows_count))
     # filter here and only fill in stances as numbers => stances bars, strides white
     for i, key in enumerate(results):
-        df_plot[key] = [i+1 if s.startswith(b'stance') else np.NaN for s in results[key]]
+        df_plot[key] = [i + 1 if s.startswith(b'stance') else np.NaN for s in results[key]]
 
     key_list = [key for key in df_plot.columns]
 
@@ -367,11 +374,11 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     if colors:
         cmap = plt.cm.coolwarm
         legend_elements = [Line2D([0], [0], color=cmap(0.), lw=4, label=key_list[0]),
-                    Line2D([0], [0], color=cmap(.33), lw=4, label=key_list[1]),
-                    Line2D([0], [0], color=cmap(.66), lw=4, label=key_list[2]),
-                    Line2D([0], [0], color=cmap(1.), lw=4, label=key_list[3]),
-                    Line2D([0], [0], color='black', lw=4, label='stance phases'),
-                    Line2D([0], [0], color='white', lw=4, label='stride phases')]
+                           Line2D([0], [0], color=cmap(.33), lw=4, label=key_list[1]),
+                           Line2D([0], [0], color=cmap(.66), lw=4, label=key_list[2]),
+                           Line2D([0], [0], color=cmap(1.), lw=4, label=key_list[3]),
+                           Line2D([0], [0], color='black', lw=4, label='stance phases'),
+                           Line2D([0], [0], color='white', lw=4, label='stride phases')]
         fig, ax = plt.subplots()
         df_plot.plot(linewidth=10, color=cmap(np.linspace(0, 1, 5)), ax=ax)
         ax.legend(handles=legend_elements)
@@ -383,7 +390,6 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
         df_plot.plot(linewidth=10, color='black', ax=ax)
         ax.legend(handles=legend_elements)
 
-
     # saves footfall pattern diagrams as pdf in defined result folder. If folder is not extant yet, it will be created
     try:
         os.makedirs(plotting_footfall_folder)
@@ -393,5 +399,3 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     plt.savefig(os.path.join(plotting_footfall_folder, "{}.pdf".format(filename)))
     plt.clf()
     plt.close()
-
-

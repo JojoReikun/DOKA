@@ -43,7 +43,7 @@ calculations_str = [calc for calc in calculations.keys()]
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
 
 
-def check_labels(cfg, filelist):
+def check_labels(cfg, filelist, cfg_path):
     """
     checks available labels in .csv files and write them to config file.
     Uses the first .csv file in the directory.
@@ -59,11 +59,12 @@ def check_labels(cfg, filelist):
     current_path = Path(os.getcwd())
     # mgs: replaced this by f-string. Much more concise and even faster ;-)
     project_dir = f"{cfg['task']}-{cfg['scorer']}-{cfg['species']}-{cfg['date']}"
-    label_file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[0]))
-    label_file_path = os.path.join(current_path, label_file_path_2)
+    label_file_path = os.path.join(str(cfg_path)[:-12], "files", os.path.basename(filelist[0]))
+    # label_file_path = os.path.join(current_path, label_file_path_2)
     # print('label_file_path: ', label_file_path)
     # else:
     # TODO: look for working directory
+    print(label_file_path)
     data_labels = pd.read_csv(label_file_path, delimiter=",",
                               header=[0, 1, 2])  # reads in first csv file in filelist to extract all available labels
     data_labels.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
@@ -152,7 +153,7 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     return df_result_current
 
 
-def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
+def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback=None):
     """
     Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
     config : string
@@ -206,7 +207,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         df_gravity = pd.read_csv(gravity_filepath)  # read in gravity file
 
     # check available labels:
-    data_labels, labels_no_doubles, project_dir = check_labels(cfg, filelist)
+    data_labels, labels_no_doubles, project_dir = check_labels(cfg, filelist, config_file)
     # write labels to config file:
     if cfg['labels'] is None:
         cfg['labels'] = labels_no_doubles
@@ -258,8 +259,10 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         filename = filelist[i].rsplit(os.sep, 1)[1]
         filename = filename.rsplit(".", 1)[0]
         # print(' ----- FILENAME: ', filename)
-        file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[i]))
-        file_path = os.path.join(current_path, file_path_2)
+        # file_path_2 = os.path.join(project_dir, "files", os.path.basename(filelist[i]))
+        # file_path = os.path.join(current_path, file_path_2)
+
+        file_path = os.path.join(str(config_file)[:-12], "files", os.path.basename(filelist[i]))
 
         # update the description of the progrss bar
         prog.set_description(desc="TOTAL PROGRESS {}".format(filename))
@@ -298,6 +301,9 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90):
         # count up to proceed to next file
         i += 1
         prog.update(1)
+
+        if callback is not None:
+            callback.emit(int(100 * (i / len(filelist))))
     prog.close()
 
     print("\n", "DONE!")
