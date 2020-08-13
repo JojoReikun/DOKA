@@ -28,7 +28,7 @@ import os
 from pathlib import Path
 from lizardanalysis.start_new_analysis import new
 from lizardanalysis.utils import auxiliaryfunctions
-from lizardanalysis import analyze_files
+from lizardanalysis import analyze_files, initialize
 
 
 class WorkerSignals(QtCore.QObject):
@@ -129,7 +129,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.labels = []
         self.button_diameter = 20
 
-        self.animal = ""
+        self.animal = None
         ###
         # assign button / lineEdit functions
         ###
@@ -248,13 +248,16 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.log_info("Click CONFIRM existing project to load generated config file!")
 
     def confirmExistingProject(self):
-        # read in the config file: get labels and number of files
-        if len(self.project_config_file) > 0:
-            current_path = os.getcwd()
-            worker = Worker(self.confirmExistingProject_threaded)
-            self.threadpool.start(worker)
+        if self.animal is not None:
+            # read in the config file: get labels and number of files
+            if len(self.project_config_file) > 0:
+                current_path = os.getcwd()
+                worker = Worker(self.confirmExistingProject_threaded)
+                self.threadpool.start(worker)
+            else:
+                self.log_warning("select a config file to open an existing project first!")
         else:
-            self.log_warning("select a config file to open an existing project first!")
+            self.log_warning("Select an animal before loading your project!")
 
     def update_labels(self):
         # clear list before loading elements from config file
@@ -295,9 +298,11 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         number_of_files = len(filelist)
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
 
+        calculations, calculations_str, _ = initialize(self.animal)
+
         try:
             calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
-                cfg)
+                cfg, calculations, calculations_str)
 
             # clear and reload all elements of the calculations table each time a project is loaded to avoid repeated
             # display of the same entries
@@ -358,7 +363,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
     def start_analysis_threaded(self, progress_callback, animal):
         self.log_info("Analyzing project at " + self.project_config_file)
-        analyze_files(self.project_config_file, callback=progress_callback)
+        analyze_files(self.project_config_file, callback=progress_callback, animal=self.animal)
         progress_callback.emit(100)
 
     ### ANALYSIS SECTION ###
@@ -387,6 +392,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
         self.ui.animal_QLabel.setPixmap(lizard_img)
         self.animal = "lizard"
+        self.log_info("Selected animal : " + self.animal)
 
         self.label_coords = [
             ["fl", 802, 353],
@@ -436,11 +442,11 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         if self.project_loaded:
             self.update_labels()
 
-
     def select_Spider(self):
         spider_img = QPixmap('GUI\\spider_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
         self.animal = "spider"
+        self.log_info("Selected animal : " + self.animal)
 
         self.label_coords = [
             ["l1", 744, 172],
@@ -483,6 +489,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         spider_img = QPixmap('GUI\\ant_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
         self.animal = "ant"
+        self.log_info("Selected animal : " + self.animal)
 
         self.label_coords = [
             ["l1", 810, 200],
@@ -523,6 +530,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         spider_img = QPixmap('GUI\\stick_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
         self.animal = "stick"
+        self.log_info("Selected animal : " + self.animal)
 
         self.label_coords = [
             ["l1", 715, 464],

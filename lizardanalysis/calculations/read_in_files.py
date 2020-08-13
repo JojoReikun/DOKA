@@ -8,17 +8,6 @@ from tqdm import tqdm
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 from lizardanalysis.utils import animal_settings
 
-drop_empty_cols = True
-# set the animal:
-animal = "spider"
-
-# set the animal and get the calculations dict, which contains all available calculations for that animal and the labels
-# required for them:
-calculations = animal_settings.set_animal(animal)
-
-calculations_str = [calc for calc in calculations.keys()]
-MODULE_PREFIX, _ = __name__.rsplit('.', 1)
-
 
 def check_labels(cfg, filelist, cfg_path):
     """
@@ -65,7 +54,7 @@ def check_labels(cfg, filelist, cfg_path):
     return data_labels, label_names_no_doubles, project_dir
 
 
-def check_calculation_requirements(cfg):
+def check_calculation_requirements(cfg, calculations, calculations_str, MODULE_PREFIX):
     """
     this function checks if the required labels needed for the respective calculations
     are available in the list of available label extracted from the .csv file before.
@@ -131,7 +120,17 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     return df_result_current
 
 
-def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback=None):
+def initialize(animal):
+    # set the animal and get the calculations dict, which contains all available calculations for that animal and the labels
+    # required for them:
+    calculations = animal_settings.set_animal(animal)
+
+    calculations_str = [calc for calc in calculations.keys()]
+    MODULE_PREFIX, _ = __name__.rsplit('.', 1)
+    return calculations, calculations_str, MODULE_PREFIX
+
+
+def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback=None, animal="lizard"):
     """
     Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
     config : string
@@ -150,6 +149,10 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
     from tkinter import Tk, filedialog
     from lizardanalysis.utils import auxiliaryfunctions
     import errno
+
+    calculations, calculations_str, MODULE_PREFIX = initialize(animal)
+
+    drop_empty_cols = True
 
     current_path = os.getcwd()
     config_file = Path(config).resolve()
@@ -196,7 +199,9 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
         print('labels already exist in config file. Proceed...')
 
     # check label requirements for calculations:
-    calculations_checked, calculations_checked_namelist, calc_str = check_calculation_requirements(cfg)
+    calculations_checked, calculations_checked_namelist, calc_str = check_calculation_requirements(cfg, calculations,
+                                                                                                   calculations_str,
+                                                                                                   MODULE_PREFIX)
     print("available calculations are the following: ", *calculations_checked_namelist,
           sep='\n - ')  # * vor print list enables nice prints
 
