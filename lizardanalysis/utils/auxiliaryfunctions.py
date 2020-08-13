@@ -190,3 +190,28 @@ class UserFunc():
 
     def __repr__(self):
         return f'<function {self.func_name} at {hex(id(self))}>'
+
+
+def find_conversion_factor_for_spider(filename):
+    # calibrate distance: convert px to mm:
+    # dictionary: Spider (Lxx,Lyy):factor in px/mm
+    conversion_factors = {(62, 76): 2.57,
+                          (77, 91): 2.56,
+                          (92, 111): 2.58,
+                          (112, 126): 2.58}
+    spidername = filename.split(sep="_")[0]
+    spidernumber = int(''.join(list(filter(str.isdigit, spidername))))
+    print(f"spidername: {spidername}, spidernumber: {spidernumber}")
+
+    conv_fac = np.nan
+    for i in range(len(conversion_factors.keys())):
+        key = list(conversion_factors.keys())[i]
+        if spidernumber in range(key[0], key[1]):  # assign correct converion factor to spider
+            conv_fac = conversion_factors[key]
+            print(f"spidernumber: {spidernumber}, conv_fac: {conv_fac}")
+
+    if conv_fac == np.nan:
+        print(f"no conversion factor was found for this spidernumber: {spidernumber}")
+        conv_fac = 1.0
+
+    return conv_fac

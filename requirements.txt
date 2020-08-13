@@ -8,3 +8,4 @@ matplotlib
 uncertainties
 tqdm
 seaborn
+PyQt5

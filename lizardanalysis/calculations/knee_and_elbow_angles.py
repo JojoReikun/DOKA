@@ -7,6 +7,7 @@ def knee_and_elbow_angles(**kwargs):
     """
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
 
     #print('KNEE AND ELBOW ANGLE CALCULATION')
     # define necessary **kwargs:
@@ -14,9 +15,10 @@ def knee_and_elbow_angles(**kwargs):
     data_rows_count = kwargs.get('data_rows_count')
     likelihood = kwargs.get('likelihood')
     filename = kwargs.get('filename')
+    animal = kwargs.get('animal')
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
 
     results = {}
 

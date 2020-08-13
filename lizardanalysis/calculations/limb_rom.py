@@ -7,6 +7,7 @@ def limb_rom(**kwargs):
     """
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
     from pathlib import Path
     import os.path
 
@@ -21,6 +22,7 @@ def limb_rom(**kwargs):
     likelihood = kwargs.get('likelihood')
     config = kwargs.get('config')
     filename = kwargs.get('filename')
+    animal = kwargs.get('animal')
 
     config_file = Path(config).resolve()
     # print("config path resolved: ", config_file)
@@ -32,7 +34,7 @@ def limb_rom(**kwargs):
                                             "limb_rom_vectors")
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
     max_stride_phase_count = 1000
     active_columns = []
     for foot in feet:

@@ -8,6 +8,7 @@ def spine_rom(**kwargs):
     """
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
 
     #print('SPINE ROM CALCULATION')
     # define necessary **kwargs:
@@ -15,9 +16,10 @@ def spine_rom(**kwargs):
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
     likelihood = kwargs.get('likelihood')
+    animal = kwargs.get('animal')
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
     max_stride_phase_count = 1000
     active_columns = []
     for foot in feet:

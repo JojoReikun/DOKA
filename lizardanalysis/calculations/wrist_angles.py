@@ -9,6 +9,8 @@ def wrist_angles(**kwargs):
 
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
+
     #-------------------- only includes stride lengths longer (>) than... (TODO: make config parameter)
     threshold_stride_len = 4
     #--------------------
@@ -18,10 +20,10 @@ def wrist_angles(**kwargs):
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
     likelihood = kwargs.get('likelihood')
-    likelihood = 0.8
+    animal = kwargs.get('animal')
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
     max_stance_phase_count = 1000
     active_columns = []
     for foot in feet:

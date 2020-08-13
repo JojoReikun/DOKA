@@ -2,6 +2,7 @@ def toe_angles(**kwargs):
     import os
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
 
     #print("TOE ANGLE CALCULATION")
     stance_length_threshold = 4
@@ -11,12 +12,13 @@ def toe_angles(**kwargs):
     likelihood = kwargs.get("likelihood")
     data_rows_count = kwargs.get("data_rows_count")
     df_result_current = kwargs.get('df_result_current')
+    animal = kwargs.get('animal')
 
     config_file = Path(config).resolve()
     cfg = auxiliaryfunctions.read_config(config_file)
     #print(cfg['labels'])
 
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
     scorer = data.columns[1][0]
 
     calc_toe_angles = ToeAngleCalculation()
@@ -127,7 +129,7 @@ class ToeAngleCalculation:
 
             # calculate angles between neighbour toes:
             toepair_angles = {}  # filled with toe-pair name, and the dict for all stances with the angles for all pairs
-            for toe_nr in range(1, number_of_toes):           #TODO: test +1, all toe pairs now??
+            for toe_nr in range(1, number_of_toes+1):           #TODO: test +1, all toe pairs now??
                 # toe_vectors_label_items = tuple of ('toe_label', dict --> toe_vectors_stance)
                 toe_vectors_label_items = [item for item in toe_vectors_label.items()]
                 #for item in toe_vectors_label_items:

@@ -14,12 +14,14 @@ def stride_and_stance_phases(**kwargs):
     import pandas as pd
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
 
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
     config = kwargs.get('config')
     filename = kwargs.get('filename')
+    animal = kwargs.get('animal')
 
     # set a distance_limit a foot has to move in px to be viewed as stride (can be changed in config, default is 5.0)
     config_file = Path(config).resolve()
@@ -32,7 +34,7 @@ def stride_and_stance_phases(**kwargs):
     # TODO: include likelihood in this
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
 
     # TODO: Function in utils giving back results path folder from config resolve
     plotting_footfall_patterns = False

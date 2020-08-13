@@ -29,8 +29,6 @@ def climbing_speed_framewise(**kwargs):
     results = {}
     results['speed'] = np.full((data_rows_count,), np.NAN)
 
-    # TODO: use nose to calc speed and hip also and then build the average between the two
-
     # create dictionary and save tuples with nose coordinates for every data_row
     nose_coords = {}
     hip_coords = {}

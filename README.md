@@ -1,4 +1,19 @@
 # ClimbingLizardDLCAnalysis
+This program performs species-independent kinematic parameter calculations taking the DeepLabCut csv output files as input.
+A GUI is now available to make the use of this program easier:
+
+Depending on the selected animals different calculations are available, which will be executed for each csv file, if the
+required labels to run the calculations are available.
+For any animal the basic program flow looks like this:
+
+![](images/DLC_analysis_script_flowchart.jpg)
+
+The process_file() function is called for every file included in the project (every DLC output csv), which loops through 
+all available calculations. For some calculations the knowledge about the step-phases is essential. Therefore a 
+step detection algorithm using rel. feet to body velocities is implemented.
+Some kinematic parameters that can be calculated for lizards are shown below:
+
+![](images/KinematicCalculations.jpg)
 
 ## Install
 

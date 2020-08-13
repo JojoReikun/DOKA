@@ -8,6 +8,7 @@ def hip_and_shoulder_angles(**kwargs):
     """
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
 
     #print('HIP AND SHOULDER ANGLE CALCULATION')
     # define necessary **kwargs:
@@ -15,9 +16,10 @@ def hip_and_shoulder_angles(**kwargs):
     data_rows_count = kwargs.get('data_rows_count')
     likelihood = kwargs.get('likelihood')
     filename = kwargs.get('filename')
+    animal = kwargs.get('animal')
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
 
     results = {}
 

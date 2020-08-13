@@ -6,40 +6,17 @@ Licensed under MIT License
 import pandas as pd
 from tqdm import tqdm
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
+from lizardanalysis.utils import animal_settings
 
 drop_empty_cols = True
+# set the animal:
+animal = "spider"
 
-# list of all calculations and their requirements of labels as implemented in the program
-calculations = {'direction_of_climbing': ['nose'],
-                'body_axis_deflection_angle': ['shoulder', 'hip'],
-                'climbing_speed_framewise': ['nose'],
-                # 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-                'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
-                'step_length': ['fl', 'fr', 'hl', 'hr'],
-                # 'froude_numbers': ['fl', 'fr', 'hl', 'hr', 'nose', 'hip', 'shoulder_fl', 'fl_knee'],
-                # 'stride_length': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
-                'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
-                                    'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
-                                 'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
-                'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
-                             'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'spine_rom': ['shoulder', 'hip', 'spine'],
-                'center_limb_rom_angle': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
-                                          'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'hip_and_shoulder_angles': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
-                                            'hr_knee',
-                                            'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                # 'knee_and_elbow_angles': ['fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
-                #                           'shoulder_hr', 'hl_knee', 'shoulder_hl', 'fl', 'fr', 'hl', 'hr'],
-                'toe_angles': ['fl', 'fr', 'hr', 'hl', 'fl_ti', 'fl_ti1', 'fl_to1', 'fl_to',
-                               'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
-                               'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
-                               'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to']
-                }
+# set the animal and get the calculations dict, which contains all available calculations for that animal and the labels
+# required for them:
+calculations = animal_settings.set_animal(animal)
 
 calculations_str = [calc for calc in calculations.keys()]
-# print('list of calculations ', calculations_str)
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
 
 
@@ -120,7 +97,8 @@ def check_calculation_requirements(cfg):
     return calculations_checked, calculations_checked_namelist, calculations_str
 
 
-def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config, filename):
+def process_file(data, clicked, likelihood, calculations_checked, df_result_current, data_rows_count, config,
+                 filename, animal):
     """
     Goes through all available calculations which were determined on their labels and stored in calculations_checked.
     For all calculations in that list the parameter will be calculated.
@@ -143,7 +121,7 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
         # TODO: Can I pass a different number of kwargs for different calculations? E.g. df_result_current is only needed for calcs after stride_and_stance phases?
         retval = calc(data=data, clicked=clicked, data_rows_count=data_rows_count, likelihood=likelihood,
                       config=config, filename=filename,
-                      df_result_current=df_result_current)  # returns a dict with numpy arrays
+                      df_result_current=df_result_current, animal=animal)  # returns a dict with numpy arrays
         prog2.update(1)
         for key in retval:
             df_result_current[key] = retval[key]
@@ -226,7 +204,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
     print("\nSTART analysis off all {} csv files in project ...".format(len(filelist)))
 
     # creates result file for rmse:
-    # TODO: make speices independent and nicer...
+    # TODO: make species independent and nicer...
     if cfg['save_rmse_values']:
         dynamics_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",
                                        "limb_dynamics_curve_fitting")
@@ -282,7 +260,7 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
         ##################################### PROCESS FILE #########################################
         # perform calculations for the current file and get dataframe with results as return
         df_result_current = process_file(data, clicked, likelihood, calculations_checked, df_result_current,
-                                         data_rows_count, config, filename)
+                                         data_rows_count, config, filename, animal)
 
         #################################### SAVE RESULT FILES ######################################
         # create result file for every file and save to analysis-results folder

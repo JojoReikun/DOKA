@@ -4,6 +4,7 @@ import numpy as np
 
 def limb_kinematics(**kwargs):
     from lizardanalysis.utils import auxiliaryfunctions
+    from lizardanalysis.utils import animal_settings
     from pathlib import Path
 
     # define necessary **kwargs:
@@ -13,6 +14,7 @@ def limb_kinematics(**kwargs):
     filename = kwargs.get('filename')
     config = kwargs.get('config')
     likelihood = kwargs.get('likelihood')
+    animal = kwargs.get('animal')
 
     config_file = Path(config).resolve()
     cfg = auxiliaryfunctions.read_config(config_file)
@@ -20,7 +22,7 @@ def limb_kinematics(**kwargs):
     save_rmse = cfg['save_rmse_values']
 
     scorer = data.columns[1][0]
-    feet = ["FL", "FR", "HR", "HL"]
+    feet = animal_settings.get_list_of_feet(animal)
     max_stride_phase_count = 1000
     active_columns = []
     for foot in feet:

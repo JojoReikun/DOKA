@@ -129,6 +129,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.labels = []
         self.button_diameter = 20
 
+        self.animal = ""
         ###
         # assign button / lineEdit functions
         ###
@@ -349,11 +350,13 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         if self.project_loaded:
             worker = Worker(self.start_analysis_threaded)
             worker.signals.progress.connect(self.updateProgress)
+            # parse the animal selected through the gui to the callback:
+            worker.kwargs['animal'] = self.animal
             self.threadpool.start(worker)
         else:
             self.log_warning("A config file needs to be selected first!")
 
-    def start_analysis_threaded(self, progress_callback):
+    def start_analysis_threaded(self, progress_callback, animal):
         self.log_info("Analyzing project at " + self.project_config_file)
         analyze_files(self.project_config_file, callback=progress_callback)
         progress_callback.emit(100)
@@ -383,6 +386,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Lizard(self):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
         self.ui.animal_QLabel.setPixmap(lizard_img)
+        self.animal = "lizard"
 
         self.label_coords = [
             ["fl", 802, 353],
@@ -432,9 +436,11 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         if self.project_loaded:
             self.update_labels()
 
+
     def select_Spider(self):
         spider_img = QPixmap('GUI\\spider_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+        self.animal = "spider"
 
         self.label_coords = [
             ["l1", 744, 172],
@@ -476,6 +482,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Ant(self):
         spider_img = QPixmap('GUI\\ant_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+        self.animal = "ant"
 
         self.label_coords = [
             ["l1", 810, 200],
@@ -515,6 +522,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Stick(self):
         spider_img = QPixmap('GUI\\stick_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+        self.animal = "stick"
 
         self.label_coords = [
             ["l1", 715, 464],
