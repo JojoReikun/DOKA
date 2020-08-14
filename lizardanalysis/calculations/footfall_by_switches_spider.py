@@ -91,13 +91,14 @@ def footfall_by_switches_spider(**kwargs):
                    'foot_motion':foot_motions[f"{foot}"],
                    'rel_foot_motion':rel_foot_motions[f"rel_{foot}"]}
         # TODO: outlier detection
-        outlier_detection.detect_outliers(dict_df, foot)
+        df_pred = outlier_detection.detect_outliers(dict_df, foot)
+
         df = pd.DataFrame.from_dict(dict_df)
         # print("df: ", df)
 
         # gets a dict with x-values and the sign for switch in swing and stance phases (after smoothing data)
         # change in sign: positive to body = swing, negative to body = stance
-        intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder)
+        intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, df_pred)
         #print(f"intersections for foot {foot}: ", intersections)
 
         # initializes class instance for every foot and empty result dict to be filled with the swing and stance phases:
@@ -116,7 +117,7 @@ def footfall_by_switches_spider(**kwargs):
     return results
 
 
-def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, plotting=True):
+def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, df_pred, plotting=True):
     """
     Smooths the raw input data from foot motion and body motion, using a Butterworth low-pass filter and a
     Savintzky-Golay smoothing algorithm. Then computes the intersection points betw. the smoothed body and foot curves.
@@ -186,6 +187,15 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             plt.plot(x_cutoff, y_foot_rel_smoothed, color='red', label='rel_foot_motion_smoothed')
             plt.plot(x_cutoff, y_foot_rel_lp_smoothed, color='lightgreen', label='rel_foot_motion_lp_smoothed')
             plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')    # plot intersection points
+
+            #TODO: plot df_pred
+            num_plot_col = int(len(list(df_pred.columns))/2)
+            columns_df_plot = list(df_pred.columns)
+            for col in range(num_plot_col):
+                idx_plot = df_pred.index[df_pred[columns_df_plot[col+num_plot_col]] <= 0]
+                for idx in idx_plot:
+                    plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
+
             for i in range(len(intersections_dict['idx'])):
                 plt.annotate(intersections_dict['idx'][i],
                              (x_cutoff[intersections_dict['idx'][i]-x_cutoff_value] - 5, x_axis_f[intersections_dict['idx'][i]-x_cutoff_value] + 3))
