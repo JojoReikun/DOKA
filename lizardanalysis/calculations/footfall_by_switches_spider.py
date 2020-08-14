@@ -1,3 +1,7 @@
+# TODO: extreme peaks = labels that jump?! -> write likelihood at those points -> exclude them BEFORE smoothing
+# use scipy outlier and novelty detection!!!
+# TODO: implement Fourier analysis to get frequency for smoothing/lp filter individually for every spider
+
 def footfall_by_switches_spider(**kwargs):
     #TODO: make low-pass filter optional, if don't use, use footfall smooth directly
     import os.path
@@ -6,6 +10,7 @@ def footfall_by_switches_spider(**kwargs):
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
     from lizardanalysis.utils import animal_settings
+    from lizardanalysis.utils import outlier_detection
 
 
     #print("footfall_by_switches")
@@ -40,7 +45,7 @@ def footfall_by_switches_spider(**kwargs):
     scorer = data.columns[1][0]
     feet = animal_settings.get_list_of_feet(animal)
 
-    relative = False
+    relative = True
     plotting_footfall_patterns = True
 
     # define cut-off value -> crops X% of frames on each side of video:
@@ -85,6 +90,8 @@ def footfall_by_switches_spider(**kwargs):
         dict_df = {'body_motion':body_motion['mean_motion_x'],
                    'foot_motion':foot_motions[f"{foot}"],
                    'rel_foot_motion':rel_foot_motions[f"rel_{foot}"]}
+        # TODO: outlier detection
+        outlier_detection.detect_outliers(dict_df, foot)
         df = pd.DataFrame.from_dict(dict_df)
         # print("df: ", df)
 
@@ -125,7 +132,6 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
     from scipy import signal
     import os
     import errno
-
     # savgol filter smoothing window (must be odd!):
     smooth_wind = 13
 
