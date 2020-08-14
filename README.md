@@ -2,6 +2,8 @@
 This program performs species-independent kinematic parameter calculations taking the DeepLabCut csv output files as input.
 A GUI is now available to make the use of this program easier:
 
+![](images/GUI_lizard.JPG)
+
 Depending on the selected animals different calculations are available, which will be executed for each csv file, if the
 required labels to run the calculations are available.
 For any animal the basic program flow looks like this:
