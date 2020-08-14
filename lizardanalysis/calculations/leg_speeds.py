@@ -79,7 +79,7 @@ def plot_speeds(results, data_rows_count):
     for key in results:
         #df_plot[key] = [float(s.decode().strip('"')) for s in results[key]]
         df_plot[key] = [float(s) for s in results[key]]
-    print(df_plot)
+    #print(df_plot)
 
     df_plot.plot(linewidth=1)
     plt.show()

@@ -298,11 +298,11 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         number_of_files = len(filelist)
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
 
-        calculations, calculations_str, _ = initialize(self.animal)
+        calculations, calculations_str, MODULE_PREFIX = initialize(self.animal)
 
         try:
             calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
-                cfg, calculations, calculations_str)
+                cfg, calculations, calculations_str, MODULE_PREFIX)
 
             # clear and reload all elements of the calculations table each time a project is loaded to avoid repeated
             # display of the same entries
