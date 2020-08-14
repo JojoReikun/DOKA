@@ -8,6 +8,7 @@ def detect_outliers(motion_dict, foot):
     import pandas as pd
     from sklearn.decomposition import PCA
     import matplotlib.pyplot as plt
+
     """
     takes the motion dict which contains body_motion, foot_motion and rel_foot_motion and uses IsolationForest to detect anomalities
     """
