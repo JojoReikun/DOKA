@@ -1,0 +1,455 @@
+# Project definitions (do not edit!)
+task: spider
+scorer: trial
+species: spi
+date: '2020-08-14'
+
+# Experiment details (edit):
+location, where species was caught:
+date, species was caught:
+date, experiments were conducted:
+individuals of species analyzed:
+# Camera settings:
+model:
+framerate: 250
+shutter: 150
+
+# Project path (change when moving around)
+project_path: C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14
+
+# Annotation of data set
+file_sets:
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L100_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L100_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L100_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L101_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L101_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L101_R3_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L102_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L102_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L102_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L103_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L103_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L103_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L104_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L104_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L104_R4_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L105_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L105_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L105_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L106_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L106_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L106_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L107_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L107_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L107_R3_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L108_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L108_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L108_R3_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L109_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L109_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L109_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L110_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L110_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L110_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L111_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L111_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L111_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L112_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L112_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L112_R3_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L113_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L113_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L113_R3_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L114_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L114_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L114_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L115_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L115_R2_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L115_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L116_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L116_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L116_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L117_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L117_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L117_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L118_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L118_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L118_R3_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L119_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L119_R2_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L119_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L120_R1_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L120_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L120_R3_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L121_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L121_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L121_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L122_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L122_R2_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L122_R3_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L123_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L123_R2_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L123_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L124_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L124_R2_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L124_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L125_R1_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L125_R2_2018-09-15_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L125_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L126_R1_2018-09-15_000001_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L126_R2_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L126_R3_2018-09-15_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L62_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L62_R2_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L62_R3_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L63_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L63_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L63_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L64_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L64_R2_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L64_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L65_R1_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L65_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L65_R3_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L66_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L66_R2_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L66_R3_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L67_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L67_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L67_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L68_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L68_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L68_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L69_R1_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L69_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L69_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L70_R1_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L70_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L70_R2_2018-09-11_000001DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L70_R3_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L71_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L71_R2_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L71_R3_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L72_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L72_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L72_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L73_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L73_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L73_R3_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L74_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L74_R2_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L74_R3_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L75_R1_2018-09-11_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L76_R1_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L76_R2_2018-09-11_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L77_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L77_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L77_R3_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L78_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L78_R2_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L78_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L79_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L79_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L79_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L80_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L80_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L80_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L81_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L81_R2_2018-09-13_000001DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L81_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L82_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L82_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L82_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L83_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L83_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L83_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L84_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L84_R2_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L84_R3_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L85_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L85_R2_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L85_R3_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L86_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L86_R2_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L86_R3_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L87_R1_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L87_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L87_R3_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L88_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L88_R2_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L88_R3_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L89_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L89_R2_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L89_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L90_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L90_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L90_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L91_R1_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L91_R2_2018-09-13_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L91_R3_2018-09-13_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L92_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L92_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L92_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L93_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L93_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L93_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L94_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L94_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L94_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L94_R3_2018-09-14_000001DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L95_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L95_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L95_R3_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L96_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L96_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L96_R4_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L97_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L97_R2_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L97_R3_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L98_R1_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L98_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L98_R3_2018-09-14_000000_hflipDLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L99_R1_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L99_R2_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+  ? C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\spider-trial-spi-2020-08-14\files\L99_R3_2018-09-14_000000DLC_resnet50_SpidersV2Jul3shuffle1_1030000.csv
+  : file_number: '1'
+
+# Plotting configuration
+
+# Plotting configuration
+dotsize: 10
+alphavalue: 1.0
+colormap: jet
+
+# Available labels (will be added automatically when running read_csv_files())
+labels:
+- lb3
+- rb2
+- bodyparts
+- rm4
+- r1
+- rm2
+- l3
+- lb2
+- r4
+- l2
+- lm3
+- head
+- r3
+- rm1
+- l4
+- lm1
+- rb3
+- tail
+- lb4
+- body
+- lm4
+- l1
+- rm3
+- r2
+- rb4
+- rb1
+- lm2
+- lb1
+
+# Analysis configurations:
+# clicked: The selected video confoguration: clicked = 1 --> direction up with increasing x, clicked = 2 --> opposite
+# distance_limit: The distance a foot has to move (px) to be viewed as in stride
+# save_rmse_values: Defines if RMSE values for curve fitting of kinematics are saved to results. Default is True.
+clicked: 1
+distance_limit:
+save_rmse_values: true
