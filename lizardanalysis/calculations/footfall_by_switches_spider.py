@@ -48,6 +48,7 @@ def footfall_by_switches_spider(**kwargs):
     ### -----------------------------------
     relative = False
     plotting_footfall_patterns = True
+    filter_for_likelihood = False
     ### -----------------------------------
 
     # prepare plot title name = spidername
@@ -63,11 +64,16 @@ def footfall_by_switches_spider(**kwargs):
     shoulder_diff = 0
     for row in range(1, data_rows_count):
         # go through frames and extract the x-diff for body-axis labels; take the mean and store in dict
-        # filter for likelihood, add new shoulder_diff if likelihood is good, else use last value:
-        if data.loc[row][scorer, "Tail", 'likelihood'] >= likelihood and data.loc[row-1][scorer, "Tail", 'likelihood'] >= 0:
-            hip_diff = data.loc[row][scorer, "Tail", 'x'] - data.loc[row-1][scorer, "Tail", 'x']
-        if data.loc[row][scorer, "Head", 'likelihood'] >= likelihood and data.loc[row-1][scorer, "Head", 'likelihood'] >= likelihood:
-            shoulder_diff = data.loc[row][scorer, "Head", 'x'] - data.loc[row-1][scorer, "Head", 'x']
+        if filter_for_likelihood:
+            # filter for likelihood, add new shoulder_diff if likelihood is good, else use last value:
+            if data.loc[row][scorer, "Tail", 'likelihood'] >= likelihood and data.loc[row-1][scorer, "Tail", 'likelihood'] >= 0:
+                hip_diff = data.loc[row][scorer, "Tail", 'x'] - data.loc[row-1][scorer, "Tail", 'x']
+            if data.loc[row][scorer, "Head", 'likelihood'] >= likelihood and data.loc[row-1][scorer, "Head", 'likelihood'] >= likelihood:
+                shoulder_diff = data.loc[row][scorer, "Head", 'x'] - data.loc[row-1][scorer, "Head", 'x']
+        else:   # take raw data as it is
+            hip_diff = data.loc[row][scorer, "Tail", 'x'] - data.loc[row - 1][scorer, "Tail", 'x']
+            shoulder_diff = data.loc[row][scorer, "Head", 'x'] - data.loc[row - 1][scorer, "Head", 'x']
+
         body_motion['frame'].append(row-1)
         body_motion['mean_motion_x'].append((hip_diff + shoulder_diff)/2.0)
 
@@ -85,19 +91,23 @@ def footfall_by_switches_spider(**kwargs):
         foot_motion = 0
         for row in range(1, data_rows_count):
             # if likelihood is worse than set value, last foot_motion will be used
-            if data.loc[row][scorer, f"{foot}", 'likelihood'] >= likelihood and data.loc[row-1][scorer, f"{foot}", 'x'] >= likelihood:
-                foot_motion = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row-1][scorer, f"{foot}", 'x']
+            if filter_for_likelihood:
+                if data.loc[row][scorer, f"{foot}", 'likelihood'] >= likelihood and data.loc[row-1][scorer, f"{foot}", 'x'] >= likelihood:
+                    foot_motion = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row-1][scorer, f"{foot}", 'x']
+            else:
+                foot_motion = data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row - 1][scorer, f"{foot}", 'x']
             # foot motion
             foot_motions[f"{foot}"].append(foot_motion)
             # foot motion - body motion
             rel_foot_motions[f"rel_{foot}"].append(foot_motion - body_motion['mean_motion_x'][row-1])
         #print('foot_motions: ', foot_motions)
+
         # create dataframe with >> frame | body_motion | rel_foot_motion << for current foot
         dict_df = {'body_motion':body_motion['mean_motion_x'],
                    'foot_motion':foot_motions[f"{foot}"],
                    'rel_foot_motion':rel_foot_motions[f"rel_{foot}"]}
 
-        # OUTLIER DETECTION o original foot data
+        # OUTLIER DETECTION on original foot data
         df_pred_all, df_pred_outliers = outlier_detection.detect_outliers(dict_df, foot, filename_title,
                                                                           step_detection_folder,
                                                                           exploration_plotting=True)
@@ -153,7 +163,7 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
     # add low pass filter to cut off spikes in data:
     ######## Butterworth filter
     x = np.linspace(0, data_rows_count - 1, data_rows_count - 1)
-    b, a = signal.butter(3, 0.1, btype='lowpass', analog=False)
+    b, a = signal.butter(3, 0.2, btype='lowpass', analog=False)  # original 0.1
 
     x_cutoff = np.linspace(x_cutoff_value, data_rows_count - 1, int(data_rows_count - 1 - x_cutoff_value))
 

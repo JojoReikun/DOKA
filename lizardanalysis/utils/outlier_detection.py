@@ -34,7 +34,7 @@ def detect_outliers(motion_dict, foot, filename_title, step_detection_folder, ex
         train_list = random.sample(motion_dict[k], num_to_pick)
 
         # get the values higher than perc_of_max of max value as peaks from data
-        peaks_list = get_peaks(v, perc_of_max=0.90)
+        peaks_list = get_peaks(v, perc_of_max=0.95)
 
         # add the peaks list to the fit list
         train_list.extend(peaks_list)
@@ -50,7 +50,7 @@ def detect_outliers(motion_dict, foot, filename_title, step_detection_folder, ex
         v_array_reshaped = v_array.reshape(-1,1)
 
         # set up Isolation Forest
-        clf = IsolationForest(random_state=0, contamination=0.1).fit(v_array_reshaped)     # train model on subset of x_data
+        clf = IsolationForest(random_state=0, contamination=0.08).fit(v_array_reshaped)     # train model on subset of x_data
 
         # predict on all/new data
         array = np.array(motion_dict[k])
