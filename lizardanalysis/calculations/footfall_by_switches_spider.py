@@ -45,8 +45,14 @@ def footfall_by_switches_spider(**kwargs):
     scorer = data.columns[1][0]
     feet = animal_settings.get_list_of_feet(animal)
 
-    relative = True
+    ### -----------------------------------
+    relative = False
     plotting_footfall_patterns = True
+    ### -----------------------------------
+
+    # prepare plot title name = spidername
+    filename_title = filename.split("_", 2)[:2]
+    filename_title = filename_title[0] + filename_title[1]
 
     # define cut-off value -> crops X% of frames on each side of video:
     p_cut_off = 0.05
@@ -90,15 +96,19 @@ def footfall_by_switches_spider(**kwargs):
         dict_df = {'body_motion':body_motion['mean_motion_x'],
                    'foot_motion':foot_motions[f"{foot}"],
                    'rel_foot_motion':rel_foot_motions[f"rel_{foot}"]}
-        # TODO: outlier detection
-        df_pred = outlier_detection.detect_outliers(dict_df, foot)
+
+        # OUTLIER DETECTION o original foot data
+        df_pred_all, df_pred_outliers = outlier_detection.detect_outliers(dict_df, foot, filename_title,
+                                                                          step_detection_folder,
+                                                                          exploration_plotting=True)
 
         df = pd.DataFrame.from_dict(dict_df)
         # print("df: ", df)
 
         # gets a dict with x-values and the sign for switch in swing and stance phases (after smoothing data)
         # change in sign: positive to body = swing, negative to body = stance
-        intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, df_pred)
+        intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder,
+                                        df_pred_all, df_pred_outliers, filename_title)
         #print(f"intersections for foot {foot}: ", intersections)
 
         # initializes class instance for every foot and empty result dict to be filled with the swing and stance phases:
@@ -117,7 +127,8 @@ def footfall_by_switches_spider(**kwargs):
     return results
 
 
-def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, df_pred, plotting=True):
+def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, df_pred_all,
+                    df_pred_outliers, filename_title, plotting=True):
     """
     Smooths the raw input data from foot motion and body motion, using a Butterworth low-pass filter and a
     Savintzky-Golay smoothing algorithm. Then computes the intersection points betw. the smoothed body and foot curves.
@@ -189,18 +200,22 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')    # plot intersection points
 
             #TODO: plot df_pred
-            num_plot_col = int(len(list(df_pred.columns))/2)
-            columns_df_plot = list(df_pred.columns)
-            for col in range(num_plot_col):
-                idx_plot = df_pred.index[df_pred[columns_df_plot[col+num_plot_col]] <= 0]
-                for idx in idx_plot:
-                    plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
+            num_plot_col = int(len(list(df_pred_all.columns))/3)
+            columns_df_plot = list(df_pred_all.columns)
+            print(columns_df_plot)
+            for col, name in zip(range(num_plot_col), columns_df_plot):
+                if name == "foot_motion":
+                    print(name)
+                    idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
+                    print("number of plotted outliers in foot_motion: ", len(idx_plot))
+                    for idx in idx_plot:
+                        plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
 
             for i in range(len(intersections_dict['idx'])):
                 plt.annotate(intersections_dict['idx'][i],
                              (x_cutoff[intersections_dict['idx'][i]-x_cutoff_value] - 5, x_axis_f[intersections_dict['idx'][i]-x_cutoff_value] + 3))
 
-    else:
+    else:       # relative == False
         """
         Uses the foot motion and the body motion and computes the intersection points for the smoothed curves.
         Intersection points for the lizard standing (bodymotion -> 0) will get excluded by using a body-motion threshold
@@ -216,6 +231,7 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         y_body_lp = body_motion_low_passed[x_cutoff_value:]
         y_foot = df.loc[x_cutoff_value:, 'foot_motion']
         y_foot_lp = foot_motion_low_passed[x_cutoff_value:]
+
         # smooth original body motion without low pass filter
         y_body_smoothed = signal.savgol_filter(y_body, smooth_wind, 3)
         # smooth low-pass-filtered body motion
@@ -246,7 +262,9 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
 
         if plotting == True:
             df['body_motion'].plot(color='#3089db')  # plot body motion
-            df['foot_motion'].plot(color='#d68f00')  # plot foot motion
+            df['foot_motion'].plot(color='#fca900')  # plot foot motion = orange
+            df_pred_outliers['foot_motion'].plot(color='#5e3f00', label='foot_motion no outliers', linestyle=':',
+                                                 linewidth=0.5)   # foot motion with outliers removed
             plt.plot(x, body_motion_low_passed, color='lightblue', label='body_motion low pass (lp) filter')
             plt.plot(x, foot_motion_low_passed, color='green', label='foot_motion low pass (lp) filter')
             plt.plot(x_cutoff, y_body_smoothed, color='#160578', label='body_motion_smoothed')
@@ -254,6 +272,19 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             plt.plot(x_cutoff, y_body_lp_smoothed, color='#9934b3', label='body_motion_lp_smoothed')
             plt.plot(x_cutoff, y_foot_lp_smoothed, color='lightgreen', label='foot_motion_lp_smoothed')
             plt.plot(x_cutoff[idx], y_body_lp_smoothed[idx], 'ko')  # plot intersection points
+
+            # TODO: plot df_pred
+            num_plot_col = int(len(list(df_pred_all.columns)) / 3)
+            columns_df_plot = list(df_pred_all.columns)
+            print(columns_df_plot)
+            for col, name in zip(range(num_plot_col), columns_df_plot):
+                if name == "foot_motion":
+                    print(name)
+                    idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
+                    print("number of plotted outliers in foot_motion: ", len(idx_plot))
+                    for idx in idx_plot:
+                        plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
+
             for i in range(len(intersections_dict['idx'])):
                 plt.annotate(intersections_dict['idx'][i],
                              (x_cutoff[intersections_dict['idx'][i] - x_cutoff_value] - 5,
@@ -266,8 +297,6 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         plt.legend()
         plt.xlabel('frames')
         plt.ylabel('dx/frame')
-        filename_title = filename.split("_", 2)[:2]
-        filename_title = filename_title[0]+filename_title[1]
         plt.title(f"{filename_title}-{foot}")
 
         try:
