@@ -6,6 +6,7 @@ def footfall_by_switches_spider(**kwargs):
     #TODO: make low-pass filter optional, if don't use, use footfall smooth directly
     import os.path
     import pandas as pd
+    import numpy as np
     import errno
     from pathlib import Path
     from lizardanalysis.utils import auxiliaryfunctions
@@ -48,7 +49,8 @@ def footfall_by_switches_spider(**kwargs):
     ### -----------------------------------
     relative = False
     plotting_footfall_patterns = True
-    filter_for_likelihood = False
+    filter_for_likelihood = True
+    perform_outlier_detection = True
     ### -----------------------------------
 
     # prepare plot title name = spidername
@@ -80,6 +82,7 @@ def footfall_by_switches_spider(**kwargs):
     # one class instance and one result array for every foot, because every foot needs own counter
     calculators = {}
     results = {}
+    foot_outlier_predictions = {}
 
     # for every foot:
     foot_motions = {}
@@ -108,9 +111,10 @@ def footfall_by_switches_spider(**kwargs):
                    'rel_foot_motion':rel_foot_motions[f"rel_{foot}"]}
 
         # OUTLIER DETECTION on original foot data
-        df_pred_all, df_pred_outliers = outlier_detection.detect_outliers(dict_df, foot, filename_title,
-                                                                          step_detection_folder,
-                                                                          exploration_plotting=True)
+        if perform_outlier_detection:
+            df_pred_all, df_pred_outliers = outlier_detection.detect_outliers(dict_df, foot, filename_title,
+                                                                              step_detection_folder,
+                                                                              exploration_plotting=True)
 
         df = pd.DataFrame.from_dict(dict_df)
         # print("df: ", df)
@@ -118,7 +122,7 @@ def footfall_by_switches_spider(**kwargs):
         # gets a dict with x-values and the sign for switch in swing and stance phases (after smoothing data)
         # change in sign: positive to body = swing, negative to body = stance
         intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder,
-                                        df_pred_all, df_pred_outliers, filename_title)
+                                        df_pred_all, df_pred_outliers, filename_title, perform_outlier_detection)
         #print(f"intersections for foot {foot}: ", intersections)
 
         # initializes class instance for every foot and empty result dict to be filled with the swing and stance phases:
@@ -126,19 +130,31 @@ def footfall_by_switches_spider(**kwargs):
         # "S10" = string of 10 characters: stance/stride + counter 000n
         results[foot] = calculators[foot].determine_stride_phases(intersections, data_rows_count)
 
+        if perform_outlier_detection:
+            foot_outlier_predictions[f'{foot}_outliers'] = df_pred_all[f'foot_motion_pred']
+
     # rename dictionary keys of results
     results = {'stepphase_' + key: value for (key, value) in results.items()}
+
+    ### OUTLIERS TO RESULTS
+    if perform_outlier_detection:
+        for foot in feet:
+            # adds the outlier predictions for the foot_motion of each foot to the result dictionary
+            # last row is empty because there exists no difference value
+            results[f'{foot}_outlier_pred'] = foot_outlier_predictions[f'{foot}_outliers']
+
     #print("results: ", results)
 
+    ### PLOTTING RESULTS
     if plotting_footfall_patterns:
         """ plots a foot fall pattern diagram for every DLC result csv file/every lizard run """
-        plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder)
+        plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder, feet)
 
     return results
 
 
 def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, df_pred_all,
-                    df_pred_outliers, filename_title, plotting=True):
+                    df_pred_outliers, filename_title, plotting=True, perform_outlier_detection=True):
     """
     Smooths the raw input data from foot motion and body motion, using a Butterworth low-pass filter and a
     Savintzky-Golay smoothing algorithm. Then computes the intersection points betw. the smoothed body and foot curves.
@@ -210,16 +226,17 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             plt.plot(x_cutoff[idx], x_axis_f[idx], 'ko')    # plot intersection points
 
             #TODO: plot df_pred
-            num_plot_col = int(len(list(df_pred_all.columns))/3)
-            columns_df_plot = list(df_pred_all.columns)
-            print(columns_df_plot)
-            for col, name in zip(range(num_plot_col), columns_df_plot):
-                if name == "foot_motion":
-                    print(name)
-                    idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
-                    print("number of plotted outliers in foot_motion: ", len(idx_plot))
-                    for idx in idx_plot:
-                        plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
+            if perform_outlier_detection:
+                num_plot_col = int(len(list(df_pred_all.columns))/3)
+                columns_df_plot = list(df_pred_all.columns)
+                print(columns_df_plot)
+                for col, name in zip(range(num_plot_col), columns_df_plot):
+                    if name == "foot_motion":
+                        print(name)
+                        idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
+                        print("number of plotted outliers in foot_motion: ", len(idx_plot))
+                        for idx in idx_plot:
+                            plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
 
             for i in range(len(intersections_dict['idx'])):
                 plt.annotate(intersections_dict['idx'][i],
@@ -284,16 +301,17 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             plt.plot(x_cutoff[idx], y_body_lp_smoothed[idx], 'ko')  # plot intersection points
 
             # TODO: plot df_pred
-            num_plot_col = int(len(list(df_pred_all.columns)) / 3)
-            columns_df_plot = list(df_pred_all.columns)
-            print(columns_df_plot)
-            for col, name in zip(range(num_plot_col), columns_df_plot):
-                if name == "foot_motion":
-                    print(name)
-                    idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
-                    print("number of plotted outliers in foot_motion: ", len(idx_plot))
-                    for idx in idx_plot:
-                        plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
+            if perform_outlier_detection:
+                num_plot_col = int(len(list(df_pred_all.columns)) / 3)
+                columns_df_plot = list(df_pred_all.columns)
+                print(columns_df_plot)
+                for col, name in zip(range(num_plot_col), columns_df_plot):
+                    if name == "foot_motion":
+                        print(name)
+                        idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
+                        print("number of plotted outliers in foot_motion: ", len(idx_plot))
+                        for idx in idx_plot:
+                            plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
 
             for i in range(len(intersections_dict['idx'])):
                 plt.annotate(intersections_dict['idx'][i],
@@ -415,9 +433,9 @@ class StridesAndStances:
         return f"swings: {self.stride_phase_counter}, stances: {self.stance_phase_counter}"
 
 
-def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder):
+def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_folder, feet):
     """
-    takes the result dataframe and creates a new dataframe for plotting. Every foot gets assigned an individual number.
+    takes the result dictionary and creates a new dataframe for plotting. Every foot gets assigned an individual number.
     The dataframe is then filtered for strings containing "stride", the strides get replaced by the respective number,
     while all stances will be NaN.
     In the plot strides are therefore displayed as bars and stances are empty.
@@ -429,11 +447,17 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     from matplotlib.patches import Patch
     import os
     import errno
+    import itertools
 
     df_plot = pd.DataFrame(columns = results.keys(), index=range(data_rows_count))
     # filter here and only fill in stances as numbers => stances bars, strides white
-    for i, key in enumerate(results):
-        df_plot[key] = [i+1 if s.startswith(b'stance') else np.NaN for s in results[key]]
+    # to only enumerate through stride/stance phase columns only take first len(feet) columns of results:
+
+    # Get first len(feet) items in dictionary to exclude all extra columns in results
+    results_phases = dict(itertools.islice(results.items(), len(feet)))
+
+    for i, key in enumerate(results_phases):
+        df_plot[key] = [i+1 if s.startswith(b'stance') else np.NaN for s in results_phases[key]]
 
     key_list = [key for key in df_plot.columns]
 

@@ -16,7 +16,7 @@ def detect_outliers(motion_dict, foot, filename_title, step_detection_folder, ex
     >= 90% of the max value occuring in the data are added to the training set.
     """
     # select random subset
-    print(f"\noutlier detection... {foot}")
+    #print(f"\noutlier detection... {foot}")
     subset_percentage = 0.4
 
     sub_dict = {}
@@ -64,7 +64,7 @@ def detect_outliers(motion_dict, foot, filename_title, step_detection_folder, ex
 
         outliers = df_pred_all.loc[df_pred_all[f'{k}_pred'] == -1]
         outlier_index = list(outliers.index)
-        print(f"{k} ---> outlier indices: ", outlier_index)
+        #print(f"{k} ---> outlier indices: ", outlier_index)
 
     df_pred_outliers = df_pred_all.copy()
     for k,v in motion_dict.items():
@@ -78,7 +78,7 @@ def detect_outliers(motion_dict, foot, filename_title, step_detection_folder, ex
 
     # build dataframe suitable for split violinplot:
     pd.set_option('display.max_columns', None)
-    print("---> df_pred_all: \n", df_pred_all)
+    #print("---> df_pred_all: \n", df_pred_all)
     df_exploration_plot = df_pred_all.append(df_pred_outliers, ignore_index=True)
     #print("df_exploration_plot: ", df_exploration_plot)
 
@@ -106,7 +106,7 @@ def exploration_plotting_of_original_data(df_pred_all, df_pred_outliers, foot, f
     filename = f"{filename_title}-{foot}-Outlier Detection with Isolation Forest.png"
     plot_key = "foot_motion"
     fig, axs = plt.subplots(ncols=2, constrained_layout=True)
-    print("DETETCTED OUTLIERS: ", df_pred_outliers.isna().sum())
+    #print("DETETCTED OUTLIERS: ", df_pred_outliers.isna().sum())
     sns.violinplot(x=plot_key, data=df_pred_all, dropna=True, ax=axs[0])
     axs[0].title.set_text("original data")
     sns.violinplot(x=plot_key, data=df_pred_outliers, dropna=True, color='y', ax=axs[1])
