@@ -54,7 +54,7 @@ def leg_speeds(**kwargs):
                 distance_calib = np.nan
 
             # get the current phase of the step for every foot, calling the respective class instance function
-            results[foot][row] = calculate_speed(distance_calib, framerate)
+            results[foot][row] = auxiliaryfunctions.calculate_speed(distance_calib, framerate)
 
     # rename dictionary keys of results
     results = {'speed_' + key: value for (key, value) in results.items()}
@@ -62,13 +62,6 @@ def leg_speeds(**kwargs):
     if plotting:
         plot_speeds(results, data_rows_count)
     return results
-
-
-def calculate_speed(distance_calib, framerate):
-    # calculate the speed in mm/second
-    speed = distance_calib/framerate
-    retval = speed
-    return retval
 
 
 def plot_speeds(results, data_rows_count):
