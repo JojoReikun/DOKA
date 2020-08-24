@@ -216,3 +216,10 @@ def find_conversion_factor_for_spider(filename):
         conv_fac = 1.0
 
     return conv_fac
+
+
+def calculate_speed(distance_calib, framerate):
+    # calculate the speed in mm/second
+    speed = distance_calib/(1.0/framerate)  # --> distance * framerate
+    retval = speed
+    return retval

@@ -50,7 +50,7 @@ def body_speed(**kwargs):
 
             # calibrate distance with conversion factor
             distance_calib = distance / conv_fac
-            results["body_speed"][row] = calculate_speed(distance_calib, framerate)
+            results["body_speed"][row] = auxiliaryfunctions.calculate_speed(distance_calib, framerate)
         else:
             results["body_speed"][row] = np.nan
 
@@ -60,10 +60,3 @@ def body_speed(**kwargs):
     #print('results: ', results)
 
     return results
-
-
-def calculate_speed(distance_calib, framerate):
-    # calculate the speed in mm/second
-    speed = distance_calib/framerate
-    retval = speed
-    return retval
