@@ -105,7 +105,8 @@ def attempttomakefolder(foldername,recursive=False):
         foldername=os.fspath(foldername) #https://github.com/AlexEMG/DeepLabCut/issues/105 (windows)
 
     if os.path.isdir(foldername):
-        print(foldername, " already exists!")
+        #print(foldername, " already exists!")
+        pass
     else:
         if recursive:
             os.makedirs(foldername)
@@ -201,14 +202,14 @@ def find_conversion_factor_for_spider(filename):
                           (112, 126): 2.58}
     spidername = filename.split(sep="_")[0]
     spidernumber = int(''.join(list(filter(str.isdigit, spidername))))
-    print(f"spidername: {spidername}, spidernumber: {spidernumber}")
+    #print(f"spidername: {spidername}, spidernumber: {spidernumber}")
 
     conv_fac = np.nan
     for i in range(len(conversion_factors.keys())):
         key = list(conversion_factors.keys())[i]
         if spidernumber in range(key[0], key[1]):  # assign correct converion factor to spider
             conv_fac = conversion_factors[key]
-            print(f"spidernumber: {spidernumber}, conv_fac: {conv_fac}")
+            #print(f"spidernumber: {spidernumber}, conv_fac: {conv_fac}")
 
     if conv_fac == np.nan:
         print(f"no conversion factor was found for this spidernumber: {spidernumber}")

@@ -118,5 +118,8 @@ def exploration_plotting_of_original_data(df_pred_all, df_pred_outliers, foot, f
         auxiliaryfunctions.attempttomakefolder(foldername)
         plt.savefig(os.path.join(foldername, filename))
 
+    plt.clf()
+    plt.close()
+
     #plt.show()
 

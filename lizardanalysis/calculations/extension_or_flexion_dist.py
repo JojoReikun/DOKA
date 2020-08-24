@@ -31,20 +31,17 @@ def extension_or_flexion_dist(**kwargs):
     # find conversion factor for spider:
     conv_fac = auxiliaryfunctions.find_conversion_factor_for_spider(filename)
 
-    for row in range(1, data_rows_count):
+    for row in range(data_rows_count):
         for foot, base in zip(feet, feet_bases):
             # determine likelihood of leg tip and leg base point:
             tip_likelihood = data.loc[row][scorer, f"{foot}", "likelihood"]
-            tip_rowminusone_likelihood = data.loc[row-1][scorer, f"{foot}", "likelihood"]
             base_likelihood = data.loc[row][scorer, f"{base}", "likelihood"]
-            base_rowminusone_likelihood = data.loc[row-1][scorer, f"{base}", "likelihood"]
 
             # -------
-            # calculate the euclidean distance between leg tip and leg base:
-            if tip_likelihood >= likelihood and base_likelihood >= likelihood \
-                    and tip_rowminusone_likelihood >= likelihood and base_rowminusone_likelihood >= likelihood:
-                tip = (data.loc[row][scorer, f"{foot}", 'x'], data.loc[row - 1][scorer, f"{foot}", 'y'])
-                base = (data.loc[row][scorer, f"{base}", 'x'], data.loc[row - 1][scorer, f"{base}", 'y'])
+            # calculate the absolute euclidean distance between leg tip and leg base for the current row:
+            if tip_likelihood >= likelihood and base_likelihood >= likelihood:
+                tip = (data.loc[row][scorer, f"{foot}", 'x'], data.loc[row][scorer, f"{foot}", 'y'])
+                base = (data.loc[row][scorer, f"{base}", 'x'], data.loc[row][scorer, f"{base}", 'y'])
                 distance = np.sqrt((base[0]-tip[0]) ** 2 + (base[1]-tip[1]) ** 2)
 
                 # calibrate distance with conversion factor

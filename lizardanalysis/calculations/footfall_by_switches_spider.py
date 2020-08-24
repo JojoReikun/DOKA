@@ -1,4 +1,3 @@
-# TODO: extreme peaks = labels that jump?! -> write likelihood at those points -> exclude them BEFORE smoothing
 # use scipy outlier and novelty detection!!!
 # TODO: implement Fourier analysis to get frequency for smoothing/lp filter individually for every spider
 
@@ -229,12 +228,12 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             if perform_outlier_detection:
                 num_plot_col = int(len(list(df_pred_all.columns))/3)
                 columns_df_plot = list(df_pred_all.columns)
-                print(columns_df_plot)
+                #print(columns_df_plot)
                 for col, name in zip(range(num_plot_col), columns_df_plot):
                     if name == "foot_motion":
-                        print(name)
+                        #print(name)
                         idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
-                        print("number of plotted outliers in foot_motion: ", len(idx_plot))
+                        #print("number of plotted outliers in foot_motion: ", len(idx_plot))
                         for idx in idx_plot:
                             plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
 
@@ -304,12 +303,12 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
             if perform_outlier_detection:
                 num_plot_col = int(len(list(df_pred_all.columns)) / 3)
                 columns_df_plot = list(df_pred_all.columns)
-                print(columns_df_plot)
+                #print(columns_df_plot)
                 for col, name in zip(range(num_plot_col), columns_df_plot):
                     if name == "foot_motion":
-                        print(name)
+                        #print(name)
                         idx_plot = df_pred_all.index[df_pred_all[f'{name}_pred'] <= 0]
-                        print("number of plotted outliers in foot_motion: ", len(idx_plot))
+                        #print("number of plotted outliers in foot_motion: ", len(idx_plot))
                         for idx in idx_plot:
                             plt.axvline(idx, alpha=0.5, linestyle='--', linewidth=0.3)
 
