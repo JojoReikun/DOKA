@@ -45,7 +45,10 @@ def set_animal(animal):
                 'extension_or_flexion_phase': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4',
                                               'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4'],
                 #'leg_speeds': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4'],
-                'body_speed': ['body']}
+                'body_speed': ['body'],
+                'leg_segments_dist': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4',
+                                      'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4',
+                                      'lm1', 'lm2', 'lm3', 'lm4', 'rm1', 'rm2', 'rm3', 'rm4']}
 
     else:
         dict = {}

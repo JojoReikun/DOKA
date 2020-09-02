@@ -29,9 +29,10 @@ def extension_or_flexion_phase(**kwargs):
         # test if foot is in column name:
         if foot in col:
             current_col = df_result_current[col]
-            #print("current_col ", current_col)
+
+            # calculate the distence between subsequent frames:
             diff_col = current_col.diff()
-            #print("diff_col ", diff_col)
+
             # replace positve differences with 'ext' and negative with 'flex'
             # flex = dist between base and tip becomes smaller = df.diff() -> row - (row-1) = negative diff
             diff_col[diff_col > 0.0] = int(1)

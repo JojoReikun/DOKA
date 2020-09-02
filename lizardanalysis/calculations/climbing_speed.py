@@ -1,4 +1,5 @@
 import numpy as np
+from lizardanalysis.utils import auxiliaryfunctions
 
 # TODO: calculate frame wise for step-phases not average over all! Or do both in 2 different functions
 def climbing_speed(**kwargs):

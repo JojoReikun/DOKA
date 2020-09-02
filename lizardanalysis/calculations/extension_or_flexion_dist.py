@@ -35,16 +35,17 @@ def extension_or_flexion_dist(**kwargs):
         for foot, base in zip(feet, feet_bases):
             # determine likelihood of leg tip and leg base point:
             tip_likelihood = data.loc[row][scorer, f"{foot}", "likelihood"]
-            tip_rowminusone_likelihood = data.loc[row-1][scorer, f"{foot}", "likelihood"]
             base_likelihood = data.loc[row][scorer, f"{base}", "likelihood"]
-            base_rowminusone_likelihood = data.loc[row-1][scorer, f"{base}", "likelihood"]
+            tip_rowminusone_likeklihood = data.loc[row][scorer, f"{foot}", "likelihood"]
+            base_rowminusone_likeklihood = data.loc[row][scorer, f"{base}", "likelihood"]
 
             # -------
-            # calculate the euclidean distance between leg tip and leg base:
+            # calculate the absolute euclidean distance between leg tip and leg base for the current row:
+            # check likelihood of row-1 to make sure diff calculation for phase assignment is accurate
             if tip_likelihood >= likelihood and base_likelihood >= likelihood \
-                    and tip_rowminusone_likelihood >= likelihood and base_rowminusone_likelihood >= likelihood:
-                tip = (data.loc[row][scorer, f"{foot}", 'x'], data.loc[row - 1][scorer, f"{foot}", 'y'])
-                base = (data.loc[row][scorer, f"{base}", 'x'], data.loc[row - 1][scorer, f"{base}", 'y'])
+                    and tip_rowminusone_likeklihood >= likelihood and base_rowminusone_likeklihood >= likelihood:
+                tip = (data.loc[row][scorer, f"{foot}", 'x'], data.loc[row][scorer, f"{foot}", 'y'])
+                base = (data.loc[row][scorer, f"{base}", 'x'], data.loc[row][scorer, f"{base}", 'y'])
                 distance = np.sqrt((base[0]-tip[0]) ** 2 + (base[1]-tip[1]) ** 2)
 
                 # calibrate distance with conversion factor
