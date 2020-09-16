@@ -1,5 +1,6 @@
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
+
 def set_animal(animal):
     """
     define the calculations and the labels required labels for these in a dictionary for each available animal.
@@ -43,9 +44,14 @@ def set_animal(animal):
                 'extension_or_flexion_dist': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4',
                                               'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4'],
                 'extension_or_flexion_phase': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4',
-                                              'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4'],
-                #'leg_speeds': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4'],
+                                               'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4'],
+                # 'leg_speeds': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4'],
                 'body_speed': ['body']}
+
+    elif animal == "stick":
+        dict = {
+            'alpha_est_angles': ['l1', 'l2', 'l3', 'r1', 'r2', 'r3', 'lb1', 'lb2', 'lb3', 'rb1', 'rb2', 'rb3', 'head',
+                                 'abdomen']}
 
     else:
         dict = {}
@@ -61,6 +67,8 @@ def get_list_of_feet(animal):
         feet = ["FL", "FR", "HR", "HL"]
     elif animal == "spider":
         feet = ['L1', 'L2', 'L3', 'L4', 'R1', 'R2', 'R3', 'R4']
+    elif animal == "stick":
+        feet = ['l1', 'l2', 'l3', 'r1', 'r2', 'r3']
     else:
         feet = []
         print("no animal has been selected.")
