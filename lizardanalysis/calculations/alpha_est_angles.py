@@ -33,11 +33,9 @@ def alpha_est_angles(**kwargs):
         # creating a key for each foot, and the the corresponding value is currently an array filled with data_rows_count
         # many NANs
         results[foot] = np.full((data_rows_count),np.NAN)
-        print(results)
         #is the extra comma needed here?
 
         for i in range(data_rows_count):
-
 
             foot_chars = list(foot)
 
@@ -47,9 +45,9 @@ def alpha_est_angles(**kwargs):
 
             if femur_likelihood >= likelihood and coxa_likelihood >= likelihood:
                 femur_vector = ((data.loc[i, (scorer, foot ,"x" )]
-                 - data.loc[i,"{}b{}".format(foot_chars[0],foot_chars[1]), "x" ]),
-                                 (data.loc[i, (scorer, foot , "y")]
-                                    - data.loc[i, (scorer, "{}b{}".format(foot_chars[0],foot_chars[1]),"y")]))
+                 - data.loc[i][scorer, f"{foot_chars[0]}b{foot_chars[1]}", "x" ]),
+                                 (data.loc[i][ scorer, foot , "y"]
+                                    - data.loc[i][scorer, "{}b{}".format(foot_chars[0],foot_chars[1]),"y"]))
 
             else:
                 femur_vector = (np.NAN, np.NAN)
@@ -60,8 +58,8 @@ def alpha_est_angles(**kwargs):
             # i.e. no relative movement of the thoraxes
 
             if head_likelihood >= likelihood and abdomen_likelihood >= likelihood:
-                body_vector = ((data.loc[i, (scorer, "head", "x")]-data.loc[i, scorer, "abdomen", "x"]),
-                             - (data.loc[i, (scorer,"head", "y")]- data.loc[i, scorer,"abdomen", "y"]))
+                body_vector = ((data.loc[i][scorer, "head", "x"]-data.loc[i][ scorer, "abdomen", "x"]),
+                             - (data.loc[i][scorer,"head", "y"]- data.loc[i][ scorer,"abdomen", "y"]))
 
             # therefore at this point there should be a vector between the femur and coxa,
             # and a vector that runs along the body
@@ -71,13 +69,12 @@ def alpha_est_angles(**kwargs):
                 body_vector = (np.NAN, np.NAN)
 
             rom_est = auxiliaryfunctions.py_angle_betw_2vectors(body_vector, femur_vector)
-            print(rom_est)
-            print(body_vector)
-            print(femur_vector)
+
+
 
             results[foot][i] = 180.0 - rom_est
 
             #rename dictionary keys of results
-            results = {"alpha_angle_" + key: value for (key,value) in results.items()}
-
+    results = {"alpha_angle_" + key: value for (key,value) in results.items()}
+    print(results)
     return results
