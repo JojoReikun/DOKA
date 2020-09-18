@@ -70,12 +70,12 @@ def aep_pep_test(**kwargs):
             scorer, "head", 'likelihood'] >= likelihood:
             head_diff = data.loc[row][scorer, "head"] - data.loc[row - 1][scorer, "head"]
 
-        if data.loc[row][scorer, "abdomen", 'likelihood'] >= likelihood and data.loc[row][
+        if data.loc[row][scorer, "abdomen", 'likelihood'] >= likelihood and data.loc[row - 1][
             scorer, "abdomen", 'likelihood'] >= likelihood:
-            abdomen_dif = data.loc[row][scorer, "head",]
+            abdomen_dif = data.loc[row][scorer, "abdomen"] - data.loc[row - 1][scorer, "abdomen"]
 
-        body_motion['frame'].append(row - 1)
-        body_motion['mean_motion_x'].append(abs((head_diff + abdomen_diff) / 2.0))
+        body_motion["frame"].append(row - 1)
+        body_motion["mean_motion_x"].append(abs((head_diff + abdomen_diff) / 2.0))
 
         # am taking the absolute value, because if the stick insect walks to the left, then you don't want to
         # switch the which sign changes indicates swing/pep and which sign change indicates stance/aep.
@@ -83,123 +83,123 @@ def aep_pep_test(**kwargs):
         # taking the average of the differences, to determine the average 'speed' i.e. the displacement over one frame of the whole body
 
         # one class instance and one result array for every foot, since every foot needs its own counter
-        calculators = {}
-        results = {}
+    calculators = {}
+    results = {}
 
+    # for every foot, need to do within the original for loop, so all foot calculations are performed for a given frame
+    foot_motions = {}
+    rel_foot_motions = {}
+    # left the for loop for the body motion, and will now be working with for loops for the foot motion
 
-        # for every foot, need to do within the original for loop, so all foot calculations are performed for a given frame
-        foot_motions = {}
-        rel_foot_motions = {}
-        # left the for loop for the body motion, and will now be working with for loops for the foot motion
+    for foot in feet:
+        foot_motions[f"{foot}"] = []
+        rel_foot_motions[f"rel_{foot}"] = []
 
-        for foot in feet:
-            foot_motions[f"{foot}"] = []
-            rel_foot_motions[[f"rel_{foot}"]] = []
+        # if the [row] - [row-1] > 0 , then the stick insect FOOT is moving to the right
+        # if the [row] - [row-1] < 0, then the stick insect FOOT is moving to the left
 
-            # if the [row] - [row-1] > 0 , then the stick insect FOOT is moving to the right
-            # if the [row] - [row-1] < 0, then the stick insect FOOT is moving to the left
+        # taking an absolute value for the body and foot motions avoid issues with directions (?)
 
-            # taking an absolute value for the body and foot motions avoid issues with directions (?)
+        foot_motion = 0
+        for row in range(1, data_rows_count):
+            if data.loc[row][scorer, f"{foot}", 'likelihood'] >= likelihood and data.loc[row - 1][scorer,
+                                                                                                  f"{foot}",'likelihood'] >= likelihood:
+                foot_motion = abs(data.loc[row][scorer, f"{foot}", 'x'] - data.loc[row - 1][
+                    scorer, f"{foot}", 'x'])
+                foot_motions[f"{foot}"].append(foot_motion)
 
-            foot_motion = 0
-            for f_row in range(1, data_rows_count):
-                if data.loc[f_row][scorer, f"{foot}", 'likelihood'] >= likelihood and data.loc[f_row - 1][scorer,
-                                                                                                          f"{foot}"] >= likelihood:
-                    foot_motion = abs(data.loc[f_row][scorer, f"{foot}", 'x'] - data.loc[f_row - 1][
-                        scorer, f"{foot}", 'x'])
-                    foot_motions[f"{foot}"].append(foot_motion)
+                rel_foot_motions[f"rel_{foot}"].append(foot_motion - body_motion['mean_motion_x'][row - 1])
+            else:
+                foot_motions[f"foot"].append
 
-                    rel_foot_motions[f"rel{foot}"].append(foot_motion - body_motion['mean_motion_x'][f_row - 1])
+        # now need to store the body motion data, the foot motion data, and the relative foot motion all in a dataframe
+        # this dataframe within the loop is only for one foot
+        dict_df = {'body_motion': body_motion['mean_motion_x'], 'foot_motion': foot_motions[f"{foot}"],
+                   "rel_foot_motion": rel_foot_motions[f"rel_{foot}"]}
+        print(dict_df)
+        df = pd.DataFrame.from_dict(dict_df)
 
-            # now need to store the body motion data, the foot motion data, and the relative foot motion all in a dataframe
-            # this dataframe within the loop is only for one foot
-            dict_df = {'body_motion': body_motion['mean_motion_x'], 'foot_motion': foot_motions[f"{foot}"],
-                       "rel_foot_motion": rel_foot_motions[f"rel_{foot}"]}
+        intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename,
+                                        step_detection_folder)
 
-            df = pd.DataFrame.from_dict(dict_df)
+        ######################################################################################################################
 
-            intersections = smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename,
-                                            step_detection_folder)
+        # the smooth_and_plot function returns 'intersection_dict'
+        # intersection dict is: {"idx":[], "sign":[]}
+        # idx = the idx of the number list/array of differences in the sign, only storing when the differences are non-zero
+        # sign = stores the sign of the number associated with the index of the non zero number
+        # positive => start of swing =>PEP
+        # negative => start of stance => AEP
 
-            ######################################################################################################################
+        # gives the alpha_estimation values for the
 
-            # the smooth_and_plot function returns 'intersection_dict'
-            # intersection dict is: {"idx":[], "sign":[]}
-            # idx = the idx of the number list/array of differences in the sign, only storing when the differences are non-zero
-            # sign = stores the sign of the number associated with the index of the non zero number
-            # positive => start of swing =>PEP
-            # negative => start of stance => AEP
+        rom_list = [col for col in df_result_current.columns if ("rom_angle_{}".format(foot) in col)]
 
-            # gives the alpha_estimation values for the
+        aep_pep_angle = []
 
-            rom_list = [col for col in df_result_current.columns if ("rom_angle_{}".format(foot) in col)]
+        # for loop will calculate the angle that defines the femur-coxa vector relative to the normal
+        # to the body axis, running through the coxa of the foot of interest
+        for angle in range(len(rom_list)):
+            aep_pep_angle.append(90 - angle)
 
-            aep_pep_angle = []
+        foot_chars = list(foot)
+        f_t_joint_lpx = []
+        f_t_joint_lpy = []
+        t_c_joint_lpx = []
+        t_c_joint_lpy = []
 
-            # for loop will calculate the angle that defines the femur-coxa vector relative to the normal
-            # to the body axis, running through the coxa of the foot of interest
-            for angle in range(len(rom_list)):
-                aep_pep_angle.append(90 - angle)
+        # low pass filter application of the coordinate data alone?
+        # is this necessary
 
-            foot_chars = list(foot)
-            f_t_joint_lpx = []
-            f_t_joint_lpy = []
-            t_c_joint_lpx = []
-            t_c_joint_lpy = []
+        b, a = signal.butter(3, 0.1, btype='lowpass', analog=False)
 
-            # low pass filter application of the coordinate data alone?
-            # is this necessary
+        f_t_joint_lpx = signal.filtfilt(b, a,
+                                        (data.loc[:, (scorer, "{}m{}".format(foot_chars[0], foot_chars[1]), "x")]))
+        f_t_joint_lpy = signal.filtfilt(b, a,
+                                        (data.loc[:, (scorer, "{}m{}".format(foot_chars[0], foot_chars[1]), "y")]))
 
-            b, a = signal.butter(3, 0.1, btype='lowpass', analog=False)
+        t_c_joint_lpx = signal.filtfilt(b, a,
+                                        (data.loc[:, (scorer, "{}b{}".format(foot_chars[0], foot_chars[1]), "x")]))
+        t_c_joint_lpy = signal.filtfilt(b, a,
+                                        (data.loc[:, (scorer, "{}b{}".format(foot_chars[0], foot_chars[1]), "y")]))
 
-            f_t_joint_lpx = signal.filtfilt(b, a,
-                                            (data.loc[:, (scorer, "{}m{}".format(foot_chars[0], foot_chars[1]), "x")]))
-            f_t_joint_lpy = signal.filtfilt(b, a,
-                                            (data.loc[:, (scorer, "{}m{}".format(foot_chars[0], foot_chars[1]), "y")]))
+        # ensuring that the values for the keys are defined as arrays, so that you can append for the
+        # following for loop
+        results_aep = {"{}_x".format(foot): [], "{}_y".format(foot): []}
+        results_pep = {"{}_x".format(foot): [], "{}_y".format(foot): []}
 
-            t_c_joint_lpx = signal.filtfilt(b, a,
-                                            (data.loc[:, (scorer, "{}b{}".format(foot_chars[0], foot_chars[1]), "x")]))
-            t_c_joint_lpy = signal.filtfilt(b, a,
-                                            (data.loc[:, (scorer, "{}b{}".format(foot_chars[0], foot_chars[1]), "y")]))
+        for i in range(2, data_rows_count):
 
-            # ensuring that the values for the keys are defined as arrays, so that you can append for the
-            # following for loop
-            results_aep = {"{}_x".format(foot): [], "{}_y".format(foot): []}
-            results_pep = {"{}_x".format(foot): [], "{}_y".format(foot): []}
+            if i - 2 in intersections["idx"]:
 
+                # atm just leaving the likelihood check
+                # is it worth doing, considering the alpha angles depended on those likelihoods anyway?
+                # so you would be just checking the same likelihood even though
 
-            for i in range(2, data_rows_count):
+                # now calculating the Euclidean distance between the coxa label and the femur label
 
-                if i - 2 in intersections["idx"]:
+                f_t_joint_co = (f_t_joint_lpx[i], f_t_joint_lpy[i])
+                t_c_joint_co = (t_c_joint_lpx[i], t_c_joint_lpy[i])
 
-                    # atm just leaving the likelihood check
-                    # is it worth doing, considering the alpha angles depended on those likelihoods anyway?
-                    # so you would be just checking the same likelihood even though
+                distance = np.sqrt(
+                    (f_t_joint_co[0] - t_c_joint_co[0]) ** 2 + (f_t_joint_co[1] - t_c_joint_co[1]) ** 2)
 
-                    # now calculating the Euclidean distance between the coxa label and the femur label
+                # calibrate distance with conversion factor
+                # NEED TO WRITE THE CONVERSION FACTOR!
+                distance_calib = distance  # / conv_fac
 
-                    f_t_joint_co = (f_t_joint_lpx[i], f_t_joint_lpy[i])
-                    t_c_joint_co = (t_c_joint_lpx[i], t_c_joint_lpy[i])
+                # results_aep = {}
+                # results_pep = {}
 
-                    distance = np.sqrt(
-                        (f_t_joint_co[0] - t_c_joint_co[0]) ** 2 + (f_t_joint_co[1] - t_c_joint_co[1]) ** 2)
+                if intersections["sign"][i - 2] > 0:
+                    # this means you are transitioning to the swing phase, so should be PEP
+                    results_pep[f"{foot}_x"].append((math.cos(aep_pep_angle[i]) * distance_calib))
+                    results_pep[f"{foot}_y"].append((math.sin(aep_pep_angle[i]) * distance_calib))
 
-                    # calibrate distance with conversion factor
-                    # NEED TO WRITE THE CONVERSION FACTOR!
-                    distance_calib = distance / conv_fac
-
-                    # results_aep = {}
-                    # results_pep = {}
-
-                    if intersections["sign"][i - 2] > 0:
-                        # this means you are transitioning to the swing phase, so should be PEP
-                        results_pep[f"{foot}_x"].append((math.cos(aep_pep_angle[i]) * distance_calib))
-                        results_pep[f"{foot}_y"].append((math.sin(aep_pep_angle[i]) * distance_calib))
-
-                    if intersections["sign"][i - 2] < 0:
-                        # this means you are transitioning to the stance phase so should be aep
-                        results_aep[f"{foot}_x"].append((math.cos(aep_pep_angle[i]) * distance_calib))
-                        results_aep[f"{foot}_y"].append((math.sin(aep_pep_angle[i]) * distance_calib))
+                if intersections["sign"][i - 2] < 0:
+                    # this means you are transitioning to the stance phase so should be aep
+                    results_aep[f"{foot}_x"].append((math.cos(aep_pep_angle[i]) * distance_calib))
+                    results_aep[f"{foot}_y"].append((math.sin(aep_pep_angle[i]) * distance_calib))
 
         # therefore should now have two dictionaries that contain the x coordinates and the y coordinates
         # of the aep and the pep for each foot
@@ -214,8 +214,8 @@ def aep_pep_test(**kwargs):
 
         # rename dictionary keys of results
     results = {'stepphase_' + key: value for (key, value) in results.items()}
-    results_aep = {"AEP_" + key: value for(key, value) in results_aep.items()}
-    results_pep = {"PEP_" + key: value for(key, value) in results_pep.items()}
+    results_aep = {"AEP_" + key: value for (key, value) in results_aep.items()}
+    results_pep = {"PEP_" + key: value for (key, value) in results_pep.items()}
 
     # print("results: ", results)
 
@@ -228,7 +228,6 @@ def aep_pep_test(**kwargs):
     # last step must be combining the three results dictionaries
     results.update(results_aep)
     results.update(results_pep)
-
 
     return results
 

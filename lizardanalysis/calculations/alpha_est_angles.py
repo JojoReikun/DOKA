@@ -76,5 +76,4 @@ def alpha_est_angles(**kwargs):
 
             #rename dictionary keys of results
     results = {"alpha_angle_" + key: value for (key,value) in results.items()}
-    print(results)
     return results
