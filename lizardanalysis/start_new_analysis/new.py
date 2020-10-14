@@ -92,8 +92,8 @@ def create_new_project(project, experimenter, species, file_directory, working_d
 
     # adds the video list to the config.yaml file
     file_sets = {}
+    i = 1
     for file in files:
-        i = 1
         print(file)
         try:
             # For windows os.path.realpath does not work and does not link to the real video. [old: rel_video_path = os.path.realpath(video)]
