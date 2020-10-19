@@ -86,7 +86,7 @@ class ToeAngleCalculation:
             column = column.strip('')
 
             number_of_toes = len(self.toe_labels_available)     # 3 (4 toes) or 4 (5 toes)
-            #print("number of toes: ", number_of_toes)
+            print("number of toes: ", number_of_toes)
             toe_angles_label = {}
 
             # print("foot   ---   ", foot)
@@ -129,7 +129,7 @@ class ToeAngleCalculation:
 
             # calculate angles between neighbour toes:
             toepair_angles = {}  # filled with toe-pair name, and the dict for all stances with the angles for all pairs
-            for toe_nr in range(1, number_of_toes+1):           #TODO: test +1, all toe pairs now??
+            for toe_nr in range(1, number_of_toes):           #TODO: test +1, all toe pairs now??
                 # toe_vectors_label_items = tuple of ('toe_label', dict --> toe_vectors_stance)
                 toe_vectors_label_items = [item for item in toe_vectors_label.items()]
                 #for item in toe_vectors_label_items:

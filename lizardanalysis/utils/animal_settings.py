@@ -35,7 +35,8 @@ def set_animal(animal):
                 'toe_angles': ['fl', 'fr', 'hr', 'hl', 'fl_ti', 'fl_ti1', 'fl_to1', 'fl_to',
                                'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
                                'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
-                               'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to']}
+                               'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to'],
+                'plot_taillabels_over_time':['shoulder', 'hip', 'tail_middle', 'tail_tip']}
 
     elif animal == "spider":
         dict = {'direction_of_running': ['head'],
