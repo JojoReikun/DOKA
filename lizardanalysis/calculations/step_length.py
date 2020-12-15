@@ -12,11 +12,11 @@ def step_length(**kwargs):
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
-<<<<<<< HEAD
+
     likelihood = kwargs.get('likelihood')
-=======
+
     animal = kwargs.get('animal')
->>>>>>> gui
+
 
     scorer = data.columns[1][0]
     feet = animal_settings.get_list_of_feet(animal)

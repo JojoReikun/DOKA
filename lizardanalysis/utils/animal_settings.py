@@ -51,6 +51,11 @@ def set_animal(animal):
                                       'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4',
                                       'lm1', 'lm2', 'lm3', 'lm4', 'rm1', 'rm2', 'rm3', 'rm4']}
 
+    elif animal == "stick":
+        dict = {
+            'alpha_est_angles': ['l1', 'l2', 'l3', 'r1', 'r2', 'r3', 'lb1', 'lb2', 'lb3', 'rb1', 'rb2', 'rb3', 'head',
+                                 'abdomen']}
+
     else:
         dict = {}
         print("no animal has been selected.")
@@ -65,7 +70,10 @@ def get_list_of_feet(animal):
         feet = ["FL", "FR", "HR", "HL"]
     elif animal == "spider":
         feet = ['L1', 'L2', 'L3', 'L4', 'R1', 'R2', 'R3', 'R4']
+    elif animal == "stick":
+        feet = ['l1', 'l2', 'l3', 'r1', 'r2', 'r3']
     else:
         feet = []
         print("no animal has been selected.")
     return feet
+    

@@ -36,7 +36,8 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     from lizardanalysis.start_new_analysis import gui_define_video_orientation
 
     # let the user configure the video direction (define which way is climbing up/climbing down)
-    clicked = gui_define_video_orientation.gui_choose_video_config()
+    clicked = 1
+    #clicked = gui_define_video_orientation.gui_choose_video_config()
     print("clicked value: ", clicked)
 
     # initialize new project
@@ -79,6 +80,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     # destinations = [file_path.joinpath(vp.name) for vp in files]
     destinations = [file_path.joinpath(os.path.basename(vp)) for vp in files]
     print("Copying the files")
+
     for src, dst in zip(files, destinations):
         shutil.copy(os.fspath(src), os.fspath(dst))  # https://www.python.org/dev/peps/pep-0519/
         # (for windows)
