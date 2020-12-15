@@ -12,9 +12,7 @@ def step_length(**kwargs):
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
-
     likelihood = kwargs.get('likelihood')
-
     animal = kwargs.get('animal')
 
 
