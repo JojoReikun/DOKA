@@ -116,11 +116,30 @@ def attempttomakefolder(foldername,recursive=False):
 
 def py_angle_betw_2vectors(v1, v2):
     import numpy.linalg as la
-    """Returns the angle in degrees between vectors 'v1' and 'v2'"""
+    """Returns the angle in degrees between vectors 'v1' and 'v2'.
+    The cosang function does not return the direction of deflection. Use atan if you need that feature"""
     cosang = np.dot(v1, v2) / (la.norm(v1) * la.norm(v2))
     # sinang = la.norm(np.cross(v1, v2))
     # return math.degrees(np.arctan2(sinang, cosang))
     return np.rad2deg(np.arccos(cosang))
+
+def py_angle_betw_2vectors_atan(v1, v2):
+    """Returns the angle in degrees between vectors 'v1' and 'v2'.
+    Also gives the direction of deflection.
+    If body axis is the first vector to be put in the deflection to the left of the body axis is positive angles,
+    deflection to the right of the body axis negative."""
+    import numpy.linalg as la
+
+    #atan_rad = np.arctan2(sinang, cosang)
+
+    #angle = atan2(vector2.y, vector2.x) - atan2(vector1.y, vector1.x)
+    angle = np.arctan2(v2[1], v2[0]) - np.arctan2(v1[1], v1[0])
+    if angle > np.pi:
+        angle -= 2 * np.pi
+    elif angle <= -1*np.pi:
+        angle +=2*np.pi
+
+    return np.rad2deg(angle)
 
 
 def calc_body_axis(df, index, scorer):

@@ -2,7 +2,7 @@ def tail_biomech_angles(**kwargs):
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
-    print('tail_angles')
+    #print('tail_angles')
 
     # for lizards:
     tail_angles = ['cranial_bA', 'prox_bA', 'tip_bA', 'prox_dist', 'dist_bA', 'cranial_caudal']
@@ -31,20 +31,25 @@ def tail_biomech_angles(**kwargs):
 
     results = {}
 
+    for angle in tail_angles:
+        results[angle] = np.full((data_rows_count,), np.NAN)
+
     for row in range(1, data_rows_count):
 
         likelihood_boolean = {}
         for angle in tail_angles:
-            nr_of_labels = len(angle)
-            print('angle: ', angle)
+            nr_of_labels = len(tail_angle_vector_points[angle])
+            #print('angle: ', angle)
 
             # likelihood:
             for n in range(nr_of_labels):
+                #print(n)
+                #print(tail_angle_vector_points[angle][n])
                 if data.loc[row][scorer, tail_angle_vector_points[angle][n], 'likelihood'] >= likelihood:
-                    likelihood_boolean[angle] = "TRUE"
+                    likelihood_boolean[tail_angle_vector_points[angle][n]] = "TRUE"
                 else:
-                    likelihood_boolean[angle] = "FALSE"
-            print("likelihood_boolean: ", likelihood_boolean)
+                    likelihood_boolean[tail_angle_vector_points[angle][n]] = "FALSE"
+            #print("likelihood_boolean: ", likelihood_boolean)
 
             # build the segment vectors if likelihood is good enough, otherwise fill with nan
             # 1st vector:
@@ -69,7 +74,7 @@ def tail_biomech_angles(**kwargs):
 
             # calculate the angle between the vectors:
             angle_deg = auxiliaryfunctions.py_angle_betw_2vectors_atan(vector_1, vector_2)
-            results[row][angle] = angle_deg
+            results[angle][row] = angle_deg
 
-    print("results: ", results)
+    #print("results: ", results)
     return results

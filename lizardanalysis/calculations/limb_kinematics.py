@@ -30,8 +30,8 @@ def limb_kinematics(**kwargs):
     #print("active_columns: ", active_columns)
 
     dynamics_footwise = False
-    dynamics_gecko = False
-    save_curve_fitting_plots = False
+    dynamics_gecko = True
+    save_curve_fitting_plots = True
     # print('LIMB KINEMATICS, Plot Dynamics = {}, Save Plots = {}, Save RMSE as csv = {}'.format(str(plot_dynamics_footwise),
     #                                                                                     str(save_curve_fitting_plots),
     #                                                                                     str(save_rmse)))

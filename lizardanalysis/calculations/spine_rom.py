@@ -4,6 +4,8 @@ def spine_rom(**kwargs):
     takes the average of the shoulder ROM (shoulder-spine vector to body-axis)
     and the hip ROM (hip-spine vector to body-axis).
     ROM is always defined as the maximum ROM angle of the stride - minimum ROM angle of the stride.
+    To avoid the case that a crossing of the rom vector over the body axis occurs during the stride,
+    the body axis is rotated by 90 degree CW so a crossing via body axis doesn't occur.
     :return:
     """
     import numpy as np
