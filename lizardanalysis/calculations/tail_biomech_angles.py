@@ -1,4 +1,7 @@
 def tail_biomech_angles(**kwargs):
+    """
+    calculates the angles between important tail segments.
+    """
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
 
