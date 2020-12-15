@@ -76,4 +76,3 @@ def get_list_of_feet(animal):
         feet = []
         print("no animal has been selected.")
     return feet
-    
