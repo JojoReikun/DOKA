@@ -156,6 +156,30 @@ def calc_body_axis(df, index, scorer):
     return body_axis_vector
 
 
+def get_perpendicular_dist_to_vector(E, df, index, scorer):
+    """
+    calculates the perpendicular distance of point E to vector BA (= body axis)
+    :param E: 'label name' of the point, for which the amplitude is wanted. Type: String
+    df, index, and scorer are required to access the label locations in the current file
+    :return: distance
+    """
+    A = (df.loc[index, (scorer, "Shoulder", "x")], df.loc[index, (scorer, "Shoulder", "y")])
+    BA = calc_body_axis(df, index, scorer)
+    E = (df.loc[index, (scorer, E, "x")], df.loc[index, (scorer, E, "y")])
+
+    AE = ((E[0] - A[0]), E[1] - A[1])
+
+    # Finding the perpendicular distance
+    x1 = BA[0]
+    y1 = BA[1]
+    x2 = AE[0]
+    y2 = AE[1]
+    mod = np.sqrt(x1 * x1 + y1 * y1)
+    dist = abs(x1 * y2 - y1 * x2) / mod
+
+    return dist
+
+
 def calculate_gravity_deflection_angle(bodyaxis):
     # TODO: add option to use  data from separate gravity file here
     gravity_axis = (100., 0.)
