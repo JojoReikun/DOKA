@@ -107,10 +107,10 @@ def spine_rom(**kwargs):
                 hip_rom_list.append(hip_rom)
 
         #debug
-        mean_shoulder_rom = np.nanmean(shoulder_rom_list)
-        mean_hip_rom = np.nanmean(hip_rom_list)
-        std_shoulder_rom = np.nanstd(shoulder_rom_list)
-        std_hip_rom = np.nanstd(hip_rom_list)
+        #mean_shoulder_rom = np.nanmean(shoulder_rom_list)
+        #mean_hip_rom = np.nanmean(hip_rom_list)
+        #std_shoulder_rom = np.nanstd(shoulder_rom_list)
+        #std_hip_rom = np.nanstd(hip_rom_list)
         # print('foot: ', foot,
         #         'mean_shoulder: ', mean_shoulder_rom,
         #         'std_shoulder: ', std_shoulder_rom,
