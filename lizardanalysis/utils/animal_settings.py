@@ -36,7 +36,8 @@ def set_animal(animal):
                 #               'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
                 #               'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
                 #               'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to'],
-                'tail_biomech_angles': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip']}
+                'tail_biomech_angles': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip'],
+                'point_amplitudes_to_bA': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip']}
 
     elif animal == "spider":
         dict = {'direction_of_running': ['head'],

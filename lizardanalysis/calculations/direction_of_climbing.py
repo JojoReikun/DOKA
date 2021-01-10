@@ -30,7 +30,7 @@ def direction_of_climbing(**kwargs):
     # nose_coords = data[scorer, 'Nose']
     # nose_coords = nose_coords[nose_coords.likelihood >= 0.90]
 
-    nose_coords = data[scorer, 'Nose', 'x']
+    nose_coords = data[scorer, 'nose', 'x']
     # print(nose_coords.head())
 
     if clicked == 1:
