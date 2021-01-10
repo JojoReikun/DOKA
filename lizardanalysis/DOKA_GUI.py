@@ -3,12 +3,20 @@ Locations of required executables and how to use them:
 """
 
 # qt designer located at:
+# FABI
 # C:\Users\PlumStation\Anaconda3\envs\tf-gpu\Lib\site-packages\pyqt5_tools\Qt\bin\designer.exe
 # pyuic5 to convert UI to executable python code is located at:
 # C:\Users\PlumStation\Anaconda3\envs\tf-gpu\Scripts\pyuic5.exe
-# to convert the UI into the required .py file run:
 # -x = input     -o = output
 # pyuic5.exe -x "I:\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.ui" -o "I:\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.py"
+
+# JOJO
+# C:\Users\JojoS\Miniconda3\Lib\site-packages\pyqt5_tools\Qt\bin\designer.exe
+# pyuic5 to convert UI to executable python code is located at:
+# C:\Users\JojoS\Miniconda3\Scripts\pyuic5.exe
+# to convert the UI into the required .py file run:
+# -x = input     -o = output
+# pyuic5.exe -x "C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.ui" -o "C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.py"
 
 """
 imports
