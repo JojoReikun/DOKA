@@ -4,6 +4,8 @@ def spine_rom(**kwargs):
     takes the average of the shoulder ROM (shoulder-spine vector to body-axis)
     and the hip ROM (hip-spine vector to body-axis).
     ROM is always defined as the maximum ROM angle of the stride - minimum ROM angle of the stride.
+    To avoid the case that a crossing of the rom vector over the body axis occurs during the stride,
+    the body axis is rotated by 90 degree CW so a crossing via body axis doesn't occur.
     :return:
     """
     import numpy as np
@@ -51,19 +53,17 @@ def spine_rom(**kwargs):
                 #print(beg_end_tuple)
                 # calculate the vectors: Spine-Shoulder and Spine-Hip
                 for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                    shoulder_foot_likelihood_begin = data.loc[j, (scorer, "Shoulder_{}".format(foot), "likelihood")]
-                    knee_foot_likelihood_begin = data.loc[j, (scorer, "{}_knee".format(foot), "likelihood")]
-                    shoulder_foot_likelihood_end = data.loc[j, (scorer, "Shoulder_{}".format(foot), "likelihood")]
-                    knee_foot_likelihood_end = data.loc[j, (scorer, "{}_knee".format(foot), "likelihood")]
-                    #print("likelihoods: ", shoulder_foot_likelihood_begin, knee_foot_likelihood_begin, shoulder_foot_likelihood_end, knee_foot_likelihood_end)
+                    shoulder_likelihood = data.loc[j, (scorer, "Shoulder", "likelihood")]
+                    spine_likelihood = data.loc[j, (scorer, "Spine", "likelihood")]
+                    hip_likelihood = data.loc[j, (scorer, "Hip", "likelihood")]
 
                     # filters data points of labels for likelihood
-                    if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and\
-                            shoulder_foot_likelihood_end >= likelihood and knee_foot_likelihood_end >= likelihood:
-                        spine_shoulder_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
-                                          (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
+                    if shoulder_likelihood >= likelihood and spine_likelihood >= likelihood and hip_likelihood >= likelihood:
+                        spine_shoulder_vector = (
+                        (data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
+                        (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
                         spine_hip_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Hip", "x")]),
-                                    (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Hip", "y")]))
+                                            (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Hip", "y")]))
 
                         # calculate the angles from both vectors to body-axis
                         body_axis = calc_body_axis(data, j, scorer)
@@ -107,10 +107,10 @@ def spine_rom(**kwargs):
                 hip_rom_list.append(hip_rom)
 
         #debug
-        mean_shoulder_rom = np.nanmean(shoulder_rom_list)
-        mean_hip_rom = np.nanmean(hip_rom_list)
-        std_shoulder_rom = np.nanstd(shoulder_rom_list)
-        std_hip_rom = np.nanstd(hip_rom_list)
+        #mean_shoulder_rom = np.nanmean(shoulder_rom_list)
+        #mean_hip_rom = np.nanmean(hip_rom_list)
+        #std_shoulder_rom = np.nanstd(shoulder_rom_list)
+        #std_hip_rom = np.nanstd(hip_rom_list)
         # print('foot: ', foot,
         #         'mean_shoulder: ', mean_shoulder_rom,
         #         'std_shoulder: ', std_shoulder_rom,

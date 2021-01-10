@@ -169,6 +169,15 @@ def plot_footfall_pattern(results, data_rows_count, filename, plotting_footfall_
     plt.close()
 
 
+def convert_b_string(b_string):
+    """converts bite string to normal string"""
+    if "stride" in b_string:
+        string = "stride" + b_string.rsplit("g", 1)[0]
+    elif "stance" in b_string:
+        string = "stance" + b_string.rsplit("e", 1)[0]
+    return string
+
+
 
 
 
