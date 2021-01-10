@@ -3,16 +3,25 @@ Locations of required executables and how to use them:
 """
 
 # qt designer located at:
+# FABI
 # C:\Users\PlumStation\Anaconda3\envs\tf-gpu\Lib\site-packages\pyqt5_tools\Qt\bin\designer.exe
 # pyuic5 to convert UI to executable python code is located at:
 # C:\Users\PlumStation\Anaconda3\envs\tf-gpu\Scripts\pyuic5.exe
-# to convert the UI into the required .py file run:
 # -x = input     -o = output
 # pyuic5.exe -x "I:\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.ui" -o "I:\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.py"
+
+# JOJO
+# C:\Users\JojoS\Miniconda3\Lib\site-packages\pyqt5_tools\Qt\bin\designer.exe
+# pyuic5 to convert UI to executable python code is located at:
+# C:\Users\JojoS\Miniconda3\Scripts\pyuic5.exe
+# to convert the UI into the required .py file run:
+# -x = input     -o = output
+# pyuic5.exe -x "C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.ui" -o "C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\lizardanalysis\GUI\DLC_Output_Kinematic_Analysis.py"
 
 """
 imports
 """
+
 import sys
 import traceback
 import datetime
@@ -28,6 +37,7 @@ from pathlib import Path
 from lizardanalysis.start_new_analysis import new
 from lizardanalysis.utils import auxiliaryfunctions
 from lizardanalysis import analyze_files, initialize
+from functools import partial
 
 
 class WorkerSignals(QtCore.QObject):
@@ -129,6 +139,10 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.button_diameter = 20
 
         self.animal = None
+        # create list of translated labels to use arbitrary naming convention
+        # format: ["name_in_DOKA","name_in_config"],[]...
+        self.label_reassignment = []
+
         ###
         # assign button / lineEdit functions
         ###
@@ -181,16 +195,6 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Project_openDLCFiles_lineEdit.setText(self.DLC_path)
 
         root.destroy()
-
-        # dialog = QFileDialog(self)
-        # dialog.setFileMode(QFileDialog.Directory)
-        # dialog.setViewMode(QFileDialog.Detail)
-        #
-        # if dialog.exec_():
-        #     print("dis is okay")
-        #     self.DLC_path = dialog.directory() #returns: <PyQt5.QtCore.QDir object at 0x000002814CCBB438>
-        #     #self.log_info(self.DLC_path)   #needs str not QDir
-        #     print(self.DLC_path)
 
     def choose_DLC_folder(self):
         worker = Worker(self.choose_DLC_folder_threaded)
@@ -263,15 +267,21 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Labels_listWidget.clear()
 
         style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid green"
+        QToolTip.setFont(QFont('SansSerif', 10))
 
         label_count = 0
+
         for label in self.labels:
             if label != "bodyparts":
                 self.add_labels(label)
                 for elem in range(len(self.label_coords)):
-                    if label == self.label_coords[elem][0]:
+                    # if the label is listed as a default label, or as a reassigned label, colour the respective button
+                    if label == self.label_coords[elem][0] or [self.label_coords[elem][0],
+                                                               label] in self.label_reassignment:
                         if self.label_buttons[elem].styleSheet() != style_sheet:
                             self.label_buttons[elem].setStyleSheet(style_sheet)
+                            self.label_buttons[elem].setToolTip('label: <b>' + label + '</b>')
+                        break
                 label_count += 1
 
         self.ui.Labels_listWidget.sortItems(QtCore.Qt.AscendingOrder)
@@ -298,6 +308,16 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Info_numFiles_lcdNumber.display(number_of_files)
 
         calculations, calculations_str, MODULE_PREFIX = initialize(self.animal)
+
+        # check for label reassignment when re(loading) project configuration
+        if len(self.label_reassignment) > 0:
+            print(self.label_reassignment)
+            for reassignment in self.label_reassignment:
+                for i, label in enumerate(cfg['labels']):
+                    if label == reassignment[1]:
+                        cfg['labels'][i] = reassignment[0]
+
+        print(cfg['labels'])
 
         try:
             calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
@@ -328,6 +348,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # TODO Insert checkbox for desired calculations
 
         self.project_loaded = True
+        self.update_labels()
 
     ### INFO SECTION ###
 
@@ -362,7 +383,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
     def start_analysis_threaded(self, progress_callback, animal):
         self.log_info("Analyzing project at " + self.project_config_file)
-        analyze_files(self.project_config_file, callback=progress_callback, animal=self.animal)
+        analyze_files(self.project_config_file, self.label_reassignment, callback=progress_callback, animal=self.animal)
         progress_callback.emit(100)
 
     ### ANALYSIS SECTION ###
@@ -373,8 +394,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.label_buttons = []
 
     def draw_label_buttons(self):
-        created_buttons = 0
-        for label in self.label_coords:
+        for num, label in enumerate(self.label_coords):
             # create button for each label
             self.label_buttons.append(QPushButton(label[0], self))
             self.label_buttons[-1].setGeometry(label[1] - self.button_diameter / 2, label[2] - self.button_diameter / 2,
@@ -384,8 +404,38 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid grey"
             self.label_buttons[-1].setStyleSheet(style_sheet)
             self.label_buttons[-1].setFont(QFont('Times', 5))
+            # set up mouse over text
+            self.label_buttons[-1].setToolTip('click to assign label from <b>config</b> file')
+            # connect to label select function. Using functools.partial to pass the number of the label as an additional
+            # argument to reuse the same dialog function for all label buttons
+            self.label_buttons[-1].clicked.connect(partial(self.open_label_dialog, num))
             self.label_buttons[-1].show()
-            created_buttons += 1
+
+    def open_label_dialog(self, num):
+        if self.project_loaded:
+            dlg = LabelSelectDialog(self)
+            dlg.setWindowTitle("select label: " + self.label_buttons[num].text())
+            for label in self.labels:
+                if label != "bodyparts":
+                    dlg.comboBoxLabels.addItem(label)
+            if dlg.exec_():
+                self.log_info("assigned " + self.label_buttons[num].text() + " to " + dlg.comboBoxLabels.currentText())
+                new_assignment = [self.label_buttons[num].text(), dlg.comboBoxLabels.currentText()]
+                # remove previous reassignment, if present
+                if len(self.label_reassignment) > 0:
+                    for i, pair in enumerate(self.label_reassignment):
+                        if pair[0] == new_assignment[0]:
+                            del self.label_reassignment[i]
+                self.label_reassignment.append(new_assignment)
+
+                self.update_labels()
+
+                # update existing project to display newly available calculations
+                self.confirmExistingProject()
+            else:
+                print("Canceled assignment!")
+        else:
+            self.log_warning("Load project before assigning labels!")
 
     def select_Lizard(self):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
@@ -571,6 +621,28 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         if self.project_loaded:
             self.update_labels()
+
+
+class LabelSelectDialog(QDialog):
+
+    def __init__(self, *args, **kwargs):
+        super(LabelSelectDialog, self).__init__(*args, **kwargs)
+
+        self.setWindowTitle("select label from config file")
+
+        buttons = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+
+        self.buttonBox = QDialogButtonBox(buttons)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+        self.comboBoxLabels = QComboBox()
+
+        self.layout = QVBoxLayout()
+
+        self.layout.addWidget(self.comboBoxLabels)
+        self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)
 
 
 app = QtWidgets.QApplication([])
