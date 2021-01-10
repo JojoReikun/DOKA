@@ -49,7 +49,7 @@ calculations = {'direction_of_climbing': ['head'],
                 }
 
 calculations_str = [calc for calc in calculations.keys()]
-#print('list of calculations ', calculations_str)
+# print('list of calculations ', calculations_str)
 MODULE_PREFIX, _ = __name__.rsplit('.', 1)
 
 
@@ -174,7 +174,8 @@ def initialize(animal):
     return calculations, calculations_str, MODULE_PREFIX
 
 
-def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback=None, animal="lizard"):
+def analyze_files(config, label_reassignment=[], separate_gravity_file=False, likelihood=0.90, callback=None,
+                  animal="lizard"):
     """
     Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
     config : string
@@ -239,6 +240,27 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
         # print("labels: ", labels_no_doubles)
         auxiliaryfunctions.write_config(config, cfg)
         print('\n labels written to config file.')
+    elif len(label_reassignment) > 0:
+        print('reassigning labels...')
+        print(label_reassignment)
+        for reassignment in label_reassignment:
+            for i, label in enumerate(cfg['labels']):
+                if label == reassignment[1]:
+                    cfg['labels'][i] = reassignment[0]
+        print(cfg['labels'])
+        # update labels in the config file
+        auxiliaryfunctions.write_config(config, cfg)
+        # update labels in the input .csv files
+        for file in filelist:
+            print("updating: " + file)
+            tmp_file = open(file, "r")
+            tmp_text = ''.join([i for i in tmp_file])
+            for reassignment in label_reassignment:
+                tmp_text = tmp_text.replace(reassignment[1].capitalize(), reassignment[0].capitalize())
+            out_file = open(file, "w")
+            out_file.writelines(tmp_text)
+            out_file.close()
+
     else:
         print('labels already exist in config file. Proceed...')
 
