@@ -266,14 +266,17 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # clear list before loading elements from config file
         self.ui.Labels_listWidget.clear()
 
-        style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid green"
-        QToolTip.setFont(QFont('SansSerif', 10))
+        style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid green;color: white "
+        QToolTip.setFont(QFont('SansSerif', 9))
 
         label_count = 0
 
-        for label in self.labels:
+        for i, label in enumerate(self.labels):
             if label != "bodyparts":
-                self.add_labels(label)
+                if i < 10:
+                    self.add_labels("(0" + str(i) + ")" + "  " + label)
+                else:
+                    self.add_labels("(" + str(i) + ")" + "  " + label)
                 for elem in range(len(self.label_coords)):
                     # if the label is listed as a default label, or as a reassigned label, colour the respective button
                     if label == self.label_coords[elem][0] or [self.label_coords[elem][0],
@@ -396,14 +399,14 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def draw_label_buttons(self):
         for num, label in enumerate(self.label_coords):
             # create button for each label
-            self.label_buttons.append(QPushButton(label[0], self))
+            self.label_buttons.append(QPushButton(str(num), self))
             self.label_buttons[-1].setGeometry(label[1] - self.button_diameter / 2, label[2] - self.button_diameter / 2,
                                                self.button_diameter, self.button_diameter)
 
             # setting radius and border
-            style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid grey"
+            style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid grey;color: white "
             self.label_buttons[-1].setStyleSheet(style_sheet)
-            self.label_buttons[-1].setFont(QFont('Times', 5))
+            self.label_buttons[-1].setFont(QFont('Times', 9))
             # set up mouse over text
             self.label_buttons[-1].setToolTip('click to assign label from <b>config</b> file')
             # connect to label select function. Using functools.partial to pass the number of the label as an additional
@@ -444,44 +447,44 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.log_info("Selected animal : " + self.animal)
 
         self.label_coords = [
-            ["fl", 802, 353],
-            ["fl_knee", 826, 331],
-            ["fl_ti", 815, 386],
-            ["fl_ti1", 777, 397],
-            ["fl_tm", 758, 372],
-            ["fl_to", 790, 335],
-            ["fl_to1", 767, 345],
-            ["fr", 790, 205],
+            ["nose", 652, 262],
+            ["shoulder", 814, 271],
+            ["spine", 915, 268],
+            ["hip", 1027, 279],
+            ["tail_middle", 1205, 366],
+            ["tail_tip", 1205, 559],
+            ["shoulder_fr", 813, 243],
             ["fr_knee", 828, 207],
-            ["fr_ti", 789, 170],
-            ["fr_ti1", 751, 173],
-            ["fr_tm", 742, 202],
+            ["fr", 790, 205],
             ["fr_to", 781, 227],
             ["fr_to1", 757, 220],
-            ["hip", 1027, 279],
-            ["hl", 1022, 365],
-            ["hl_knee", 992, 331],
-            ["hl_ti", 997, 374],
-            ["hl_ti1", 991, 396],
-            ["hl_tm", 1001, 416],
-            ["hl_to", 1050, 385],
-            ["hl_to1", 1039, 434],
-            ["hr", 1092, 245],
+            ["fr_tm", 742, 202],
+            ["fr_ti1", 751, 173],
+            ["fr_ti", 789, 170],
+            ["shoulder_hr", 1037, 258],
             ["hr_knee", 1054, 218],
+            ["hr", 1092, 245],
             ["hr_ti", 1095, 215],
             ["hr_ti1", 1113, 207],
             ["hr_tm", 1134, 203],
             ["hr_to", 1122, 266],
             ["hr_to1", 1163, 232],
-            ["nose", 652, 262],
-            ["shoulder", 814, 271],
-            ["shoulder_fl", 820, 303],
-            ["shoulder_fr", 813, 243],
             ["shoulder_hl", 1017, 301],
-            ["shoulder_hr", 1037, 258],
-            ["spine", 915, 268],
-            ["tail_middle", 1205, 366],
-            ["tail_tip", 1205, 559]
+            ["hl_knee", 992, 331],
+            ["hl", 1022, 365],
+            ["hl_ti", 997, 374],
+            ["hl_ti1", 991, 396],
+            ["hl_tm", 1001, 416],
+            ["hl_to", 1050, 385],
+            ["hl_to1", 1039, 434],
+            ["shoulder_fl", 820, 303],
+            ["fl_knee", 826, 331],
+            ["fl", 802, 353],
+            ["fl_to", 790, 335],
+            ["fl_to1", 767, 345],
+            ["fl_tm", 758, 372],
+            ["fl_ti1", 777, 397],
+            ["fl_ti", 815, 386]
         ]
 
         self.delete_label_buttons()
