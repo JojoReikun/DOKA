@@ -2569,7 +2569,7 @@ QSizeGrip
     <widget class="QPushButton" name="animal_addNewLabels_pushButton">
      <property name="geometry">
       <rect>
-       <x>620</x>
+       <x>750</x>
        <y>10</y>
        <width>100</width>
        <height>25</height>
@@ -2590,8 +2590,8 @@ QSizeGrip
     <widget class="QPushButton" name="animal_confirmAddedLabels_pushButton">
      <property name="geometry">
       <rect>
-       <x>740</x>
-       <y>10</y>
+       <x>750</x>
+       <y>40</y>
        <width>100</width>
        <height>25</height>
       </rect>
@@ -2606,6 +2606,24 @@ QSizeGrip
      </property>
      <property name="text">
       <string>save changes</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>711</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Click on a label to select a default name, if you have names deveating from the default names - confirm with 'save changes'</string>
      </property>
     </widget>
    </widget>
