@@ -136,6 +136,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.label_buttons = []
         self.label_coords = []
         self.labels = []
+        self.labels_orig = self.labels.copy()
         self.button_diameter = 20
 
         self.animal = None
@@ -266,25 +267,53 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # clear list before loading elements from config file
         self.ui.Labels_listWidget.clear()
 
-        style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid green;color: white "
+        style_sheet_green = "QPushButton{border-radius :" + str(
+            self.button_diameter / 2) + ";border: 2px solid green;color: white }"
+
+        style_sheet_grey = "QPushButton{border-radius :" + str(
+            int(self.button_diameter / 2)) + ";border: 2px solid grey;color: white}"
         QToolTip.setFont(QFont('SansSerif', 9))
 
         label_count = 0
 
-        for i, label in enumerate(self.labels):
-            if label != "bodyparts":
-                if i < 10:
-                    self.add_labels("(0" + str(i) + ")" + "  " + label)
-                else:
-                    self.add_labels("(" + str(i) + ")" + "  " + label)
-                for elem in range(len(self.label_coords)):
-                    # if the label is listed as a default label, or as a reassigned label, colour the respective button
-                    if label == self.label_coords[elem][0] or [self.label_coords[elem][0],
-                                                               label] in self.label_reassignment:
-                        if self.label_buttons[elem].styleSheet() != style_sheet:
-                            self.label_buttons[elem].setStyleSheet(style_sheet)
-                            self.label_buttons[elem].setToolTip('label: <b>' + label + '</b>')
-                        break
+        for i, label in enumerate(self.label_coords):
+            found = ""
+            for elem in range(len(self.labels)):
+                # if the label is listed as a default label or as a reassigned label, colour the respective button
+                # we start by checking for reassigned labels
+                if [label[0], self.labels_orig[elem]] in self.label_reassignment:
+                    self.label_buttons[i].setStyleSheet(style_sheet_green)
+                    self.label_buttons[i].setToolTip('label: <b>' + self.labels_orig[elem] + '</b>')
+
+                    # try find matching entry (only relevant, when a label has been previously incorrectly assigned
+                    try:
+                        orig_button = \
+                            self.label_reassignment[self.label_reassignment.index([label[0], self.labels_orig[elem]])][
+                                1]
+                        # find entry in label_coords
+                        ind = [i[0] for i in self.label_coords].index(orig_button)
+                        # set old button, corresponding to the original label, to grey/unassigned
+                        self.label_buttons[ind].setStyleSheet(style_sheet_grey)
+                        self.label_buttons[ind].setToolTip('click to assign label from <b>config</b> file')
+                    except:
+                        pass
+                    found = self.labels_orig[elem]
+                    break
+
+                # if the button has not been reassigned we check the labels for an entry
+                if label[0] == self.labels[elem]:
+                    self.label_buttons[i].setStyleSheet(style_sheet_green)
+                    self.label_buttons[i].setToolTip('label: <b>' + self.labels_orig[elem] + '</b>')
+
+                    found = self.labels_orig[elem]
+                    break
+
+            if i < 10:
+                self.add_labels("(0" + str(i) + ")" + "  " + found)
+            else:
+                self.add_labels("(" + str(i) + ")" + "  " + found)
+
+            if found != "":
                 label_count += 1
 
         self.ui.Labels_listWidget.sortItems(QtCore.Qt.AscendingOrder)
@@ -296,8 +325,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         # get labels
         self.labels = cfg['labels']
-
-        self.update_labels()
+        self.labels_orig = self.labels.copy()
 
         # labels = ";   ".join(labels)  # bring list in gui printable format
         # self.ui.Info_text_label.setText(labels)
@@ -400,15 +428,19 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         for num, label in enumerate(self.label_coords):
             # create button for each label
             self.label_buttons.append(QPushButton(str(num), self))
-            self.label_buttons[-1].setGeometry(label[1] - self.button_diameter / 2, label[2] - self.button_diameter / 2,
+            self.label_buttons[-1].setGeometry(int(label[1] - self.button_diameter / 2),
+                                               int(label[2] - self.button_diameter / 2),
                                                self.button_diameter, self.button_diameter)
 
             # setting radius and border
-            style_sheet = "border-radius :" + str(self.button_diameter / 2) + ";border: 2px solid grey;color: white "
-            self.label_buttons[-1].setStyleSheet(style_sheet)
+            style_sheet_grey = "QPushButton{border-radius :" + str(
+                int(self.button_diameter / 2)) + ";border: 2px solid grey;color: white}"
+            self.label_buttons[-1].setStyleSheet(style_sheet_grey)
             self.label_buttons[-1].setFont(QFont('Times', 9))
             # set up mouse over text
             self.label_buttons[-1].setToolTip('click to assign label from <b>config</b> file')
+            # to set custom stylesheets for QToolTip
+            # self.label_buttons[-1].setStyleSheet("QToolTip{background-color: black;color:white;border:black solid 1px}")
             # connect to label select function. Using functools.partial to pass the number of the label as an additional
             # argument to reuse the same dialog function for all label buttons
             self.label_buttons[-1].clicked.connect(partial(self.open_label_dialog, num))
@@ -423,15 +455,13 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
                     dlg.comboBoxLabels.addItem(label)
             if dlg.exec_():
                 self.log_info("assigned " + self.label_buttons[num].text() + " to " + dlg.comboBoxLabels.currentText())
-                new_assignment = [self.label_buttons[num].text(), dlg.comboBoxLabels.currentText()]
+                new_assignment = [self.label_coords[num][0], dlg.comboBoxLabels.currentText()]
                 # remove previous reassignment, if present
                 if len(self.label_reassignment) > 0:
                     for i, pair in enumerate(self.label_reassignment):
                         if pair[0] == new_assignment[0]:
                             del self.label_reassignment[i]
                 self.label_reassignment.append(new_assignment)
-
-                self.update_labels()
 
                 # update existing project to display newly available calculations
                 self.confirmExistingProject()
