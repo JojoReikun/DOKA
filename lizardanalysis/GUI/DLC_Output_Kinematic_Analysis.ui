@@ -2586,6 +2586,9 @@ QSizeGrip
      <property name="text">
       <string>add new labels</string>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="animal_confirmAddedLabels_pushButton">
      <property name="geometry">
