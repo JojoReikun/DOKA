@@ -140,6 +140,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.button_diameter = 20
 
         self.animal = None
+        self.animal_image_size = None
         # create list of translated labels to use arbitrary naming convention
         # format: ["name_in_DOKA","name_in_config"],[]...
         self.label_reassignment = []
@@ -162,6 +163,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Animal_spider_pushButton.pressed.connect(self.select_Spider)
         self.ui.Animal_ant_pushButton.pressed.connect(self.select_Ant)
         self.ui.Animal_stick_pushButton.pressed.connect(self.select_Stick)
+
+        self.ui.animal_addNewLabels_pushButton.clicked.connect(self.add_new_labels)
+        self.ui.animal_confirmAddedLabels_pushButton.pressed.connect(self.save_changes)
 
         self.ui.letsGo_pushButton.pressed.connect(self.start_analysis)
 
@@ -342,13 +346,13 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         # check for label reassignment when re(loading) project configuration
         if len(self.label_reassignment) > 0:
-            print(self.label_reassignment)
+            print("label reassignment: ", self.label_reassignment)
             for reassignment in self.label_reassignment:
                 for i, label in enumerate(cfg['labels']):
                     if label == reassignment[1]:
                         cfg['labels'][i] = reassignment[0]
 
-        print(cfg['labels'])
+        print("config labels: ", cfg['labels'])
 
         try:
             calculations_checked, calculations_checked_namelist, calculations_all_list = read_in_files.check_calculation_requirements(
@@ -380,6 +384,25 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.project_loaded = True
         self.update_labels()
+
+
+    ### add enw labels to animal: ###
+    def add_new_labels(self):
+        """
+        this function enables the user to click onto the lizard image and generate new labels with left click,
+        move them with dragging and delete them with middle mouse button.
+        New labels will be stored as lists of the format ["name", x, y], where x and y are the coordinates in the image.
+        :return:
+        """
+        # TODO: get the correct size of image from self.animal_image_size in px to define coordinates correctly
+        # create list with new labels with the format: ["name", x, y]
+        return
+
+    def save_changes(self):
+        # append labels to self.label_coords
+        self.ui.animal_addNewLabels_pushButton.setChecked(False)
+        return
+
 
     ### INFO SECTION ###
 
@@ -473,6 +496,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Lizard(self):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
         self.ui.animal_QLabel.setPixmap(lizard_img)
+        self.animal_image_size = self.ui.animal_QLabel.size()
+        print("animal_image_size: ", self.animal_image_size)
         self.animal = "lizard"
         self.log_info("Selected animal : " + self.animal)
 
@@ -527,6 +552,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Spider(self):
         spider_img = QPixmap('GUI\\spider_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+        self.animal_image_size = self.ui.animal_QLabel.size()
+        print("animal_image_size: ", self.animal_image_size)
         self.animal = "spider"
         self.log_info("Selected animal : " + self.animal)
 
@@ -570,6 +597,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Ant(self):
         spider_img = QPixmap('GUI\\ant_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+        self.animal_image_size = self.ui.animal_QLabel.size()
+        print("animal_image_size: ", self.animal_image_size)
         self.animal = "ant"
         self.log_info("Selected animal : " + self.animal)
 
@@ -611,6 +640,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Stick(self):
         spider_img = QPixmap('GUI\\stick_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
+        self.animal_image_size = self.ui.animal_QLabel.size()
+        print("animal_image_size: ", self.animal_image_size)
         self.animal = "stick"
         self.log_info("Selected animal : " + self.animal)
 

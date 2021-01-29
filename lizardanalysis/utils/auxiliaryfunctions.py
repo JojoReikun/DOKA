@@ -244,7 +244,7 @@ def find_conversion_factor_for_spider(filename):
                           (92, 111): 2.58,
                           (112, 126): 2.58}
     spidername = filename.split(sep="_")[0]
-    spidernumber = int(''.join(list(filter(str.isdigit, spidername))))
+    spidernumber = int(''.join(list(filter(str.isdigit, spidername))))      # find digits in string
     #print(f"spidername: {spidername}, spidernumber: {spidernumber}")
 
     conv_fac = np.nan
