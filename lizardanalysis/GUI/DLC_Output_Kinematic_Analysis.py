@@ -1514,6 +1514,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.animal_addNewLabels_pushButton.setFont(font)
         self.animal_addNewLabels_pushButton.setStyleSheet("background-color: rgb(153, 50, 50)")
+        self.animal_addNewLabels_pushButton.setCheckable(True)
         self.animal_addNewLabels_pushButton.setObjectName("animal_addNewLabels_pushButton")
         self.animal_confirmAddedLabels_pushButton = QtWidgets.QPushButton(self.Label_Assignment_Frame)
         self.animal_confirmAddedLabels_pushButton.setGeometry(QtCore.QRect(750, 40, 100, 25))
