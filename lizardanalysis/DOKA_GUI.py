@@ -135,6 +135,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_loaded = False
         self.label_buttons = []
         self.new_label_buttons = []
+        self.x_coord = None
+        self.y_coord = None
         self.label_coords = []
         self.labels = []
         self.labels_orig = self.labels.copy()
@@ -175,15 +177,40 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.letsGo_pushButton.pressed.connect(self.start_analysis)
 
     ###
-    # (load / create) project functions
-    def mousePressEvent(self, event):
-        # TODO: Doesn't work, crashes when button is checked
-        if event.button() == QtCore.Qt.LeftButton and self.ui.animal_addNewLabels_pushButton.isChecked():
-            print("press Left")
-            self.x_coord = event.x()
-            self.y_coord = event.y()
-            print("mouse click: ", self.x_coord, self.y_coord)
+    # add enw labels functions:
+    def mouseLabelPos(self, QMouseEvent):  # also tried mousePressEvent...
+        # TODO: Doesn't work, crashes when button is checked with if condition uncommmented, freezes (infinity loop??) like this.
+        print("mouse event")
+        # if QMouseEvent.button() == QtCore.Qt.LeftButton:
+        self.x_coord = QMouseEvent.pos()[0]
+        self.y_coord = QMouseEvent.pos()[1]
+        print("mouse click: ", QMouseEvent.pos())
 
+        name = "name"
+        self.new_labels.append([name, self.x_coord, self.y_coord])
+        self.draw_new_label_button()
+
+    def draw_new_label_button(self):
+        """ draws the last added label"""
+        self.new_label_buttons.append(QPushButton(str(len(self.label_buttons) + len(self.new_labels) + 1), self))
+        self.new_label_buttons[-1].setGeometry(int(self.new_labels[-1][1] - self.button_diameter / 2),
+                                               int(self.new_labels[-1][2] - self.button_diameter / 2),
+                                               self.button_diameter, self.button_diameter)
+        # setting radius and border
+        style_sheet_grey = "QPushButton{border-radius :" + str(
+            int(self.button_diameter / 2)) + ";border: 2px solid blue;color: white}"
+        self.new_label_buttons[-1].setStyleSheet(style_sheet_grey)
+        self.new_label_buttons[-1].setFont(QFont('Times', 9))
+        # set up mouse over text
+        self.new_label_buttons[-1].setToolTip('click to assign label from <b>config</b> file')
+        # to set custom stylesheets for QToolTip
+        # self.label_buttons[-1].setStyleSheet("QToolTip{background-color: black;color:white;border:black solid 1px}")
+        # connect to label select function. Using functools.partial to pass the number of the label as an additional
+        # argument to reuse the same dialog function for all label buttons
+        self.new_label_buttons[-1].clicked.connect(partial(self.open_label_dialog, (len(self.label_buttons) + len(self.new_labels) + 1)))
+        self.new_label_buttons[-1].show()
+
+    # (load / create) project functions
     def set_project_name(self):
         self.project_name = self.ui.Project_name_lineEdit.text()
         self.setWindowTitle("DLC Output Kinematic Analysis" + " - " + self.project_name)
@@ -397,10 +424,10 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_loaded = True
         self.update_labels()
 
-    def add_new_label_buttons_threaded(self):
-        self.draw_new_label_buttons()
+    def add_new_labels_threaded(self, progress_callback):
+        self.ui.animal_QLabel.mousePressEvent = self.mouseLabelPos
 
-    ### add enw labels to animal: ###
+    ### add new labels to animal: ###
     def add_new_labels(self):
         """
         this function enables the user to click onto the lizard image and generate new labels with left click,
@@ -422,14 +449,12 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.ui.animal_addNewLabels_pushButton.setChecked(True)
         print("button is checked: ", self.ui.animal_addNewLabels_pushButton.isChecked())
-        name = "name"
-        self.new_labels.append([name, self.x_coord, self.y_coord])
+
         worker = Worker(self.add_new_labels_threaded)
         self.threadpool.start(worker)
 
         # TODO: get the correct size of image from self.animal_image_size in px to define coordinates correctly
         # create list with new labels with the format: ["name", x, y]
-        return
 
     def save_changes(self):
         self.ui.animal_addNewLabels_pushButton.setChecked(False)
@@ -437,7 +462,6 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # append labels to self.label_coords
         for new_label in self.new_labels:
             self.label_coords.append(new_label)
-        return
 
 
     ### INFO SECTION ###
@@ -504,26 +528,6 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             # argument to reuse the same dialog function for all label buttons
             self.label_buttons[-1].clicked.connect(partial(self.open_label_dialog, num))
             self.label_buttons[-1].show()
-
-    def draw_new_label_button(self):
-        for num, label in enumerate(self.new_labels):
-            self.new_label_buttons.append(QPushButton(str(len(self.label_buttons)+num), self))
-            self.new_label_buttons[-1].setGeometry(int(label[1] - self.button_diameter / 2),
-                                               int(label[2] - self.button_diameter / 2),
-                                               self.button_diameter, self.button_diameter)
-            # setting radius and border
-            style_sheet_grey = "QPushButton{border-radius :" + str(
-                int(self.button_diameter / 2)) + ";border: 2px solid blue;color: white}"
-            self.new_label_buttons[-1].setStyleSheet(style_sheet_grey)
-            self.new_label_buttons[-1].setFont(QFont('Times', 9))
-            # set up mouse over text
-            self.new_label_buttons[-1].setToolTip('click to assign label from <b>config</b> file')
-            # to set custom stylesheets for QToolTip
-            # self.label_buttons[-1].setStyleSheet("QToolTip{background-color: black;color:white;border:black solid 1px}")
-            # connect to label select function. Using functools.partial to pass the number of the label as an additional
-            # argument to reuse the same dialog function for all label buttons
-            self.new_label_buttons[-1].clicked.connect(partial(self.open_label_dialog, num))
-            self.new_label_buttons[-1].show()
 
     def open_label_dialog(self, num):
         if self.project_loaded:
