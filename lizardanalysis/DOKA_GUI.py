@@ -134,6 +134,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.updateProgress(self.progress)
         self.project_loaded = False
         self.label_buttons = []
+        self.new_label_buttons = []
         self.label_coords = []
         self.labels = []
         self.labels_orig = self.labels.copy()
@@ -141,6 +142,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.animal = None
         self.animal_image_size = None
+        self.QLabel_topcorner = (530, 180)      # the top corner of the Qlabel which contains the pixmap image
+        self.new_label_counter = 0
+        self.new_labels = []
         # create list of translated labels to use arbitrary naming convention
         # format: ["name_in_DOKA","name_in_config"],[]...
         self.label_reassignment = []
@@ -164,6 +168,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.ui.Animal_ant_pushButton.pressed.connect(self.select_Ant)
         self.ui.Animal_stick_pushButton.pressed.connect(self.select_Stick)
 
+        self.ui.animal_addNewLabels_pushButton.setCheckable(True)
         self.ui.animal_addNewLabels_pushButton.clicked.connect(self.add_new_labels)
         self.ui.animal_confirmAddedLabels_pushButton.pressed.connect(self.save_changes)
 
@@ -171,6 +176,13 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
     ###
     # (load / create) project functions
+    def mousePressEvent(self, event):
+        # TODO: Doesn't work, crashes when button is checked
+        if event.button() == QtCore.Qt.LeftButton and self.ui.animal_addNewLabels_pushButton.isChecked():
+            print("press Left")
+            self.x_coord = event.x()
+            self.y_coord = event.y()
+            print("mouse click: ", self.x_coord, self.y_coord)
 
     def set_project_name(self):
         self.project_name = self.ui.Project_name_lineEdit.text()
@@ -385,6 +397,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_loaded = True
         self.update_labels()
 
+    def add_new_label_buttons_threaded(self):
+        self.draw_new_label_buttons()
 
     ### add enw labels to animal: ###
     def add_new_labels(self):
@@ -394,13 +408,35 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         New labels will be stored as lists of the format ["name", x, y], where x and y are the coordinates in the image.
         :return:
         """
+        # test if project has been loaded yet
+        # TODO: uncomment after testing
+        # if self.animal is not None:
+        #     # read in the config file: get labels and number of files
+        #     if len(self.project_config_file) > 0:
+        #         ## put code below here!
+        #     else:
+        #         self.log_warning("select a config file to open an existing project first!")
+        # else:
+        #     self.log_warning("Select an animal before loading your project!")
+
+
+        self.ui.animal_addNewLabels_pushButton.setChecked(True)
+        print("button is checked: ", self.ui.animal_addNewLabels_pushButton.isChecked())
+        name = "name"
+        self.new_labels.append([name, self.x_coord, self.y_coord])
+        worker = Worker(self.add_new_labels_threaded)
+        self.threadpool.start(worker)
+
         # TODO: get the correct size of image from self.animal_image_size in px to define coordinates correctly
         # create list with new labels with the format: ["name", x, y]
         return
 
     def save_changes(self):
-        # append labels to self.label_coords
         self.ui.animal_addNewLabels_pushButton.setChecked(False)
+        print("button is checked: ", self.ui.animal_addNewLabels_pushButton.isChecked())
+        # append labels to self.label_coords
+        for new_label in self.new_labels:
+            self.label_coords.append(new_label)
         return
 
 
@@ -469,6 +505,26 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.label_buttons[-1].clicked.connect(partial(self.open_label_dialog, num))
             self.label_buttons[-1].show()
 
+    def draw_new_label_button(self):
+        for num, label in enumerate(self.new_labels):
+            self.new_label_buttons.append(QPushButton(str(len(self.label_buttons)+num), self))
+            self.new_label_buttons[-1].setGeometry(int(label[1] - self.button_diameter / 2),
+                                               int(label[2] - self.button_diameter / 2),
+                                               self.button_diameter, self.button_diameter)
+            # setting radius and border
+            style_sheet_grey = "QPushButton{border-radius :" + str(
+                int(self.button_diameter / 2)) + ";border: 2px solid blue;color: white}"
+            self.new_label_buttons[-1].setStyleSheet(style_sheet_grey)
+            self.new_label_buttons[-1].setFont(QFont('Times', 9))
+            # set up mouse over text
+            self.new_label_buttons[-1].setToolTip('click to assign label from <b>config</b> file')
+            # to set custom stylesheets for QToolTip
+            # self.label_buttons[-1].setStyleSheet("QToolTip{background-color: black;color:white;border:black solid 1px}")
+            # connect to label select function. Using functools.partial to pass the number of the label as an additional
+            # argument to reuse the same dialog function for all label buttons
+            self.new_label_buttons[-1].clicked.connect(partial(self.open_label_dialog, num))
+            self.new_label_buttons[-1].show()
+
     def open_label_dialog(self, num):
         if self.project_loaded:
             dlg = LabelSelectDialog(self)
@@ -496,7 +552,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Lizard(self):
         lizard_img = QPixmap('GUI\\lizard_shape.svg')
         self.ui.animal_QLabel.setPixmap(lizard_img)
-        self.animal_image_size = self.ui.animal_QLabel.size()
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
+
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "lizard"
         self.log_info("Selected animal : " + self.animal)
@@ -552,7 +609,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Spider(self):
         spider_img = QPixmap('GUI\\spider_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
-        self.animal_image_size = self.ui.animal_QLabel.size()
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "spider"
         self.log_info("Selected animal : " + self.animal)
@@ -597,7 +654,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Ant(self):
         spider_img = QPixmap('GUI\\ant_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
-        self.animal_image_size = self.ui.animal_QLabel.size()
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "ant"
         self.log_info("Selected animal : " + self.animal)
@@ -640,7 +697,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
     def select_Stick(self):
         spider_img = QPixmap('GUI\\stick_shape.svg')
         self.ui.animal_QLabel.setPixmap(spider_img)
-        self.animal_image_size = self.ui.animal_QLabel.size()
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "stick"
         self.log_info("Selected animal : " + self.animal)

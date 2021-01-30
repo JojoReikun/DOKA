@@ -213,8 +213,9 @@ QPushButton::pressed
 
 QPushButton::checked
 {
-	background-color: #bd5355;
-	border: 1px solid #bd5355;
+	color: #54aad3;
+	background-color: #450505;
+	border: 2px solid #bd5355;
 
 }
 
