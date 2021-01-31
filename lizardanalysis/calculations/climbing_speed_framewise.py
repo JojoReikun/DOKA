@@ -33,7 +33,7 @@ def climbing_speed_framewise(**kwargs):
     nose_coords = {}
     hip_coords = {}
     for i in range(data_rows_count):
-        nose_coords[i] = (data.loc[i][scorer, 'nose', 'x'], data.loc[i][scorer, 'nose', 'y'])
+        nose_coords[i] = (data.loc[i][scorer, 'Nose', 'x'], data.loc[i][scorer, 'Nose', 'y'])
         hip_coords[i] = (data.loc[i][scorer, 'Hip', 'x'], data.loc[i][scorer, 'Hip', 'y'])
         i += 1
     #print('nose coordinates: ', nose_coords)
@@ -43,7 +43,7 @@ def climbing_speed_framewise(**kwargs):
     nose_speeds = []
     hip_speeds = []
     for j, coord in zip(range(1, len(nose_coords)), nose_coords):
-        nose_likelihood = data.loc[j][scorer, 'nose', 'likelihood']
+        nose_likelihood = data.loc[j][scorer, 'Nose', 'likelihood']
         hip_likelihood = data.loc[j][scorer, 'Hip', 'likelihood']
         # only include tracking points with a likelihood >= limit
         # calculate nose speed

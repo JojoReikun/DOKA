@@ -16,7 +16,8 @@ def point_amplitudes_to_bA(**kwargs):
     scorer = data.columns[1][0]
 
     # define list of points for which to get frame-wise amplitude to body axis
-    points = ['Spine', 'Tail_middle', 'Tail_tip']
+    points = ['Spine_A', 'Spine_B', 'Spine_C', 'Tail_A', 'Tail_B', 'Tail_C', 'Tail_Tip']
+    #points = ['Spine', 'Tail_middle', 'Tail_tip']
 
     # ceate empty result dict
     results = {}

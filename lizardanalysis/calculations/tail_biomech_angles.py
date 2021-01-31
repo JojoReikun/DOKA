@@ -7,22 +7,30 @@ def tail_biomech_angles(**kwargs):
 
     #print('tail_angles')
 
+    spine_label = 'Spine_B'
+    tail_label = 'Tail_B'
+    tail_tip_label = 'Tail_Tip'
+
+    # spine_label = 'Spine
+    # tail_label = 'Tail_B'
+    # tail_tip_label = 'Tail_tip'
+
     # for lizards:
     tail_angles = ['cranial_bA', 'prox_bA', 'tip_bA', 'prox_dist', 'dist_bA', 'cranial_caudal']
     # dictionary to define which label points are needed for building the vectors
-    tail_angle_vector_points = {'cranial_bA': ['Hip', 'Shoulder', 'Spine'],
-                                'prox_bA': ['Hip', 'Shoulder', 'Tail_middle'],
-                                'tip_bA': ['Hip', 'Shoulder', 'Tail_tip'],
-                                'prox_dist': ['Hip', 'Tail_middle', 'Tail_tip'],
-                                'dist_bA': ['Tail_middle', 'Tail_tip', 'Hip', 'Shoulder'],
-                                'cranial_caudal': ['Hip', 'Shoulder', 'Spine']}
+    tail_angle_vector_points = {'cranial_bA': ['Hip', 'Shoulder', spine_label],
+                                'prox_bA': ['Hip', 'Shoulder', tail_label],
+                                'tip_bA': ['Hip', 'Shoulder', tail_tip_label],
+                                'prox_dist': ['Hip', tail_label, tail_tip_label],
+                                'dist_bA': [tail_label, tail_tip_label, 'Hip', 'Shoulder'],
+                                'cranial_caudal': ['Hip', 'Shoulder', spine_label]}
     # dictionary to define vectors and needed labels
-    tail_angle_vectors = {'cranial_bA': (['Shoulder', 'Spine'], ['Shoulder', 'Hip']),
-                          'prox_bA': (['Hip', 'Tail_middle'], ['Shoulder', 'Hip']),
-                          'tip_bA': (['Hip', 'Tail_tip'], ['Shoulder', 'Hip']),
-                          'prox_dist': (['Hip', 'Tail_middle'], ['Tail_middle', 'Tail_tip']),
-                          'dist_bA': (['Tail_middle', 'Tail_tip'], ['Shoulder', 'Hip']),
-                          'cranial_caudal': (['Shoulder', 'Spine'], ['Spine', 'Hip'])}
+    tail_angle_vectors = {'cranial_bA': (['Shoulder', spine_label], ['Shoulder', 'Hip']),
+                          'prox_bA': (['Hip', tail_label], ['Shoulder', 'Hip']),
+                          'tip_bA': (['Hip', tail_tip_label], ['Shoulder', 'Hip']),
+                          'prox_dist': (['Hip', tail_label], [tail_label, tail_tip_label]),
+                          'dist_bA': ([tail_label, tail_tip_label], ['Shoulder', 'Hip']),
+                          'cranial_caudal': (['Shoulder', spine_label], [spine_label, 'Hip'])}
 
     # define necessary **kwargs:
     data = kwargs.get('data')

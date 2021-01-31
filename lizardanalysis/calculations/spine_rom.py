@@ -24,6 +24,10 @@ def spine_rom(**kwargs):
     feet = animal_settings.get_list_of_feet(animal)
     max_stride_phase_count = 1000
     active_columns = []
+
+    spine_label = 'Spine_B'
+    #spine_label = 'Spine'
+
     for foot in feet:
         active_columns.append("stepphase_{}".format(foot))
 
@@ -54,16 +58,16 @@ def spine_rom(**kwargs):
                 # calculate the vectors: Spine-Shoulder and Spine-Hip
                 for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                     shoulder_likelihood = data.loc[j, (scorer, "Shoulder", "likelihood")]
-                    spine_likelihood = data.loc[j, (scorer, "Spine", "likelihood")]
+                    spine_likelihood = data.loc[j, (scorer, spine_label, "likelihood")]
                     hip_likelihood = data.loc[j, (scorer, "Hip", "likelihood")]
 
                     # filters data points of labels for likelihood
                     if shoulder_likelihood >= likelihood and spine_likelihood >= likelihood and hip_likelihood >= likelihood:
                         spine_shoulder_vector = (
-                        (data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
-                        (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
-                        spine_hip_vector = ((data.loc[j, (scorer, "Spine", "x")] - data.loc[j, (scorer, "Hip", "x")]),
-                                            (data.loc[j, (scorer, "Spine", "y")] - data.loc[j, (scorer, "Hip", "y")]))
+                        (data.loc[j, (scorer, spine_label, "x")] - data.loc[j, (scorer, "Shoulder", "x")]),
+                        (data.loc[j, (scorer, spine_label, "y")] - data.loc[j, (scorer, "Shoulder", "y")]))
+                        spine_hip_vector = ((data.loc[j, (scorer, spine_label, "x")] - data.loc[j, (scorer, "Hip", "x")]),
+                                            (data.loc[j, (scorer, spine_label, "y")] - data.loc[j, (scorer, "Hip", "y")]))
 
                         # calculate the angles from both vectors to body-axis
                         body_axis = calc_body_axis(data, j, scorer)

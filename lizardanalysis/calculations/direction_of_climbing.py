@@ -25,12 +25,11 @@ def direction_of_climbing(**kwargs):
     scorer = data.columns[1][0]
     # print('scorer: ', scorer)
 
-    # TODO: filter columns of used labels for likelihood BEFORE calculation
-    likelihood = 0.90
     # nose_coords = data[scorer, 'Nose']
     # nose_coords = nose_coords[nose_coords.likelihood >= 0.90]
 
-    nose_coords = data[scorer, 'nose', 'x']
+    # TODO: make spelling of labels independent on first letter being lower or upper case
+    nose_coords = data[scorer, 'Nose', 'x']
     # print(nose_coords.head())
 
     if clicked == 1:

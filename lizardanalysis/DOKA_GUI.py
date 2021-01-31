@@ -190,7 +190,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.new_labels.append([name, self.x_coord, self.y_coord])
         self.draw_new_label_button()
 
-    def draw_new_label_button(self):
+    def draw_new_label_button_threaded(self, progress_callback):
         """ draws the last added label"""
         self.new_label_buttons.append(QPushButton(str(len(self.label_buttons) + len(self.new_labels) + 1), self))
         self.new_label_buttons[-1].setGeometry(int(self.new_labels[-1][1] - self.button_diameter / 2),
@@ -207,8 +207,13 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # self.label_buttons[-1].setStyleSheet("QToolTip{background-color: black;color:white;border:black solid 1px}")
         # connect to label select function. Using functools.partial to pass the number of the label as an additional
         # argument to reuse the same dialog function for all label buttons
-        self.new_label_buttons[-1].clicked.connect(partial(self.open_label_dialog, (len(self.label_buttons) + len(self.new_labels) + 1)))
+        self.new_label_buttons[-1].clicked.connect(
+            partial(self.open_label_dialog, (len(self.label_buttons) + len(self.new_labels) + 1)))
         self.new_label_buttons[-1].show()
+
+    def draw_new_label_button(self):
+        worker = Worker(self.draw_new_label_button_threaded)
+        self.threadpool.start(worker)
 
     # (load / create) project functions
     def set_project_name(self):
@@ -425,7 +430,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.update_labels()
 
     def add_new_labels_threaded(self, progress_callback):
-        self.ui.animal_QLabel.mousePressEvent = self.mouseLabelPos
+        self.ui.animal_QLabel.mouseClickEvent = self.mouseLabelPos
 
     ### add new labels to animal: ###
     def add_new_labels(self):
@@ -449,9 +454,10 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.ui.animal_addNewLabels_pushButton.setChecked(True)
         print("button is checked: ", self.ui.animal_addNewLabels_pushButton.isChecked())
+        self.ui.animal_QLabel.mouseClickEvent = self.mouseLabelPos
 
-        worker = Worker(self.add_new_labels_threaded)
-        self.threadpool.start(worker)
+        # worker = Worker(self.add_new_labels_threaded)
+        # self.threadpool.start(worker)
 
         # TODO: get the correct size of image from self.animal_image_size in px to define coordinates correctly
         # create list with new labels with the format: ["name", x, y]
@@ -600,7 +606,11 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             ["fl_to1", 767, 345],
             ["fl_tm", 758, 372],
             ["fl_ti1", 777, 397],
-            ["fl_ti", 815, 386]
+            ["fl_ti", 815, 386],
+            ['spine_a', 862, 266],      # workaround for now just add the new labels as defaults to lizards
+            ['spine_c', 975, 269],
+            ['tail_a', 1126, 317],
+            ['tail_c', 1266, 460]
         ]
 
         self.delete_label_buttons()
