@@ -97,7 +97,7 @@ def footfall_by_switches(**kwargs):
     return results
 
 
-def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, plotting=True):
+def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, plotting=False):
     """
     Smooths the raw input data from foot motion and body motion, using a Butterworth low-pass filter and a
     Savintzky-Golay smoothing algorithm. Then computes the intersection points betw. the smoothed body and foot curves.
