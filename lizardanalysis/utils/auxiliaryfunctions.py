@@ -293,6 +293,28 @@ def find_conversion_factor_for_spider(filename):
     return conv_fac
 
 
+def strip_scorer_column_counter(data, scorer):
+    print("stripping")
+    # TODO: strip .Number from scorer in data frame header...
+    print(data.keys())
+    data.loc['scorer'] = scorer
+    print(data.head())
+    # for j in range(2, len(data.columns)-2):
+    #     print(data.columns)
+    #     print(data.columns[j][0])
+    #     data.columns[j][0] = data.columns[1][0]
+    # data.columns[1:] = ['Leader', 'Time', 'Score']
+    # for i in range(2, len(data.columns)-2):
+    #     data.rename(columns={''})
+    #     print("2:", data.columns[2][0])     # column, row
+    #     print("pre: ", data.columns[i][0])
+    #     print(data.columns[i][0].rsplit("."))
+    #     print("data.iloc[0, i]: ", data.iloc[0, i])
+    #     data.iloc[i, 0] = data.columns[i][0].rsplit(".")[0]
+    #     print("post: ",  data.columns[i][0].rsplit(".")[0])
+    return
+
+
 def calculate_speed(distance_calib, framerate):
     # calculate the speed in mm/second
     speed = distance_calib/(1.0/framerate)  # --> distance * framerate
