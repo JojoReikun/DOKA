@@ -111,36 +111,55 @@ def summarize_stepwise(config):
                     # stance phases might often be empty because numbering can be different
                     # only detect swing phases, then add stance phase which comes before/after?? until next step phase
                     df_section_swing_old = df.loc[(df['stepphase_FR'] == phase) & (df['stepphase_HL'] == phase)]
-                    print("phase: ", phase, "\n", df_section_swing_old)
+                    #print("phase: ", phase, "\n", df_section_swing_old)
                 else:
                     # gets the next swing phase already to get the end for the swing phase
                     df_section_swing_new = df.loc[(df['stepphase_FR'] == phase) & (df['stepphase_HL'] == phase)]
-                    print("phase: ", phase, "\n", df_section_swing_new)
+                    #print("phase: ", phase, "\n", df_section_swing_new)
 
                     if df_section_swing_old.empty == False and df_section_swing_new.empty == False:
                         # gets the stance phase belonging after df_section_swing_old
                         df_section_stance_indexSTART = list(df_section_swing_old.index)[-1]
                         df_section_stance_indexEND = list(df_section_swing_new.index)[0]-1
                         df_section_stance = df.iloc[df_section_stance_indexSTART:df_section_stance_indexEND]
-                        print("stance {}: \n".format(FR_HL_stepphases[j-1]), df_section_stance)
+                        #print("stance {}: \n".format(FR_HL_stepphases[j-1]), df_section_stance)
 
                         # combine step-wise data:
                         res_phase = "step_" + ''.join(filter(lambda i: i.isdigit(), FR_HL_stepphases[j-1]))
                         mean_body_deflection = (np.mean(df_section_swing_old['body_deflection_angle']) + np.mean(df_section_stance['body_deflection_angle']))/2.0
                         mean_speed_PXperS = (np.mean(df_section_swing_old['speed_PXperS']) + np.mean(df_section_stance['speed_PXperS']))/2.0
-                        cranial_bA = list(df_section_swing_old["cranial_bA"]).append(list(df_section_stance["cranial_bA"]))
-                        prox_bA = list(df_section_swing_old["prox_bA"]).append(list(df_section_stance["prox_bA"]))
-                        tip_bA = list(df_section_swing_old["tip_bA"]).append(list(df_section_stance["tip_bA"]))
-                        prox_dist = list(df_section_swing_old["prox_dist"]).append(list(df_section_stance["prox_dist"]))
-                        dist_bA = list(df_section_swing_old["dist_bA"]).append(list(df_section_stance["dist_bA"]))
-                        cranial_caudal = list(df_section_swing_old["cranial_caudal"]).append(list(df_section_stance["cranial_caudal"]))
-                        amplitude_Spine_A = list(df_section_swing_old["amplitude_Spine_A"]).append(list(df_section_stance["amplitude_Spine_A"]))
-                        amplitude_Spine_B = list(df_section_swing_old["amplitude_Spine_B"]).append(list(df_section_stance["amplitude_Spine_B"]))
-                        amplitude_Spine_C = list(df_section_swing_old["amplitude_Spine_C"]).append(list(df_section_stance["amplitude_Spine_C"]))
-                        amplitude_Tail_A = list(df_section_swing_old["amplitude_Tail_A"]).append(list(df_section_stance["amplitude_Tail_A"]))
-                        amplitude_Tail_B = list(df_section_swing_old["amplitude_Tail_B"]).append(list(df_section_stance["amplitude_Tail_B"]))
-                        amplitude_Tail_C = list(df_section_swing_old["amplitude_Tail_C"]).append(list(df_section_stance["amplitude_Tail_C"]))
-                        amplitude_Tail_Tip = list(df_section_swing_old["amplitude_Tail_Tip"]).append(list(df_section_stance["amplitude_Tail_Tip"]))
+                        cranial_bA = [i for i in list(df_section_swing_old["cranial_bA"])]+[j for j in list(df_section_stance["cranial_bA"])]
+                        prox_bA = [i for i in list(df_section_swing_old["prox_bA"])]+[j for j in list(df_section_stance["prox_bA"])]
+                        tip_bA = [i for i in list(df_section_swing_old["tip_bA"])]+[j for j in list(df_section_stance["tip_bA"])]
+                        prox_dist = [i for i in list(df_section_swing_old["prox_dist"])]+[j for j in list(df_section_stance["prox_dist"])]
+                        dist_bA = [i for i in list(df_section_swing_old["dist_bA"])]+[j for j in list(df_section_stance["dist_bA"])]
+                        cranial_caudal = [i for i in list(df_section_swing_old["cranial_caudal"])]+[j for j in list(df_section_stance["cranial_caudal"])]
+                        amplitude_Spine_A = [i for i in list(df_section_swing_old["amplitude_Spine_A"])]+[j for j in list(df_section_stance["amplitude_Spine_A"])]
+                        amplitude_Spine_B = [i for i in list(df_section_swing_old["amplitude_Spine_B"])] + [j for j in
+                                                                                                            list(
+                                                                                                                df_section_stance[
+                                                                                                                    "amplitude_Spine_B"])]
+                        amplitude_Spine_C = [i for i in list(df_section_swing_old["amplitude_Spine_C"])] + [j for j in
+                                                                                                            list(
+                                                                                                                df_section_stance[
+                                                                                                                    "amplitude_Spine_C"])]
+                        amplitude_Tail_A = [i for i in list(df_section_swing_old["amplitude_Tail_A"])] + [j for j in
+                                                                                                          list(
+                                                                                                              df_section_stance[
+                                                                                                                  "amplitude_Tail_A"])]
+                        amplitude_Tail_B = [i for i in list(df_section_swing_old["amplitude_Tail_B"])] + [j for j in
+                                                                                                          list(
+                                                                                                              df_section_stance[
+                                                                                                                  "amplitude_Tail_B"])]
+                        amplitude_Tail_C = [i for i in list(df_section_swing_old["amplitude_Tail_C"])] + [j for j in
+                                                                                                          list(
+                                                                                                              df_section_stance[
+                                                                                                                  "amplitude_Tail_C"])]
+                        amplitude_Tail_Tip = [i for i in list(df_section_swing_old["amplitude_Tail_Tip"])] + [j for j in
+                                                                                                              list(
+                                                                                                                  df_section_stance[
+                                                                                                                      "amplitude_Tail_Tip"])]
+
 
                         # write data from df_section_swing_old as swing phase and data from df_section_stance as stance phase of one step to new_step_row
                         # only do in this if loop because this gives complete steps
@@ -173,37 +192,47 @@ def summarize_stepwise(config):
                     # stance phases might often be empty because numbering can be different
                     # only detect swing phases, then add stance phase which comes before/after?? until next step phase
                     df_section_swing_old = df.loc[(df['stepphase_FL'] == phase) & (df['stepphase_HR'] == phase)]
-                    print("phase: ", phase, "\n", df_section_swing_old)
+                    #print("phase: ", phase, "\n", df_section_swing_old)
                 else:
                     # gets the next swing phase already to get the end for the swing phase
                     df_section_swing_new = df.loc[(df['stepphase_FL'] == phase) & (df['stepphase_HR'] == phase)]
-                    print("phase: ", phase, "\n", df_section_swing_new)
+                    #print("phase: ", phase, "\n", df_section_swing_new)
 
                     if df_section_swing_old.empty == False and df_section_swing_new.empty == False:
                         # gets the stance phase belonging after df_section_swing_old
                         df_section_stance_indexSTART = list(df_section_swing_old.index)[-1]
                         df_section_stance_indexEND = list(df_section_swing_new.index)[0] - 1
                         df_section_stance = df.iloc[df_section_stance_indexSTART:df_section_stance_indexEND]
-                        print("stance {}: \n".format(FL_HR_stepphases[j - 1]), df_section_stance)
+                        #print("stance {}: \n".format(FL_HR_stepphases[j - 1]), df_section_stance)
 
                         # combine step-wise data:
                         res_phase = "step_" + ''.join(filter(lambda i: i.isdigit(), FL_HR_stepphases[j - 1]))
                         mean_body_deflection = (np.mean(df_section_swing_old['body_deflection_angle']) + np.mean(df_section_stance['body_deflection_angle'])) / 2.0
                         mean_speed_PXperS = (np.mean(df_section_swing_old['speed_PXperS']) + np.mean(df_section_stance['speed_PXperS'])) / 2.0
                         # TODO: Fix below
-                        cranial_bA = list(df_section_swing_old["cranial_bA"]).append(list(df_section_stance["cranial_bA"]))
-                        prox_bA = list(df_section_swing_old["prox_bA"]).append(list(df_section_stance["prox_bA"]))
-                        tip_bA = list(df_section_swing_old["tip_bA"]).append(list(df_section_stance["tip_bA"]))
-                        prox_dist = list(df_section_swing_old["prox_dist"]).append(list(df_section_stance["prox_dist"]))
-                        dist_bA = list(df_section_swing_old["dist_bA"]).append(list(df_section_stance["dist_bA"]))
-                        cranial_caudal = list(df_section_swing_old["cranial_caudal"]).append(list(df_section_stance["cranial_caudal"]))
-                        amplitude_Spine_A = list(df_section_swing_old["amplitude_Spine_A"]).append(list(df_section_stance["amplitude_Spine_A"]))
-                        amplitude_Spine_B = list(df_section_swing_old["amplitude_Spine_B"]).append(list(df_section_stance["amplitude_Spine_B"]))
-                        amplitude_Spine_C = list(df_section_swing_old["amplitude_Spine_C"]).append(list(df_section_stance["amplitude_Spine_C"]))
-                        amplitude_Tail_A = list(df_section_swing_old["amplitude_Tail_A"]).append(list(df_section_stance["amplitude_Tail_A"]))
-                        amplitude_Tail_B = list(df_section_swing_old["amplitude_Tail_B"]).append(list(df_section_stance["amplitude_Tail_B"]))
-                        amplitude_Tail_C = list(df_section_swing_old["amplitude_Tail_C"]).append(list(df_section_stance["amplitude_Tail_C"]))
-                        amplitude_Tail_Tip = list(df_section_swing_old["amplitude_Tail_Tip"]).append(list(df_section_stance["amplitude_Tail_Tip"]))
+                        cranial_bA = [i for i in list(df_section_swing_old["cranial_bA"])] + [j for j in list(
+                            df_section_stance["cranial_bA"])]
+                        prox_bA = [i for i in list(df_section_swing_old["prox_bA"])] + [j for j in list(
+                            df_section_stance["prox_bA"])]
+                        tip_bA = [i for i in list(df_section_swing_old["tip_bA"])] + [j for j in
+                                                                                      list(df_section_stance["tip_bA"])]
+                        prox_dist = [i for i in list(df_section_swing_old["prox_dist"])] + [j for j in list(
+                            df_section_stance["prox_dist"])]
+                        dist_bA = [i for i in list(df_section_swing_old["dist_bA"])] + [j for j in list(
+                            df_section_stance["dist_bA"])]
+                        cranial_caudal = [i for i in list(df_section_swing_old["cranial_caudal"])] + [j for j in list(
+                            df_section_stance["cranial_caudal"])]
+                        amplitude_Spine_A = [i for i in list(df_section_swing_old["amplitude_Spine_A"])] + [j for j in
+                                                                                                            list(
+                                                                                                                df_section_stance[
+                                                                                                                    "amplitude_Spine_A"])]
+                        amplitude_Spine_B = [i for i in list(df_section_swing_old["amplitude_Spine_B"])] + [j for j in list(df_section_stance["amplitude_Spine_B"])]
+                        amplitude_Spine_C = [i for i in list(df_section_swing_old["amplitude_Spine_C"])] + [j for j in list(df_section_stance["amplitude_Spine_C"])]
+                        amplitude_Tail_A = [i for i in list(df_section_swing_old["amplitude_Tail_A"])] + [j for j in list(df_section_stance["amplitude_Tail_A"])]
+                        amplitude_Tail_B = [i for i in list(df_section_swing_old["amplitude_Tail_B"])] + [j for j in list(df_section_stance["amplitude_Tail_B"])]
+                        amplitude_Tail_C = [i for i in list(df_section_swing_old["amplitude_Tail_C"])] + [j for j in list(df_section_stance["amplitude_Tail_C"])]
+                        amplitude_Tail_Tip = [i for i in list(df_section_swing_old["amplitude_Tail_Tip"])] + [j for j in list(df_section_stance["amplitude_Tail_Tip"])]
+
 
                         # write data from df_section_swing_old as swing phase and data from df_section_stance as stance phase of one step to new_step_row
                         # only do in this if loop because this gives complete steps
