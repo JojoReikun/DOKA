@@ -56,6 +56,15 @@ def summarize_stepwise(config):
     # get a list of all DOKA output files:
     result_file_path, summary_folder, filelist_split, filelist = read_DOKAoutput_files(config=config)
 
+    # TODO: create new dataframe for step-wise combined data
+    column_names = ["speciesID", "runNum", "direction", "footpair", "res_phase", "mean_body_deflection",
+                    "mean_speed_PXperS",
+                    "cranial_bA", "prox_bA", "tip_bA", "prox_dist", "dist_bA", "cranial_caudal",
+                    "amplitude_Spine_A", "amplitude_Spine_B", "amplitude_Spine_C",
+                    "amplitude_Tail_A", "amplitude_Tail_B", "amplitude_Tail_C", "amplitude_Tail_Tip"]
+    step_wise_df = pd.DataFrame(columns=column_names)
+    print(step_wise_df)
+
     # loop through every file and get...:
     for file, file_name in zip(filelist, filelist_split):
         # ... speciesID, trial, direction from the filename
@@ -86,13 +95,6 @@ def summarize_stepwise(config):
         print("---\n", FR_HL_stepphases)
         print(FL_HR_stepphases)
 
-        # TODO: create new dataframe for step-wise combined data
-        column_names = ["speciesID", "runNum", "direction", "footpair", "res_phase", "mean_body_deflection", "mean_speed_PXperS",
-                                        "cranial_bA", "prox_bA", "tip_bA", "prox_dist", "dist_bA", "cranial_caudal",
-                                        "amplitude_Spine_A", "amplitude_Spine_B", "amplitude_Spine_C",
-                                        "amplitude_Tail_A", "amplitude_Tail_B", "amplitude_Tail_C", "amplitude_Tail_Tip"]
-        step_wise_df = pd.DataFrame(columns=column_names)
-        print(step_wise_df)
 
         # loop through every step (pairwise) and get section of data frame for rows where both stepphase columns have same phase
         # --- FR_HL_stepphases
