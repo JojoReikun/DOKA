@@ -13,6 +13,8 @@ def footfall_by_switches(**kwargs):
     likelihood = kwargs.get('likelihood')
     animal = kwargs.get('animal')
 
+    print("likelihood: ", likelihood)
+
     config_file = Path(config).resolve()
     # result folder for footfall plots
     step_detection_folder = os.path.join(str(config_file).rsplit(os.path.sep, 1)[0], "analysis-results",

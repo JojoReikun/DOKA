@@ -17,5 +17,6 @@ from lizardanalysis import calculations
 from lizardanalysis.calculations.read_in_files import analyze_files, initialize
 from lizardanalysis.calculations.write_result_files import summarize_results
 from lizardanalysis.calculations.lizard_morphometrics import calc_morphometrics
+from lizardanalysis.calculations.step_wise_summary import summarize_stepwise
 
 from lizardanalysis.version import __version__, VERSION

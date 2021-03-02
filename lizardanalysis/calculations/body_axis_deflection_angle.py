@@ -7,7 +7,7 @@ def body_axis_deflection_angle(**kwargs):
     df_result_current = kwargs.get('df_result_current')
 
     scorer = data.columns[1][0]
-    auxiliaryfunctions.strip_scorer_column_counter(data, scorer)
+    #auxiliaryfunctions.strip_scorer_column_counter(data, scorer)
 
     results = {}
     results['body_deflection_angle'] = np.full((data_rows_count,), np.NAN)
