@@ -226,7 +226,8 @@ def analyze_files(config, label_reassignment=[], separate_gravity_file=False, li
 
     # check if user set separate gravity file to True
     if separate_gravity_file:
-        Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
+        root = Tk()
+        root.withdraw()  # we don't want a full GUI, so keep the root window from appearing
         gravity_filepath = filedialog.askopenfilename(
             filetype=[('csv files', '*.csv')])  # show an "Open" dialog box and return the path to the selected file
         df_gravity = pd.read_csv(gravity_filepath)  # read in gravity file

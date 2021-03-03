@@ -36,27 +36,44 @@ def read_DOKAoutput_files(config):
     return result_file_path, summary_folder, filelist_split, filelist
 
 
-def create_tail_file():
+def create_tail_file(config):
     ### IMPORTS
     import pandas as pd
-    import os
-    from pathlib import Path
     from tkinter import Tk, filedialog
 
-    Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
-    tail_filepath = filedialog.askopenfilename(filetype=[('csv files', '*.csv')])  # show an "Open" dialog box and return the path to the selected file
+    root = Tk()
+    root.withdraw()  # we don't want a full GUI, so keep the root window from appearing
+    root.call('wm', 'attributes', '.', '-topmost', True)
+    tail_filepath = filedialog.askopenfilename(parent=root, initialdir=config, title="Select tailMass file")  # show an "Open" dialog box and return the path to the selected file
+    root.destroy()
+
     df_tailMorphs = pd.read_csv(tail_filepath)  # read in gravity file
-    nrows = df_tailMorphs.shape()[0]
-    tail_values_list = ["SVL", "tailLength", "bodyMass", "tailMass", "BCOMhip", "TCOMhip"]
+    nrows = df_tailMorphs.shape[0]
+    # create dict which matched tail values with the responding column names in tailMass.csv/df_tailMorphs
+    tail_values_dict = {"SVL":"svlMM_speciesMean",
+                        "tailLength":"tailLengthMM",
+                        "bodyMass":"bodymass",
+                        "tailMass":"tailMassEstimate",
+                        "BCOMhip":"bodyCOMEstimateHip",
+                        "TCOMhip":"TCOM_2"}
+    id_dict = {}
+    #print(list(df_tailMorphs['ID']))
     for i, id in enumerate(list(df_tailMorphs['ID'])):
-        id_dict = {id: {}}
-        for tail_value in tail_values_list:
-            id_dict_values_dict = {}
+        df_subsection_id = df_tailMorphs[df_tailMorphs['ID'] == id]
+        #print(df_subsection_id)
+        id_dict_values_dict = {}
+        for tail_value, tail_column in tail_values_dict.items():
+            id_dict_values_dict[tail_value] = df_subsection_id[tail_column].values[0]
+        id_dict[id] = id_dict_values_dict
+    #print("\n\n\n")
+    print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in id_dict.items()) + "}")
+
+    return id_dict
 
 
-def fill_in_tail_morphs(speciesID):
-
-    tail_dict = {}
+def fill_in_tail_morphs(id_dict, species):
+    species_tailMorphs_dict = id_dict[species]
+    return species_tailMorphs_dict
 
 
 def summarize_stepwise(config):
@@ -84,23 +101,33 @@ def summarize_stepwise(config):
                     "mean_speed_PXperS",
                     "cranial_bA", "prox_bA", "tip_bA", "prox_dist", "dist_bA", "cranial_caudal",
                     "amplitude_Spine_A", "amplitude_Spine_B", "amplitude_Spine_C",
-                    "amplitude_Tail_A", "amplitude_Tail_B", "amplitude_Tail_C", "amplitude_Tail_Tip"]
+                    "amplitude_Tail_A", "amplitude_Tail_B", "amplitude_Tail_C", "amplitude_Tail_Tip",
+                    "svl", "tailLength", "bodyMass", "tailMass", "BCOMhip", "TCOMhip"]
     step_wise_df = pd.DataFrame(columns=column_names)
-    print(step_wise_df)
+    #print(step_wise_df)
 
     # create tail_file_dict which contains tail morphs for species
-    # FUNCTION
+    id_dict = create_tail_file(config)
 
     # loop through every file and get...:
     for file, file_name in zip(filelist, filelist_split):
         # ... speciesID, trial, direction from the filename
+        species = file_name.split("_")[0]
         speciesID = file_name.split("_")[0] + "_" + file_name.split("_")[1]
         runNum = file_name.split("_")[2] + "_" + file_name.split("_")[3]
         direction = file_name.split("_")[4]
 
         ### fill in tail mass, TCOM, BCOM, tailLength means per species ###
-        # FUNCTION
+        species_tailMorphs_dict = fill_in_tail_morphs(id_dict, species)
+        svl = species_tailMorphs_dict["SVL"]
+        tailLength = species_tailMorphs_dict["tailLength"]
+        bodyMass = species_tailMorphs_dict["bodyMass"]
+        tailMass = species_tailMorphs_dict["tailMass"]
+        BCOMhip = species_tailMorphs_dict["BCOMhip"]
+        TCOMhip = species_tailMorphs_dict["TCOMhip"]
 
+
+        ### PROCESS FILE
         print("\n========= ", speciesID, " =========")
         print(runNum, direction)
 
@@ -116,7 +143,7 @@ def summarize_stepwise(config):
         for key, value_list in unique_steps_dict.items():
             unique_steps_dict[key] = list(value_list[value_list != "b'nan'"])
 
-        print(unique_steps_dict)
+        #print(unique_steps_dict)
 
         # find phases that occure in both stepphases of one foot-pair
         FR_HL_stepphases = [i for i in unique_steps_dict['stepphase_FR'] if i in unique_steps_dict['stepphase_HL']]
@@ -136,7 +163,7 @@ def summarize_stepwise(config):
             footpair = "FR_HL"
 
             if "swing" in phase:
-                print("j: ", j)
+                #print("j: ", j)
                 if j == 0 or j == 1:
                     # stance phases might often be empty because numbering can be different
                     # only detect swing phases, then add stance phase which comes before/after?? until next step phase
@@ -177,9 +204,10 @@ def summarize_stepwise(config):
                         new_step_row = [speciesID, runNum, direction, footpair, res_phase, mean_body_deflection, mean_speed_PXperS,
                                         cranial_bA, prox_bA, tip_bA, prox_dist, dist_bA, cranial_caudal,
                                         amplitude_Spine_A, amplitude_Spine_B, amplitude_Spine_C,
-                                        amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip]
+                                        amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip,
+                                        svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip]
 
-                        print("\n==> new_step_row: \n", new_step_row, "\n")
+                        #print("\n==> new_step_row: \n", new_step_row, "\n")
 
                         # append new_step_row to data frame:
                         df_length = len(step_wise_df)
@@ -197,7 +225,7 @@ def summarize_stepwise(config):
             footpair = "FL_HR"
 
             if "swing" in phase:
-                print("j: ", j)
+                #print("j: ", j)
                 if j == 0 or j == 1:
                     # stance phases might often be empty because numbering can be different
                     # only detect swing phases, then add stance phase which comes before/after?? until next step phase
@@ -240,9 +268,10 @@ def summarize_stepwise(config):
                                         mean_speed_PXperS,
                                         cranial_bA, prox_bA, tip_bA, prox_dist, dist_bA, cranial_caudal,
                                         amplitude_Spine_A, amplitude_Spine_B, amplitude_Spine_C,
-                                        amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip]
+                                        amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip,
+                                        svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip]
 
-                        print("\n==> new_step_row: \n", new_step_row, "\n")
+                        #print("\n==> new_step_row: \n", new_step_row, "\n")
 
                         # append new_step_row to data frame:
                         df_length = len(step_wise_df)

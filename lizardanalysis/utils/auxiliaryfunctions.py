@@ -123,6 +123,7 @@ def py_angle_betw_2vectors(v1, v2):
     # return math.degrees(np.arctan2(sinang, cosang))
     return np.rad2deg(np.arccos(cosang))
 
+
 def py_angle_betw_2vectors_atan(v1, v2):
     """Returns the angle in degrees between vectors 'v1' and 'v2'.
     Also gives the direction of deflection.
@@ -298,12 +299,12 @@ def strip_scorer_column_counter(data, scorer):
     # TODO: strip .Number from scorer in data frame header...
     print(data.keys())
     data.loc['scorer'] = scorer
-    print(data.head())
+    #The following j for loop accesses the correct values, but not possible to replace
     # for j in range(2, len(data.columns)-2):
     #     print(data.columns)
     #     print(data.columns[j][0])
     #     data.columns[j][0] = data.columns[1][0]
-    # data.columns[1:] = ['Leader', 'Time', 'Score']
+
     # for i in range(2, len(data.columns)-2):
     #     data.rename(columns={''})
     #     print("2:", data.columns[2][0])     # column, row
