@@ -321,3 +321,39 @@ def calculate_speed(distance_calib, framerate):
     speed = distance_calib/(1.0/framerate)  # --> distance * framerate
     retval = speed
     return retval
+
+
+def estimate_TCOM_label_coords(list_tail_a_x_coords, list_tail_a_y_coords, list_tail_b_x_coords, list_tail_b_y_coords):
+    """
+    takes the x coordinates and y coordinates of the TAIL_A and TAIL_B label of the interval of interest and
+    estimates the tailCOM label position in the middle between the two
+    :param list_tail_a_x_coords:
+    :param list_tail_b_x_coords:
+    :return: list with x values for TCOM and list with y values for TCOM
+    """
+    list_tcom_x_coords = []
+    list_tcom_y_coords = []
+
+    if (len(list_tail_a_x_coords) > 0 and len(list_tail_a_y_coords) > 0 and len(list_tail_b_x_coords) > 0 and len(list_tail_b_y_coords) > 0):
+        # 1) check which way lizard is going --> which of the labels x-coordinates is bigger
+        if list_tail_a_x_coords[0] <= list_tail_b_x_coords[0]:
+            cond_right = True
+        elif list_tail_b_x_coords[0] > list_tail_b_x_coords[0]:
+            cond_left = True
+        # 2) for every entry in list (frame) do: x_tcom = x+((x2-x)/2) and same for y if lizards climbs/runs up/right and
+        # x_tcom = x2+((x-x2)/2) and same for y if lizard climbs/runs down/left
+
+        for coord_xA, coord_xB in zip(list_tail_a_x_coords, list_tail_b_x_coords):
+            if cond_right:
+                tcom_x = coord_xB + ((coord_xA - coord_xB) / 2.0)
+            elif cond_left:
+                tcom_x = coord_xA + ((coord_xB - coord_xA) / 2.0)
+            list_tcom_x_coords.append(tcom_x)
+        for coord_yA, coord_yB in zip(list_tail_a_y_coords, list_tail_b_y_coords):
+            if coord_yA < coord_yB:
+                tcom_y = coord_yA + ((coord_yB - coord_yA) / 2.0)
+            elif coord_yB <= coord_yA:
+                tcom_y = coord_yB + ((coord_yA - coord_yB) / 2.0)
+            list_tcom_y_coords.append(tcom_y)
+
+    return list_tcom_x_coords, list_tcom_y_coords
