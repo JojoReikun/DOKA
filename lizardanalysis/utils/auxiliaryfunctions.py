@@ -334,12 +334,19 @@ def estimate_TCOM_label_coords(list_tail_a_x_coords, list_tail_a_y_coords, list_
     list_tcom_x_coords = []
     list_tcom_y_coords = []
 
+    print(len(list_tail_a_x_coords),
+          len(list_tail_a_y_coords),
+          len(list_tail_b_x_coords),
+          len(list_tail_b_y_coords))
+
     if (len(list_tail_a_x_coords) > 0 and len(list_tail_a_y_coords) > 0 and len(list_tail_b_x_coords) > 0 and len(list_tail_b_y_coords) > 0):
         # 1) check which way lizard is going --> which of the labels x-coordinates is bigger
-        if list_tail_a_x_coords[0] <= list_tail_b_x_coords[0]:
+        if list_tail_a_x_coords[0] >= list_tail_b_x_coords[0]:
             cond_right = True
-        elif list_tail_b_x_coords[0] > list_tail_b_x_coords[0]:
+            cond_left = False
+        elif list_tail_a_x_coords[0] < list_tail_b_x_coords[0]:
             cond_left = True
+            cond_right = False
         # 2) for every entry in list (frame) do: x_tcom = x+((x2-x)/2) and same for y if lizards climbs/runs up/right and
         # x_tcom = x2+((x-x2)/2) and same for y if lizard climbs/runs down/left
 

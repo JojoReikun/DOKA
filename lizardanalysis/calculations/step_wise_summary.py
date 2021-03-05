@@ -76,20 +76,6 @@ def fill_in_tail_morphs(id_dict, species):
     return species_tailMorphs_dict
 
 
-def calculate_tail_kinematics():
-    """
-    calculates the tail angular amplitude, velocity and acceleration of the TCOM relative to the body axis.
-    The average TCOM location of the lizards is ~30% (get correct value).
-    Given that we have 4 labels along the tail (Tail_A, Tail_B, Tail_C, Tail_Tip), where A is 25% tailLength, B 50%,
-    C 75% and Tip 100%, the rough TCOM label is between Tail_A and Tail_B.
-    We did not use the exact TCOM position in percent to average this, because the label positions on the tail jump
-    a bit during tracking.
-    :return: tail_angular_amplitude, tail_angular_velocity, tail_angular_acceleration
-    """
-
-
-
-
 def summarize_stepwise(config):
     """
     Reads in all DOKA output files and summarizes the data step-wise in one big csv document.

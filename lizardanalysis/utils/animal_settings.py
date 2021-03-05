@@ -9,7 +9,8 @@ def set_animal(animal):
     """
     # list of all calculations and their requirements of labels as implemented in the program
     if animal == "lizard":
-        dict = {'direction_of_climbing': ['nose'],
+        dict = {'tail_kinematics': ['tail_a', 'tail_middle', 'hip', 'shoulder'],
+                'direction_of_climbing': ['nose'],
                 'body_axis_deflection_angle': ['shoulder', 'hip'],
                 'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
                 'climbing_speed_framewise': ['nose'],
