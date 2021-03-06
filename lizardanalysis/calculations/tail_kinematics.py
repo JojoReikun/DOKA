@@ -22,9 +22,9 @@ def tail_kinematics(**kwargs):
     data_rows_count = kwargs.get('data_rows_count')
     scorer = data.columns[1][0]
 
-    tail_kinematics = ["tail_angular_amplitude", "tail_angular_velocity", "tail_angular_acceleration"]
+    tail_kinematic_params = ["tail_angular_amplitude", "tail_angular_velocity", "tail_angular_acceleration"]
     results = {}
-    for param in tail_kinematics:
+    for param in tail_kinematic_params:
         results[param] = np.full((data_rows_count,), np.NAN)
 
     ### Calculations
@@ -56,15 +56,22 @@ def tail_kinematics(**kwargs):
         angle_deg = auxiliaryfunctions.py_angle_betw_2vectors_atan(body_axis_vector, tcom_vector)
 
         # add angle to results dataframe
-        results[tail_kinematics[0]][index] = angle_deg
-    print("angular amplitudes: ", results[tail_kinematics[0]])
-    print("length of amplitudes: ", len(results[tail_kinematics[0]]))
+        results[tail_kinematic_params[0]][index] = angle_deg
+    print("angular amplitudes: ", results[tail_kinematic_params[0]])
+    print("length of amplitudes: ", len(results[tail_kinematic_params[0]]))
 
     # calculate the anglular velocity from amplitude list
-    dy = np.diff(results[tail_kinematics[0]])
-    print("length of velocity: ", len(dy))
+    dy = np.diff(results[tail_kinematic_params[0]])
+    np.append(dy, np.nan)
+    for index, val in enumerate(dy):
+        results[tail_kinematic_params[1]][index] = val
 
     # calculate the angular acceleration from velocity list
+    ddy = np.diff(results[tail_kinematic_params[1]])
+    np.append(ddy, np.nan)
+    for index, val in enumerate(ddy):
+        results[tail_kinematic_params[2]][index] = val
 
+    print("{" + "\n".join("{!r}: {!r},".format(k, v) for k, v in results.items()) + "}")
 
-    return
+    return results

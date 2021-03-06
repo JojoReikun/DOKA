@@ -49,6 +49,8 @@ def create_tail_file(config):
 
     df_tailMorphs = pd.read_csv(tail_filepath)  # read in gravity file
     nrows = df_tailMorphs.shape[0]
+
+    print("df_TailMorphs: \n", df_tailMorphs)
     # create dict which matched tail values with the responding column names in tailMass.csv/df_tailMorphs
     tail_values_dict = {"SVL":"svlMM_speciesMean",
                         "tailLength":"tailLengthMM",
@@ -76,6 +78,58 @@ def fill_in_tail_morphs(id_dict, species):
     return species_tailMorphs_dict
 
 
+def plot_ampl_vel_acc_stepwise(step_wise_df, summary_folder):
+    ### IMPORTS:
+    import pandas as pd
+    from matplotlib import pyplot as plt
+    import seaborn as sn
+    import os
+
+    for row in range(step_wise_df.shape[0]):
+        df_active = step_wise_df.iloc[row]
+
+        # create % of stride x-axis list
+        ampl = df_active["angular_amplitude"]
+        x_axis_list = []
+        for i in range(len(ampl)):
+            x_axis_list.append((i/len(ampl))*100)
+        vel = df_active["angular_velocity"]
+        acc = df_active["angular_acceleration"]
+
+        plot_title = df_active["speciesID"] + " " + df_active["runNum"] + " " + df_active["direction"] + " " + df_active["footpair"] + " " + df_active["res_phase"]
+
+        ### PLOT
+        fig, axes = plt.subplots(3, 1, sharex=True)
+        fig.suptitle(plot_title)
+
+        # plot amplitude
+        sn.lineplot(ax=axes[0], x=x_axis_list, y=ampl, color='black')
+        axes[0].set(ylabel="ang ampl")
+        #axes[0].axhline(0, ls="-", linewidth=0.8)
+        axes[0].axhline(df_active["mean_angular_amplitude"], ls="--", linewidth=0.8)
+        axes[0].text(10, df_active["mean_angular_amplitude"] + 1, "mean")
+        # plot velocity
+        sn.lineplot(ax=axes[1], x=x_axis_list, y=vel, color='black')
+        axes[1].set(ylabel="ang. vel")
+        axes[1].axhline(0, ls="-", linewidth=0.8)
+        axes[1].axhline(df_active["rms_angular_velocity"], ls="--", linewidth=0.8)
+        axes[1].text(10, df_active["rms_angular_velocity"] + 0.2, "RMS")
+        # plot acceleration
+        sn.lineplot(ax=axes[2], x=x_axis_list, y=acc, color='black')
+        axes[2].set(ylabel="ang acc", xlabel="% of stride duration")
+        axes[2].axhline(0, ls="-", linewidth=0.8)
+        axes[2].axhline(df_active["rms_angular_acceleration"], ls="--", linewidth=0.8)
+        axes[2].text(10, df_active["rms_angular_acceleration"] + 0.2, "RMS")
+
+        # save plots
+
+        fig1 = plt.gcf()
+        fig1.savefig(os.path.join(summary_folder, "{}.png".format(plot_title)), dpi=300)
+
+        plt.show()
+    return
+
+
 def summarize_stepwise(config):
     """
     Reads in all DOKA output files and summarizes the data step-wise in one big csv document.
@@ -86,26 +140,33 @@ def summarize_stepwise(config):
     import pandas as pd
     import os
     import numpy as np
-    from lizardanalysis.utils import animal_settings
+    from lizardanalysis.utils import animal_settings, auxiliaryfunctions
 
     # SETUP
     feet = animal_settings.get_list_of_feet('lizard')
     stepphase_columns = ["stepphase_{}".format(foot) for foot in feet]
 
+    # ----------------
+    plotting = True
+    # ----------------
+
     print("summarizing data step wise")
     # get a list of all DOKA output files:
     result_file_path, summary_folder, filelist_split, filelist = read_DOKAoutput_files(config=config)
 
-    # TODO: create new dataframe for step-wise combined data
+    # create new dataframe for step-wise combined data
     column_names = ["speciesID", "runNum", "direction", "footpair", "res_phase", "mean_body_deflection",
                     "mean_speed_PXperS",
                     "cranial_bA", "prox_bA", "tip_bA", "prox_dist", "dist_bA", "cranial_caudal",
                     "amplitude_Spine_A", "amplitude_Spine_B", "amplitude_Spine_C",
                     "amplitude_Tail_A", "amplitude_Tail_B", "amplitude_Tail_C", "amplitude_Tail_Tip",
-                    "svl", "tailLength", "bodyMass", "tailMass", "BCOMhip", "TCOMhip"]
+                    "svl", "tailLength", "bodyMass", "tailMass", "BCOMhip", "TCOMhip",
+                    "angular_amplitude", "angular_velocity", "angular_acceleration",
+                    "mean_angular_amplitude", "rms_angular_velocity", "rms_angular_acceleration"]
     step_wise_df = pd.DataFrame(columns=column_names)
     #print(step_wise_df)
 
+    ### PRE-PROCESS
     # create tail_file_dict which contains tail morphs for species
     id_dict = create_tail_file(config)
 
@@ -149,8 +210,8 @@ def summarize_stepwise(config):
         FR_HL_stepphases = [i for i in unique_steps_dict['stepphase_FR'] if i in unique_steps_dict['stepphase_HL']]
         FL_HR_stepphases = [i for i in unique_steps_dict['stepphase_FL'] if i in unique_steps_dict['stepphase_HR']]
 
-        print("---\n", FR_HL_stepphases)
-        print(FL_HR_stepphases)
+        #print("---\n", FR_HL_stepphases)
+        #print(FL_HR_stepphases)
 
 
         # loop through every step (pairwise) and get section of data frame for rows where both stepphase columns have same phase
@@ -183,8 +244,8 @@ def summarize_stepwise(config):
 
                         # combine step-wise data:
                         res_phase = "step_" + ''.join(filter(lambda i: i.isdigit(), FR_HL_stepphases[j-1]))
-                        mean_body_deflection = (np.mean(df_section_swing_old['body_deflection_angle']) + np.mean(df_section_stance['body_deflection_angle']))/2.0
-                        mean_speed_PXperS = (np.mean(df_section_swing_old['speed_PXperS']) + np.mean(df_section_stance['speed_PXperS']))/2.0
+                        mean_body_deflection = (np.nanmean(df_section_swing_old['body_deflection_angle']) + np.nanmean(df_section_stance['body_deflection_angle']))/2.0
+                        mean_speed_PXperS = (np.nanmean(df_section_swing_old['speed_PXperS']) + np.nanmean(df_section_stance['speed_PXperS']))/2.0
                         cranial_bA = [i for i in list(df_section_swing_old["cranial_bA"])]+[j for j in list(df_section_stance["cranial_bA"])]
                         prox_bA = [i for i in list(df_section_swing_old["prox_bA"])]+[j for j in list(df_section_stance["prox_bA"])]
                         tip_bA = [i for i in list(df_section_swing_old["tip_bA"])]+[j for j in list(df_section_stance["tip_bA"])]
@@ -198,14 +259,23 @@ def summarize_stepwise(config):
                         amplitude_Tail_B = [i for i in list(df_section_swing_old["amplitude_Tail_B"])] + [j for j in list(df_section_stance["amplitude_Tail_B"])]
                         amplitude_Tail_C = [i for i in list(df_section_swing_old["amplitude_Tail_C"])] + [j for j in list(df_section_stance["amplitude_Tail_C"])]
                         amplitude_Tail_Tip = [i for i in list(df_section_swing_old["amplitude_Tail_Tip"])] + [j for j in list(df_section_stance["amplitude_Tail_Tip"])]
+                        angular_amplitude = [i for i in list(df_section_swing_old["tail_angular_amplitude"])] + [j for j in list(df_section_stance["tail_angular_amplitude"])]
+                        mean_angular_amplitude = (np.nanmean(df_section_swing_old["tail_angular_amplitude"]) + np.nanmean(df_section_stance["tail_angular_amplitude"]))/2.0
+                        angular_velocity = [i for i in list(df_section_swing_old["tail_angular_velocity"])] + [j for j in list(df_section_stance["tail_angular_velocity"])]
+                        rms_angular_velocity = np.nanmean(auxiliaryfunctions.rmsValue(list(df_section_swing_old["tail_angular_velocity"])) + auxiliaryfunctions.rmsValue(list(df_section_stance["tail_angular_velocity"])))/2.0
+                        angular_acceleration = [i for i in list(df_section_swing_old["tail_angular_acceleration"])] + [j for j in list(df_section_stance["tail_angular_acceleration"])]
+                        rms_angular_acceleration = np.nanmean(auxiliaryfunctions.rmsValue(list(df_section_swing_old["tail_angular_acceleration"])) + auxiliaryfunctions.rmsValue(list(df_section_stance["tail_angular_acceleration"])))/2.0
 
                         # write data from df_section_swing_old as swing phase and data from df_section_stance as stance phase of one step to new_step_row
                         # only do in this if loop because this gives complete steps
+                        # the order of these values has to match dataframe above
                         new_step_row = [speciesID, runNum, direction, footpair, res_phase, mean_body_deflection, mean_speed_PXperS,
                                         cranial_bA, prox_bA, tip_bA, prox_dist, dist_bA, cranial_caudal,
                                         amplitude_Spine_A, amplitude_Spine_B, amplitude_Spine_C,
                                         amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip,
-                                        svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip]
+                                        svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip,
+                                        angular_amplitude, angular_velocity,  angular_acceleration,
+                                        mean_angular_amplitude, rms_angular_velocity, rms_angular_acceleration]
 
                         #print("\n==> new_step_row: \n", new_step_row, "\n")
 
@@ -245,8 +315,8 @@ def summarize_stepwise(config):
 
                         # combine step-wise data:
                         res_phase = "step_" + ''.join(filter(lambda i: i.isdigit(), FL_HR_stepphases[j - 1]))
-                        mean_body_deflection = (np.mean(df_section_swing_old['body_deflection_angle']) + np.mean(df_section_stance['body_deflection_angle'])) / 2.0
-                        mean_speed_PXperS = (np.mean(df_section_swing_old['speed_PXperS']) + np.mean(df_section_stance['speed_PXperS'])) / 2.0
+                        mean_body_deflection = (np.nanmean(df_section_swing_old['body_deflection_angle']) + np.nanmean(df_section_stance['body_deflection_angle'])) / 2.0
+                        mean_speed_PXperS = (np.nanmean(df_section_swing_old['speed_PXperS']) + np.nanmean(df_section_stance['speed_PXperS'])) / 2.0
                         cranial_bA = [i for i in list(df_section_swing_old["cranial_bA"])] + [j for j in list(df_section_stance["cranial_bA"])]
                         prox_bA = [i for i in list(df_section_swing_old["prox_bA"])] + [j for j in list(df_section_stance["prox_bA"])]
                         tip_bA = [i for i in list(df_section_swing_old["tip_bA"])] + [j for j in list(df_section_stance["tip_bA"])]
@@ -260,7 +330,12 @@ def summarize_stepwise(config):
                         amplitude_Tail_B = [i for i in list(df_section_swing_old["amplitude_Tail_B"])] + [j for j in list(df_section_stance["amplitude_Tail_B"])]
                         amplitude_Tail_C = [i for i in list(df_section_swing_old["amplitude_Tail_C"])] + [j for j in list(df_section_stance["amplitude_Tail_C"])]
                         amplitude_Tail_Tip = [i for i in list(df_section_swing_old["amplitude_Tail_Tip"])] + [j for j in list(df_section_stance["amplitude_Tail_Tip"])]
-
+                        angular_amplitude = [i for i in list(df_section_swing_old["tail_angular_amplitude"])] + [j for j in list(df_section_stance["tail_angular_amplitude"])]
+                        mean_angular_amplitude = (np.nanmean(df_section_swing_old["tail_angular_amplitude"]) + np.nanmean(df_section_stance["tail_angular_amplitude"])) / 2.0
+                        angular_velocity = [i for i in list(df_section_swing_old["tail_angular_velocity"])] + [j for j in list(df_section_stance["tail_angular_velocity"])]
+                        rms_angular_velocity = np.nanmean(auxiliaryfunctions.rmsValue(list(df_section_swing_old["tail_angular_velocity"])) + auxiliaryfunctions.rmsValue(list(df_section_stance["tail_angular_velocity"]))) / 2.0
+                        angular_acceleration = [i for i in list(df_section_swing_old["tail_angular_acceleration"])] + [j for j in list(df_section_stance["tail_angular_acceleration"])]
+                        rms_angular_acceleration = np.nanmean(auxiliaryfunctions.rmsValue(list(df_section_swing_old["tail_angular_acceleration"])) + auxiliaryfunctions.rmsValue(list(df_section_stance["tail_angular_acceleration"]))) / 2.0
 
                         # write data from df_section_swing_old as swing phase and data from df_section_stance as stance phase of one step to new_step_row
                         # only do in this if loop because this gives complete steps
@@ -269,7 +344,9 @@ def summarize_stepwise(config):
                                         cranial_bA, prox_bA, tip_bA, prox_dist, dist_bA, cranial_caudal,
                                         amplitude_Spine_A, amplitude_Spine_B, amplitude_Spine_C,
                                         amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip,
-                                        svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip]
+                                        svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip,
+                                        angular_amplitude, angular_velocity, angular_acceleration,
+                                        mean_angular_amplitude, rms_angular_velocity, rms_angular_acceleration]
 
                         #print("\n==> new_step_row: \n", new_step_row, "\n")
 
@@ -282,3 +359,6 @@ def summarize_stepwise(config):
     print(step_wise_df)
     # save results:
     step_wise_df.to_csv(os.path.join(summary_folder, "step_wise_summary_tails.csv"), header=True, index=False)
+
+    if plotting == True:
+        plot_ampl_vel_acc_stepwise(step_wise_df, summary_folder)

@@ -364,3 +364,32 @@ def estimate_TCOM_label_coords(list_tail_a_x_coords, list_tail_a_y_coords, list_
             list_tcom_y_coords.append(tcom_y)
 
     return list_tcom_x_coords, list_tcom_y_coords
+
+
+def rmsValue(array):
+    """
+    takes an array of values and calculates the RMS value, which is defined as the square root of the arithmetic
+    mean of the squares of the values.
+    """
+    import math
+
+    n = len(array)
+
+    square = 0
+    mean = 0.0
+    root = 0.0
+
+    # Calculate square
+    for i in range(0, n):
+        if np.isnan(array[i]) == False:
+            square += (array[i] ** 2)
+        else:
+            square += 0.0
+
+    # Calculate Mean
+    mean = (square / float(n))
+
+    # Calculate Root
+    root = math.sqrt(mean)
+
+    return root
