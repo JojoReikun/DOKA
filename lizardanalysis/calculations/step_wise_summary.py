@@ -147,7 +147,7 @@ def summarize_stepwise(config):
     stepphase_columns = ["stepphase_{}".format(foot) for foot in feet]
 
     # ----------------
-    plotting = True
+    plotting = False
     # ----------------
 
     print("summarizing data step wise")
@@ -162,7 +162,7 @@ def summarize_stepwise(config):
                     "amplitude_Tail_A", "amplitude_Tail_B", "amplitude_Tail_C", "amplitude_Tail_Tip",
                     "svl", "tailLength", "bodyMass", "tailMass", "BCOMhip", "TCOMhip",
                     "angular_amplitude", "angular_velocity", "angular_acceleration",
-                    "mean_angular_amplitude", "rms_angular_velocity", "rms_angular_acceleration"]
+                    "mean_abs_angular_amplitude", "rms_angular_velocity", "rms_angular_acceleration"]
     step_wise_df = pd.DataFrame(columns=column_names)
     #print(step_wise_df)
 
@@ -260,7 +260,7 @@ def summarize_stepwise(config):
                         amplitude_Tail_C = [i for i in list(df_section_swing_old["amplitude_Tail_C"])] + [j for j in list(df_section_stance["amplitude_Tail_C"])]
                         amplitude_Tail_Tip = [i for i in list(df_section_swing_old["amplitude_Tail_Tip"])] + [j for j in list(df_section_stance["amplitude_Tail_Tip"])]
                         angular_amplitude = [i for i in list(df_section_swing_old["tail_angular_amplitude"])] + [j for j in list(df_section_stance["tail_angular_amplitude"])]
-                        mean_angular_amplitude = (np.nanmean(df_section_swing_old["tail_angular_amplitude"]) + np.nanmean(df_section_stance["tail_angular_amplitude"]))/2.0
+                        mean_abs_angular_amplitude = (np.nanmean(abs(df_section_swing_old["tail_angular_amplitude"])) + np.nanmean(abs(df_section_stance["tail_angular_amplitude"])))/2.0
                         angular_velocity = [i for i in list(df_section_swing_old["tail_angular_velocity"])] + [j for j in list(df_section_stance["tail_angular_velocity"])]
                         rms_angular_velocity = np.nanmean(auxiliaryfunctions.rmsValue(list(df_section_swing_old["tail_angular_velocity"])) + auxiliaryfunctions.rmsValue(list(df_section_stance["tail_angular_velocity"])))/2.0
                         angular_acceleration = [i for i in list(df_section_swing_old["tail_angular_acceleration"])] + [j for j in list(df_section_stance["tail_angular_acceleration"])]
@@ -275,7 +275,7 @@ def summarize_stepwise(config):
                                         amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip,
                                         svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip,
                                         angular_amplitude, angular_velocity,  angular_acceleration,
-                                        mean_angular_amplitude, rms_angular_velocity, rms_angular_acceleration]
+                                        mean_abs_angular_amplitude, rms_angular_velocity, rms_angular_acceleration]
 
                         #print("\n==> new_step_row: \n", new_step_row, "\n")
 
@@ -331,7 +331,7 @@ def summarize_stepwise(config):
                         amplitude_Tail_C = [i for i in list(df_section_swing_old["amplitude_Tail_C"])] + [j for j in list(df_section_stance["amplitude_Tail_C"])]
                         amplitude_Tail_Tip = [i for i in list(df_section_swing_old["amplitude_Tail_Tip"])] + [j for j in list(df_section_stance["amplitude_Tail_Tip"])]
                         angular_amplitude = [i for i in list(df_section_swing_old["tail_angular_amplitude"])] + [j for j in list(df_section_stance["tail_angular_amplitude"])]
-                        mean_angular_amplitude = (np.nanmean(df_section_swing_old["tail_angular_amplitude"]) + np.nanmean(df_section_stance["tail_angular_amplitude"])) / 2.0
+                        mean_abs_angular_amplitude = (np.nanmean(abs(df_section_swing_old["tail_angular_amplitude"])) + np.nanmean(abs(df_section_stance["tail_angular_amplitude"]))) / 2.0
                         angular_velocity = [i for i in list(df_section_swing_old["tail_angular_velocity"])] + [j for j in list(df_section_stance["tail_angular_velocity"])]
                         rms_angular_velocity = np.nanmean(auxiliaryfunctions.rmsValue(list(df_section_swing_old["tail_angular_velocity"])) + auxiliaryfunctions.rmsValue(list(df_section_stance["tail_angular_velocity"]))) / 2.0
                         angular_acceleration = [i for i in list(df_section_swing_old["tail_angular_acceleration"])] + [j for j in list(df_section_stance["tail_angular_acceleration"])]
@@ -346,7 +346,7 @@ def summarize_stepwise(config):
                                         amplitude_Tail_A, amplitude_Tail_B, amplitude_Tail_C, amplitude_Tail_Tip,
                                         svl, tailLength, bodyMass, tailMass, BCOMhip, TCOMhip,
                                         angular_amplitude, angular_velocity, angular_acceleration,
-                                        mean_angular_amplitude, rms_angular_velocity, rms_angular_acceleration]
+                                        mean_abs_angular_amplitude, rms_angular_velocity, rms_angular_acceleration]
 
                         #print("\n==> new_step_row: \n", new_step_row, "\n")
 
