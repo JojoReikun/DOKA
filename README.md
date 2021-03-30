@@ -16,7 +16,7 @@ The software structure was built to make it easy to adjust the kinematic analysi
 
 A **GUI** is now available to make the use of this program easier:
 
-![](images/DOKA_gui_docu.JPG)
+![](images/DOKA_gui_docu.jpg)
 
 A) Select the animal you want to analyse. If your animal is not included, you can either include it yourself, or message us and we will see waht we can do.
 Once the animal is selected the responding silhouette and the default labels appear in the big window.
