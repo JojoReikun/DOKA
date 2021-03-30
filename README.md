@@ -1,11 +1,39 @@
 # ClimbingLizardDLCAnalysis
-This program performs species-independent kinematic parameter calculations taking the DeepLabCut csv output files as input.
-A GUI is now available to make the use of this program easier:
+This software tool is being developed for making multi-species comparison easier and to facilitate kinematic analyses for many individuals. 
+It is designed to take the tracked data from DeepLabCut (csv output files) as input and then automatically perform species-independent kinematic calculations.
+Tracked data with the same file formatting as the DLC outputs can also be used.
+It is currently set-up to work for 4 different animals (even with different number of legs): Lizards, Spiders, Ants and Stickinsects.
+The software structure was built to make it easy to adjust the kinematic analysis to individual needs and allows to easily add new calculations as their own python scripts, which can then be executed as part of the analysis.
 
-![](images/GUI_lizard.JPG)
+## A few features of this script in keynotes:
+- works for 4 groups of animals (from top-view) so far: Lizards, Spiders, Ants, and Stickinsects
+- works species independent and therefore facilitates multi-species analyses
+- easy to add new calculations
+- GUI or command line input (cli)
+- so far allows a maximum of certain pre-defined labels per animal, but functionality to add own marker positions in GUI will be added soon.
+- label names don't matter, they can be reconfigured to match defaults in the GUI
+- we are working on more features!!
 
-Depending on the selected animals different calculations are available, which will be executed for each csv file, if the
-required labels to run the calculations are available.
+A **GUI** is now available to make the use of this program easier:
+
+![](images/DOKA_gui_docu.JPG)
+
+A) Select the animal you want to analyse. If your animal is not included, you can either include it yourself, or message us and we will see waht we can do.
+Once the animal is selected the responding silhouette and the default labels appear in the big window.
+
+B) An existing project config.yaml can be loaded. Or a new project can be created. 
+
+C) Once an existing project is confirmed, the number of files and the available labels will be displayed. Available labels appear green. If your label name does not match the default name, they appear grey, but label names can be reconfigured --> D
+A log tells you what to do or what was done by the software.
+
+D) Displays default, non-available, and available labels in a visual way. By clicking on the label in this window, a pop-up window appears which allows you to choose one of the default label names for that label. The name will be adjusted and thereby recognized by the software. 
+In future the option to add your own labels on the animal will be included. These can then be used in your own calculations. Currently that would have to be done "behind the scenes" in the code.
+
+E) Displays all for that animal existing calculations and marks all available calculations (determined by which labels are there/green) in green.
+In future instead of executing all green calculations, the desired ones will be selectable/deselectable.
+
+
+## Overview over the basic program flow:
 For any animal the basic program flow looks like this:
 
 ![](images/DLC_analysis_script_flowchart.jpg)
@@ -27,8 +55,7 @@ sudo apt-get update
 sudo apt-get install python3-tk python3-pil python3-pil.imagetk
 ```
 ## Run OVERVIEW
-Works in the Pycharm (JetBrains) console. 'Lizardanalysis' is supposed to be a click program executable via anaconda 
-console, but it hasn't been tested yet.
+Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
 ```
 >> import lizardanalysis
 >> path_to_csv = r'path to input csv files'
