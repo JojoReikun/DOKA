@@ -5,7 +5,7 @@
 #               - species-wise, nb of videos, up count, down count, means of all calculations
 
 
-def summarize_results(config, plotting=False, direction_filter=True):
+def read_DOKAoutput_files(config):
     # TODO: if no result files are available print: analyze first!
     # TODO: fix summary to foot pairs
     # TODO: read in rmse files if existent and replace nan values with max rmse value of respective function
@@ -15,9 +15,6 @@ def summarize_results(config, plotting=False, direction_filter=True):
     import os
     import errno
     import glob
-    from collections import Counter
-    import matplotlib.pyplot as plt
-    import seaborn as sns
 
     current_path = os.getcwd()
     config_file = Path(config).resolve()
@@ -34,15 +31,26 @@ def summarize_results(config, plotting=False, direction_filter=True):
         if e.errno != errno.EEXIST:
             raise
 
-
-
-    filelist = glob.glob(os.path.join(result_file_path, "*.csv"))
+    filelist = glob.glob(os.path.join(result_file_path, "_resnet50_*.csv"))
     filelist_split = [x.rsplit(os.sep, 1)[1] for x in filelist]
-    #print(" + ", len(filelist_split), *filelist_split, sep='\n + ')
+    print(" + ", len(filelist_split), *filelist_split, sep='\n + ')
+    return result_file_path, summary_folder, filelist_split, filelist
 
+
+def summarize_results(config, plotting=False, direction_filter=True):
     # ----------------------------------------------------------------------------------------------------------
     # options: sort by species, and optional by direction (passed in click command by user, default: True)
     # option plotting: creates species-wise overview plots if True (passed in click command by user, default: False)
+
+    from collections import Counter
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import os
+    import errno
+
+
+    result_file_path, summary_folder, filelist_split, filelist = read_DOKAoutput_files(config)
+
     filter = {'species': True, 'direction': direction_filter, 'plotting': plotting}
 
     # loop through all individual result files to generate summary
@@ -50,10 +58,14 @@ def summarize_results(config, plotting=False, direction_filter=True):
     for file in filelist_split:
         speciesname = species_name_split(file)
         speciesnames.append(speciesname[0])         # extracts first bit of filename until first number for species name
-    #print(speciesnames)
+    # print(speciesnames)
     speciescount = dict(Counter(speciesnames))    # unique species names & count
     print("species summary: ", speciescount)
 
+    # STEP-WISE SUMMARY
+
+
+    # SPECIES-WISE SUMMARY
     # create one class instance for every species to calculate individual summaries
     class_dict = {}
     results = {}
@@ -128,7 +140,7 @@ class species_summary:
         data = pd.read_csv(os.path.join(self.result_path, self.filelist_filtered[1]), sep=',')
         data.rename(columns=lambda x: x.strip(), inplace=True)  # remove whitespaces from column names
         column_name_list = [col for col in data.columns]
-        #print("column name list: ", column_name_list)
+        print("column name list: ", column_name_list)
 
         # defines categories to be extracted from results and requirements of string bits to appear in columnnames
         # values: first string in list is a must exist + either the second or the third must be included
@@ -184,6 +196,7 @@ class species_summary:
                 #print("species plot: ", species_plot)
 
         else:
+            # if not filtering by direction:
             tmp_keys = {}
             # only group species and don't seperate direction of climbing
             for file in self.filelist_filtered:
@@ -217,6 +230,9 @@ class species_summary:
         s1 = ("{:<" + str(slen) + "}").format(self.sformat(label1, value1, stdvalue1, format))
         s2 = ("{:<" + str(slen) + "}").format(self.sformat(label2, value2, stdvalue2, format))
         return s1 + " | " + s2
+
+
+
 
     def summarize_species(self):
         # TODO make this work with species_dict from store_species_plot_dict()
@@ -437,6 +453,7 @@ class species_summary:
 
 
 def species_name_split(s):
+    #TODO: this will have to be adjusted for all the varanid files
     import re
     splitstring = re.split(r'(\d+)', s)
     #print(splitstring)

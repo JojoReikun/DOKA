@@ -5,8 +5,8 @@ from scipy.spatial import distance
 from math import factorial, atan2, degrees, acos, sqrt, pi
 
 from lizardanalysis.utils import auxiliaryfunctions
-
-analyze_again = False
+#TODO: check why files only contain species names but no measurements!!
+analyze_again = True
 
 # utility functions
 def calc_distance_between_points_two_vectors_2d(v1, v2):
@@ -113,6 +113,7 @@ def analyzebone(bp1, bp2):
         bp1 {[type]} -- [description]
         bp2 {[type]} -- [description]
     """
+    print("bone: ", bp1, bp2)
     bp1_pos = np.vstack([bp1.x.values, bp1.y.values]).T
     bp2_pos = np.vstack([bp2.x.values, bp2.y.values]).T
 
@@ -131,7 +132,7 @@ def analyzebone(bp1, bp2):
                                     likelihood=likelihood,
                                     ))
     # df.index.name=name
-
+    print(df)
     return df
 
 

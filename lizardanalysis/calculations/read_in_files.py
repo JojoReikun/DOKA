@@ -8,6 +8,50 @@ from tqdm import tqdm
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 from lizardanalysis.utils import animal_settings
 
+drop_empty_cols = True
+
+# list of all calculations and their requirements of labels as implemented in the program
+# """
+# calculations = {'direction_of_climbing': ['nose'],
+#                 'body_axis_deflection_angle': ['shoulder', 'hip'],
+#                 'climbing_speed_framewise': ['nose'],
+#                 # 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
+#                 'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
+#                 'step_length': ['fl', 'fr', 'hl', 'hr'],
+#                 #'froude_numbers': ['fl', 'fr', 'hl', 'hr', 'nose', 'hip', 'shoulder_fl', 'fl_knee'],
+#                 #'stride_length': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
+#                 'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
+#                                     'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+#                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
+#                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
+#                 'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
+#                              'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+#                 'spine_rom': ['shoulder', 'hip', 'spine'],
+#                 'center_limb_rom_angle': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
+#                                           'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+#                 'hip_and_shoulder_angles': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
+#                                             'hr_knee',
+#                                             'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+#                 # 'knee_and_elbow_angles': ['fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl', 'hr_knee',
+#                 #                           'shoulder_hr', 'hl_knee', 'shoulder_hl', 'fl', 'fr', 'hl', 'hr'],
+#                 'toe_angles': ['fl', 'fr', 'hr', 'hl', 'fl_ti', 'fl_ti1', 'fl_to1', 'fl_to',
+#                                'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
+#                                'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
+#                                'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to']
+#                 }
+# """
+# # calculations for spiders:
+# calculations = {'direction_of_climbing': ['head'],
+#                 'body_axis_deflection_angle': ['head', 'tail'],
+#                 'climbing_speed_framewise': ['head'],
+#                 'footfall_by_switches': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4'],
+#                 'step_length': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4'],
+#                 }
+
+#calculations_str = [calc for calc in calculations.keys()]
+# print('list of calculations ', calculations_str)
+MODULE_PREFIX, _ = __name__.rsplit('.', 1)
+
 
 def check_labels(cfg, filelist, cfg_path):
     """
@@ -107,7 +151,6 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     # filter data for values using the given likelihood >= e.g. 90%
     prog2 = tqdm(total=len(calculations_checked), desc='FILE PROGRESS', position=0, leave=True)
     for calc in calculations_checked:
-        # TODO: Can I pass a different number of kwargs for different calculations? E.g. df_result_current is only needed for calcs after stride_and_stance phases?
         retval = calc(data=data, clicked=clicked, data_rows_count=data_rows_count, likelihood=likelihood,
                       config=config, filename=filename,
                       df_result_current=df_result_current, animal=animal)  # returns a dict with numpy arrays
@@ -130,7 +173,8 @@ def initialize(animal):
     return calculations, calculations_str, MODULE_PREFIX
 
 
-def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback=None, animal="lizard"):
+def analyze_files(config, label_reassignment=[], separate_gravity_file=False, likelihood=0.9, callback=None,
+                  animal="lizard"):
     """
     Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
     config : string
@@ -182,7 +226,8 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
 
     # check if user set separate gravity file to True
     if separate_gravity_file:
-        Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
+        root = Tk()
+        root.withdraw()  # we don't want a full GUI, so keep the root window from appearing
         gravity_filepath = filedialog.askopenfilename(
             filetype=[('csv files', '*.csv')])  # show an "Open" dialog box and return the path to the selected file
         df_gravity = pd.read_csv(gravity_filepath)  # read in gravity file
@@ -195,6 +240,27 @@ def analyze_files(config, separate_gravity_file=False, likelihood=0.90, callback
         # print("labels: ", labels_no_doubles)
         auxiliaryfunctions.write_config(config, cfg)
         print('\n labels written to config file.')
+    elif len(label_reassignment) > 0:
+        print('reassigning labels...')
+        print(label_reassignment)
+        for reassignment in label_reassignment:
+            for i, label in enumerate(cfg['labels']):
+                if label == reassignment[1]:
+                    cfg['labels'][i] = reassignment[0]
+        print(cfg['labels'])
+        # update labels in the config file
+        auxiliaryfunctions.write_config(config, cfg)
+        # update labels in the input .csv files
+        for file in filelist:
+            print("updating: " + file)
+            tmp_file = open(file, "r")
+            tmp_text = ''.join([i for i in tmp_file])
+            for reassignment in label_reassignment:
+                tmp_text = tmp_text.replace(reassignment[1].capitalize(), reassignment[0].capitalize())
+            out_file = open(file, "w")
+            out_file.writelines(tmp_text)
+            out_file.close()
+
     else:
         print('labels already exist in config file. Proceed...')
 

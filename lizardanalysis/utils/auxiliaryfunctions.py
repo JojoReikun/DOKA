@@ -105,7 +105,8 @@ def attempttomakefolder(foldername,recursive=False):
         foldername=os.fspath(foldername) #https://github.com/AlexEMG/DeepLabCut/issues/105 (windows)
 
     if os.path.isdir(foldername):
-        print(foldername, " already exists!")
+        #print(foldername, " already exists!")
+        pass
     else:
         if recursive:
             os.makedirs(foldername)
@@ -115,11 +116,31 @@ def attempttomakefolder(foldername,recursive=False):
 
 def py_angle_betw_2vectors(v1, v2):
     import numpy.linalg as la
-    """Returns the angle in degrees between vectors 'v1' and 'v2'"""
+    """Returns the angle in degrees between vectors 'v1' and 'v2'.
+    The cosang function does not return the direction of deflection. Use atan if you need that feature"""
     cosang = np.dot(v1, v2) / (la.norm(v1) * la.norm(v2))
     # sinang = la.norm(np.cross(v1, v2))
     # return math.degrees(np.arctan2(sinang, cosang))
     return np.rad2deg(np.arccos(cosang))
+
+
+def py_angle_betw_2vectors_atan(v1, v2):
+    """Returns the angle in degrees between vectors 'v1' and 'v2'.
+    Also gives the direction of deflection.
+    If body axis is the first vector to be put in the deflection to the left of the body axis is positive angles,
+    deflection to the right of the body axis negative."""
+    import numpy.linalg as la
+
+    #atan_rad = np.arctan2(sinang, cosang)
+
+    #angle = atan2(vector2.y, vector2.x) - atan2(vector1.y, vector1.x)
+    angle = np.arctan2(v2[1], v2[0]) - np.arctan2(v1[1], v1[0])
+    if angle > np.pi:
+        angle -= 2 * np.pi
+    elif angle <= -1*np.pi:
+        angle +=2*np.pi
+
+    return np.rad2deg(angle)
 
 
 def calc_body_axis(df, index, scorer):
@@ -134,6 +155,30 @@ def calc_body_axis(df, index, scorer):
     else:
         body_axis_vector = (np.NAN, np.NAN)
     return body_axis_vector
+
+
+def get_perpendicular_dist_to_vector(E, df, index, scorer):
+    """
+    calculates the perpendicular distance of point E to vector BA (= body axis)
+    :param E: 'label name' of the point, for which the amplitude is wanted. Type: String
+    df, index, and scorer are required to access the label locations in the current file
+    :return: distance
+    """
+    A = (df.loc[index, (scorer, "Shoulder", "x")], df.loc[index, (scorer, "Shoulder", "y")])
+    BA = calc_body_axis(df, index, scorer)
+    E = (df.loc[index, (scorer, E, "x")], df.loc[index, (scorer, E, "y")])
+
+    AE = ((E[0] - A[0]), E[1] - A[1])
+
+    # Finding the perpendicular distance
+    x1 = BA[0]
+    y1 = BA[1]
+    x2 = AE[0]
+    y2 = AE[1]
+    mod = np.sqrt(x1 * x1 + y1 * y1)
+    dist = abs(x1 * y2 - y1 * x2) / mod
+
+    return dist
 
 
 def calculate_gravity_deflection_angle(bodyaxis):
@@ -200,18 +245,151 @@ def find_conversion_factor_for_spider(filename):
                           (92, 111): 2.58,
                           (112, 126): 2.58}
     spidername = filename.split(sep="_")[0]
-    spidernumber = int(''.join(list(filter(str.isdigit, spidername))))
-    print(f"spidername: {spidername}, spidernumber: {spidernumber}")
+    spidernumber = int(''.join(list(filter(str.isdigit, spidername))))      # find digits in string
+    #print(f"spidername: {spidername}, spidernumber: {spidernumber}")
 
     conv_fac = np.nan
     for i in range(len(conversion_factors.keys())):
         key = list(conversion_factors.keys())[i]
         if spidernumber in range(key[0], key[1]):  # assign correct converion factor to spider
             conv_fac = conversion_factors[key]
-            print(f"spidernumber: {spidernumber}, conv_fac: {conv_fac}")
+            #print(f"spidernumber: {spidernumber}, conv_fac: {conv_fac}")
 
     if conv_fac == np.nan:
         print(f"no conversion factor was found for this spidernumber: {spidernumber}")
         conv_fac = 1.0
 
     return conv_fac
+
+
+def calculate_speed(distance_calib, framerate):
+    # calculate the speed in mm/second
+    speed = distance_calib/(1.0/framerate)  # --> distance * framerate
+    retval = speed
+    return retval
+
+
+def find_conversion_factor_for_spider(filename):
+    # calibrate distance: convert px to mm:
+    # dictionary: Spider (Lxx,Lyy):factor in px/mm
+    conversion_factors = {(62, 76): 2.57,
+                          (77, 91): 2.56,
+                          (92, 111): 2.58,
+                          (112, 126): 2.58}
+    spidername = filename.split(sep="_")[0]
+    spidernumber = int(''.join(list(filter(str.isdigit, spidername))))
+    #print(f"spidername: {spidername}, spidernumber: {spidernumber}")
+
+    conv_fac = np.nan
+    for i in range(len(conversion_factors.keys())):
+        key = list(conversion_factors.keys())[i]
+        if spidernumber in range(key[0], key[1]):  # assign correct converion factor to spider
+            conv_fac = conversion_factors[key]
+            #print(f"spidernumber: {spidernumber}, conv_fac: {conv_fac}")
+
+    if conv_fac == np.nan:
+        print(f"no conversion factor was found for this spidernumber: {spidernumber}")
+        conv_fac = 1.0
+
+    return conv_fac
+
+
+def strip_scorer_column_counter(data, scorer):
+    print("stripping")
+    # TODO: strip .Number from scorer in data frame header...
+    print(data.keys())
+    data.loc['scorer'] = scorer
+    #The following j for loop accesses the correct values, but not possible to replace
+    # for j in range(2, len(data.columns)-2):
+    #     print(data.columns)
+    #     print(data.columns[j][0])
+    #     data.columns[j][0] = data.columns[1][0]
+
+    # for i in range(2, len(data.columns)-2):
+    #     data.rename(columns={''})
+    #     print("2:", data.columns[2][0])     # column, row
+    #     print("pre: ", data.columns[i][0])
+    #     print(data.columns[i][0].rsplit("."))
+    #     print("data.iloc[0, i]: ", data.iloc[0, i])
+    #     data.iloc[i, 0] = data.columns[i][0].rsplit(".")[0]
+    #     print("post: ",  data.columns[i][0].rsplit(".")[0])
+    return
+
+
+def calculate_speed(distance_calib, framerate):
+    # calculate the speed in mm/second
+    speed = distance_calib/(1.0/framerate)  # --> distance * framerate
+    retval = speed
+    return retval
+
+
+def estimate_TCOM_label_coords(list_tail_a_x_coords, list_tail_a_y_coords, list_tail_b_x_coords, list_tail_b_y_coords):
+    """
+    takes the x coordinates and y coordinates of the TAIL_A and TAIL_B label of the interval of interest and
+    estimates the tailCOM label position in the middle between the two
+    :param list_tail_a_x_coords:
+    :param list_tail_b_x_coords:
+    :return: list with x values for TCOM and list with y values for TCOM
+    """
+    list_tcom_x_coords = []
+    list_tcom_y_coords = []
+
+    print(len(list_tail_a_x_coords),
+          len(list_tail_a_y_coords),
+          len(list_tail_b_x_coords),
+          len(list_tail_b_y_coords))
+
+    if (len(list_tail_a_x_coords) > 0 and len(list_tail_a_y_coords) > 0 and len(list_tail_b_x_coords) > 0 and len(list_tail_b_y_coords) > 0):
+        # 1) check which way lizard is going --> which of the labels x-coordinates is bigger
+        if list_tail_a_x_coords[0] >= list_tail_b_x_coords[0]:
+            cond_right = True
+            cond_left = False
+        elif list_tail_a_x_coords[0] < list_tail_b_x_coords[0]:
+            cond_left = True
+            cond_right = False
+        # 2) for every entry in list (frame) do: x_tcom = x+((x2-x)/2) and same for y if lizards climbs/runs up/right and
+        # x_tcom = x2+((x-x2)/2) and same for y if lizard climbs/runs down/left
+
+        for coord_xA, coord_xB in zip(list_tail_a_x_coords, list_tail_b_x_coords):
+            if cond_right:
+                tcom_x = coord_xB + ((coord_xA - coord_xB) / 2.0)
+            elif cond_left:
+                tcom_x = coord_xA + ((coord_xB - coord_xA) / 2.0)
+            list_tcom_x_coords.append(tcom_x)
+        for coord_yA, coord_yB in zip(list_tail_a_y_coords, list_tail_b_y_coords):
+            if coord_yA < coord_yB:
+                tcom_y = coord_yA + ((coord_yB - coord_yA) / 2.0)
+            elif coord_yB <= coord_yA:
+                tcom_y = coord_yB + ((coord_yA - coord_yB) / 2.0)
+            list_tcom_y_coords.append(tcom_y)
+
+    return list_tcom_x_coords, list_tcom_y_coords
+
+
+def rmsValue(array):
+    """
+    takes an array of values and calculates the RMS value, which is defined as the square root of the arithmetic
+    mean of the squares of the values.
+    """
+    import math
+
+    n = len(array)
+
+    square = 0
+    mean = 0.0
+    root = 0.0
+
+    # Calculate square
+    for i in range(0, n):
+        if np.isnan(array[i]) == False:
+            square += (array[i] ** 2)
+        else:
+            square += 0.0
+
+    # Calculate Mean
+    mean = (square / float(n))
+
+    # Calculate Root
+    root = math.sqrt(mean)
+
+    return root

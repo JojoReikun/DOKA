@@ -136,3 +136,21 @@ def summarize_results(_, *args, **kwargs):
     """
     from lizardanalysis.calculations import write_result_files
     write_result_files.summarize_results(*args, **kwargs)
+
+
+#####################################################################################
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+@click.argument('config')
+@click.pass_context
+
+
+def create_stepwise_summary(_, *args, **kwargs):
+    """Creates an step-wise result file.
+    Options \n
+    ---------- \n
+    config : string \n
+    \tString containing the full path to the config file of the project. \n
+    """
+    from lizardanalysis.calculations import step_wise_summary
+    step_wise_summary.summarize_stepwise(*args, **kwargs)

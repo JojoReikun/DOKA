@@ -5,8 +5,6 @@ def footfall_by_switches(**kwargs):
     from pathlib import Path
     from lizardanalysis.utils import animal_settings
 
-    # print("footfall_by_switches")
-
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
@@ -14,6 +12,8 @@ def footfall_by_switches(**kwargs):
     filename = kwargs.get('filename')
     likelihood = kwargs.get('likelihood')
     animal = kwargs.get('animal')
+
+    print("likelihood: ", likelihood)
 
     config_file = Path(config).resolve()
     # result folder for footfall plots
@@ -30,7 +30,7 @@ def footfall_by_switches(**kwargs):
     relative = False
     plotting_footfall_patterns = True
 
-    # define cut-off value -> crops 10% of frames on each side of video:
+    # define cut-off value -> crops X% of frames on each side of video:
     p_cut_off = 0.05
 
     # read in all the frames for hip, spine and shoulder (x) to get mean body motion
@@ -99,7 +99,7 @@ def footfall_by_switches(**kwargs):
     return results
 
 
-def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, plotting=True):
+def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, step_detection_folder, plotting=False):
     """
     Smooths the raw input data from foot motion and body motion, using a Butterworth low-pass filter and a
     Savintzky-Golay smoothing algorithm. Then computes the intersection points betw. the smoothed body and foot curves.
@@ -201,8 +201,10 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
         idx = np.argwhere(np.diff(np.sign(y_body_lp_smoothed - y_foot_lp_smoothed))).flatten()
         intersections_dict = {"idx": [], "sign": []}
         max_body_motion = max([abs(max(y_body_lp_smoothed)), abs(min(y_body_lp_smoothed))])
+
         body_motion_stand = round(max_body_motion * 0.1, 2)
         # print(f"max body motion: {max_body_motion}, 10%: {body_motion_stand}")
+
         for i in idx:
             # exclude all intersections which are within 0+-1% of max body motion (~standing)
             if abs(y_body_lp_smoothed[i]) >= body_motion_stand:
