@@ -9,13 +9,13 @@ def set_animal(animal):
     """
     # list of all calculations and their requirements of labels as implemented in the program
     if animal == "lizard":
-        dict = {'tail_kinematics': ['tail_a', 'tail_middle', 'hip', 'shoulder'],
-                'direction_of_climbing': ['nose'],
+        dict = {'direction_of_climbing': ['nose'],
                 'body_axis_deflection_angle': ['shoulder', 'hip'],
                 'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
-                'climbing_speed_framewise': ['nose'],
+                'lizards_feet_width_and_height': ['fl', 'fr', 'hl', 'hr']
+                #'climbing_speed_framewise': ['nose'],
                 # 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
-                'step_length': ['fl', 'fr', 'hl', 'hr'],
+                #'step_length': ['fl', 'fr', 'hl', 'hr'],
                 # 'froude_numbers': ['fl', 'fr', 'hl', 'hr', 'nose', 'hip', 'shoulder_fl', 'fl_knee'],
                 # 'stride_length': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
                 #'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
@@ -25,7 +25,7 @@ def set_animal(animal):
                 #                 'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
                 #'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
                 #             'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
-                'spine_rom': ['shoulder', 'hip', 'spine'],
+                #'spine_rom': ['shoulder', 'hip', 'spine'],
                 #'center_limb_rom_angle': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
                 #                          'hr_knee', 'shoulder_hr', 'hl_knee', 'shoulder_hl'],
                 #'hip_and_shoulder_angles': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
@@ -37,8 +37,10 @@ def set_animal(animal):
                 #               'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
                 #               'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
                 #               'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to'],
-                'tail_biomech_angles': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip', 'spine_a', 'spine_c', 'tail_a', 'tail_c'],
-                'point_amplitudes_to_bA': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip', 'spine_a', 'spine_c', 'tail_a', 'tail_c']}
+                #'tail_biomech_angles': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip', 'spine_a', 'spine_c', 'tail_a', 'tail_c'],
+                #'point_amplitudes_to_bA': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip', 'spine_a', 'spine_c', 'tail_a', 'tail_c'],
+                # 'tail_kinematics': ['tail_a', 'tail_middle', 'hip', 'shoulder']
+            }
 
     elif animal == "spider":
         dict = {'direction_of_running': ['head'],

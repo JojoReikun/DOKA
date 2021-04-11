@@ -173,7 +173,7 @@ def initialize(animal):
     return calculations, calculations_str, MODULE_PREFIX
 
 
-def analyze_files(config, label_reassignment=[], separate_gravity_file=False, likelihood=0.5, callback=None,
+def analyze_files(config, label_reassignment=[], separate_gravity_file=False, likelihood=0.9, callback=None,
                   animal="lizard"):
     """
     Reads the DLC result csv files which are listed in the config file and checks which labels are available for calculation.
