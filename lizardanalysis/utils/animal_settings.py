@@ -2,7 +2,7 @@ from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
 def set_animal(animal):
     """
-    define the calculations and the labels required labels for these in a dictionary for each available animal.
+    define the calculations and the required labels for these in a dictionary for each available animal.
     When new calculations are added, these need to be included in these dictionaries to be found by the program.
     :param animal: string of the animal species selected for analysis. Get from GUI when clicking animal button.
     :return:
