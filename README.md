@@ -32,6 +32,10 @@ In future the option to add your own labels on the animal will be included. Thes
 E) Displays all for that animal existing calculations and marks all available calculations (determined by which labels are there/green) in green.
 In future instead of executing all green calculations, the desired ones will be selectable/deselectable.
 
+## Overview over the programstructure:
+This chart displays th eprogram structure, how calculations or even animals could be added and where which functionality can be found.
+![](images/Program_structure_chart.jpg)
+
 
 ## Overview over the basic program flow:
 For any animal the basic program flow looks like this:
@@ -45,6 +49,9 @@ Some kinematic parameters that can be calculated for lizards are shown below:
 
 ![](images/KinematicCalculations.jpg)
 
+## Platforms:
+DOKA is generally functional across platforms. It has been mainly developed on Windows 10 64-bit, but also tested on linux ubuntu (v: ), and iOS (v: )
+
 ## Install
 
 git clone git@github.com:JojoReikun/ClimbingLizardDLCAnalysis.git
@@ -54,6 +61,8 @@ To run the project on Ubuntu, you need to install Pillow and TKinter:
 sudo apt-get update
 sudo apt-get install python3-tk python3-pil python3-pil.imagetk
 ```
+
+
 ## Run OVERVIEW
 Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
 ```
@@ -76,7 +85,7 @@ all arguments other than config are _optional_. The default values which will be
 ```
 
 ---
-## Run DETAIL
+## Run DETAIL for cli:
 
 open python console in Pycharm
 
