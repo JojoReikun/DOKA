@@ -1,5 +1,6 @@
 from lizardanalysis.utils.auxiliaryfunctions import UserFunc
 
+
 def set_animal(animal):
     """
     define the calculations and the required labels for these in a dictionary for each available animal.
@@ -54,6 +55,11 @@ def set_animal(animal):
                 'leg_segments_dist': ['l1', 'l2', 'l3', 'l4', 'r1', 'r2', 'r3', 'r4',
                                       'lb1', 'lb2', 'lb3', 'lb4', 'rb1', 'rb2', 'rb3', 'rb4',
                                       'lm1', 'lm2', 'lm3', 'lm4', 'rm1', 'rm2', 'rm3', 'rm4']}
+
+    elif animal == "stick":
+        dict = {
+            'alpha_est_angles': ['l1', 'l2', 'l3', 'r1', 'r2', 'r3', 'lb1', 'lb2', 'lb3', 'rb1', 'rb2', 'rb3', 'head',
+                                 'abdomen']}
 
     elif animal == "stick":
         dict = {
