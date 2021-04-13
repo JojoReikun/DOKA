@@ -53,9 +53,9 @@ Some kinematic parameters that can be calculated for lizards are shown below:
 DOKA is generally functional across platforms. It has been mainly developed on Windows 10 64-bit, but also tested on linux ubuntu (v: ), and iOS (v: )
 
 ## Install
+git clone git@github.com/JojoReikun/ClimbingLizardDLCAnalysis.git
 
-git clone git@github.com:JojoReikun/ClimbingLizardDLCAnalysis.git
-
+### Requirements
 To run the project on Ubuntu, you need to install Pillow and TKinter:
 ```
 sudo apt-get update
