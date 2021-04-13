@@ -110,12 +110,14 @@ all arguments other than config are _optional_. The default values which will be
 ### GUI
 So far the GUI can easily be started if using PyCharm by just RUN --> then select DOKA_gui.py
 A workaround to start the DOKA GUI through the console:
-on iOS (in folder ClimbingLizardDLCAnalysis): 
+
+#### on iOS (in folder ClimbingLizardDLCAnalysis): 
 ```
 >> python
 >> import lizardanalysis
 >> exec(open("lizardanalysis/DOKA_GUI.py").read())
 ```
+
 
 
 ---
