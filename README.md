@@ -84,7 +84,7 @@ To upgrade certain packages run:
 pip install --upgrade pip
 ```
 
-
+---
 ## Run OVERVIEW 
 ### cli
 Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
@@ -116,6 +116,7 @@ on iOS (in folder ClimbingLizardDLCAnalysis):
 >> import lizardanalysis
 >> exec(open("lizardanalysis/DOKA_GUI.py").read())
 ```
+
 
 ---
 ## Run DETAIL for cli:
