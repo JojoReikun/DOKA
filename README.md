@@ -61,7 +61,11 @@ To run the project on Ubuntu, you need to install Pillow and TKinter:
 sudo apt-get update
 sudo apt-get install python3-tk python3-pil python3-pil.imagetk
 ```
-
+To run the project on iOS, you need to run:
+```
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade Pillow
+```
 
 ## Run OVERVIEW
 Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
