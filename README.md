@@ -56,18 +56,37 @@ DOKA is generally functional across platforms. It has been mainly developed on W
 git clone git@github.com/JojoReikun/ClimbingLizardDLCAnalysis.git
 
 ### Requirements
-To run the project on Ubuntu, you need to install Pillow and TKinter:
+All library requirements can be found in requirements.txt, it is recommended to create a virtual environment for this project.
+#### iOS:
+A virtual environment can be created using the following commands, the requirements.txt can then be used to install library requirements for DOKA within the venv:
 ```
-sudo apt-get update
-sudo apt-get install python3-tk python3-pil python3-pil.imagetk
+pip install virtualenv
+virtualenv doka
+source doka/bin/activate
+pip install -r requirements.txt
 ```
-To run the project on iOS, you need to run:
+To upgrade certain packages run:
 ```
 python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade Pillow
 ```
 
-## Run OVERVIEW
+#### Ubuntu:
+To upgrade certain packages run:
+```
+sudo apt-get update
+sudo apt-get install python3-tk python3-pil python3-pil.imagetk
+```
+
+#### Windows:
+To upgrade certain packages run:
+```
+pip install --upgrade pip
+```
+
+
+## Run OVERVIEW 
+### cli
 Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
 ```
 >> import lizardanalysis
@@ -86,6 +105,16 @@ all arguments other than config are _optional_. The default values which will be
 ```
 >> lizardanalysis.analyze_files(config, likelihood=0.90)
 >> lizardanalysis.summarize_results(config, plotting=False, direction_filter=True)
+```
+
+### GUI
+So far the GUI can easily be started if using PyCharm by just RUN --> then select DOKA_gui.py
+A workaround to start the DOKA GUI through the console:
+on iOS (in folder ClimbingLizardDLCAnalysis): 
+```
+>> python
+>> import lizardanalysis
+>> exec(open("lizardanalysis/DOKA_GUI.py").read())
 ```
 
 ---
