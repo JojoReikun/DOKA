@@ -1,3 +1,7 @@
+# Contributors:
+JojoReikun: Johanna T. Schultz
+FabianPlum: Fabian Plum
+
 # ClimbingLizardDLCAnalysis
 This software tool is being developed for making multi-species comparison easier and to facilitate kinematic analyses for many individuals. 
 It is designed to take the tracked data from DeepLabCut (csv output files) as input and then automatically perform species-independent kinematic calculations.
