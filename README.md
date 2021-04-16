@@ -61,7 +61,17 @@ DOKA is generally functional across platforms. It has been mainly developed on W
 git clone git@github.com/JojoReikun/ClimbingLizardDLCAnalysis.git
 
 ### Requirements
-All library requirements can be found in requirements.txt, it is recommended to create a virtual environment for this project.
+All library requirements can be found in ```requirements.txt```, it is recommended to create a virtual environment for this project.
+
+An anaconda environment ( ```DOKA.yaml``` ) is provided to make the installation process as easy as possible.
+
+#### Using anaconda: (OS independent)
+
+```
+conda env create -f DOKA.yaml
+conda activate DOKA
+```
+
 #### iOS:
 A virtual environment can be created using the following commands, the requirements.txt can then be used to install library requirements for DOKA within the venv:
 ```
@@ -77,7 +87,9 @@ python3 -m pip install --upgrade Pillow
 ```
 
 #### Ubuntu:
-To upgrade certain packages run:
+**Note:** If you are using the preconfigured conda environment, you will **not** need to follow these steps
+
+To upgrade important packages run:
 ```
 sudo apt-get update
 sudo apt-get install python3-tk python3-pil python3-pil.imagetk
@@ -92,7 +104,7 @@ pip install --upgrade pip
 ---
 ## Run OVERVIEW 
 ### cli
-Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
+Works in the Pycharm (JetBrains) console. Alternatively DOKA.py can be executed and a gui will open, which includes the generation of a new project, label definitions, and kinematic calculations. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet.
 ```
 >> import lizardanalysis
 >> path_to_csv = r'path to input csv files'
