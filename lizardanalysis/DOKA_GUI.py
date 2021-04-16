@@ -144,7 +144,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
 
         self.animal = None
         self.animal_image_size = None
-        self.QLabel_topcorner = (530, 180)      # the top corner of the Qlabel which contains the pixmap image
+        self.QLabel_topcorner = (530, 180)  # the top corner of the Qlabel which contains the pixmap image
         self.new_label_counter = 0
         self.new_labels = []
         # create list of translated labels to use arbitrary naming convention
@@ -451,7 +451,6 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # else:
         #     self.log_warning("Select an animal before loading your project!")
 
-
         self.ui.animal_addNewLabels_pushButton.setChecked(True)
         print("button is checked: ", self.ui.animal_addNewLabels_pushButton.isChecked())
         self.ui.animal_QLabel.mouseClickEvent = self.mouseLabelPos
@@ -468,7 +467,6 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # append labels to self.label_coords
         for new_label in self.new_labels:
             self.label_coords.append(new_label)
-
 
     ### INFO SECTION ###
 
@@ -560,9 +558,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.log_warning("Load project before assigning labels!")
 
     def select_Lizard(self):
-        lizard_img = QPixmap('GUI\\lizard_shape.svg')
+        lizard_img = QPixmap(os.path.join("GUI", "lizard_shape.svg"))
         self.ui.animal_QLabel.setPixmap(lizard_img)
-        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()  # get's the actual size in pixels
 
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "lizard"
@@ -607,7 +605,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             ["fl_tm", 758, 372],
             ["fl_ti1", 777, 397],
             ["fl_ti", 815, 386],
-            ['spine_a', 862, 266],      # workaround for now just add the new labels as defaults to lizards
+            ['spine_a', 862, 266],  # workaround for now just add the new labels as defaults to lizards
             ['spine_c', 975, 269],
             ['tail_a', 1126, 317],
             ['tail_c', 1266, 460]
@@ -621,9 +619,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.update_labels()
 
     def select_Spider(self):
-        spider_img = QPixmap('GUI\\spider_shape.svg')
+        spider_img = QPixmap(os.path.join("GUI", "spider_shape.svg"))
         self.ui.animal_QLabel.setPixmap(spider_img)
-        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()  # get's the actual size in pixels
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "spider"
         self.log_info("Selected animal : " + self.animal)
@@ -666,9 +664,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.update_labels()
 
     def select_Ant(self):
-        spider_img = QPixmap('GUI\\ant_shape.svg')
-        self.ui.animal_QLabel.setPixmap(spider_img)
-        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
+        ant_img = QPixmap(os.path.join("GUI", "ant_shape.svg"))
+        self.ui.animal_QLabel.setPixmap(ant_img)
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()  # get's the actual size in pixels
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "ant"
         self.log_info("Selected animal : " + self.animal)
@@ -709,9 +707,9 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
             self.update_labels()
 
     def select_Stick(self):
-        spider_img = QPixmap('GUI\\stick_shape.svg')
-        self.ui.animal_QLabel.setPixmap(spider_img)
-        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()     # get's the actual size in pixels
+        stick_img = QPixmap(os.path.join("GUI", "stick_shape.svg"))
+        self.ui.animal_QLabel.setPixmap(stick_img)
+        self.animal_image_size = self.ui.animal_QLabel.pixmap().size()  # get's the actual size in pixels
         print("animal_image_size: ", self.animal_image_size)
         self.animal = "stick"
         self.log_info("Selected animal : " + self.animal)
