@@ -109,6 +109,8 @@ E) Displays all for that animal existing calculations and marks all available ca
 In future instead of executing all green calculations, there will be an option to select or deselect the calculations to be run.
 Hit Let's GO and the progress bar should now indicate just that - the progress.
 
+After the kinematic analysis has finished a new folder "analysis_results" is added to the DOKA project folder, which contains the kinematic results for each run and some helpful plots which allow to judge the quality of the run (step detection plots and footfall pattern diagrams).
+
 
 ## Command Line:
 So far works best in the Pycharm (JetBrains) console. 'Lizardanalysis' is supposed to be a click program executable via anaconda console, but it hasn't been tested yet. 
