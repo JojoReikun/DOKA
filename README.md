@@ -32,11 +32,7 @@ For any animal the basic program flow looks like this:
 ![](images/DLC_analysis_script_flowchart.jpg)
 
 The process_file() function is called for every file included in the project (every DLC output csv), which loops through 
-all available calculations. For some calculations the knowledge about the step-phases is essential. Therefore a 
-step detection algorithm using rel. feet to body velocities is implemented.
-Some kinematic parameters that can be calculated for lizards are shown below:
-
-![](images/KinematicCalculations.jpg)
+all available calculations. 
 
 ## Platforms:
 DOKA is generally functional across platforms. It has been mainly developed on Windows 10 64-bit, but also tested on linux ubuntu (v: ), and iOS (v: MacOS BigSur 11.2.3)
