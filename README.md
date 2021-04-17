@@ -90,7 +90,7 @@ pip install --upgrade pip
 The software can be used either with the GUI or through command line input. Both functionalities are described below. Note that the GUI does not yet include all functions which can be executed via cli.
 
 ## GUI
-The GUI so far has to be started through Pycharm
+The GUI so far has to be started through Pycharm (open ClimbingLizardDLCAnalysis as Pycharm project and RUN DOKA_gui.py)
 
 ![](DOKA_gui_docu.jpg)
 
