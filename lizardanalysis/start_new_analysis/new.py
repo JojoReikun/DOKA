@@ -1,6 +1,7 @@
 """
 LizardDLCAnalysis Toolbox
-© Jojo S.
+© Johanna T. Schultz
+© Fabian Plum
 Licensed under MIT License
 """
 

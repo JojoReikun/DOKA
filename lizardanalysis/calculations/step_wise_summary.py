@@ -130,11 +130,16 @@ def plot_ampl_vel_acc_stepwise(step_wise_df, summary_folder):
     return
 
 
+### MAIN FUNCTION ###
 def summarize_stepwise(config):
     """
+    !Temporary Notice:!
+    This function was written to work for only tail and spine analysis projects cropped to the default labels for lizards.
+
     Reads in all DOKA output files and summarizes the data step-wise in one big csv document.
-    :param kwargs:
-    :return:
+    Step intervals from the step-detection algorithm are used (calculated in "footfall_by_switches.py").
+    :param config: the file path to the config file of the project
+    :return: saves step-wise summary files to a csv file
     """
     ### IMPORTS:
     import pandas as pd
