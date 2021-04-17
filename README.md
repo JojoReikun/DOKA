@@ -149,7 +149,7 @@ open python console in Pycharm
 ```
 >> import lizardanalysis
 ```
----
+
 **2nd)** Prepare to create a new project. Skip step 2 and 3 if a project already exists. Define variables to pass in args dictionary {key:value, key2:value2, ...}:  
 * project: choose any project name
 * experimenter: the name of the person who is running the project = you ;)
@@ -166,7 +166,7 @@ _obviously:_ replace values of dictionaries (e.g. "project_name") with your inpu
            'species': 'investigated species',
            'file_directory': path_to_csv }
 ```
----
+
 **3rd)** call function to create a new project:  
 This will generate a new folder using "project", "experimenter", "species", and the date as the filename, which contains all the DLC csv files which were selected, and a config.yaml file which "defines" the project. Later more elements will be added.
 --> if you did step 2, just pass the arguments to the function like this:
@@ -180,7 +180,7 @@ This will generate a new folder using "project", "experimenter", "species", and 
 *example:*\
  lizardanalysis.create_new_project('geckos', 'jojo', 'hemidactylusFrenatus', r'C:\Users\JojoS\Documents\phd\ClimbingRobot_XGen4\ClimbingLizardDLCAnalysis\example_csv')
 
----
+
 **!!!If you have just created the project and this is the first time you analyze it, you have to change _framerate_ and _shutterspeed_ in the config.yaml file**!!!
 There are other inputs which are optional, e.g. when was species caught etc. to help to keep experimental log book data together.
 
@@ -203,7 +203,6 @@ and not included in calculations. The likelihood values result from the DeepLabC
 >> lizardanalysis.analyze_files(config, likelihood=0.95)
 ```
 
----
 **5th)** This work for the tial biomechanics project only so far and is sensitive to variable naming conventions...
 call function to summarize all results step-wise.
 
