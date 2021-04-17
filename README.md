@@ -8,7 +8,7 @@ This software tool is being developed for making multi-species comparison easier
 It is designed to take the tracked data from DeepLabCut (csv output files) as input and then automatically perform species-independent kinematic calculations.
 Tracked data with the same file formatting as the DLC outputs can also be used.
 It is currently set-up to work for 4 different animals (even with different number of legs): Lizards, Spiders, Ants and Stickinsects.
-The software structure was built to make it easy to adjust the kinematic analysis to individual needs and allows to easily add new calculations as their own python scripts, which can then be executed as part of the analysis.
+The software structure was built to make it easy to adjust the kinematic analysis to individual needs and allows to easily add new calculations as their own python scripts, which can then be executed as part of the analysis. A more detailed description of what the software contains and how calculations can be added can be found further below (Overview over the program structure).
 
 ## A few features of this script in keynotes:
 - works for 4 groups of animals (from top-view) so far: Lizards, Spiders, Ants, and Stickinsects
@@ -37,8 +37,8 @@ In future the option to add your own labels on the animal will be included. Thes
 E) Displays all for that animal existing calculations and marks all available calculations (determined by which labels are there/green) in green.
 In future instead of executing all green calculations, the desired ones will be selectable/deselectable.
 
-## Overview over the programstructure:
-This chart displays th eprogram structure, how calculations or even animals could be added and where which functionality can be found.
+## Overview over the program structure:
+This chart displays the program structure, how calculations or even animals could be added and where which functionality can be found.
 ![](images/Program_structure_chart.jpg)
 
 
