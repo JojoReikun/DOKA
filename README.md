@@ -3,12 +3,15 @@ JojoReikun: Johanna T. Schultz
 
 FabianPlum: Fabian Plum
 
-# ClimbingLizardDLCAnalysis
+# ClimbingLizardDLCAnalysis (DOKA)
 This software tool is being developed for making multi-species comparison easier and to facilitate kinematic analyses for many individuals. 
 It is designed to take the tracked data from DeepLabCut (csv output files) as input and then automatically perform species-independent kinematic calculations.
 Tracked data with the same file formatting as the DLC outputs can also be used. To view how to use DeepLabCut for markerless pose-estimation see: https://github.com/DeepLabCut/DeepLabCut
+
 ClimbingLizardDLCAnalysis is currently set-up to work for 4 different animals (even with different number of legs): Lizards, Spiders, Ants and Stickinsects.
-The software structure was built to make it easy to adjust the kinematic analysis to individual needs and allows to easily add new calculations as their own python scripts, which can then be executed as part of the analysis. We hope to make this a collaborative and constantly growing script, which facilitates analysis of animal biomechanisc for many groups. A more detailed description of what the software contains and how calculations can be added can be found further below (Overview over the program structure).
+The software structure was built to make it easy to adjust the kinematic analysis to individual needs and allows to easily add new calculations as their own python scripts, which can then be executed as part of the analysis. This software will then generate new csv files for every run within the analysis_results folder of the DOKA project, which contains the results of all kinematic calculations. Details on what the calculations do individually can be found in the comments section of the individual .py files. 
+
+We hope to make this a collaborative and constantly growing script, which facilitates analysis of animal biomechanisc for many groups. A more detailed description of what the software contains and how calculations can be added can be found further below (Overview over the program structure).
 
 ## A few features of this script in keynotes:
 - works for 4 groups of animals (from top-view) so far: Lizards, Spiders, Ants, and Stickinsects
