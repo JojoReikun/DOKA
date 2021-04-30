@@ -211,9 +211,6 @@ and not included in calculations. The likelihood values result from the DeepLabC
 **5th)** This work for the tial biomechanics project only so far and is sensitive to variable naming conventions...
 call function to summarize all results step-wise.
 
-**-- This is still "work in progress", please wait for updates! --**
-* plotting (bool): If True this generates speecies-wise overview plots
-* direction_filter (bool): If True the species-wise results will also be seperated by direction
 ```
 >> lizardanalysis.summarize_stepwise(config)
 ```
