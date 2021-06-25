@@ -12,7 +12,7 @@ from lizardanalysis import DEBUG
 from lizardanalysis.calculations.read_in_files import check_labels
 
 
-def create_new_project(project, experimenter, species, file_directory, working_directory=None, filetype='.csv'):
+def create_new_project(project, experimenter, species, file_directory, animal, working_directory=None, filetype='.csv'):
     """Creates a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with the default values. Change its parameters to your projects need.
     Parameters
     ----------
@@ -36,10 +36,15 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     from lizardanalysis.utils import auxiliaryfunctions
     from lizardanalysis.start_new_analysis import gui_define_video_orientation
 
-    # let the user configure the video direction (define which way is climbing up/climbing down)
-    clicked = 1
-    #clicked = gui_define_video_orientation.gui_choose_video_config()
-    print("clicked value: ", clicked)
+    # for lizards:
+    # let the user configure the video direction (define which way is climbing up/climbing down) via GUI
+    if animal == "lizard":
+        clicked = 1
+        #clicked = gui_define_video_orientation.gui_choose_video_config()
+        print("clicked value: ", clicked)
+    else:
+        # here other GUIs can be designed to fit the specific cases of the other animals
+        clicked = 1     # default: increasing x is up, decreasing is down
 
     # initialize new project
     date = dt.today()

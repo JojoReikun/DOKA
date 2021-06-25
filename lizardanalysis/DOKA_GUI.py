@@ -275,11 +275,15 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_set_up = False
         if len(self.DLC_path) > 0 and len(self.project_name) > 0 and len(self.project_experimenter) > 0 and len(
                 self.project_species) > 0:
-            if os.path.exists(self.DLC_path):
-                worker = Worker(self.createProject_threaded)
-                self.threadpool.start(worker)
+            if self.animal is not None:
+                if os.path.exists(self.DLC_path):
+                    worker = Worker(self.createProject_threaded)
+                    self.threadpool.start(worker)
+                    worker.kwargs['animal'] = self.animal
+                else:
+                    self.log_warning("Invalid path to DLC Files!")
             else:
-                self.log_warning("Invalid path to DLC Files!")
+                self.log_warning("Select an animal before starting your project!")
         else:
             self.log_warning("Missing information to set up new project!")
 
@@ -289,7 +293,8 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_config_file, click = new.create_new_project(project=self.project_name,
                                                                  experimenter=self.project_experimenter,
                                                                  species=self.project_species,
-                                                                 file_directory=self.DLC_path)
+                                                                 file_directory=self.DLC_path,
+                                                                 animal=self.animal)
 
         self.ui.Project_openConfig_lineEdit.setText(self.project_config_file)
 
@@ -776,6 +781,8 @@ class LabelSelectDialog(QDialog):
         self.layout.addWidget(self.comboBoxLabels)
         self.layout.addWidget(self.buttonBox)
         self.setLayout(self.layout)
+
+
 
 
 app = QtWidgets.QApplication([])
