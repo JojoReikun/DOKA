@@ -55,6 +55,7 @@ def direction_of_climbing(**kwargs):
 
     elif clicked == 3:
         # look for "up" or "down" in filename - case insensitive
+        g = 1
 
     else:
         print('no such video configuration defined')
