@@ -5,22 +5,19 @@ def stride_length(**kwargs):
     # TODO: include distance from stance
     import numpy as np
     import pandas as pd
-<<<<<<< HEAD
-    pd.set_option('display.max_columns', None)  # for printing the df in console
-=======
+
+    #pd.set_option('display.max_columns', None)  # for printing the df in console
+
     from lizardanalysis.utils import animal_settings
     pd.set_option('display.max_columns', None)
->>>>>>> gui
+
 
     # define necessary **kwargs:
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
     df_result_current = kwargs.get('df_result_current')
-<<<<<<< HEAD
     likelihood = kwargs.get('likelihood')
-=======
     animal = kwargs.get('animal')
->>>>>>> gui
 
     scorer = data.columns[1][0]
     feet = animal_settings.get_list_of_feet(animal)
@@ -87,7 +84,7 @@ def stride_length(**kwargs):
 
 
 def loop_encode(i):
-    cell_value = 'swing000{}'.format(i).encode()
+    cell_value = 'stride000{}'.format(i).encode()
     return cell_value
 
     return 0

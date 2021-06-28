@@ -11,8 +11,13 @@ def limb_rom(**kwargs):
     from pathlib import Path
     import os.path
 
+    print("limb rom")
+
     calc_rel_to_body_axis = False
     plotting_vectors = False
+
+    spine_label = 'Spine_B'
+    # spine_label = 'Spine'
 
     #print('LIMB ROM CALCULATION')
     # define necessary **kwargs:
@@ -52,20 +57,23 @@ def limb_rom(**kwargs):
         for i in range(1, max_stride_phase_count):
             #print('stride phase i: ', i)
             cell_value = loop_encode(i)
+            #print("cell value: ", cell_value)
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
             if len(df_stride_section) == 0:
                 break
             #print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
-            # only include steps longer than 5 frames
-            if len(df_stride_section_indices) > 5:
+            #print("indices: ", df_stride_section_indices)
+
+            # only include steps with at least 5 frames
+            if len(df_stride_section_indices) >= 5:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
                 #print(beg_end_tuple)
                 shoulder_foot_likelihood_begin = data.loc[beg_end_tuple[0]][scorer, "Shoulder_{}".format(foot), "likelihood"]
                 knee_foot_likelihood_begin = data.loc[beg_end_tuple[0]][scorer, "{}_knee".format(foot), "likelihood"]
                 shoulder_foot_likelihood_end = data.loc[beg_end_tuple[1]][scorer, "Shoulder_{}".format(foot), "likelihood"]
                 knee_foot_likelihood_end = data.loc[beg_end_tuple[1]][scorer, "{}_knee".format(foot), "likelihood"]
-                # print("likelihoods: ", shoulder_foot_likelihood, knee_foot_likelihood)
+                #print("likelihoods: ", shoulder_foot_likelihood_begin, knee_foot_likelihood_begin)
 
                 # filters data points of labels for likelihood
                 if shoulder_foot_likelihood_begin >= likelihood and knee_foot_likelihood_begin >= likelihood and \
@@ -93,23 +101,24 @@ def limb_rom(**kwargs):
                                                                                                                              1],
                                                                                                                     scorer))
                     else:
-                        #print("foot: ", foot, "\n")
+                        # TODO: adjust label names --> Spine vs Spine_B --> make flexible
+                        # print("foot: ", foot, "\n")
                         # calculate relative to Shoulder-Spine (fore feet) or Hip-Spine (hind feet)
-                        spine_shoulder_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Spine", "x")] - data.loc[
+                        spine_shoulder_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, spine_label, "x")] - data.loc[
                             beg_end_tuple[0], (scorer, "Shoulder", "x")]),
-                                                       (data.loc[beg_end_tuple[0], (scorer, "Spine", "y")] - data.loc[
+                                                       (data.loc[beg_end_tuple[0], (scorer, spine_label, "y")] - data.loc[
                                                            beg_end_tuple[0], (scorer, "Shoulder", "y")]))
-                        spine_shoulder_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Spine", "x")] - data.loc[
+                        spine_shoulder_vector_end = ((data.loc[beg_end_tuple[1], (scorer, spine_label, "x")] - data.loc[
                             beg_end_tuple[1], (scorer, "Shoulder", "x")]),
-                                                     (data.loc[beg_end_tuple[1], (scorer, "Spine", "y")] - data.loc[
+                                                     (data.loc[beg_end_tuple[1], (scorer, spine_label, "y")] - data.loc[
                                                          beg_end_tuple[1], (scorer, "Shoulder", "y")]))
-                        spine_hip_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Spine", "x")] - data.loc[
+                        spine_hip_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, spine_label, "x")] - data.loc[
                             beg_end_tuple[0], (scorer, "Hip", "x")]),
-                                                  (data.loc[beg_end_tuple[0], (scorer, "Spine", "y")] - data.loc[
+                                                  (data.loc[beg_end_tuple[0], (scorer, spine_label, "y")] - data.loc[
                                                       beg_end_tuple[0], (scorer, "Hip", "y")]))
-                        spine_hip_vector_end = ((data.loc[beg_end_tuple[1], (scorer, "Spine", "x")] - data.loc[
+                        spine_hip_vector_end = ((data.loc[beg_end_tuple[1], (scorer, spine_label, "x")] - data.loc[
                             beg_end_tuple[1], (scorer, "Hip", "x")]),
-                                                (data.loc[beg_end_tuple[1], (scorer, "Spine", "y")] - data.loc[
+                                                (data.loc[beg_end_tuple[1], (scorer, spine_label, "y")] - data.loc[
                                                     beg_end_tuple[1], (scorer, "Hip", "y")]))
                         if foot == "FL" or foot == "FR":
 
@@ -164,7 +173,7 @@ def limb_rom(**kwargs):
 
 def loop_encode(i):
     # get utf-8 encoded version of the string
-    cell_value = 'swing000{}'.format(i).encode()
+    cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value
 

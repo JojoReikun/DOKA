@@ -131,7 +131,7 @@ def create_new_project(project, experimenter, species, animal, clicked, file_dir
         filelist.append(file)
 
     # check available labels:
-    data_labels, labels_no_doubles, project_dir = check_labels(cfg, filelist)
+    data_labels, labels_no_doubles, project_dir = check_labels(cfg, filelist, projconfigfile)
     # write labels to config file:
     if cfg['labels'] is None:
         cfg['labels'] = labels_no_doubles
@@ -147,4 +147,4 @@ def create_new_project(project, experimenter, species, animal, clicked, file_dir
         "\n Once you have changed the configuration file, use the function read_in_files(config)\n. " % (
             project_name, str(wd)))
 
-    return projconfigfile, clicked
+    return projconfigfile

@@ -2,6 +2,9 @@ def step_length(**kwargs):
     """
     Steplength = distance covered of a foot during one swing
     """
+
+    print("step length")
+
     #TODO: this is step length, stride length = dist of body during one stride
     import numpy as np
     import pandas as pd
@@ -67,5 +70,5 @@ def step_length(**kwargs):
 
 
 def loop_encode(i):
-    cell_value = 'swing000{}'.format(i).encode()
+    cell_value = 'stride000{}'.format(i).encode()
     return cell_value

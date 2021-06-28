@@ -296,18 +296,22 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.log_info("clicked value set to: " + self.clicked)
 
     def createProject_threaded(self, animal, progress_callback):
+        print("in createProjectThreaded")
         if self.animal == "lizard":
-            checker = gui_define_video_orientation_v2.ConfirmationChecker(self)
-            checker.valueUpdated.connect(self.handleValueUpdated)
-            self.w = gui_define_video_orientation_v2.directionGUI_mainWindow()
-            self.w.show()
+            # TODO: fix direction of climbing GUI
+            #checker = gui_define_video_orientation_v2.ConfirmationChecker(self)
+            #checker.valueUpdated.connect(self.handleValueUpdated)
+            #self.w = gui_define_video_orientation_v2.directionGUI_mainWindow()
+            #self.w.show()
+
+            clicked = 3
 
         else:
             clicked = 1
 
         date = datetime.datetime.today().strftime('%Y-%m-%d')
 
-        self.project_config_file, click = new.create_new_project(project=self.project_name,
+        self.project_config_file = new.create_new_project(project=self.project_name,
                                                                  experimenter=self.project_experimenter,
                                                                  species=self.project_species,
                                                                  file_directory=self.DLC_path,

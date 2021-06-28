@@ -143,6 +143,6 @@ def calc_CROM_angle_bodyaxis(data, mid_stride_index, scorer, foot):
 
 def loop_encode(i):
     # get utf-8 encoded version of the string
-    cell_value = 'swing000{}'.format(i).encode()
+    cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value

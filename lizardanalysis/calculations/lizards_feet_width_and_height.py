@@ -29,14 +29,14 @@ def lizards_feet_width_and_height(**kwargs):
     scorer = data.columns[1][0]
     feet = animal_settings.get_list_of_feet(animal)
     forefeet = [foot for foot in feet if "F" in foot]
-    print("forefeet: ", forefeet)
+    #print("forefeet: ", forefeet)
     max_step_phase_count = 1000
 
     filter_deflection = False
 
     if "body_deflection_angle" in df_result_current.columns:
         filter_deflection = True
-    print("filter_deflection = ", filter_deflection)
+    #print("filter_deflection = ", filter_deflection)
 
     active_columns = []
     for foot in forefeet:
@@ -78,7 +78,7 @@ def lizards_feet_width_and_height(**kwargs):
             df_stance_section_indices = list(df_stance_section.index.values)  # contains all frames of stride phase
             if len(df_stance_section_indices) > 0:
                 stance_length = len(df_stance_section_indices)
-                print(i, ": stance length {}|{}: ".format(foot, hindfoot), stance_length)
+                #print(i, ": stance length {}|{}: ".format(foot, hindfoot), stance_length)
 
                 beg_end_tuple = (df_stance_section_indices[0], df_stance_section_indices[-1])
                 # get the middle of the stance:
@@ -117,7 +117,7 @@ def lizards_feet_width_and_height(**kwargs):
     mean_width = np.mean(mid_stance_widths)
     mean_height = np.mean(mid_stance_heights)
 
-    print("mean width and height: ", mean_width, mean_height)
+    #print("mean width and height: ", mean_width, mean_height)
 
     for row in range(data_rows_count):
         results[result_columns[0]][row] = mean_width

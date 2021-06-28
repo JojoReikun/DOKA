@@ -22,8 +22,9 @@ def direction_of_climbing(**kwargs):
     data = kwargs.get('data')
     clicked = kwargs.get('clicked')
     data_rows_count = kwargs.get('data_rows_count')
+    filename = kwargs.get('filename')
 
-    # print('clicked value in function: ', clicked)
+    print('clicked value in function: ', clicked)
 
     scorer = data.columns[1][0]
     # print('scorer: ', scorer)
@@ -55,7 +56,12 @@ def direction_of_climbing(**kwargs):
 
     elif clicked == 3:
         # look for "up" or "down" in filename - case insensitive
-        g = 1
+        if filename.find('down') or filename.find('Down') or filename.find('DOWN') != -1:
+            direction = "DOWN"
+        elif filename.find('up') or filename.find('Up') or filename.find('UP') != -1:
+            direction = "UP"
+        else:
+            direction = "Direction can't be determined from filename"
 
     else:
         print('no such video configuration defined')
