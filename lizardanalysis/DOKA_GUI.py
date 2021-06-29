@@ -38,6 +38,8 @@ from lizardanalysis.start_new_analysis import new
 from lizardanalysis.utils import auxiliaryfunctions
 from lizardanalysis import analyze_files, initialize
 from functools import partial
+from lizardanalysis.start_new_analysis import gui_define_video_orientation_v2
+
 
 
 class WorkerSignals(QtCore.QObject):
@@ -150,6 +152,7 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         # create list of translated labels to use arbitrary naming convention
         # format: ["name_in_DOKA","name_in_config"],[]...
         self.label_reassignment = []
+        self.clicked = None
 
         ###
         # assign button / lineEdit functions
@@ -275,21 +278,45 @@ class DOKA_mainWindow(QtWidgets.QMainWindow):
         self.project_set_up = False
         if len(self.DLC_path) > 0 and len(self.project_name) > 0 and len(self.project_experimenter) > 0 and len(
                 self.project_species) > 0:
-            if os.path.exists(self.DLC_path):
-                worker = Worker(self.createProject_threaded)
-                self.threadpool.start(worker)
+            if self.animal is not None:
+                if os.path.exists(self.DLC_path):
+                    worker = Worker(self.createProject_threaded, animal=self.animal)
+                    worker.kwargs['animal'] = self.animal
+                    self.threadpool.start(worker)
+
+                else:
+                    self.log_warning("Invalid path to DLC Files!")
             else:
-                self.log_warning("Invalid path to DLC Files!")
+                self.log_warning("Select an animal before starting your project!")
         else:
             self.log_warning("Missing information to set up new project!")
 
-    def createProject_threaded(self, progress_callback):
+    def handleValueUpdated(self, value):
+        self.clicked = value
+        self.log_info("clicked value set to: " + self.clicked)
+
+    def createProject_threaded(self, animal, progress_callback):
+        print("in createProjectThreaded")
+        if self.animal == "lizard":
+            # TODO: fix direction of climbing GUI
+            #checker = gui_define_video_orientation_v2.ConfirmationChecker(self)
+            #checker.valueUpdated.connect(self.handleValueUpdated)
+            #self.w = gui_define_video_orientation_v2.directionGUI_mainWindow()
+            #self.w.show()
+
+            clicked = 3
+
+        else:
+            clicked = 1
+
         date = datetime.datetime.today().strftime('%Y-%m-%d')
 
-        self.project_config_file, click = new.create_new_project(project=self.project_name,
+        self.project_config_file = new.create_new_project(project=self.project_name,
                                                                  experimenter=self.project_experimenter,
                                                                  species=self.project_species,
-                                                                 file_directory=self.DLC_path)
+                                                                 file_directory=self.DLC_path,
+                                                                 animal=self.animal,
+                                                                 clicked=clicked)
 
         self.ui.Project_openConfig_lineEdit.setText(self.project_config_file)
 
@@ -776,6 +803,8 @@ class LabelSelectDialog(QDialog):
         self.layout.addWidget(self.comboBoxLabels)
         self.layout.addWidget(self.buttonBox)
         self.setLayout(self.layout)
+
+
 
 
 app = QtWidgets.QApplication([])

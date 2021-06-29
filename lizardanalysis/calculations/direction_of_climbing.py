@@ -7,6 +7,9 @@ import math
 def direction_of_climbing(**kwargs):
     """
         Uses the Nose tracking point to determine the direction of climbing.
+        When starting a new project the user gets the option to define how the direction of climbing should be determined:
+        - direction of movement in the video (2 variants, see below)
+        - extract from filename, clicked = 3
         Depending on the clicked value, which determines the configuration of the lizard climbing direction in the videos:
             - if clicked = 1: direction UP = increasing x
             - if clicked = 2: direction UP = decreasing x
@@ -19,8 +22,9 @@ def direction_of_climbing(**kwargs):
     data = kwargs.get('data')
     clicked = kwargs.get('clicked')
     data_rows_count = kwargs.get('data_rows_count')
+    filename = kwargs.get('filename')
 
-    # print('clicked value in function: ', clicked)
+    print('clicked value in function: ', clicked)
 
     scorer = data.columns[1][0]
     # print('scorer: ', scorer)
@@ -49,6 +53,15 @@ def direction_of_climbing(**kwargs):
             direction = "DOWN"
         else:
             direction = "Direction can't be determined"
+
+    elif clicked == 3:
+        # look for "up" or "down" in filename - case insensitive
+        if filename.find('down') or filename.find('Down') or filename.find('DOWN') != -1:
+            direction = "DOWN"
+        elif filename.find('up') or filename.find('Up') or filename.find('UP') != -1:
+            direction = "UP"
+        else:
+            direction = "Direction can't be determined from filename"
 
     else:
         print('no such video configuration defined')

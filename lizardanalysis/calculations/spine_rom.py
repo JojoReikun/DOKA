@@ -12,6 +12,8 @@ def spine_rom(**kwargs):
     from lizardanalysis.utils import auxiliaryfunctions
     from lizardanalysis.utils import animal_settings
 
+    print("spine rom")
+
     #print('SPINE ROM CALCULATION')
     # define necessary **kwargs:
     data = kwargs.get('data')
@@ -136,6 +138,6 @@ def calc_body_axis(df, index, scorer):
 
 
 def loop_encode(i):
-    cell_value = 'swing000{}'.format(i).encode()
+    cell_value = 'stride000{}'.format(i).encode()
     # print("cell value :", cell_value)
     return cell_value

@@ -1,7 +1,6 @@
 """
 LizardDLCAnalysis Toolbox
-© Johanna T. Schultz
-© Fabian Plum
+© Jojo S.
 Licensed under MIT License
 """
 
@@ -12,7 +11,7 @@ from lizardanalysis import DEBUG
 from lizardanalysis.calculations.read_in_files import check_labels
 
 
-def create_new_project(project, experimenter, species, file_directory, working_directory=None, filetype='.csv'):
+def create_new_project(project, experimenter, species, animal, clicked, file_directory, working_directory=None, filetype='.csv'):
     """Creates a new project directory, sub-directories and a basic configuration file. The configuration file is loaded with the default values. Change its parameters to your projects need.
     Parameters
     ----------
@@ -37,9 +36,8 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     from lizardanalysis.start_new_analysis import gui_define_video_orientation
 
     # let the user configure the video direction (define which way is climbing up/climbing down)
-    clicked = 1
-    #clicked = gui_define_video_orientation.gui_choose_video_config()
-    print("clicked value: ", clicked)
+    #clicked = run_gui()     # runs function in lizardanalysis.start_new_analysis.gui_define_video_orientation_v2
+    #print("clicked value: ", clicked)
 
     # initialize new project
     date = dt.today()
@@ -81,7 +79,6 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     # destinations = [file_path.joinpath(vp.name) for vp in files]
     destinations = [file_path.joinpath(os.path.basename(vp)) for vp in files]
     print("Copying the files")
-
     for src, dst in zip(files, destinations):
         shutil.copy(os.fspath(src), os.fspath(dst))  # https://www.python.org/dev/peps/pep-0519/
         # (for windows)
@@ -95,8 +92,8 @@ def create_new_project(project, experimenter, species, file_directory, working_d
 
     # adds the video list to the config.yaml file
     file_sets = {}
-    i = 1
     for file in files:
+        i = 1
         print(file)
         try:
             # For windows os.path.realpath does not work and does not link to the real video. [old: rel_video_path = os.path.realpath(video)]
@@ -118,7 +115,7 @@ def create_new_project(project, experimenter, species, file_directory, working_d
     cfg_file['dotsize'] = 10  # for plots size of dots
     cfg_file['alphavalue'] = 1.0  # for plots transparency of markers
     cfg_file['colormap'] = 'jet'  # for plots type of colormap
-    cfg_file['clicked'] = clicked  # the selected video condoguration for up / down directions
+    cfg_file['clicked'] = clicked  # the selected video configuration for up / down directions
     cfg_file['save_rmse_values'] = True
 
     projconfigfile = os.path.join(str(project_path), 'config.yaml')
@@ -150,4 +147,4 @@ def create_new_project(project, experimenter, species, file_directory, working_d
         "\n Once you have changed the configuration file, use the function read_in_files(config)\n. " % (
             project_name, str(wd)))
 
-    return projconfigfile, clicked
+    return projconfigfile
