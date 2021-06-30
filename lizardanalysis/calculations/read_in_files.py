@@ -340,6 +340,8 @@ def analyze_files(config, label_reassignment=[], separate_gravity_file=False, li
         if drop_empty_cols:
             empty_cols = [col for col in result_file.columns[0:len(calculations_checked_namelist)] if
                           result_file[col].isnull().all()]
+
+            print("empty cols ... dropping...: ", empty_cols)
             # Drop empty columns from the dataframe which are created for every calculation_checked
             result_file.drop(empty_cols,
                              axis=1,

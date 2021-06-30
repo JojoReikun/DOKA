@@ -107,21 +107,29 @@ class ToeAngleCalculation:
                         break
                     # print(df_stance_section)
                     df_stance_section_indices = list(df_stance_section.index.values)
+
+
                     # only includes strides longer than the threshold
                     if len(df_stance_section_indices) > stance_length_threshold:
                         beg_end_tuple = (df_stance_section_indices[0], df_stance_section_indices[-1])
 
-                        # TODO: filter for likelihood:
-                        for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                            foot_coordinates = ((data.loc[j, (scorer, "{}".format(foot), "x")],
-                                                 data.loc[j, (scorer, "{}".format(foot), "y")]))
-                            toe_coordinates = ((data.loc[j, (scorer, label, "x")],
-                                                data.loc[j, (scorer, label, "y")]))
-                            # builds the vectors for the toes:
-                            toe_vectors_tmp.append((foot_coordinates[0] - toe_coordinates[0],
-                                                    foot_coordinates[1] - toe_coordinates[1]))
 
-                        # TODO: continue here:
+                        for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
+                            # only take the frames with good enough likelihood:
+                            foot_likelihood = data.loc[j, (scorer, "{}".format(foot), "likelihood")]
+                            toe_likelihood = data.loc[j, (scorer, label, "likelihood")]
+                            if foot_likelihood >= likelihood and toe_likelihood >= likelihood:
+                                foot_coordinates = ((data.loc[j, (scorer, "{}".format(foot), "x")],
+                                                     data.loc[j, (scorer, "{}".format(foot), "y")]))
+                                toe_coordinates = ((data.loc[j, (scorer, label, "x")],
+                                                    data.loc[j, (scorer, label, "y")]))
+                                # builds the vectors for the toes:
+                                toe_vectors_tmp.append((foot_coordinates[0] - toe_coordinates[0],
+                                                        foot_coordinates[1] - toe_coordinates[1]))
+
+                            else:
+                                toe_vectors_tmp.append((np.nan, np.nan))
+
                         # stores all the beg_end_tuple and a list of all toe vectors for current label for every index of current stance phase
                         toe_vectors_stance[i] = (beg_end_tuple, toe_vectors_tmp)
 

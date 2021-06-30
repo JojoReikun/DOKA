@@ -36,7 +36,7 @@ def wrist_angles(**kwargs):
     # -----> Loops through feet
     for foot, column in zip(feet, active_columns):
         #print('\n-----', foot)
-        mean_mid_stance_angles = []  # takes the 3 mid stance indices and calculated the mean angle
+        mean_mid_stance_angles = []  # takes the 3 mid stance indices and calculates the mean angle
         std_mid_stance_values = []
 
         #print("\n LOOPS THROUGH FEET ---> FOOT: ", foot)

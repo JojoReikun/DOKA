@@ -5,6 +5,7 @@ from lizardanalysis.utils import animal_settings
 
 def leg_segments_dist(**kwargs):
     """
+        for spiders:
         calculates the absolute distance for the two leg segments (e.g.: Lb1-Lm1, Lm1-L1) frame-wise.
         Spider leg extension works through femoral depression towards the substrate (trochanter-femur joint - muscles)
         and increase in ventral angles of the femur-patella and the tibia-metatarsal joint (hydraulics).

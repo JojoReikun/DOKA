@@ -6,8 +6,10 @@ def duty_factor(**kwargs):
 
     :return: results dataframe with 4, 6, or 8 key value pairs (list of frame-wise angles for every foot)
     """
+
+    print("duty factor...")
+
     import numpy as np
-    from lizardanalysis.utils import auxiliaryfunctions
     from lizardanalysis.utils import animal_settings
 
     data = kwargs.get('data')
@@ -21,14 +23,17 @@ def duty_factor(**kwargs):
 
     # results will be stored into a key value pair dictionary
     results = {}
+    tmp_results = {}
     phase_counter = {}
     stride_vs_stance = {"stride": 0, "stance": 0, "stride_frames": 0, "stance_frames": 0}
 
     # obtain all columns from the current results dataframe relating to step_phase
-    step_phase_list = [col for col in df_result_current.columns if ('step_phase_' in col)]
+    step_phase_list = [col for col in df_result_current.columns if ('stepphase_' in col)]
+    print("step_phase_list: ", step_phase_list)
 
     # read the columns one by one and calculate the subsequent diff in distances:
     for col, foot in zip(step_phase_list, feet):
+        tmp_results[foot] = np.full((data_rows_count,), np.NAN)
         # test if foot is in column name:
         if foot in col:
             current_col = df_result_current[col]
@@ -39,7 +44,9 @@ def duty_factor(**kwargs):
                 else:
                     phase_counter[current_col[i]] = 1
 
-            phase_counter.pop("b\'nan\'")  # need to check if it's just the NAN that comes up when loaded as a df
+            #print("phase counter: ", phase_counter)
+
+            phase_counter.pop(b"nan")  # need to check if it's just the NAN that comes up when loaded as a df
 
             # deleting the first and last elements of the dictionary also, because you don't know if they were complete
             # stride/stance phases, therefore they could skew the calculation of the duty factor
@@ -65,25 +72,45 @@ def duty_factor(**kwargs):
             # finally calculate the stance/stance+stride
 
         for key, value in phase_counter.items():
+            key = key.decode('ASCII')
 
-            if "stride" in key:
+            if "swing" in key:
+                #print("found swing")
                 stride_vs_stance["stride"] += 1
                 stride_vs_stance["stride_frames"] += value
 
             elif "stance" in key:
+                #print("found stance")
                 stride_vs_stance["stance"] += 1
                 stride_vs_stance["stance_frames"] += value
 
             else:
                 print("Unrecognised phase type remains in dictionary; will be excluded.")
 
-        average_swing = stride_vs_stance["stride_frames"] / stride_vs_stance["stride"]
-        average_stance = stride_vs_stance["stance_frames"] / stride_vs_stance["stance"]
-        duty_f = average_stance / (average_swing + average_stance)
+        if stride_vs_stance["stride"] > 0 and stride_vs_stance["stance"] > 0:
+            average_swing = stride_vs_stance["stride_frames"] / stride_vs_stance["stride"]
+            average_stance = stride_vs_stance["stance_frames"] / stride_vs_stance["stance"]
+            duty_f = average_stance / (average_swing + average_stance)
 
-        results[foot] = duty_f
+        else:
+            duty_f = np.nan
+
+        tmp_results[foot] = duty_f
+
+    duty_f_list = []
+    for k,v in tmp_results.items():
+        duty_f_list.append(v)
+
+    mean_duty_f = np.nanmean(duty_f_list)
+    print("mean duty factor: ", mean_duty_f)
+
+    dutyfactor_list = np.array(data_rows_count * [mean_duty_f], dtype=np.string_)
+    dutyfactor_list = [decode(duty_factor) for duty_factor in dutyfactor_list]
+    # print(direction_list)
+
+    return {__name__.rsplit('.', 1)[1]: dutyfactor_list}
 
 
-    results = {'average_duty_factor' + key: value for (key, value) in results.items()}
-
-    return results
+def decode(byte_object):
+    decoded = byte_object.decode("ASCII")
+    return decoded
