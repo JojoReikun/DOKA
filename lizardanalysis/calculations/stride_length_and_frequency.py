@@ -1,14 +1,15 @@
-def stride_length(**kwargs):
+def stride_length_and_frequency(**kwargs):
     """
-    Stride length = distance covered by body during one step (swing + stance)
+    Stride length = distance covered by body during one step (swing + stance) in px
+    Stride frequency = number of strides per second (determined with the framerate defined in the config file by the user)
     """
-    # TODO: include distance from stance
+
     import numpy as np
     import pandas as pd
 
     #pd.set_option('display.max_columns', None)  # for printing the df in console
 
-    from lizardanalysis.utils import animal_settings
+    from lizardanalysis.utils import animal_settings, auxiliaryfunctions
     pd.set_option('display.max_columns', None)
 
 
@@ -18,15 +19,22 @@ def stride_length(**kwargs):
     df_result_current = kwargs.get('df_result_current')
     likelihood = kwargs.get('likelihood')
     animal = kwargs.get('animal')
+    config = kwargs.get('config')
 
     scorer = data.columns[1][0]
     feet = animal_settings.get_list_of_feet(animal)
     max_stride_phase_count = 1000
     active_columns = []
 
+    # get the framerate defined in the config file:
+    cfg = auxiliaryfunctions.read_config(config)
+    framerate = cfg['framerate']
+
     for foot in feet:
         active_columns.append("stepphase_{}".format(foot))
     # print("active_columns: ", active_columns)
+
+    stride_lengths = []
 
     results = {}
     for foot, column in zip(feet, active_columns):
@@ -34,35 +42,44 @@ def stride_length(**kwargs):
         column = column.strip('')
         # print("column :", column)
         results[foot] = np.full((data_rows_count,), np.NAN)
+
+
         for i in range(1, max_stride_phase_count):
+            # this looks for all stride phases of the current foot
             cell_value = loop_encode(i)
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
+
             if len(df_stride_section) == 0:
                 break
+
             # print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
+
             if len(df_stride_section_indices) > 0:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
-                # print(beg_end_tuple)
 
                 # filter for likelihood of labels:
                 likelihood_shoulder_begin = data.loc[beg_end_tuple[0]][scorer, "Shoulder", 'likelihood']
                 likelihood_shoulder_end = data.loc[beg_end_tuple[1]][scorer, "Shoulder", 'likelihood']
                 likelihood_hip_begin = data.loc[beg_end_tuple[0]][scorer, "Hip", 'likelihood']
                 likelihood_hip_end = data.loc[beg_end_tuple[1]][scorer, "Hip", 'likelihood']
-                if likelihood_shoulder_begin >= likelihood and likelihood_shoulder_end >=0 \
-                        and likelihood_hip_begin >= 0 and likelihood_hip_end >= 0:
+
+                # only includes strides where the shoulder to hip of the lizard are fully accurately tracked
+                if likelihood_shoulder_begin >= likelihood and likelihood_shoulder_end >= likelihood \
+                        and likelihood_hip_begin >= likelihood and likelihood_hip_end >= likelihood:
                     # calculate the euclidean distance between last coord and current coord of shoulder and hip -> mean
                     xdiff_shoulder = data.loc[beg_end_tuple[1]][scorer, "Shoulder", 'x'] - data.loc[beg_end_tuple[0]][
                         scorer, "Shoulder", 'x']
                     ydiff_shoulder = data.loc[beg_end_tuple[1]][scorer, "Shoulder", 'y'] - data.loc[beg_end_tuple[0]][
                         scorer, "Shoulder", 'y']
                     distance_shoulder = np.sqrt(xdiff_shoulder ** 2 + ydiff_shoulder ** 2)
+
                     xdiff_hip = data.loc[beg_end_tuple[1]][scorer, "Hip", 'x'] - data.loc[beg_end_tuple[0]][
                         scorer, "Hip", 'x']
                     ydiff_hip = data.loc[beg_end_tuple[1]][scorer, "Hip", 'y'] - data.loc[beg_end_tuple[0]][
                         scorer, "Hip", 'y']
                     distance_hip = np.sqrt(xdiff_hip ** 2 + ydiff_hip ** 2)
+
                 else:
                     distance_shoulder = np.NAN
                     distance_hip = np.NAN
@@ -72,22 +89,43 @@ def stride_length(**kwargs):
 
             distance = get_distance_average(distance_shoulder, distance_hip)
 
-            for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
-                results[foot][row] = distance
-            # print("distance: ", distance)
+            if i > 1:
+                # saves the distance to results for the current foot, for stride1 beg until stride 2 begin
+                for row in range(prev_beg_end_tuple[0], beg_end_tuple[0] + 1):
+                    results[foot][row] = distance
+
+                stride_lengths.append(abs(prev_beg_end_tuple[0] - (beg_end_tuple[0] + 1)))
+                #print("stride_lengths: ", stride_lengths)
+
+            prev_beg_end_tuple = beg_end_tuple
+
+    # calculate the stride frequency
+    stride_frequency = np.round(framerate/np.mean(stride_lengths), 2)
+    print(stride_frequency)
+
+    frequency_list = np.array(data_rows_count * [stride_frequency], dtype=np.string_)
+    frequency_list = [decode(freq) for freq in frequency_list]
 
     # rename dictionary keys of results
     results = {'stride-length_' + key: value for (key, value) in results.items()}
     # print("\n \n -------------------- results FINAL: \n", results)
 
+    # add stride frequency to results
+    results['stride_frequency'] = frequency_list
+
     return results
 
 
 def loop_encode(i):
-    cell_value = 'stride000{}'.format(i).encode()
+    # get utf-8 encoded version of the string
+    cell_value = 'stance000{}'.format(i).encode()
+    #print("-----> stance phase cell value :", cell_value)
     return cell_value
 
-    return 0
+
+def decode(byte_object):
+    decoded = byte_object.decode("ASCII")
+    return decoded
 
 
 def get_distance_average(dist1, dist2):

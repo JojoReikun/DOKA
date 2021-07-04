@@ -29,7 +29,7 @@ def duty_factor(**kwargs):
 
     # obtain all columns from the current results dataframe relating to step_phase
     step_phase_list = [col for col in df_result_current.columns if ('stepphase_' in col)]
-    print("step_phase_list: ", step_phase_list)
+    #print("step_phase_list: ", step_phase_list)
 
     # read the columns one by one and calculate the subsequent diff in distances:
     for col, foot in zip(step_phase_list, feet):
@@ -101,7 +101,7 @@ def duty_factor(**kwargs):
     for k,v in tmp_results.items():
         duty_f_list.append(v)
 
-    mean_duty_f = np.nanmean(duty_f_list)
+    mean_duty_f = np.round(np.nanmean(duty_f_list), 2)
     print("mean duty factor: ", mean_duty_f)
 
     dutyfactor_list = np.array(data_rows_count * [mean_duty_f], dtype=np.string_)
