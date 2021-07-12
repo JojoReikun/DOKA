@@ -158,6 +158,20 @@ def calc_body_axis(df, index, scorer):
     return body_axis_vector
 
 
+def calc_body_axis_toes(df, index, scorer):
+    """calculates the body axis vector of the gecko for the passed index: START = Hip, END = Shoulder
+    returns a vector (x,y)"""
+    #TODO: use likelihood value from config file
+    likelihood_shoulder = df.loc[index, (scorer, "shoulder", "likelihood")]
+    likelihood_hip = df.loc[index, (scorer, "hip", "likelihood")]
+    if likelihood_shoulder >= 0.90 and likelihood_hip >= 0.90:
+        body_axis_vector = ((df.loc[index, (scorer, "shoulder", "x")] - df.loc[index, (scorer, "hip", "x")]),
+                            (df.loc[index, (scorer, "shoulder", "y")] - df.loc[index, (scorer, "hip", "y")]))
+    else:
+        body_axis_vector = (np.NAN, np.NAN)
+    return body_axis_vector
+
+
 def get_perpendicular_dist_to_vector(E, df, index, scorer):
     """
     calculates the perpendicular distance of point E to vector BA (= body axis)

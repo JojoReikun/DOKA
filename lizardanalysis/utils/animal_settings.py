@@ -38,6 +38,11 @@ def set_animal(animal):
                                'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
                                'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
                                'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to'],
+                'toe_alignment_angles': ['fl', 'fr', 'hr', 'hl', 'fl_ti', 'fl_ti1', 'fl_to1', 'fl_to',
+                                         'fr_ti', 'fr_ti1', 'fr_to1', 'fr_to',
+                                         'hr_ti', 'hr_ti1', 'hr_to1', 'hr_to',
+                                         'hl_ti', 'hl_ti1', 'hl_to1', 'hl_to',
+                                         'shoulder', 'hip']
                 #'tail_biomech_angles': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip', 'spine_a', 'spine_c', 'tail_a', 'tail_c'],
                 #'point_amplitudes_to_bA': ['shoulder', 'spine', 'hip', 'tail_middle', 'tail_tip', 'spine_a', 'spine_c', 'tail_a', 'tail_c'],
                 # 'tail_kinematics': ['tail_a', 'tail_middle', 'hip', 'shoulder']
