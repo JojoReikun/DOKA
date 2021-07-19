@@ -33,7 +33,7 @@ def center_limb_rom_angle(**kwargs):
 
     results = {}
     for foot, column in zip(feet, active_columns):
-        print("----- FOOT, column: ", foot, column)
+        #print("----- FOOT, column: ", foot, column)
         column = column.strip('')
         results[foot] = np.full((data_rows_count,), np.NAN)
 
@@ -87,8 +87,8 @@ def center_limb_rom_angle(**kwargs):
                                                                                        beg_end_tuple[1],
                                                                                        scorer, spine_segment))
 
-                print("limb_rom_angle_begin: ", limb_rom_angle_begin)
-                print("limb_rom_angle_end: ", limb_rom_angle_end)
+                #print("limb_rom_angle_begin: ", limb_rom_angle_begin)
+                #print("limb_rom_angle_end: ", limb_rom_angle_end)
 
 
                 #print("limb angles: ", limb_rom_angle_begin, limb_rom_angle_end)
@@ -111,8 +111,8 @@ def center_limb_rom_angle(**kwargs):
                         CROM_midrom = 90.0 - ( (180-limb_rom_angle_end) + (limb_rom/2.0))
                     else:
                         CROM_midrom = np.nan
-                print("limb rom: ", limb_rom)
-                print("CROM: ", CROM_midrom)
+                #print("limb rom: ", limb_rom)
+                #print("CROM: ", CROM_midrom)
 
 
                 # Maximum pro- or retraction:
