@@ -158,6 +158,22 @@ def calc_body_axis(df, index, scorer):
     return body_axis_vector
 
 
+def calc_spine_axis(df, index, scorer, spine_segment):
+    """calculates the caudal or cranial axis vector of the gecko's spine for the passed index.
+    the spine_segment is passed as an argument and contains the two labels defining the spine vector, e.g.
+    cranial spine axis: spine_segment = ["Shoulder", "Spine_B]
+    returns a vector (x,y)"""
+    #TODO: use likelihood value from config file
+    likelihood_a = df.loc[index, (scorer, spine_segment[0], "likelihood")]
+    likelihood_b = df.loc[index, (scorer, spine_segment[1], "likelihood")]
+    if likelihood_a >= 0.90 and likelihood_b >= 0.90:
+        spine_axis_vector = ((df.loc[index, (scorer, spine_segment[0], "x")] - df.loc[index, (scorer, spine_segment[1], "x")]),
+                            (df.loc[index, (scorer, spine_segment[0], "y")] - df.loc[index, (scorer, spine_segment[1], "y")]))
+    else:
+        spine_axis_vector = (np.NAN, np.NAN)
+    return spine_axis_vector
+
+
 def get_perpendicular_dist_to_vector(E, df, index, scorer):
     """
     calculates the perpendicular distance of point E to vector BA (= body axis)

@@ -10,7 +10,7 @@ def center_limb_rom_angle(**kwargs):
     from lizardanalysis.utils import auxiliaryfunctions
     from lizardanalysis.utils import animal_settings
 
-    #print('CROM CALCULATION')
+    print('CROM CALCULATION')
 
     data = kwargs.get('data')
     data_rows_count = kwargs.get('data_rows_count')
@@ -33,7 +33,7 @@ def center_limb_rom_angle(**kwargs):
 
     results = {}
     for foot, column in zip(feet, active_columns):
-        #print("----- foot, column: ", foot, column)
+        print("----- FOOT, column: ", foot, column)
         column = column.strip('')
         results[foot] = np.full((data_rows_count,), np.NAN)
 
@@ -50,6 +50,10 @@ def center_limb_rom_angle(**kwargs):
                 #print("beg_end_tuple: ", beg_end_tuple)
 
                 # calculate the limb ROM angles to then get CROM
+                """
+                The CROM for the fore feet is relative to the cranial spine segment (Shoulder - Spine_B),
+                The CROM for the hind feet is relative to the caudal spine segment (Spine_B - Hip)
+                """
                 limb_vector_begin = ((data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "x")]
                                       - data.loc[beg_end_tuple[0], (scorer, "{}_knee".format(foot), "x")]),
                                      (data.loc[beg_end_tuple[0], (scorer, "Shoulder_{}".format(foot), "y")]
@@ -60,14 +64,33 @@ def center_limb_rom_angle(**kwargs):
                                    (data.loc[beg_end_tuple[1], (scorer, "Shoulder_{}".format(foot), "y")]
                                     - data.loc[beg_end_tuple[1], (scorer, "{}_knee".format(foot), "y")]))
 
-                limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
-                                                                                     auxiliaryfunctions.calc_body_axis(data,
-                                                                                                    beg_end_tuple[0],
-                                                                                                    scorer))
-                limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
-                                                                                   auxiliaryfunctions.calc_body_axis(data,
-                                                                                                  beg_end_tuple[1],
-                                                                                                  scorer))
+                if "F" in foot:
+                    spine_segment = ["Shoulder", "Spine_B"]
+                    limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                         auxiliaryfunctions.calc_spine_axis(data,
+                                                                                                        beg_end_tuple[0],
+                                                                                                        scorer, spine_segment))
+                    limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                                       auxiliaryfunctions.calc_spine_axis(data,
+                                                                                                      beg_end_tuple[1],
+                                                                                                      scorer, spine_segment))
+                elif "H" in foot:
+                    spine_segment = ["Spine_B", "Hip"]
+                    limb_rom_angle_begin = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_begin,
+                                                                                     auxiliaryfunctions.calc_spine_axis(
+                                                                                         data,
+                                                                                         beg_end_tuple[0],
+                                                                                         scorer, spine_segment))
+                    limb_rom_angle_end = auxiliaryfunctions.py_angle_betw_2vectors(limb_vector_end,
+                                                                                   auxiliaryfunctions.calc_spine_axis(
+                                                                                       data,
+                                                                                       beg_end_tuple[1],
+                                                                                       scorer, spine_segment))
+
+                print("limb_rom_angle_begin: ", limb_rom_angle_begin)
+                print("limb_rom_angle_end: ", limb_rom_angle_end)
+
+
                 #print("limb angles: ", limb_rom_angle_begin, limb_rom_angle_end)
                 if limb_rom_angle_begin > 0.0 and limb_rom_angle_end > 0.0:
                     limb_rom = abs(limb_rom_angle_end - limb_rom_angle_begin)
@@ -79,14 +102,17 @@ def center_limb_rom_angle(**kwargs):
                     CROM_midrom = np.nan
                 else:
                     """
+                    Limb_rom_end angles are bigger than limb rom_begin angles.
                     CROM calculated to bodyaxis ("lower angle"), 90 - CROM to get angle in relation to perpendicular
-                    of bodyaxis, hence positive values will be retracted, negative values protracted for direction UP
+                    of bodyaxis, hence positive values will be protracted, negative values retracted for direction UP
                     """
                     if np.isnan(limb_rom_angle_begin) == False and np.isnan(limb_rom_angle_begin) == False:
-                        CROM_midrom = 90.0 - (limb_rom_angle_end - (limb_rom/2.0))
+                        #CROM_midrom = 90.0 - (limb_rom_angle_end - (limb_rom/2.0))     # old version
+                        CROM_midrom = 90.0 - ( (180-limb_rom_angle_end) + (limb_rom/2.0))
                     else:
                         CROM_midrom = np.nan
-                #print("CROM: ", CROM_midrom)
+                print("limb rom: ", limb_rom)
+                print("CROM: ", CROM_midrom)
 
 
                 # Maximum pro- or retraction:
