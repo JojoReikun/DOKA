@@ -7,6 +7,8 @@ def wrist_angles(**kwargs):
         3rd) calculate the angle between wrist vector and body axis for all frames, also calculate the mean
         """
 
+    print("WRIST ANGLE CACLUATION")
+
     import numpy as np
     from lizardanalysis.utils import auxiliaryfunctions
     from lizardanalysis.utils import animal_settings
@@ -23,6 +25,7 @@ def wrist_angles(**kwargs):
     animal = kwargs.get('animal')
 
     scorer = data.columns[1][0]
+
     feet = animal_settings.get_list_of_feet(animal)
     max_stance_phase_count = 1000
     active_columns = []
