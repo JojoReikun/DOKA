@@ -66,11 +66,6 @@ def set_animal(animal):
             'alpha_est_angles': ['l1', 'l2', 'l3', 'r1', 'r2', 'r3', 'lb1', 'lb2', 'lb3', 'rb1', 'rb2', 'rb3', 'head',
                                  'abdomen']}
 
-    elif animal == "stick":
-        dict = {
-            'alpha_est_angles': ['l1', 'l2', 'l3', 'r1', 'r2', 'r3', 'lb1', 'lb2', 'lb3', 'rb1', 'rb2', 'rb3', 'head',
-                                 'abdomen']}
-
     else:
         dict = {}
         print("no animal has been selected.")
