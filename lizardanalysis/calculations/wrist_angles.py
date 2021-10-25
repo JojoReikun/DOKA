@@ -14,7 +14,7 @@ def wrist_angles(**kwargs):
     from lizardanalysis.utils import animal_settings
 
     #-------------------- only includes stride lengths longer (>) than... (TODO: make config parameter)
-    threshold_stride_len = 4
+    threshold_stride_len = 3
     #--------------------
 
     # define necessary **kwargs:
@@ -27,6 +27,8 @@ def wrist_angles(**kwargs):
     scorer = data.columns[1][0]
 
     feet = animal_settings.get_list_of_feet(animal)
+    print("feet available for wrist angles: ", feet)
+
     max_stance_phase_count = 1000
     active_columns = []
     for foot in feet:
@@ -42,7 +44,7 @@ def wrist_angles(**kwargs):
         mean_mid_stance_angles = []  # takes the 3 mid stance indices and calculates the mean angle
         std_mid_stance_values = []
 
-        #print("\n LOOPS THROUGH FEET ---> FOOT: ", foot)
+        print("\n LOOPS THROUGH FEET ---> FOOT: ", foot)
         column = column.strip('')
         # print("column :", column)
         results[foot] = np.full((data_rows_count,), np.NAN)
@@ -86,7 +88,7 @@ def wrist_angles(**kwargs):
                 for j in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                     i_toe_likelihood = data.loc[j, (scorer, "{}_ti".format(foot), "likelihood")]
                     o_toe_likelihood = data.loc[j, (scorer, "{}_to".format(foot), "likelihood")]
-                    foot_likelihood = data.loc[j, (scorer, "{}_ti".format(foot), "likelihood")]
+                    foot_likelihood = data.loc[j, (scorer, "{}".format(foot), "likelihood")]
                     # debug
                     likelihood_i.append(i_toe_likelihood)
                     likelihood_o.append(o_toe_likelihood)
@@ -183,14 +185,19 @@ def wrist_angles(**kwargs):
 
         # debug:
         # print('included out of total strides: {}/{}'.format(good_stride_counter, good_stride_counter+short_stride_counter))
-        # print('average stride length without 0: ', np.mean(stride_lengths))
+        print('average stride length without 0: ', np.mean(stride_lengths))
         likelihoods_i = [np.mean(x) for x in likelihoods_i]
         likelihoods_o = [np.mean(x) for x in likelihoods_o]
         likelihoods_f = [np.mean(x) for x in likelihoods_f]
         #print("average likelihoods: i_toe: {}, \no_toe: {}, \nfoot: {}".format(likelihoods_i, likelihoods_o, likelihoods_f))
 
-        #print("mean mid stance angles --- {} ".format(foot), mean_mid_stance_angles)
-        #print("std mid stance values --- {} ".format(foot), std_mid_stance_values)
+        print("mean mid stance angles --- {} ".format(foot), mean_mid_stance_angles)
+        print("std mid stance values --- {} ".format(foot), std_mid_stance_values)
+
+        print("good stride counter: ", good_stride_counter)
+        print("short stride counter: ", short_stride_counter)
+
+
     # rename dictionary keys of results
     results = {'mid_stance_wrist_angles_mean_' + key: value for (key, value) in results.items()}
 
