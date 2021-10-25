@@ -91,3 +91,26 @@ def get_list_of_feet(animal):
         feet = []
         print("no animal has been selected.")
     return feet
+
+
+def get_SVL_of_individuals(animal, species):
+    """for now a list is created manually for the species currently analysed
+    TODO: enable user to pick excel sheet containing species, species code and SVL in mm"""
+    if animal == "lizard":
+        SVL_dict = {
+            "hfren":    {"hfren11": 426,
+                        "hfren13": 419,
+                        "hfren14": 463,
+                        "hfren16": 463,
+                        "hfren17": 364,
+                        "hfren18": 424}
+        }
+    species_list = ["hfren"]
+
+    if species in species_list:
+        return SVL_dict[species]
+    else:
+        print(f"an entry for the selected species {species} wasn't found in the SVL_dict! Exit...")
+        exit()
+
+

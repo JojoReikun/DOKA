@@ -140,7 +140,7 @@ def process_file(data, clicked, likelihood, calculations_checked, df_result_curr
     :param data: pd.dataframe DLC csv file
     :param likelihood: float value to change accuracy of results
     :param calculations_checked: list of available calculations (required labels exist)
-    :param clicked value determines definition of direction UP for the given videos from experiment. Value determined in GUI during execution of create_new_project()
+    :param clicked value determines definition of direction UP for the given videos from experiment. Value determined in GUI during execution of start_new_analysis/new.py -> create_new_project()
     :param df_result_current: empty result dataframe for current file which will be filled up while looping through these calculations
     :param data_rows_count: number of rows in current csv file
     :param config: given filepath to the config file by the user
