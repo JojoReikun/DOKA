@@ -158,15 +158,15 @@ class ToeAlignmentAngleCalculation:
                         for row in range(beg_end_tuple[0], beg_end_tuple[1] + 1):
                             if type(toe_alignment_angle) is tuple:
                                 toe_alignment_angle = np.nan
-                            print("toe_alignment_angle: ", toe_alignment_angle)
+                            #print("toe_alignment_angle: ", toe_alignment_angle)
                             results[result_label][row] = toe_alignment_angle
 
                 toe_alignment_angles_foot[label] = individual_toe_alignment_angles
 
-            print("FOOT: ", foot, "\ntoe_alignment_angles_foot: ", toe_alignment_angles_foot)
+            #print("FOOT: ", foot, "\ntoe_alignment_angles_foot: ", toe_alignment_angles_foot)
 
         results = {'toe_alignment_angles_' + key: value for (key, value) in results.items()}
-        print("results: ", results)
+        #print("results: ", results)
         return results
 
 
