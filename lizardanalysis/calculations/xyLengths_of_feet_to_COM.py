@@ -46,7 +46,7 @@ def xyLengths_of_feet_to_COM(**kwargs):
         SVL = SVL_dict_species[speciesCode]
 
         # calculate the BCOM position
-        # y = 0.4718x - 6.2276 equation from SVL and BCOM_hips of geckos in tailpaper
+        # y = 0.4718x - 6.2276 equation from SVL and BCOM_hips of geckos in tail paper
         bcom_hip = 0.4718*SVL - 6.2276
         print("bcom_hip estimate: ", bcom_hip)
 
