@@ -1,4 +1,4 @@
-def lizards_feet_width_and_height(**kwargs):
+def lizards_feet_width_and_height_midstance(**kwargs):
     """
     calculates the vertical and horizontal distance between the FR and HL foot during mid-stance.
     The distances are calculated along the x and y axis of the video, hence if the lizard climbs at an angle the
@@ -9,7 +9,7 @@ def lizards_feet_width_and_height(**kwargs):
     :return:
     """
 
-    print("spreading")
+    print("midstance width and height of feet")
 
     # TODO: do the width for fore and hind feet individually
 
@@ -35,6 +35,8 @@ def lizards_feet_width_and_height(**kwargs):
     forefeet = [foot for foot in feet if "F" in foot]
     #print("forefeet: ", forefeet)
     max_step_phase_count = 1000
+
+    print("SCORER: ", scorer)
 
     filter_deflection = False
 

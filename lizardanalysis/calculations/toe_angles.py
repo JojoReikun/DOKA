@@ -86,7 +86,7 @@ class ToeAngleCalculation:
             column = column.strip('')
 
             number_of_toes = len(self.toe_labels_available)     # 3 (4 toes) or 4 (5 toes)
-            print("number of toes: ", number_of_toes)
+            #print("number of toes: ", number_of_toes)
             toe_angles_label = {}
 
             # print("foot   ---   ", foot)

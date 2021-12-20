@@ -5,15 +5,19 @@ def set_animal(animal):
     """
     define the calculations and the required labels for these in a dictionary for each available animal.
     When new calculations are added, these need to be included in these dictionaries to be found by the program.
+
+    IMPORTANT: modules like direction of climbing, deflection, footfall by switches, and stride and stance phases have
+    to be run first as other modules build on them!!!
+
     :param animal: string of the animal species selected for analysis. Get from GUI when clicking animal button.
     :return:
     """
+    # TODO: check order of modules, so that required ones are run first.
     # list of all calculations and their requirements of labels as implemented in the program
     if animal == "lizard":
         dict = {'direction_of_climbing': ['nose'],
                 'body_axis_deflection_angle': ['shoulder', 'hip'],
                 'footfall_by_switches': ['fl', 'fr', 'hl', 'hr', 'shoulder', 'hip'],
-                'lizards_feet_width_and_height': ['fl', 'fr', 'hl', 'hr'],
                 'climbing_speed_framewise': ['nose'],
                 'duty_factor': ['fl', 'fr', 'hr', 'hl', 'shoulder', 'hip'],
                 'stride_and_stance_phases': ['fl', 'fr', 'hl', 'hr'],
@@ -22,6 +26,8 @@ def set_animal(animal):
                 #'limb_kinematics': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
                 #                    'hr_knee',
                 #                    'shoulder_hr', 'hl_knee', 'shoulder_hl'],
+                'lizards_feet_width_and_height_midstance': ['fl', 'fr', 'hl', 'hr'],
+                'lizards_feet_width_and_height_dynamic': ['fl', 'fr', 'hl', 'hr'],
                 'wrist_angles': ['shoulder', 'hip', 'fr_knee', 'fr_ti', 'fr_to', 'fl_knee', 'fl_ti', 'fl_to',
                                  'shoulder_fl', 'hr_knee', 'hr_ti', 'hr_to', 'hl_knee', 'hl_ti', 'hl_to'],
                 'limb_rom': ['shoulder', 'hip', 'fr_knee', 'shoulder_fr', 'fl_knee', 'shoulder_fl',
