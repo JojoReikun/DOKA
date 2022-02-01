@@ -215,7 +215,7 @@ def get_perpendicular_dist_to_vector(E, df, index, scorer):
 def calculate_gravity_deflection_angle(bodyaxis):
     # TODO: add option to use  data from separate gravity file here
     gravity_axis = (100., 0.)
-    angle_deflection = py_angle_betw_2vectors(gravity_axis, bodyaxis)
+    angle_deflection = py_angle_betw_2vectors_atan(gravity_axis, bodyaxis)
     return angle_deflection
 
 

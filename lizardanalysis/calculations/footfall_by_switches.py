@@ -28,7 +28,7 @@ def footfall_by_switches(**kwargs):
     feet = animal_settings.get_list_of_feet(animal)
 
     relative = False
-    plotting_footfall_patterns = True
+    plotting_footfall_patterns = False
 
     # define cut-off value -> crops X% of frames on each side of video:
     p_cut_off = 0.05
@@ -251,9 +251,9 @@ def smooth_and_plot(df, data_rows_count, p_cut_off, relative, foot, filename, st
                 raise
 
         if relative == True:
-            plt.savefig(os.path.join(step_detection_folder, f"steps_{filename_title}_{foot}_rel.pdf"))
+            plt.savefig(os.path.join(step_detection_folder, f"steps_{filename}_{foot}_rel.pdf"))
         else:
-            plt.savefig(os.path.join(step_detection_folder, f"steps_{filename_title}_{foot}.pdf"))
+            plt.savefig(os.path.join(step_detection_folder, f"steps_{filename}_{foot}.pdf"))
 
         # plt.show()
         plt.close()

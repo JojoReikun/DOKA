@@ -34,6 +34,7 @@ def stride_length_and_frequency(**kwargs):
         active_columns.append("stepphase_{}".format(foot))
     # print("active_columns: ", active_columns)
 
+    step_phase_lengths = []
     stride_lengths = []
 
     results = {}
@@ -54,6 +55,12 @@ def stride_length_and_frequency(**kwargs):
 
             # print(df_stride_section)
             df_stride_section_indices = list(df_stride_section.index.values)
+
+            # exclude all step phases which are 0 or longer than 1/10 of framerate
+            if len(df_stride_section_indices) <= float(framerate) / 100 or len(df_stride_section_indices) > float(framerate) / 10:
+                break
+
+            step_phase_lengths.append(len(df_stride_section_indices))
 
             if len(df_stride_section_indices) > 0:
                 beg_end_tuple = (df_stride_section_indices[0], df_stride_section_indices[-1])
@@ -93,15 +100,18 @@ def stride_length_and_frequency(**kwargs):
                 # saves the distance to results for the current foot, for stride1 beg until stride 2 begin
                 for row in range(prev_beg_end_tuple[0], beg_end_tuple[0] + 1):
                     results[foot][row] = distance
+                stride_lengths.append(distance)
 
-                stride_lengths.append(abs(prev_beg_end_tuple[0] - (beg_end_tuple[0] + 1)))
-                #print("stride_lengths: ", stride_lengths)
+                #stride_lengths.append(abs(prev_beg_end_tuple[0] - (beg_end_tuple[0] + 1)))
+
 
             prev_beg_end_tuple = beg_end_tuple
 
-    # calculate the stride frequency
+    # calculate the stride frequency for the entire run - could include it in loop above to get frequ. stepphase wise
     stride_frequency = np.round(framerate/np.mean(stride_lengths), 2)
-    print(stride_frequency)
+    print("stride_frequency: ", stride_frequency)
+    print("stride length: ", stride_lengths)
+    print("step phase lengths: ", step_phase_lengths)
 
     frequency_list = np.array(data_rows_count * [stride_frequency], dtype=np.string_)
     frequency_list = [decode(freq) for freq in frequency_list]
