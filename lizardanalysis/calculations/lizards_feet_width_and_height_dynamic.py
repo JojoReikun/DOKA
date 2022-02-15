@@ -34,7 +34,7 @@ def lizards_feet_width_and_height_dynamic(**kwargs):
 
     # Interestingly the scorer is all lower case in here, which is why cells can't be located.
     # Move calculation up in order (in animal_settings.py).
-    print("SCORER: ", scorer)
+    #print("SCORER: ", scorer)
 
     filter_deflection = False
 
@@ -59,7 +59,7 @@ def lizards_feet_width_and_height_dynamic(**kwargs):
     stride_lengths = []
     # -----> Loops through feet, looks at one stepphase column at the time
     for foot, column in zip(forefeet, active_columns):
-        print(f"\n1) <------------------ column: {column} ----------------->\n")
+        #print(f"\n1) <------------------ column: {column} ----------------->\n")
         # column = column.strip('')
 
         # create one loop for foot = FR (+ foot pair HL) & for for the opposite:
@@ -77,13 +77,13 @@ def lizards_feet_width_and_height_dynamic(**kwargs):
 
             cell_value = loop_encode(i)
             # finds the segment in the dataframe where the step phase equals the current step phase in the loop
-            print(f"2) column: {column}, cell_value: {cell_value}")
+            #print(f"2) column: {column}, cell_value: {cell_value}")
             #print("df result current of column: \n", df_result_current[column], "\n")
             df_stance_section = df_result_current[df_result_current[column] == cell_value]
             #print("stance section: \n", df_stance_section[column])
 
             if len(df_stance_section) == 0:
-                print("stance section is length 0... break")
+                #print("stance section is length 0... break")
                 break
 
             else:
@@ -91,7 +91,7 @@ def lizards_feet_width_and_height_dynamic(**kwargs):
                 stance_length = len(df_stance_section_indices)
                 # print(i, ": stance length {}|{}: ".format(foot, hindfoot), stance_length)
 
-                print(f"3) column: {column}, foot: {foot}, cell_value: {cell_value}, stance section: {df_stance_section_indices}\n")
+                #print(f"3) column: {column}, foot: {foot}, cell_value: {cell_value}, stance section: {df_stance_section_indices}\n")
 
                 beg_end_tuple = (df_stance_section_indices[0], df_stance_section_indices[-1])
 
@@ -134,9 +134,10 @@ def lizards_feet_width_and_height_dynamic(**kwargs):
                             hind_foot_coords = (np.nan, np.nan)
 
                     else:
-                        print(i, ": the lizard does not climbed aligned to vertical {} ... {}".format(deflection, filename))
+                        #print(i, ": the lizard does not climbed aligned to vertical {} ... {}".format(deflection, filename))
+                        continue
 
-                print(f"column: {column}, cell_value: {cell_value}, heights: {stance_heights}, widths: {stance_widths}")
+                #print(f"column: {column}, cell_value: {cell_value}, heights: {stance_heights}, widths: {stance_widths}")
 
     return results
 

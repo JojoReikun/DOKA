@@ -4,6 +4,7 @@ def stride_length_and_frequency(**kwargs):
     Stride frequency = number of strides per second (determined with the framerate defined in the config file by the user)
     """
 
+    print("stride length and stride frequency")
     import numpy as np
     import pandas as pd
 
@@ -109,9 +110,9 @@ def stride_length_and_frequency(**kwargs):
 
     # calculate the stride frequency for the entire run - could include it in loop above to get frequ. stepphase wise
     stride_frequency = np.round(framerate/np.mean(stride_lengths), 2)
-    print("stride_frequency: ", stride_frequency)
-    print("stride length: ", stride_lengths)
-    print("step phase lengths: ", step_phase_lengths)
+    #print("stride_frequency: ", stride_frequency)
+    #print("stride length: ", stride_lengths)
+    #print("step phase lengths: ", step_phase_lengths)
 
     frequency_list = np.array(data_rows_count * [stride_frequency], dtype=np.string_)
     frequency_list = [decode(freq) for freq in frequency_list]
