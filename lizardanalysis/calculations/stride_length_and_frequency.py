@@ -52,7 +52,7 @@ def stride_length_and_frequency(**kwargs):
             df_stride_section = df_result_current[df_result_current[column] == cell_value]
             #print(f"type of df_stride_section: {type(df_stride_section)}")
 
-            if len(df_stride_section) == 0:     # TODO: probably not the correct way to check for 0!!
+            if len(df_stride_section) == 0:
                 #print(df_stride_section is 0)
                 break
 
